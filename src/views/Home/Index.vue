@@ -1,6 +1,6 @@
 <template>
   <v-layout>
-    <v-card contextual-style="dark">
+    <!-- <v-card contextual-style="dark">
       <span slot="header">
         {{ $t('general.welcome') }}
       </span>
@@ -72,7 +72,7 @@
       <div slot="footer">
         Made with love by Vivid Web
       </div>
-    </v-card>
+    </v-card> -->
   </v-layout>
 </template>
 
@@ -85,7 +85,7 @@
  */
 
 import VLayout from '@/layouts/Default.vue';
-import VCard from '@/components/Card.vue';
+// import VCard from '@/components/Card.vue';
 
 export default {
   /**
@@ -98,7 +98,7 @@ export default {
    */
   components: {
     VLayout,
-    VCard,
+    // VCard,
   },
 };
 </script>

@@ -12,6 +12,7 @@ import Vue from 'vue';
  * ============
  *
  * Import and bootstrap the plugins.
+ * bootstrap 4.6 버전
  */
 
 import './plugins/vuex';
