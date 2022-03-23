@@ -1,15 +1,38 @@
 /* ============
  * Main Stylesheet
  * ============
- *
- * Used for the global application styling.
- *
- * The stylus CSS-preprocessor is used for this boilerplate.
- * If you don't want to use Stylus, that's fine!
- * Replace the stylus directory with the CSS preprocessor you want.
- * Require the stylesheet in the bootstrap.js file & install the webpack loader.
- *
- * It's that easy...
- *
  * http://stylus-lang.com/
  */
+
+--medium = 'screen and (min-width: 768px)'/*스마트폰 세로가로 테블릿*/
+--large = 'screen and (min-width: 992px)'
+--xlarge = 'screen and (min-width: 1200px)'
+--color-dark = rgb(38, 42, 65)
+
+.default-body
+    .default-background
+        margin: 8px
+        color: white
+        background: --color-dark
+        border-radius: 15px
+        .default-left
+            display: flex
+            flex-direction: column /*수직 정렬*/
+            align-items: center
+            justify-content: center
+        .default-right
+            display: flex
+            flex-direction: column /*수직 정렬*/
+            align-items: center
+            justify-content: center
+            color: black
+            background: white
+            border-radius: 15px
+            margin: 8px 0 8px 2.5%
+            width: 95%
+            @media --medium
+                margin: 8px 0
+                width: 100%
+                right: 8px
+
+    

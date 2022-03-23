@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <!-- <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <router-link
         :to="{ name: 'home.index' }"
@@ -57,9 +57,31 @@
     <div class="container pt-4">
       <div class="row">
         <div class="col col-12">
-          <!-- Content will be placed here -->
+          Content will be placed here
           <slot />
         </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="container default-body">
+    <div class="row justify-content-md-center default-background">
+      <div class="col-md-4 default-left">
+        <div>
+          <h2>타이틀</h2>
+          <p>소주제</p>
+        </div>
+        <div>
+          검색창
+        </div>
+        <div>
+          검색설정창
+        </div>
+        <div>
+          할일리스트
+        </div>
+      </div>
+      <div class="col-md-8 default-right">
+        22
       </div>
     </div>
   </div>
