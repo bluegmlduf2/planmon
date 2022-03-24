@@ -103,10 +103,26 @@
           <h1>Planmon</h1>
           <p>Welcome back to the Planmon, we missed You!</p>
         </div>
+        <!-- 검색입력 -->
         <div class="search-bar">
-          <div class="input-groupt" />
+          <div class="input-groupt">
+            <button class="btn">
+              <i
+                class="fa fa-search"
+                aria-hidden="true"
+              />
+            </button>
+            <input
+              type="search"
+              class="form-control"
+              placeholder="Search Task..."
+            >
+          </div>
         </div>
-        <div>검색설정창</div>
+        <!-- 검색설정 -->
+        <div class="search-info">
+          검색설정창
+        </div>
         <div>할일리스트</div>
       </div>
       <div class="col-md-8 default-right p-5">

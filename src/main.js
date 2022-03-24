@@ -27,16 +27,6 @@ import './plugins/register-service-worker';
 /* ============
  * Styling
  * ============
- *
- * Import the application styling.
- * Stylus is used for this boilerplate.
- *
- * If you don't want to use Stylus, that's fine!
- * Replace the stylus directory with the CSS preprocessor you want.
- * Import the entry point here & install the webpack loader.
- *
- * It's that easy...
- *
  * http://stylus-lang.com/
  */
 
