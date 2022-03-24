@@ -4,11 +4,15 @@
  * http://stylus-lang.com/
  */
 
---medium = 'screen and (min-width: 768px)'/*스마트폰 세로가로 테블릿*/
+// 레이아웃화면 변수 
+--medium = 'screen and (min-width: 768px)'/* 스마트폰 세로가로 테블릿 screen은 데스크탑,스마트폰적용*/
 --large = 'screen and (min-width: 992px)'
 --xlarge = 'screen and (min-width: 1200px)'
 --color-dark = rgb(38, 42, 65)
+--color-white = white
 
+
+// 레이아웃화면 
 .default-body
     .default-background
         margin: 8px
@@ -16,6 +20,7 @@
         background: --color-dark
         border-radius: 15px
         .default-left
+            position: relative
             display: flex
             flex-direction: column /*수직 정렬*/
             align-items: center
@@ -34,5 +39,113 @@
                 margin: 8px 0
                 width: 100%
                 right: 8px
+		.default-welcome
+			p
+				margin-top: 1.5rem
+				color: rgb(118, 121, 136);
 
-    
+
+
+// 햄버거 메뉴
+.button_container 
+	position absolute
+	left: 4%
+	top: 5%
+	height 1.5rem
+	width 1.8rem
+	cursor pointer
+	z-index 100
+	transition opacity 0.25s ease
+	&:hover 
+		opacity 0.7
+	&.active 
+		.top-bar 
+			transform translateY(11px) translateX(0) rotate(45deg)
+			background --color-white 
+		.middle-bar 
+			opacity 0
+			background --color-white 
+		.bottom-bar 
+			transform translateY(-11px) translateX(0) rotate(-45deg)
+			background --color-white 
+	span 
+		background --color-white 
+		border none
+		height 5px
+		width 100%
+		position absolute
+		top 0
+		left 0
+		transition all 0.35s ease
+		cursor pointer
+		&:nth-of-type(2) 
+			top 11px
+		&:nth-of-type(3) 
+			top 22px
+.overlay 
+	position fixed
+	background-color --color-dark 
+	top 0
+	left 0
+	display flex
+	flex-direction column
+	justify-content center
+	align-items center
+	width 100%
+	height 0%
+	z-index 1
+	overflow hidden
+	&.open 
+		height 100%
+		li 
+			animation fadeInRight 0.5s ease forwards
+			animation-delay 0.35s
+			&:nth-of-type(2) 
+				animation-delay 0.4s
+			&:nth-of-type(3) 
+				animation-delay 0.45s
+			&:nth-of-type(4) 
+				animation-delay 0.5s
+            @keyframes fadeInRight {
+            0% {
+                opacity: 0;
+                left: 20%;
+            }
+            100% {
+                opacity: 1;
+                left: 0;
+            }
+            }
+	ul 
+		list-style none
+		padding 0
+		margin 0 auto
+		display inline-block
+		position relative
+		height 100%
+		li 
+			display block
+			text-align left
+			height 25%
+			height calc(100% / 4)
+			min-height 50px
+			position relative
+			opacity 0
+			a 
+				display block
+				position relative
+				color --color-white 
+				text-decoration none
+				overflow hidden
+				&:after 
+					content ""
+					position absolute
+					bottom 0
+					left 50%
+					width 0%
+					transform translateX(-50%)
+					height 3px
+					background --color-white 
+					transition 0.35s
+
+

@@ -65,22 +65,51 @@
   </div> -->
   <div class="container default-body">
     <div class="row justify-content-md-center default-background">
-      <div class="col-md-4 default-left">
-        <div>
-          <h2>타이틀</h2>
-          <p>소주제</p>
+      <div class="col-md-4 default-left p-5">
+        <!-- 햄버거버튼 -->
+        <div
+          class="button_container"
+          :class="{active:isMenuActive}"
+          @click="isMenuActive=!isMenuActive"
+        >
+          <span class="top-bar" />
+          <span class="middle-bar" />
+          <span class="bottom-bar" />
         </div>
-        <div>
-          검색창
+        <!-- 햄버거버튼 오버레이 -->
+        <div
+          class="overlay"
+          :class="[isMenuActive?'open':'']"
+        >
+          <div class="overlay-menu">
+            <ul>
+              <li>
+                <a href="#">Home</a>
+              </li>
+              <li>
+                <a href="#">About</a>
+              </li>
+              <li>
+                <a href="#">News</a>
+              </li>
+              <li>
+                <a href="#">Contact</a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div>
-          검색설정창
+        <!-- 왼쪽메뉴 -->
+        <div class="default-welcome">
+          <h1>Planmon</h1>
+          <p>Welcome back to the Planmon, we missed You!</p>
         </div>
-        <div>
-          할일리스트
+        <div class="search-bar">
+          <div class="input-groupt" />
         </div>
+        <div>검색설정창</div>
+        <div>할일리스트</div>
       </div>
-      <div class="col-md-8 default-right">
+      <div class="col-md-8 default-right p-5">
         22
       </div>
     </div>
@@ -112,6 +141,7 @@ export default {
   data() {
     return {
       menuCollapsed: false,
+      isMenuActive: false,
     };
   },
 
