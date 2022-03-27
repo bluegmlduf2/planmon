@@ -166,7 +166,10 @@
           v-if="!isMenuActive"
           class="search-todoList"
         >
-          <span class="sm-title">할일 항목</span>
+          <div class="search-todoList-title">
+            <span class="sm-title">할일 항목</span>
+            <span>4/22</span>
+          </div>
           <div class="progress">
             <div
               class="progress-bar"
