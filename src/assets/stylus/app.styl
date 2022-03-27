@@ -12,8 +12,25 @@
 --color-white = white
 --color-dark-input = rgba(255, 255, 255, 0.1);
 
+/*
+* 공통적용항목
+*/ 
+// a링크효과제거
+a:link , a:visited , a:hover{ 
+ text-decoration: none;
+ color: white
+}
 
-// 레이아웃화면 
+// 항목명
+span.sm-title 
+	font-weight: bold
+	font-size: 0.9rem
+	display: inline-block
+	margin-bottom 0.5rem
+
+/*
+* 레이아웃화면
+*/
 .default-body
     .default-background
         margin: 8px
@@ -41,12 +58,16 @@
                 width: 100%
                 right: 8px
 		.default-welcome
+			width: 95%
+			h1
+				padding-left 0.7rem
 			p
 				margin-top: 1.5rem
 				color: rgb(118, 121, 136)
 		
 		// 검색어 입력창
 		.search-bar
+			width: 95%
 			div.input-groupt
 				display: flex 
 				.btn
@@ -70,11 +91,38 @@
 					--placeholder-color: --color-white
 				.form-control:focus
 					box-shadow: none;
-
-		// 검색어 설정창
-		.search-info
-			margin-top 6rem
-
+		// 검색 조건
+		.search-condition
+			width: 90%
+			margin-top 2rem
+			.form-control
+				border-radius: 10px!important
+		// 할일목록
+		.search-todoList
+			width: 90%
+			margin-top 2rem
+			.progress
+				height 0.8rem
+				.progress-bar
+					background-color #4d76fd;
+			.search-todoList-status
+				display: flex
+				margin-top 1.2rem
+				text-align: center
+				div
+					flex: 3
+				p
+					margin-bottom 0
+				.status-total
+					font-weight: bold
+				.status-title
+					font-weight bold
+				.status-title-mini
+					font-size 0.8rem
+				a:hover
+					transition color 0.25s ease-out 100ms
+					color #5579ee!important
+					
 // 햄버거 메뉴
 .button_container 
 	position absolute // default-left기준이됨
@@ -126,32 +174,33 @@
 	&.open 
 		height 100% // 평소엔 안보이다가 open 클래스가 붙으면 높이 100%인 햄버거버튼메뉴가 보임
 		li 
-			animation fadeInRight 0.5s ease forwards
-			animation-delay 0.35s
+			animation fadeInRight 0.4s ease forwards
+			animation-delay 0.25s
 			&:nth-of-type(2) 
-				animation-delay 0.4s
+				animation-delay 0.3s
 			&:nth-of-type(3) 
-				animation-delay 0.45s
+				animation-delay 0.35s
 			&:nth-of-type(4) 
-				animation-delay 0.5s
+				animation-delay 0.4s
             @keyframes fadeInRight {
-            0% {
-                opacity: 0;
-                left: 20%;
-            }
-            100% {
-                opacity: 1;
-                left: 0;
-            }
+				0% {
+					opacity: 0;
+					left: 20%;
+				}
+				100% {
+					opacity: 1;
+					left: 0;
+				}
             }
 	ul 
 		list-style none
 		padding 0
-		margin 0 auto
+		margin 25% auto
 		display inline-block
 		position relative
 		height 100%
 		li 
+			font-size 1.5rem
 			display block
 			text-align left
 			height 25%
