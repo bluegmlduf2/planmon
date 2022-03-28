@@ -11,6 +11,7 @@
 --color-dark = rgb(38, 42, 65)
 --color-white = white
 --color-dark-input = rgba(255, 255, 255, 0.1);
+--color-light-line = rgb(236, 238, 240);
 
 /*
 * 공통적용항목
@@ -19,6 +20,13 @@
 a:link , a:visited , a:hover{ 
  text-decoration: none;
  color: white
+}
+
+// 한줄 콜론처리
+.ellipsis{
+	overflow:hidden; 
+	text-overflow:ellipsis; 
+	white-space:nowrap;	
 }
 
 // 항목명
@@ -47,7 +55,7 @@ span.sm-title
             display: flex
             flex-direction: column /*수직 정렬*/
             align-items: center
-            justify-content: center
+            justify-content: flex-start
             color: black
             background: white
             border-radius: 15px
@@ -57,6 +65,8 @@ span.sm-title
                 margin: 8px 0
                 width: 100%
                 right: 8px
+		hr
+			margin 1.25rem 0
 		.default-welcome
 			width: 95%
 			h1
@@ -231,4 +241,60 @@ span.sm-title
 					background --color-white 
 					transition 0.35s
 
+/*
+* 오른쪽화면
+*/ 
+.list-container
+	width 100%
+	ul 
+		list-style:none;
+		padding-left 0.5rem
+	.list-haeder
+		display flex
+		justify-content space-between
+		align-items center
+		border-bottom solid 1px --color-light-line
+		margin-bottom 1rem
+		i.fa-ellipsis-h
+			font-size 1.25rem
+			color: rgb(133, 145, 159);
+		span
+			cursor: pointer;
+	.list-item
+		display: flex;
+		margin: 1.25rem 0
+		width: 100%
+		height: 1.5rem
+		.list-content
+			margin-left 0.7rem
+			width: 100%
+		.list-checkbox
+			width: 1.5rem;
+			height: 1.5rem;
+			border-radius: 50%;
+			background: white
+			border: solid 1px hsl(217, 15%, 83%);
+			transition: .4s;
+			-webkit-appearance: none; // 체크박스표시모양초기화
+			-moz-appearance: none; // 체크박스표시모양초기화
+			appearance: none; // 체크박스표시모양초기화
+			cursor: pointer;
+			&:hover 
+				background: rgb(54, 217, 216)
+			// &::before
+			// 	transform: scale(0);
+			// 	-webkit-animation scaleIn .1s .2s linear forwards;
+			// 	animation scaleIn .1s .2s linear forwards;
+			// 	@keyframes scaleIn {
+			// 		from {
+			// 			transform: scale(0)
+			// 		}
+			// 		to {
+			// 			transform: scale(1)
+			// 		}
+			// 	}
+			// &::after
+			// 	background: white;
+			// 	transition: .2s;
+			// 	transform: scale(0);
 

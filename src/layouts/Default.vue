@@ -223,8 +223,30 @@
           </div>
         </div>
       </div>
-      <div class="col-md-8 default-right p-5">
-        22
+      <div class="col-md-8 default-right p-4">
+        <!-- 다가오는 일정 -->
+        <v-list :todo-list="todoList">
+          <span
+            slot="header"
+          >
+            다가오는 일정
+          </span>
+          <div
+            slot="body"
+          />
+        </v-list>
+        <hr>
+        <!-- 추천 일정 -->
+        <v-list :todo-list="todoList">
+          <span
+            slot="header"
+          >
+            추천 일정
+          </span>
+          <div
+            slot="body"
+          />
+        </v-list>
       </div>
     </div>
   </div>
@@ -243,13 +265,19 @@
 // eslint-disable-next-line import/extensions
 import korean from 'flatpickr/dist/l10n/ko.js';
 import countriesList from '@/assets/js/countries';
+import VList from '@/components/List.vue';
 
 export default {
   /**
    * The name of the layout.
    */
   name: 'DefaultLayout',
-
+  /**
+   * The components that the page can use.
+   */
+  components: {
+    VList,
+  },
   /**
    * The data that can be used by the page.
    *
@@ -269,11 +297,13 @@ export default {
         dateFormat: 'Y-m-d',
         locale: korean.ko,
       },
+      todoList: [], // 다가오는 일정 리스트
     };
   },
   created() {
     this.initEntyDate(); // 입국날짜 초기화
     this.initCountries(); // 국가 초기화
+    this.initTodoList(); // 다가오는 일정 초기화
   },
   /**
    * The methods that the layout can use.
@@ -287,6 +317,19 @@ export default {
     // 국가 초기화
     initCountries() {
       this.countries = countriesList;
+    },
+    // 다가오는 일정 초기화
+    initTodoList() {
+      this.todoList = [{
+        value: '1',
+        text: '일본11111111111111111111111111111111111',
+      }, {
+        value: '2',
+        text: '미국222222222222',
+      }, {
+        value: '3',
+        text: '중국33333333333333333333',
+      }];
     },
     /**
      * Will log the user out.
