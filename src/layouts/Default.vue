@@ -126,7 +126,7 @@
             <input
               type="search"
               class="form-control"
-              placeholder="Search Task..."
+              placeholder="추천 일정 검색"
             >
           </div>
         </div>
@@ -237,7 +237,7 @@
         </v-list>
         <hr>
         <!-- 추천 일정 -->
-        <v-list :todo-list="todoList">
+        <v-list :todo-list="recommendedList">
           <span
             slot="header"
           >
@@ -298,12 +298,14 @@ export default {
         locale: korean.ko,
       },
       todoList: [], // 다가오는 일정 리스트
+      recommendedList: [], // 추천 일정 리스트
     };
   },
   created() {
     this.initEntyDate(); // 입국날짜 초기화
     this.initCountries(); // 국가 초기화
-    this.initTodoList(); // 다가오는 일정 초기화
+    this.initTodoList(); // 다가오는 일정 초기화 (최대 5개 호출)
+    this.initRecommendedList(); // 추천 일정 초기화  (최대 5개 호출)
   },
   /**
    * The methods that the layout can use.
@@ -326,10 +328,51 @@ export default {
       }, {
         value: '2',
         text: '미국222222222222',
-      }, {
+      },
+      {
         value: '3',
         text: '중국33333333333333333333',
-      }];
+      },
+      {
+        value: '4',
+        text: '4444444444444444444444',
+      },
+      {
+        value: '5',
+        text: '555555555555555555555',
+      },
+      // {
+      //   value: '6',
+      //   text: '66666666666666666666666',
+      // },
+      ];
+    },
+    // 추천 일정 초기화
+    initRecommendedList() {
+      this.recommendedList = [{
+        value: '11',
+        text: '11111111111111111111111',
+      }, {
+        value: '22',
+        text: '22222222222222222',
+      },
+      {
+        value: '33',
+        text: '333333333333333',
+      },
+      {
+        value: '44',
+        text: '4444444444444444444444',
+      },
+      {
+        value: '55',
+        text: '555555555555555555555',
+      },
+      // {
+      //   value: '66',
+      //   text: '66666666666666666666666',
+      // },
+      ];
     },
     /**
      * Will log the user out.
