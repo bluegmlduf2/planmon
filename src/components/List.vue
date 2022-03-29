@@ -12,7 +12,7 @@
       </span>
     </div>
     <div class="list-body">
-      <ul name="body">
+      <ul>
         <li
           v-for="(item, index) in todoList"
           :key="index"
@@ -31,14 +31,6 @@
           </div>
         </li>
       </ul>
-    </div>
-    <div class="list-footer">
-      <button
-        type="button"
-        class="btn btn-light btn-sm"
-      >
-        더보기
-      </button>
     </div>
   </div>
 </template>

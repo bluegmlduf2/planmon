@@ -231,10 +231,17 @@
           >
             다가오는 일정
           </span>
-          <div
-            slot="body"
-          />
         </v-list>
+        <div
+          class="list-footer"
+        >
+          <button
+            type="button"
+            class="btn btn-light w-100"
+          >
+            +
+          </button>
+        </div>
         <hr>
         <!-- 추천 일정 -->
         <v-list :todo-list="recommendedList">
@@ -243,10 +250,20 @@
           >
             추천 일정
           </span>
-          <div
-            slot="body"
-          />
         </v-list>
+        <div
+          class="list-footer"
+        >
+          <button
+            type="button"
+            class="btn btn-light w-100"
+          >
+            +
+          </button>
+        </div>
+        <button class="btn btn-purple add-task">
+          글쓰기
+        </button>
       </div>
     </div>
   </div>

@@ -67,6 +67,9 @@ span.sm-title
                 margin: 8px 0
                 width: 100%
                 right: 8px
+			.default-right-footer
+				text-align: right
+
 		hr
 			margin 1.25rem 0
 		.default-welcome
@@ -318,10 +321,36 @@ span.sm-title
 		}
 
 		.list-content
+			cursor pointer
 			margin-left 0.7rem
 			width 100%
 			line-height 30px
 			height 30px
-	.list-footer
-		text-align: right
-		font-size 0.9rem
+.list-footer
+	font-size 1.5rem
+	width: 95%
+.list-footer:hover
+	transition 0.25s
+.list-footer>.btn
+	font-weight 500
+.default-right
+	padding-bottom 7rem!important // 부트스트랩 p-4랑 중복사용떼문에 important선언
+.add-task
+	font-weight: bold
+	position: absolute
+	bottom: 26px;
+	right: 26px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box; /* width의 크기범위 (border도 포함할것인지)*/
+	width: 90px;
+	height: 54px;
+	line-height: 1;
+	background: rgb(137, 79, 198);
+	color: white
+	border: none;
+	border-radius: 15px;
+	box-shadow: 0 1.4px 2.8px rgb(137 79 198 / 4%)
+.add-task:hover
+	color: white
