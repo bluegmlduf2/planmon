@@ -84,7 +84,7 @@
           <div class="overlay-menu">
             <ul>
               <li>
-                <router-link to="#">
+                <router-link :to="{ name: 'home.index' }">
                   Home
                 </router-link>
               </li>
@@ -111,7 +111,11 @@
           v-if="!isMenuActive"
           class="default-welcome"
         >
-          <h1>Planmon</h1>
+          <h1>
+            <router-link :to="{ name: 'home.index' }">
+              Planmon
+            </router-link>
+          </h1>
           <p>플랜몬에 오신것을 환영합니다!</p>
         </div>
         <!-- 검색입력 -->
@@ -195,12 +199,12 @@
               </router-link>
             </div>
             <div>
-              <router-link to="#">
+              <router-link :to="{ name: 'todolist.index' }">
                 <h3 class="status-total">
                   11
                 </h3>
                 <p class="status-title">
-                  예정된
+                  다가오는
                 </p>
                 <p class="status-title-mini">
                   일정
@@ -223,48 +227,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-8 default-right p-4">
-        <!-- 다가오는 일정 -->
-        <v-list :todo-list="todoList">
-          <span
-            slot="header"
-          >
-            다가오는 일정
-          </span>
-        </v-list>
-        <div
-          class="list-footer"
-        >
-          <button
-            type="button"
-            class="btn btn-light w-100"
-          >
-            +
-          </button>
-        </div>
-        <hr>
-        <!-- 추천 일정 -->
-        <v-list :todo-list="recommendedList">
-          <span
-            slot="header"
-          >
-            추천 일정
-          </span>
-        </v-list>
-        <div
-          class="list-footer"
-        >
-          <button
-            type="button"
-            class="btn btn-light w-100"
-          >
-            +
-          </button>
-        </div>
-        <button class="btn btn-purple add-task">
-          글쓰기
-        </button>
-      </div>
+      <slot name="default-right-body" />
     </div>
   </div>
 </template>
@@ -282,19 +245,12 @@
 // eslint-disable-next-line import/extensions
 import korean from 'flatpickr/dist/l10n/ko.js';
 import countriesList from '@/assets/js/countries';
-import VList from '@/components/List.vue';
 
 export default {
   /**
    * The name of the layout.
    */
   name: 'DefaultLayout',
-  /**
-   * The components that the page can use.
-   */
-  components: {
-    VList,
-  },
   /**
    * The data that can be used by the page.
    *
@@ -314,15 +270,11 @@ export default {
         dateFormat: 'Y-m-d',
         locale: korean.ko,
       },
-      todoList: [], // 다가오는 일정 리스트
-      recommendedList: [], // 추천 일정 리스트
     };
   },
   created() {
     this.initEntyDate(); // 입국날짜 초기화
     this.initCountries(); // 국가 초기화
-    this.initTodoList(); // 다가오는 일정 초기화 (최대 5개 호출)
-    this.initRecommendedList(); // 추천 일정 초기화  (최대 5개 호출)
   },
   /**
    * The methods that the layout can use.
@@ -337,60 +289,7 @@ export default {
     initCountries() {
       this.countries = countriesList;
     },
-    // 다가오는 일정 초기화
-    initTodoList() {
-      this.todoList = [{
-        value: '1',
-        text: '일본11111111111111111111111111111111111',
-      }, {
-        value: '2',
-        text: '미국222222222222',
-      },
-      {
-        value: '3',
-        text: '중국33333333333333333333',
-      },
-      {
-        value: '4',
-        text: '4444444444444444444444',
-      },
-      {
-        value: '5',
-        text: '555555555555555555555',
-      },
-      // {
-      //   value: '6',
-      //   text: '66666666666666666666666',
-      // },
-      ];
-    },
-    // 추천 일정 초기화
-    initRecommendedList() {
-      this.recommendedList = [{
-        value: '11',
-        text: '11111111111111111111111',
-      }, {
-        value: '22',
-        text: '22222222222222222',
-      },
-      {
-        value: '33',
-        text: '333333333333333',
-      },
-      {
-        value: '44',
-        text: '4444444444444444444444',
-      },
-      {
-        value: '55',
-        text: '555555555555555555555',
-      },
-      // {
-      //   value: '66',
-      //   text: '66666666666666666666666',
-      // },
-      ];
-    },
+
     /**
      * Will log the user out.
      */

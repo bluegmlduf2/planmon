@@ -14,7 +14,7 @@
     <div class="list-body">
       <ul>
         <li
-          v-for="(item, index) in todoList"
+          v-for="(item, index) in paramList"
           :key="index"
         >
           <div class="list-item">
@@ -60,7 +60,7 @@ export default {
       type: String,
       required: false,
     },
-    todoList: {
+    paramList: {
       default: null,
       type: Array,
     },

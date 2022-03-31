@@ -6,11 +6,25 @@
  */
 
 export default [
-  // Home
+  // 홈
   {
     path: '/',
     name: 'home.index',
     component: () => import('@/views/Home/Index.vue'),
+  },
+
+  // 다가오는 일정
+  {
+    path: '/todolist',
+    name: 'todolist.index',
+    component: () => import('@/views/Todolist/Index.vue'),
+  },
+
+  // 추천 일정
+  {
+    path: '/reclist',
+    name: 'reclist.index',
+    component: () => import('@/views/Reclist/Index.vue'),
   },
 
   // Account
