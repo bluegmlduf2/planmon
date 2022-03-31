@@ -7,21 +7,14 @@
       <!-- 추천 일정 -->
       <v-list :param-list="recommendedList">
         <div slot="search">
-          <h4 class="list-search">
-            검색
-          </h4>
-          <div class="input-groupt">
-            <button class="btn">
-              <i
-                aria-hidden="true"
-                class="fa fa-search"
-              />
-            </button><input
+          <v-search>
+            <input
+              slot="searchBtn"
               type="search"
               placeholder="결과 내 재검색"
               class="form-control"
             >
-          </div>
+          </v-search>
         </div>
         <span
           slot="header"
@@ -46,6 +39,7 @@
 
 import VLayout from '@/layouts/Default.vue';
 import VList from '@/components/List.vue';
+import VSearch from '@/components/Search.vue';
 
 export default {
   /**
@@ -59,6 +53,7 @@ export default {
   components: {
     VLayout,
     VList,
+    VSearch,
   },
 
   data() {

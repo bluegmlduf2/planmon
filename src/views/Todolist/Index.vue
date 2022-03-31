@@ -6,6 +6,16 @@
     >
       <!-- 다가오는 일정 -->
       <v-list :param-list="todoList">
+        <div slot="search">
+          <v-search>
+            <input
+              slot="searchBtn"
+              type="search"
+              placeholder="결과 내 재검색"
+              class="form-control"
+            >
+          </v-search>
+        </div>
         <span
           slot="header"
         >
@@ -29,6 +39,7 @@
 
 import VLayout from '@/layouts/Default.vue';
 import VList from '@/components/List.vue';
+import VSearch from '@/components/Search.vue';
 
 export default {
   /**
@@ -42,6 +53,7 @@ export default {
   components: {
     VLayout,
     VList,
+    VSearch,
   },
 
   data() {
