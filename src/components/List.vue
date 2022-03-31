@@ -1,5 +1,6 @@
 <template>
   <div class="list-container">
+    <slot name="search" />
     <div class="list-haeder">
       <h4>
         <slot name="header" />
