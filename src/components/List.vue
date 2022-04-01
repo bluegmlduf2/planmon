@@ -1,17 +1,45 @@
 <template>
   <div class="list-container">
     <slot name="search" />
+
     <div class="list-haeder">
       <h4>
         <slot name="header" />
       </h4>
-      <span>
-        <i
-          class="fa fa-ellipsis-h"
-          aria-hidden="true"
-        />
-      </span>
+
+      <div class="dropdown">
+        <a
+          id="dropdownMenuLink"
+          class="btn dropdown-toggle btn-sm"
+          role="button"
+          data-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i
+            class="fa fa-ellipsis-h"
+            aria-hidden="true"
+          />
+        </a>
+        <div
+          class="dropdown-menu dropdown-menu-right"
+          aria-labelledby="dropdownMenuLink"
+        >
+          <a
+            class="dropdown-item"
+            href="#"
+          >Action</a>
+          <a
+            class="dropdown-item"
+            href="#"
+          >Another action</a>
+          <a
+            class="dropdown-item"
+            href="#"
+          >Something else here</a>
+        </div>
+      </div>
     </div>
+
     <div class="list-body">
       <ul>
         <li

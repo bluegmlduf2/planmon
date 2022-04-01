@@ -11,7 +11,7 @@
             <input
               slot="searchBtn"
               type="search"
-              placeholder="결과 내 재검색"
+              placeholder="결과 재검색"
               class="form-control"
             >
           </v-search>

@@ -4,8 +4,8 @@
       slot="default-right-body"
       class="col-md-8 default-right p-4"
     >
-      <!-- 다가오는 일정 -->
-      <v-list :param-list="todoList">
+      <!-- 모든 일정 -->
+      <v-list :param-list="allList">
         <div slot="search">
           <v-search>
             <input
@@ -19,7 +19,7 @@
         <span
           slot="header"
         >
-          다가오는 일정
+          모든 일정
         </span>
       </v-list>
       <div
@@ -45,7 +45,7 @@ export default {
   /**
    * The name of the page.
    */
-  name: 'TodolistIndex',
+  name: 'AlllistIndex',
 
   /**
    * The components that the page can use.
@@ -58,37 +58,37 @@ export default {
 
   data() {
     return {
-      todoList: [], // 다가오는 일정 리스트
+      allList: [], // 추천 일정 리스트
     };
   },
   created() {
-    this.initTodoList(); // 다가오는 일정 초기화 (최대 5개 호출)
+    this.initAllList(); // 추천 일정 초기화  (최대 5개 호출)
   },
 
   methods: {
-    // 다가오는 일정 초기화
-    initTodoList() {
-      this.todoList = [{
-        value: '1',
-        text: '일본11111111111111111111111111111111111',
+    // 추천 일정 초기화
+    initAllList() {
+      this.allList = [{
+        value: '11',
+        text: '11111111111111111111111',
       }, {
-        value: '2',
-        text: '미국222222222222',
+        value: '22',
+        text: '22222222222222222',
       },
       {
-        value: '3',
-        text: '중국33333333333333333333',
+        value: '33',
+        text: '333333333333333',
       },
       {
-        value: '4',
+        value: '44',
         text: '4444444444444444444444',
       },
       {
-        value: '5',
+        value: '55',
         text: '555555555555555555555',
       },
       {
-        value: '6',
+        value: '66',
         text: '66666666666666666666666',
       },
       ];

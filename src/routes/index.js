@@ -27,6 +27,20 @@ export default [
     component: () => import('@/views/Reclist/Index.vue'),
   },
 
+  // 완료 일정
+  {
+    path: '/completelist',
+    name: 'completelist.index',
+    component: () => import('@/views/Completelist/Index.vue'),
+  },
+
+  // 모든 일정
+  {
+    path: '/alllist',
+    name: 'alllist.index',
+    component: () => import('@/views/Alllist/Index.vue'),
+  },
+
   // Account
   {
     path: '/account',

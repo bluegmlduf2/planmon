@@ -186,7 +186,7 @@
           </div>
           <div class="search-todoList-status">
             <div>
-              <router-link to="#">
+              <router-link :to="{ name: 'completelist.index' }">
                 <h3 class="status-total">
                   11
                 </h3>
@@ -212,7 +212,7 @@
               </router-link>
             </div>
             <div>
-              <router-link to="#">
+              <router-link :to="{ name: 'alllist.index' }">
                 <h3 class="status-total">
                   11
                 </h3>

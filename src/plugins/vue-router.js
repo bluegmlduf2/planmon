@@ -18,6 +18,10 @@ Vue.use(VueRouter);
 export const router = new VueRouter({
   mode: 'history',
   routes,
+  scrollBehavior() {
+    // 새로고침 후 항상 최상단 표시
+    return { top: 0 };
+  },
 });
 router.beforeEach((to, from, next) => {
   if (to.matched.some((m) => m.meta.auth) && !store.state.auth.authenticated) {
