@@ -225,7 +225,7 @@
             </div>
           </div>
         </div>
-        <!-- 모바일화면에서 검색조건 열기 -->
+        <!-- 모바일화면에서 나의 일정 정보 열기 -->
         <div
           class="list-footer d-block d-sm-block d-md-none d-lg-none d-xl-none"
         >
@@ -234,7 +234,7 @@
             class="btn btn-light w-100 mt-4"
             @click="isConditionActive=!isConditionActive"
           >
-            {{ isConditionActive?'검색조건닫기':'검색조건열기' }}
+            {{ isConditionActive?'나의 일정 정보 닫기':'나의 일정 정보 열기' }}
           </button>
         </div>
       </div>
@@ -271,7 +271,7 @@ export default {
     return {
       menuCollapsed: false,
       isMenuActive: false, // NAV메뉴 활성화유무
-      isConditionActive: false, // 검색조건 표시 유무
+      isConditionActive: false, // 나의 일정 정보 표시 유무
       entryDate: null, // 입국날짜
       countries: [], // 국가
       selectedCountry: null, // 선택된 국가
