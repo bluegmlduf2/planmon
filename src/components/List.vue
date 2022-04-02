@@ -1,47 +1,28 @@
 <template>
   <div class="list-container">
     <slot name="search" />
-
     <div class="list-haeder">
       <h4>
         <slot name="header" />
       </h4>
-
-      <div class="dropdown">
-        <a
-          id="dropdownMenuLink"
-          class="btn dropdown-toggle btn-sm"
-          role="button"
-          data-toggle="dropdown"
-          aria-expanded="false"
+      <div class="list-menu-body">
+        <i
+          class="fa fa-ellipsis-h"
+          aria-hidden="true"
+          @click="toggleMenuActive=!toggleMenuActive"
+        />
+        <ul
+          class="list-menu"
+          :class="[toggleMenuActive?'open':'']"
         >
-          <i
-            class="fa fa-ellipsis-h"
-            aria-hidden="true"
-          />
-        </a>
-        <div
-          class="dropdown-menu dropdown-menu-right"
-          aria-labelledby="dropdownMenuLink"
-        >
-          <a
-            class="dropdown-item"
-            href="#"
-          >Action</a>
-          <a
-            class="dropdown-item"
-            href="#"
-          >Another action</a>
-          <a
-            class="dropdown-item"
-            href="#"
-          >Something else here</a>
-        </div>
+          <li>삭제</li>
+          <li>최근일자순으로 정렬</li>
+          <li>완료순으로 정렬</li>
+        </ul>
       </div>
     </div>
-
     <div class="list-body">
-      <ul>
+      <ul class="list-body-ul">
         <li
           v-for="(item, index) in paramList"
           :key="index"
@@ -72,7 +53,6 @@ export default {
    * The name of the component.
    */
   name: 'List',
-
   /**
    * The mixins that the component can use.
    */
@@ -93,6 +73,12 @@ export default {
       default: null,
       type: Array,
     },
+  },
+
+  data() {
+    return {
+      toggleMenuActive: false, // 슬라이드 토글 메뉴 활성화
+    };
   },
 
   /**

@@ -98,11 +98,6 @@
                   News
                 </router-link>
               </li>
-              <li>
-                <router-link to="#">
-                  Contact
-                </router-link>
-              </li>
             </ul>
           </div>
         </div>
@@ -135,7 +130,10 @@
           </div>
         </div>
         <!-- 검색 조건 -->
-        <div class="search-condition">
+        <div
+          class="search-condition d-none d-sm-none d-md-block d-lg-block d-xl-block"
+          :class="[isConditionActive?'d-block d-sm-block':'d-none d-sm-none']"
+        >
           <!-- 검색 조건 국가선택 -->
           <div class="form-group">
             <span class="sm-title">국가선택</span>
@@ -168,7 +166,8 @@
         <!-- 할일목록 -->
         <div
           v-if="!isMenuActive"
-          class="search-todoList"
+          class="search-todoList d-none d-sm-none d-md-block d-lg-block d-xl-block"
+          :class="[isConditionActive?'d-block d-sm-block':'d-none d-sm-none']"
         >
           <div class="search-todoList-title">
             <span class="sm-title">할일 항목</span>
@@ -226,6 +225,18 @@
             </div>
           </div>
         </div>
+        <!-- 모바일화면에서 검색조건 열기 -->
+        <div
+          class="list-footer d-block d-sm-block d-md-none d-lg-none d-xl-none"
+        >
+          <button
+            type="button"
+            class="btn btn-light w-100 mt-4"
+            @click="isConditionActive=!isConditionActive"
+          >
+            {{ isConditionActive?'검색조건닫기':'검색조건열기' }}
+          </button>
+        </div>
       </div>
       <slot name="default-right-body" />
     </div>
@@ -260,6 +271,7 @@ export default {
     return {
       menuCollapsed: false,
       isMenuActive: false, // NAV메뉴 활성화유무
+      isConditionActive: false, // 검색조건 표시 유무
       entryDate: null, // 입국날짜
       countries: [], // 국가
       selectedCountry: null, // 선택된 국가

@@ -23,7 +23,9 @@ a:link , a:visited , a:hover{
  text-decoration: none;
  color: white
 }
-
+// ul의 li list스타일변경 
+ul 
+	list-style:none;
 // 한줄 콜론처리
 .ellipsis{
 	overflow:hidden; 
@@ -255,7 +257,7 @@ span.sm-title
 */ 
 .list-container
 	width 100%
-	ul 
+	.list-body-ul 
 		list-style:none;
 		padding-left 0.5rem
 	.list-search+.input-groupt
@@ -283,21 +285,43 @@ span.sm-title
 		align-items center
 		border-bottom solid 1px --color-light-line
 		margin-bottom 1rem
+		// 오른쪽 슬라이드 메뉴
 		i.fa-ellipsis-h
 			font-size 1.25rem
 			color: rgb(133, 145, 159);
+		.list-menu-body
+			cursor: pointer
+			position relative
+		.list-menu
+			position absolute
+			top: 1.3rem
+			right: 0
+			background: rgb(235, 235, 235)
+			border: none;
+			width: 150px;
+			border-radius: 8px;
+			line-height: 35px;
+			text-align: center;
+			margin: auto;
+			height: 0px
+			overflow: hidden;
+			transition: height .5s ease-in-out
+			padding 0
+		.list-menu.open
+			height: 106px
+		.list-menu > li:hover
+			background: rgb(225, 225, 225)
 	.list-item
 		display: flex;
 		margin: 1.25rem 0
 		width: 100%
-		height: 1.5rem
+		height: 1.3rem
 		align-items: center
 		.list-checkbox {
 			position: relative;
 			height: 26px;
 			width: 26px;
 		}
-
 		.list-checkbox label {
 			background-color: #fff;
 			border: 1px solid #ccc;
@@ -309,7 +333,6 @@ span.sm-title
 			top: 0;
 			width: 26px;
 		}
-
 		.list-checkbox label:after {
 			border: 2px solid #fff;
 			border-top: none;
@@ -323,28 +346,29 @@ span.sm-title
 			transform: rotate(-45deg);
 			width: 12px;
 		}
-
 		.list-checkbox input[type="checkbox"] {
 			visibility: hidden;
 		}
-
 		.list-checkbox input[type="checkbox"]:checked + label {
 			background-color: rgb(54, 217, 216);
 			border-color: rgb(54, 217, 216);
 			transition 0.25s
 		}
-
 		.list-checkbox input[type="checkbox"]:checked + label:after {
 			opacity: 1;
 			transition 0.35s
 		}
-
 		.list-content
 			cursor pointer
 			margin-left 0.7rem
 			width 100%
 			line-height 30px
 			height 30px
+			padding-left 10px
+		.list-content:hover
+			background: #f8f9fa
+			border-radius: 10px
+			left: -10px
 .list-footer
 	font-size 1.5rem
 	width: 95%
@@ -352,7 +376,7 @@ span.sm-title
 	transition 0.25s
 .list-footer>.btn
 	font-weight 500
-.default-right
+.add-padding-bottom
 	padding-bottom: 5rem!important 
 .add-task
 	font-weight: bold

@@ -2,7 +2,7 @@
   <v-layout>
     <div
       slot="default-right-body"
-      class="col-md-8 default-right p-4"
+      class="col-md-8 default-right p-4 add-padding-bottom"
     >
       <!-- 다가오는 일정 -->
       <v-list :param-list="todoList">
