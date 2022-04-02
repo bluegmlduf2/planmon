@@ -15,9 +15,13 @@
           class="list-menu"
           :class="[toggleMenuActive?'open':'']"
         >
-          <li>삭제</li>
           <li>최근일자순으로 정렬</li>
           <li>완료순으로 정렬</li>
+          <li>
+            <slot name="deleteList">
+              일정 삭제
+            </slot>
+          </li>
         </ul>
       </div>
     </div>

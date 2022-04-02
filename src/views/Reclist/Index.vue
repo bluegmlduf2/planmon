@@ -21,6 +21,7 @@
         >
           추천 일정
         </span>
+        <span slot="deleteList" />
       </v-list>
       <div
         class="list-footer"
