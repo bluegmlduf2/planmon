@@ -17,9 +17,13 @@
         >
           <li>최근일자순으로 정렬</li>
           <li>완료순으로 정렬</li>
-          <li>
-            <slot name="deleteList">
-              일정 삭제
+          <li
+            @click="deleteButtonActive=!deleteButtonActive"
+          >
+            <slot
+              name="deleteList"
+            >
+              {{ deleteButtonActive?'일정 추가':'일정 삭제' }}
             </slot>
           </li>
         </ul>
@@ -31,8 +35,23 @@
           v-for="(item, index) in paramList"
           :key="index"
         >
+          <!-- 일정삭제모드 -->
           <div class="list-item">
-            <div class="list-checkbox">
+            <div
+              v-if="deleteButtonActive"
+              class="list-checkbox list-del"
+            >
+              <input
+                :id="item.value"
+                type="checkbox"
+              >
+              <label :for="item.value" />
+            </div>
+            <!-- 일정추가모드 -->
+            <div
+              v-else
+              class="list-checkbox list-add"
+            >
               <input
                 :id="item.value"
                 type="checkbox"
@@ -82,6 +101,7 @@ export default {
   data() {
     return {
       toggleMenuActive: false, // 슬라이드 토글 메뉴 활성화
+      deleteButtonActive: false, // 삭제상태 활성화
     };
   },
 
@@ -107,6 +127,10 @@ export default {
 
       return classNames;
     },
+  },
+
+  methods: {
+    // TODO 버튼클릭시 선택화면 뜬다음에 선택하면 삭제 ,그리고 체크시 해당 체크이외에 전부 취소
   },
 };
 </script>

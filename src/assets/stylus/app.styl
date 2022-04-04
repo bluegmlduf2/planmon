@@ -333,7 +333,8 @@ span.sm-title
 			top: 0;
 			width: 26px;
 		}
-		.list-checkbox label:after {
+		// 추가모드버튼
+		.list-checkbox.list-add label:after {
 			border: 2px solid #fff;
 			border-top: none;
 			border-right: none;
@@ -346,12 +347,33 @@ span.sm-title
 			transform: rotate(-45deg);
 			width: 12px;
 		}
+		// 삭제모드 버튼
+		.list-checkbox.list-del label:after {
+			border: 2.5px solid #fff;
+			border-top: none;
+			border-right: none;
+			border-left: none;
+			content: "";
+			height: 6px;
+			left: 6px;
+			opacity: 0;
+			position: absolute;
+			top: 7px;
+			width: 12px;
+		}
 		.list-checkbox input[type="checkbox"] {
 			visibility: hidden;
 		}
-		.list-checkbox input[type="checkbox"]:checked + label {
+		// 추가모드버튼
+		.list-checkbox.list-add input[type="checkbox"]:checked + label {
 			background-color: rgb(54, 217, 216);
 			border-color: rgb(54, 217, 216);
+			transition 0.25s
+		}
+		// 삭제모드버튼
+		.list-checkbox.list-del input[type="checkbox"]:checked + label {
+			background-color: rgb(213, 63, 50);
+			border-color: rgb(213, 63, 50);
 			transition 0.25s
 		}
 		.list-checkbox input[type="checkbox"]:checked + label:after {
