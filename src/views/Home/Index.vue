@@ -46,7 +46,10 @@
           +
         </button>
       </div>
-      <button class="btn btn-purple add-task">
+      <button
+        class="btn btn-purple add-task"
+        @click="$router.push({name: 'write.index'})"
+      >
         글쓰기
       </button>
     </div>

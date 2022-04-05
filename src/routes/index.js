@@ -41,6 +41,13 @@ export default [
     component: () => import('@/views/Alllist/Index.vue'),
   },
 
+  // 모든 일정
+  {
+    path: '/write',
+    name: 'write.index',
+    component: () => import('@/views/Write/Index.vue'),
+  },
+
   // Account
   {
     path: '/account',
