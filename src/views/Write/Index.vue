@@ -81,6 +81,7 @@
               <option
                 value="null"
                 selected
+                disabled
               >
                 국가를 선택해주세요
               </option>
