@@ -186,6 +186,7 @@ export default {
         altInput: true,
         dateFormat: 'Y-m-d',
         locale: korean.ko,
+        disableMobile: 'true',
       },
       validation: {
         title: false,

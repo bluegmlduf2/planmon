@@ -281,6 +281,7 @@ export default {
         altInput: true,
         dateFormat: 'Y-m-d',
         locale: korean.ko,
+        disableMobile: 'true', // flatpicker모바일모드끄기
       },
     };
   },
