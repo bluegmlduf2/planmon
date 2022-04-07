@@ -158,7 +158,7 @@
               id="entryDate"
               v-model="entryDate"
               :config="config"
-              class="form-control"
+              class="form-control flat-pickr"
               placeholder="입국날짜를 선택해주세요"
             />
           </div>
@@ -254,7 +254,7 @@
  * This way the app stays clean.
  */
 // eslint-disable-next-line import/extensions
-import korean from 'flatpickr/dist/l10n/ko.js';
+import korean from 'flatpickr/dist/l10n/ko';
 import countriesList from '@/assets/js/countries';
 
 export default {

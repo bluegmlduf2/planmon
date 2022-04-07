@@ -40,6 +40,15 @@ span.sm-title
 	display: inline-block
 	margin-bottom 0.5rem
 
+// 컴포넌트 포커스시 부트스트랩 기본 효과제거
+.none-outline:focus:not(a)
+	outline: none!important
+	border-color: rgb(229, 233, 237)!important
+	box-shadow: 0 0 4px rgb(0 0 0/20%)!important
+
+// 플랫피커 배경색 초기화
+.flat-pickr
+	background-color: rgb(255,255,255)!important
 /*
 * 레이아웃화면
 */
@@ -402,9 +411,6 @@ span.sm-title
 	padding-bottom: 5rem!important 
 .add-task
 	font-weight: bold
-	position: absolute
-	bottom: 20px;
-	right: 26px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -417,6 +423,10 @@ span.sm-title
 	border: none;
 	border-radius: 15px;
 	box-shadow: 0 1.4px 2.8px rgb(137 79 198 / 4%)
+.home-write-position
+	position: absolute
+	bottom: 20px;
+	right: 26px;
 .add-task:hover
 	color: white
 
@@ -428,3 +438,19 @@ span.sm-title
 .toastui-editor-popup
 	margin-left 0!important // 모바일화면시 팝업위치가 안맞아서 강제설정
 	left: 0!important // 모바일화면시 팝업위치가 안맞아서 강제설정
+
+// 글쓰기 화면
+.condition-container
+	width: 100%
+.writeContButtons
+	display: flex
+	justify-content: space-between
+#writeContBack
+	cursor pointer
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box; /* width의 크기범위 (border도 포함할것인지)*/
+	width: 2.5rem;
+	height: 3rem;
+	line-height: 1;
