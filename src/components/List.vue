@@ -15,7 +15,7 @@
           class="list-menu"
           :class="[toggleMenuActive?'open':'']"
         >
-          <li>최근일자순으로 정렬</li>
+          <li>등록일자순 정렬</li>
           <li>완료순으로 정렬</li>
           <li
             @click="deleteButtonActive=!deleteButtonActive"
