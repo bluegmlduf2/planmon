@@ -1,17 +1,29 @@
 <template>
-  <v-layout>
+  <v-layout :is-left-menu-active="true">
     <div
       slot="default-right-body"
       class="col-md-8 default-right p-4"
     >
       <div class="condition-container">
+        <!-- 모바일화면용 뒤로가기버튼 -->
+        <div class="row mb-3">
+          <div class="col-md-12 post-back ml-2">
+            <span @click="$router.push({name: 'home.index'})">
+              <i
+                class="fa fa-chevron-left"
+                aria-hidden="true"
+              />
+            </span>
+          </div>
+        </div>
+        <!-- 게시글 제목 -->
         <div class="row">
           <div class="col-md-12 mt-1 mb-3 post-title">
             <h2>
               제목입니다^^
             </h2>
             <div
-              class="list-checkbox list-add"
+              class="list-checkbox list-add mr-1"
             >
               <input
                 id="itemvalue"
@@ -68,9 +80,12 @@
         </div>
         <!-- 조건 2 -->
         <div class="post-condition mb-3">
-          <h5 class="mb-2">
-            내 입국일 기준
-          </h5>
+          <div class="mb-2 post-startDate-cont">
+            <h5>
+              {{ true?'내 입국일 기준':'내 지정일 기준' }}
+            </h5>
+            <span>일정시작일자 변경</span>
+          </div>
           <div class="row">
             <div class="form-group col-6">
               <label for="postStartDate">일정시작일자</label>

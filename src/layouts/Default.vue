@@ -65,7 +65,10 @@
   </div> -->
   <div class="container default-body">
     <div class="row justify-content-md-center default-background">
-      <div class="col-md-4 default-left p-5">
+      <div
+        :class="{leftmenuactive:isLeftMenuActive}"
+        class="col-md-4 default-left p-5"
+      >
         <!-- 햄버거버튼 -->
         <div
           class="button_container"
@@ -225,7 +228,7 @@
             </div>
           </div>
         </div>
-        <!-- 모바일화면에서 나의 일정 정보 열기 -->
+        <!-- 모바일화면에서 내 정보 열기 -->
         <div
           class="list-footer d-block d-sm-block d-md-none d-lg-none d-xl-none"
         >
@@ -234,7 +237,7 @@
             class="btn btn-light w-100 mt-4"
             @click="isConditionActive=!isConditionActive"
           >
-            {{ isConditionActive?'나의 일정 정보 닫기':'나의 일정 정보 열기' }}
+            {{ isConditionActive?'내 정보 닫기':'내 정보 열기' }}
           </button>
         </div>
       </div>
@@ -262,6 +265,16 @@ export default {
    * The name of the layout.
    */
   name: 'DefaultLayout',
+  /**
+   * The properties that the component accepts.
+   */
+  props: {
+    // 왼쪽메뉴 표시여부
+    isLeftMenuActive: {
+      default: false,
+      type: Boolean,
+    },
+  },
   /**
    * The data that can be used by the page.
    *

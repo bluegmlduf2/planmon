@@ -39,6 +39,13 @@ body
 	// 햄버거버튼위치
 	.button_container 
 		margin-left: 1rem!important
+	.default-left
+		display: flex!important
+	// 게시글 보기 화면에서는 더 좋은 유저경험을 위해 모바일 화면시 왼쪽메뉴를 표시하지않음
+	.leftmenuactive
+		display: none!important
+	.post-back
+		display: block!important
 // a링크효과제거
 a:link , a:visited , a:hover{ 
  text-decoration: none;
@@ -294,7 +301,7 @@ span.sm-title
 	z-index 1
 	overflow hidden
 	&.open 
-		height 80% // 평소엔 안보이다가 open 클래스가 붙으면 높이 80%인 햄버거버튼메뉴가 보임
+		height 75% // 평소엔 안보이다가 open 클래스가 붙으면 높이 75%인 햄버거버튼메뉴가 보임
 		li 
 			animation fadeInRight 0.4s ease forwards
 			animation-delay 0.25s
@@ -346,7 +353,9 @@ span.sm-title
 					height 3px
 					background --color-white 
 					transition 0.35s
-
+.overlay-menu
+	position relative
+	top -4.5%
 /*****************
 * 오른쪽화면
 /****************/
@@ -489,6 +498,7 @@ span.sm-title
 .post-title
 	display: flex
 	justify-content: space-between
+	align-items: center
 .post-user-info
 	display: flex
 	justify-content: space-between
@@ -509,3 +519,15 @@ span.sm-title
 	font-weight: 600
 	color: --color-main-font
 	cursor initial
+.post-back
+	display: none
+	cursor: pointer
+	height: 1.5rem
+	width: 1.5rem
+.post-startDate-cont
+	display: flex
+	justify-content: space-between
+.post-startDate-cont span
+	color #868e96
+	cursor pointer
+	margin-right 0.25rem
