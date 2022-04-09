@@ -58,7 +58,10 @@
               >
               <label :for="item.value" />
             </div>
-            <span class="list-content ellipsis">
+            <span
+              class="list-content ellipsis"
+              @click="$router.push({name: 'post.index'})"
+            >
               {{ item.text }}
             </span>
           </div>

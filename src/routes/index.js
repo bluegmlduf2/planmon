@@ -41,11 +41,18 @@ export default [
     component: () => import('@/views/Alllist/Index.vue'),
   },
 
-  // 모든 일정
+  // 글쓰기 화면
   {
     path: '/write',
     name: 'write.index',
     component: () => import('@/views/Write/Index.vue'),
+  },
+
+  // 게시글 보기 화면
+  {
+    path: '/post',
+    name: 'post.index',
+    component: () => import('@/views/Post/Index.vue'),
   },
 
   // Account

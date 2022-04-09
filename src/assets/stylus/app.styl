@@ -14,10 +14,31 @@
 --color-white = white
 --color-dark-input = rgba(255, 255, 255, 0.1);
 --color-light-line = rgb(236, 238, 240);
+--color-main-font = #2c3e50;
 
-/*
-* 공통적용항목
-*/ 
+/*****************
+*  공통적용항목
+******************/ 
+//배경색상
+#app
+ background-color: #f8f9fa!important
+
+// 모바일화면(~768px까지 적용)
+@media (max-width: 768px)
+	//모바일화면에서 부트스트랩 container클래스의 여백제거
+	.container
+		max-width: 100%!important
+		padding: 0!important
+		right: 0!important
+	.default-right
+		border-radius: 0!important
+		width: 100%!important
+		margin: 0!important
+	.default-background
+		border-radius: 0!important
+	// 햄버거버튼위치
+	.button_container 
+		margin-left: 1rem!important
 // a링크효과제거
 a:link , a:visited , a:hover{ 
  text-decoration: none;
@@ -41,7 +62,7 @@ span.sm-title
 	margin-bottom 0.5rem
 
 // 컴포넌트 포커스시 부트스트랩 기본 효과제거
-.none-outline:focus:not(a)
+.form-control:focus:not(a)
 	outline: none!important
 	border-color: rgb(229, 233, 237)!important
 	box-shadow: 0 0 4px rgb(0 0 0/20%)!important
@@ -50,13 +71,76 @@ span.sm-title
 .flat-pickr
 	background-color: rgb(255,255,255)!important
 
-	
-/*
-* 레이아웃화면
-*/
+// 체크박스
+.list-checkbox {
+	position: relative;
+	height: 26px;
+	width: 26px;
+}
+.list-checkbox label {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 50%;
+	cursor: pointer;
+	height: 26px;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 26px;
+}
+// 추가모드버튼
+.list-checkbox.list-add label:after {
+	border: 2px solid #fff;
+	border-top: none;
+	border-right: none;
+	content: "";
+	height: 6px;
+	left: 7px;
+	opacity: 0;
+	position: absolute;
+	top: 8px;
+	transform: rotate(-45deg);
+	width: 12px;
+}
+// 삭제모드 버튼
+.list-checkbox.list-del label:after {
+	border: 2.5px solid #fff;
+	border-top: none;
+	border-right: none;
+	border-left: none;
+	content: "";
+	height: 6px;
+	left: 6px;
+	opacity: 0;
+	position: absolute;
+	top: 7px;
+	width: 12px;
+}
+.list-checkbox input[type="checkbox"] {
+	visibility: hidden;
+}
+// 추가모드버튼
+.list-checkbox.list-add input[type="checkbox"]:checked + label {
+	background-color: rgb(54, 217, 216);
+	border-color: rgb(54, 217, 216);
+	transition 0.25s
+}
+// 삭제모드버튼
+.list-checkbox.list-del input[type="checkbox"]:checked + label {
+	background-color: rgb(213, 63, 50);
+	border-color: rgb(213, 63, 50);
+	transition 0.25s
+}
+.list-checkbox input[type="checkbox"]:checked + label:after {
+	opacity: 1;
+	transition 0.35s
+}
+
+/*****************
+* 레이아웃화면 (왼쪽화면)
+******************/ 
 .default-body
     .default-background
-        margin: 8px
         color: white
         background: --color-dark
         border-radius: 15px
@@ -65,13 +149,13 @@ span.sm-title
             display: flex
             flex-direction: column /*수직 정렬*/
             align-items: center
-            justify-content: center
+            justify-content: flex-start
         .default-right
             display: flex
             flex-direction: column /*수직 정렬*/
             align-items: center
             justify-content: flex-start
-            color: black
+            color: --color-main-font
             background: white
             border-radius: 15px
             margin: 8px 0 8px 2.5%
@@ -164,8 +248,8 @@ span.sm-title
 // 햄버거 메뉴
 .button_container 
 	position absolute // default-left기준이됨
-	left: 4%
-	top: 5%
+	left: 3.5%
+	top: 1.5%
 	height 1.5rem
 	width 1.8rem
 	cursor pointer
@@ -202,7 +286,7 @@ span.sm-title
 	background-color --color-dark 
 	display flex
 	flex-direction column
-	justify-content center
+	justify-content flex-start
 	align-items center
 	width 90%
 	height 0%
@@ -210,7 +294,7 @@ span.sm-title
 	z-index 1
 	overflow hidden
 	&.open 
-		height 100% // 평소엔 안보이다가 open 클래스가 붙으면 높이 100%인 햄버거버튼메뉴가 보임
+		height 80% // 평소엔 안보이다가 open 클래스가 붙으면 높이 80%인 햄버거버튼메뉴가 보임
 		li 
 			animation fadeInRight 0.4s ease forwards
 			animation-delay 0.25s
@@ -263,9 +347,9 @@ span.sm-title
 					background --color-white 
 					transition 0.35s
 
-/*
+/*****************
 * 오른쪽화면
-*/ 
+/****************/
 .list-container
 	width 100%
 	.list-body-ul 
@@ -328,69 +412,6 @@ span.sm-title
 		width: 100%
 		height: 1.3rem
 		align-items: center
-		.list-checkbox {
-			position: relative;
-			height: 26px;
-			width: 26px;
-		}
-		.list-checkbox label {
-			background-color: #fff;
-			border: 1px solid #ccc;
-			border-radius: 50%;
-			cursor: pointer;
-			height: 26px;
-			left: 0;
-			position: absolute;
-			top: 0;
-			width: 26px;
-		}
-		// 추가모드버튼
-		.list-checkbox.list-add label:after {
-			border: 2px solid #fff;
-			border-top: none;
-			border-right: none;
-			content: "";
-			height: 6px;
-			left: 7px;
-			opacity: 0;
-			position: absolute;
-			top: 8px;
-			transform: rotate(-45deg);
-			width: 12px;
-		}
-		// 삭제모드 버튼
-		.list-checkbox.list-del label:after {
-			border: 2.5px solid #fff;
-			border-top: none;
-			border-right: none;
-			border-left: none;
-			content: "";
-			height: 6px;
-			left: 6px;
-			opacity: 0;
-			position: absolute;
-			top: 7px;
-			width: 12px;
-		}
-		.list-checkbox input[type="checkbox"] {
-			visibility: hidden;
-		}
-		// 추가모드버튼
-		.list-checkbox.list-add input[type="checkbox"]:checked + label {
-			background-color: rgb(54, 217, 216);
-			border-color: rgb(54, 217, 216);
-			transition 0.25s
-		}
-		// 삭제모드버튼
-		.list-checkbox.list-del input[type="checkbox"]:checked + label {
-			background-color: rgb(213, 63, 50);
-			border-color: rgb(213, 63, 50);
-			transition 0.25s
-		}
-		.list-checkbox input[type="checkbox"]:checked + label:after {
-			opacity: 1;
-			transition 0.35s
-		}
 		.list-content
 			cursor pointer
 			margin-left 0.7rem
@@ -432,6 +453,9 @@ span.sm-title
 .add-task:hover
 	color: white
 
+/*****************
+* 글쓰기 화면
+/*****************/
 // ToastUI Editor 설정
 #toastUiEditor
 	width: 100%
@@ -440,8 +464,6 @@ span.sm-title
 .toastui-editor-popup
 	margin-left 0!important // 모바일화면시 팝업위치가 안맞아서 강제설정
 	left: 0!important // 모바일화면시 팝업위치가 안맞아서 강제설정
-
-// 글쓰기 화면
 .condition-container
 	width: 100%
 .writeContButtons
@@ -456,3 +478,34 @@ span.sm-title
 	width: 2.5rem;
 	height: 3rem;
 	line-height: 1;
+
+/*****************
+* 게시글 보기 화면
+/*****************/
+.post-condition label
+	font-weight: 650
+.post-date
+	font-size: 0.96rem
+.post-title
+	display: flex
+	justify-content: space-between
+.post-user-info
+	display: flex
+	justify-content: space-between
+	color #868e96
+.post-update-buttons span 
+	cursor pointer
+.post-condition
+	padding: 0.5rem
+	background: #f2f2f2
+	border-radius: 8px
+	position: relative
+	color: #212529;
+	.form-group
+		margin-bottom :0.5rem!important
+	label
+		margin-bottom: 0rem!important
+.post-bold
+	font-weight: 600
+	color: --color-main-font
+	cursor initial
