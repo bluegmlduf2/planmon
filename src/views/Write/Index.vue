@@ -123,7 +123,7 @@
           <div class="writeContWrite">
             <button
               id="writeContPostBtn"
-              class="btn btn-purple add-task"
+              class="btn btn-purple btn-option"
             >
               <b>글쓰기</b>
             </button>

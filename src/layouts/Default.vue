@@ -64,7 +64,7 @@
     </div>
   </div> -->
   <div class="container default-body">
-    <div class="row justify-content-md-center default-background">
+    <div class="row justify-content-md-center default-background mt-md-1 mt-lg-1">
       <div
         :class="{leftmenuactive:isLeftMenuActive}"
         class="col-md-4 default-left p-5"

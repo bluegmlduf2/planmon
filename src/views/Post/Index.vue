@@ -40,9 +40,9 @@
               <span
                 class="post-bold mr-2"
               >사용자명</span>
-              <span>2022년 12월 13일</span>
+              <span class="font-light-color">2022년 12월 13일</span>
             </div>
-            <div class="post-update-buttons">
+            <div class="post-update-buttons font-light-color">
               <span class="mr-2">
                 수정
               </span>
@@ -84,7 +84,7 @@
             <h5>
               {{ true?'내 입국일 기준':'내 지정일 기준' }}
             </h5>
-            <span>일정시작일자 변경</span>
+            <span class="font-light-color">일정시작일자 변경</span>
           </div>
           <div class="row">
             <div class="form-group col-6">
@@ -113,8 +113,97 @@
           :initial-value="viewerText"
           height="400px"
         />
-        <div class="mt-3">
-          댓글창을 넣을 예정
+        <!-- 댓글영역 -->
+        <div class="mt-5 post-comment-write">
+          <div class="mb-2">
+            <h5>4건의 댓글</h5>
+          </div>
+          <!-- 댓글입력부 -->
+          <div>
+            <div>
+              <textarea
+                class="form-control input_textarea"
+                placeholder="댓글을 입력해주세요"
+                rows="3"
+              />
+            </div>
+            <div class="d-flex justify-content-end mt-2">
+              <button
+                class="btn btn-purple btn-option font-weight-bold"
+              >
+                댓글작성
+              </button>
+            </div>
+          </div>
+          <!-- 댓글표시부 -->
+          <div class="post-comment-view mt-3">
+            <!-- 댓글작성자정보 -->
+            <UserInfo />
+            <!-- 댓글표시 -->
+            <div class="mt-2 mb-2 pl-2">
+              <span>
+                {{ 'Lorem ipsum dolor sit amet consectetur adipisicing elit.'.repeat(5) }}
+              </span>
+            </div>
+            <!-- 대댓글 영역 -->
+            <div>
+              <div class="comment-reply-show">
+                <span v-if="true">
+                  <i
+                    class="fa fa-plus ml-1 mr-1"
+                    aria-hidden="true"
+                  />
+                  {{ true?'1건의 댓글':'댓글남기기' }}
+                </span>
+                <span v-else>
+                  <i
+                    class="fa fa-minus ml-1 mr-1"
+                    aria-hidden="true"
+                  />
+                  댓글접기
+                </span>
+              </div>
+              <!-- 대댓글 표시부 -->
+              <div class="comment-reply-cont">
+                <!-- 댓글작성자정보 -->
+                <UserInfo />
+                <!-- 댓글표시 -->
+                <div class="mt-2 mb-3 pl-2">
+                  <span>
+                    {{ 'Lorem ipsum dolor sit amet consectetur adipisicing elit.'.repeat(5) }}
+                  </span>
+                </div>
+                <!-- 대댓글 입력부 열기버튼-->
+                <div
+                  v-if="true"
+                  class="mt-3"
+                >
+                  <span class="btn btn-outline-secondary w-100">댓글작성</span>
+                </div>
+                <!-- 대댓글 입력부-->
+                <div
+                  v-else
+                  class="mt-4"
+                >
+                  <hr>
+                  <textarea
+                    class="form-control input_textarea"
+                    placeholder="댓글을 입력해주세요"
+                    rows="3"
+                  />
+                  <!-- 대댓글작성버튼 -->
+                  <div class="d-flex justify-content-end mt-2">
+                    <button class="btn mr-2">
+                      닫기
+                    </button>
+                    <button class="btn btn-purple btn-option btn-option-initial-size">
+                      등록
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -131,6 +220,7 @@
 
 // Basic Use - Covers most scenarios
 import VLayout from '@/layouts/Default.vue';
+import UserInfo from '@/components/UserInfo.vue';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/vue-editor';
 import post from '@/assets/js/post';
@@ -146,6 +236,7 @@ export default {
   components: {
     VLayout,
     Viewer,
+    UserInfo,
   },
   data() {
     return {

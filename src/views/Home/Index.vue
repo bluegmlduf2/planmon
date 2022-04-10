@@ -8,7 +8,6 @@
       <v-list :param-list="todoList">
         <span
           slot="header"
-          @click="$router.push({name: 'todolist.index'})"
         >
           다가오는 일정
         </span>
@@ -29,7 +28,6 @@
       <v-list :param-list="recommendedList">
         <span
           slot="header"
-          @click="$router.push({name: 'reclist.index'})"
         >
           추천 일정
         </span>
@@ -47,10 +45,12 @@
         </button>
       </div>
       <button
-        class="btn btn-purple add-task home-write-position"
+        class="btn btn-purple btn-option home-write-position"
         @click="$router.push({name: 'write.index'})"
       >
-        글쓰기
+        <b>
+          글쓰기
+        </b>
       </button>
     </div>
   </v-layout>

@@ -142,6 +142,33 @@ span.sm-title
 	opacity: 1;
 	transition 0.35s
 }
+// 부트스트랩 텍스트에리어 초기화
+.input_textarea {
+    resize: none;
+    border: 1px solid #e9ecef;
+    line-height: 1.75;
+}
+// 프로필 이미지 부분
+.profile-img
+	height: 2.5rem
+	width: 2.5rem
+	display: block
+	border-radius: 50%
+	-o-object-fit: cover
+	object-fit: cover;
+// p태그의 기본 마진을 초기화
+p
+	margin: 0!important
+// 연한회색의 폰트칼라
+.font-light-color
+	color #868e96
+// 포인터 커서
+.cursor-pointer
+	cursor pointer
+// 부트스트랩 버튼 hover 색변경
+.btn-outline-secondary:hover
+	background-color: #99a5b1!important
+	border-color: #99a5b1!important
 
 /*****************
 * 레이아웃화면 (왼쪽화면)
@@ -255,8 +282,8 @@ span.sm-title
 // 햄버거 메뉴
 .button_container 
 	position absolute // default-left기준이됨
-	left: 3.5%
-	top: 3.25%
+	left: 1rem
+	top: 1.5rem
 	height 1.5rem
 	width 1.8rem
 	cursor pointer
@@ -353,9 +380,6 @@ span.sm-title
 					height 3px
 					background --color-white 
 					transition 0.35s
-.overlay-menu
-	position relative
-	top -4.5%
 /*****************
 * 오른쪽화면
 /****************/
@@ -441,8 +465,8 @@ span.sm-title
 	font-weight 500
 .add-padding-bottom
 	padding-bottom: 5rem!important 
-.add-task
-	font-weight: bold
+.btn-option
+	font-weight: 500
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -453,13 +477,16 @@ span.sm-title
 	background: rgb(137, 79, 198);
 	color: white
 	border: none;
-	border-radius: 15px;
+	border-radius: 10px;
 	box-shadow: 0 1.4px 2.8px rgb(137 79 198 / 4%)
+.btn-option-initial-size
+	width initial!important
+	height: initial!important
 .home-write-position
 	position: absolute
 	bottom: 20px;
 	right: 26px;
-.add-task:hover
+.btn-option:hover
 	color: white
 
 /*****************
@@ -502,7 +529,6 @@ span.sm-title
 .post-user-info
 	display: flex
 	justify-content: space-between
-	color #868e96
 .post-update-buttons span 
 	cursor pointer
 .post-condition
@@ -528,6 +554,18 @@ span.sm-title
 	display: flex
 	justify-content: space-between
 .post-startDate-cont span
-	color #868e96
 	cursor pointer
 	margin-right 0.25rem
+
+/*****************
+* 댓글 화면
+/*****************/
+.comment-reply-show span
+	cursor pointer
+	color: #2468a2
+.comment-reply-cont
+	border: 1px solid rgba(0,0,0,.02)
+	background-color: rgba(0,0,0,.016)
+	padding: 1.5rem
+	border-radius: 4px
+	margin-top: 1.3125rem
