@@ -93,12 +93,17 @@
               </li>
               <li>
                 <router-link to="#">
-                  About
+                  내가 작성한 일정
                 </router-link>
               </li>
               <li>
                 <router-link to="#">
-                  News
+                  설정
+                </router-link>
+              </li>
+              <li>
+                <router-link to="#">
+                  {{ true?"로그인":"로그아웃" }}
                 </router-link>
               </li>
             </ul>

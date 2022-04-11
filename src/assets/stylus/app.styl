@@ -346,6 +346,7 @@ p
 	overflow hidden
 	&.open 
 		height 76.5% // 평소엔 안보이다가 open 클래스가 붙으면 높이 75%인 햄버거버튼메뉴가 보임
+		overflow: visible
 		li 
 			animation fadeInRight 0.4s ease forwards
 			animation-delay 0.25s
@@ -397,6 +398,11 @@ p
 					height 3px
 					background --color-white 
 					transition 0.35s
+// 모바일화면에서 NAV 메뉴가 모두 표시되도록 설정
+@media (max-width: 768px)
+	.overlay-menu
+		position absolute
+		top -50%
 /*****************
 * 오른쪽화면
 /****************/
