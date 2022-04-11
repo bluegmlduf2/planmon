@@ -169,7 +169,24 @@ p
 .btn-outline-secondary:hover
 	background-color: #99a5b1!important
 	border-color: #99a5b1!important
-
+// 슬라이드메뉴 공통부분
+.list-menu-body
+	cursor: pointer
+	position relative
+.list-menu
+	position absolute
+	background: rgb(235, 235, 235)
+	border: none;
+	border-radius: 8px;
+	text-align: center;
+	margin: auto;
+	height: 0px
+	overflow: hidden;
+	transition: height .5s ease-in-out
+	padding 0
+	z-index 1
+.list-menu > li:hover
+	background: rgb(225, 225, 225)
 /*****************
 * 레이아웃화면 (왼쪽화면)
 ******************/ 
@@ -417,28 +434,15 @@ p
 		i.fa-ellipsis-h
 			font-size 1.25rem
 			color: rgb(133, 145, 159);
-		.list-menu-body
-			cursor: pointer
-			position relative
-		.list-menu
-			position absolute
+		// 오른쪽 슬라이드메뉴 위치와 크기지정
+		.list-menu.list-option-home
 			top: 1.3rem
 			right: 0
-			background: rgb(235, 235, 235)
-			border: none;
 			width: 150px;
-			border-radius: 8px;
 			line-height: 35px;
-			text-align: center;
-			margin: auto;
-			height: 0px
-			overflow: hidden;
-			transition: height .5s ease-in-out
-			padding 0
-		.list-menu.open
+		// 오른쪽 슬라이드메뉴 열렸을때 크지정
+		.list-menu.list-option-home.open
 			height: 106px
-		.list-menu > li:hover
-			background: rgb(225, 225, 225)
 	.list-item
 		display: flex;
 		margin: 1.25rem 0
@@ -556,7 +560,21 @@ p
 .post-startDate-cont span
 	cursor pointer
 	margin-right 0.25rem
-
+// 오른쪽 슬라이드메뉴 위치와 크기지정
+.list-menu.list-option-post
+	top: 2rem
+	right: 0.5rem
+	padding: 0 1rem;
+	line-height: 35px;
+	outline: none
+	border-color: #e5e9ed
+	-webkit-box-shadow: 0 0 10px #000
+	box-shadow: 0 0 10px #000
+// 오른쪽 슬라이드메뉴 열렸을때 크지정
+.list-menu.list-option-post.open
+	height: 216px
+.list-menu.list-option-post > li:hover
+	background: none
 /*****************
 * 댓글 화면
 /*****************/

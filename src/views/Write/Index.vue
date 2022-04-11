@@ -26,13 +26,11 @@
         </div>
         <div class="row">
           <div class="form-group col-md-4">
-            <flat-pickr
+            <Flatpickr
               id="entryStartDate"
-              :config="config"
-              value=""
-              class="form-control flat-pickr"
-              :class="{ 'is-invalid': validation.startDate }"
+              :input-date="entryDate"
               placeholder="시작예정일을 선택해주세요"
+              :class="{ 'is-invalid': validation.startDate }"
               aria-describedby="validationStartDate"
             />
             <small
@@ -48,13 +46,11 @@
             </div>
           </div>
           <div class="form-group col-md-4">
-            <flat-pickr
+            <Flatpickr
               id="entryEndDate"
-              :config="config"
-              value=""
-              class="form-control flat-pickr"
-              :class="{ 'is-invalid': validation.endDate }"
+              :input-date="entryDate"
               placeholder="종료예정일을 선택해주세요"
+              :class="{ 'is-invalid': validation.endDate }"
               aria-describedby="validationEndDate"
             />
             <small
@@ -147,8 +143,8 @@ import VLayout from '@/layouts/Default.vue';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
 import { Editor } from '@toast-ui/vue-editor';
-import korean from 'flatpickr/dist/l10n/ko';
 import countriesList from '@/assets/js/countries';
+import Flatpickr from '@/components/Flatpickr.vue';
 
 export default {
   /**
@@ -161,6 +157,7 @@ export default {
   components: {
     VLayout,
     Editor,
+    Flatpickr,
   },
   data() {
     return {
@@ -180,14 +177,6 @@ export default {
         ],
         placeholder: '당신의 일정을 공유해주세요..',
       },
-      config: {
-        wrap: true,
-        altFormat: 'Y년 M J',
-        altInput: true,
-        dateFormat: 'Y-m-d',
-        locale: korean.ko,
-        disableMobile: 'true',
-      },
       validation: {
         title: false,
         startDate: false,
@@ -206,6 +195,7 @@ export default {
     initEntyDate() {
       const todayDate = new Date().toISOString().slice(0, 10); // 오늘날짜를 yyyy-mm-dd 형식으로 받는다
       this.entryDate = todayDate;
+      this.entryDate = ''; // TODO 삭제예정
     },
     // 국가 초기화
     initCountries() {

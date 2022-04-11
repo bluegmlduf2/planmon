@@ -31,6 +31,7 @@
         >
           추천 일정
         </span>
+        <!-- 슬롯을 공백으로 보내서 일정삭제버튼을 표시안하는 trick -->
         <span slot="deleteList" />
       </v-list>
       <div

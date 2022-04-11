@@ -84,7 +84,44 @@
             <h5>
               {{ true?'내 입국일 기준':'내 지정일 기준' }}
             </h5>
-            <span class="font-light-color">일정시작일자 변경</span>
+            <!-- 슬라이드 메뉴 -->
+            <span
+              class="font-light-color list-menu-body"
+              @click="toggleMenuActive=!toggleMenuActive"
+            >일정시작일자 변경</span>
+            <ul
+              class="list-menu list-option-post"
+              :class="[toggleMenuActive?'open':'']"
+            >
+              <li class="pt-2 pl-1 text-left">
+                <label for="appointStartDate">일정시작일 지정</label>
+                <Flatpickr
+                  id="appointStartDate"
+                  :input-date="entryDate"
+                  placeholder="일정시작일을 선택해주세요"
+                />
+              </li>
+              <li class="pt-2 pl-1 text-left">
+                <label for="appointEndDate">일정종료일 지정</label>
+                <Flatpickr
+                  id="appointEndDate"
+                  :input-date="entryDate"
+                  placeholder="일정종료일을 선택해주세요"
+                />
+              </li>
+              <li class="d-flex flex-row-reverse pt-2 pb-2">
+                <button
+                  class="btn btn-outline-secondary"
+                  style="border-radius:10px"
+                  @click="toggleMenuActive=!toggleMenuActive"
+                >
+                  닫기
+                </button>
+                <button class="btn btn-purple btn-option btn-option-initial-size mr-2">
+                  적용
+                </button>
+              </li>
+            </ul>
           </div>
           <div class="row">
             <div class="form-group col-6">
@@ -224,6 +261,7 @@ import UserInfo from '@/components/UserInfo.vue';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/vue-editor';
 import post from '@/assets/js/post';
+import Flatpickr from '@/components/Flatpickr.vue';
 
 export default {
   /**
@@ -237,12 +275,15 @@ export default {
     VLayout,
     Viewer,
     UserInfo,
+    Flatpickr,
   },
   data() {
     return {
       countries: [], // 국가
       selectedCountry: null, // 선택된 국가
       viewerText: '',
+      toggleMenuActive: false, // 슬라이드 토글 메뉴 활성화
+      deleteButtonActive: false, // 삭제상태 활성화
       validation: {
         title: false,
         startDate: false,
@@ -252,6 +293,7 @@ export default {
       },
     };
   },
+
   created() {
     this.initEntyDate(); // 입국날짜 초기화
     this.initPost(); // 게시글 초기화

@@ -12,7 +12,7 @@
           @click="toggleMenuActive=!toggleMenuActive"
         />
         <ul
-          class="list-menu"
+          class="list-menu list-option-home"
           :class="[toggleMenuActive?'open':'']"
         >
           <li>등록일자순 정렬</li>

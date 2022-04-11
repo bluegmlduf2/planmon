@@ -157,11 +157,8 @@
           <!-- 검색 조건 입국날짜 선택 -->
           <span class="sm-title">입국날짜</span>
           <div class="input-group entry-date-form">
-            <flat-pickr
-              id="entryDate"
-              v-model="entryDate"
-              :config="config"
-              class="form-control flat-pickr"
+            <Flatpickr
+              :input-date="entryDate"
               placeholder="입국날짜를 선택해주세요"
             />
           </div>
@@ -257,8 +254,8 @@
  * This way the app stays clean.
  */
 // eslint-disable-next-line import/extensions
-import korean from 'flatpickr/dist/l10n/ko';
 import countriesList from '@/assets/js/countries';
+import Flatpickr from '@/components/Flatpickr.vue';
 
 export default {
   /**
@@ -268,6 +265,9 @@ export default {
   /**
    * The properties that the component accepts.
    */
+  components: {
+    Flatpickr,
+  },
   props: {
     // 왼쪽메뉴 표시여부
     isLeftMenuActive: {
@@ -288,14 +288,6 @@ export default {
       entryDate: null, // 입국날짜
       countries: [], // 국가
       selectedCountry: null, // 선택된 국가
-      config: {
-        wrap: true,
-        altFormat: 'Y년 M J',
-        altInput: true,
-        dateFormat: 'Y-m-d',
-        locale: korean.ko,
-        disableMobile: 'true', // flatpicker모바일모드끄기
-      },
     };
   },
   created() {
