@@ -64,6 +64,10 @@
     </div>
   </div> -->
   <div class="container default-body">
+    <Login
+      :is-login="isLoginActive"
+      @closeLogin="isLoginActive=false"
+    />
     <div class="row justify-content-md-center default-background mt-md-1 mt-lg-1">
       <div
         :class="{leftmenuactive:isLeftMenuActive}"
@@ -92,9 +96,12 @@
                 </router-link>
               </li>
               <li>
-                <router-link to="#">
-                  내가 작성한 일정
-                </router-link>
+                <a
+                  href="#"
+                  @click="isLoginActive = true"
+                >
+                  {{ true?"로그인":"로그아웃" }}
+                </a>
               </li>
               <li>
                 <router-link to="#">
@@ -103,7 +110,7 @@
               </li>
               <li>
                 <router-link to="#">
-                  {{ true?"로그인":"로그아웃" }}
+                  내가 작성한 일정
                 </router-link>
               </li>
             </ul>
@@ -260,6 +267,7 @@
  */
 // eslint-disable-next-line import/extensions
 import countriesList from '@/assets/js/countries';
+import Login from '@/components/Login.vue';
 import Flatpickr from '@/components/Flatpickr.vue';
 
 export default {
@@ -271,6 +279,7 @@ export default {
    * The properties that the component accepts.
    */
   components: {
+    Login,
     Flatpickr,
   },
   props: {
@@ -288,6 +297,7 @@ export default {
   data() {
     return {
       menuCollapsed: false,
+      isLoginActive: false, // 로그인화면 활성화유무
       isMenuActive: false, // NAV메뉴 활성화유무
       isConditionActive: false, // 나의 일정 정보 표시 유무
       entryDate: null, // 입국날짜
