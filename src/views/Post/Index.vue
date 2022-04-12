@@ -6,14 +6,21 @@
     >
       <div class="condition-container">
         <!-- 모바일화면용 뒤로가기버튼 -->
-        <div class="row mb-3">
-          <div class="col-md-12 post-back ml-2">
-            <span @click="$router.push({name: 'home.index'})">
-              <i
-                class="fa fa-chevron-left"
-                aria-hidden="true"
-              />
-            </span>
+        <div class="d-block d-sm-block d-md-none d-lg-none d-xl-none">
+          <div class="row mb-3 d-flex justify-content-between align-items-center">
+            <div class="post-back ml-3">
+              <span @click="$router.push({name: 'home.index'})">
+                <i
+                  class="fa fa-chevron-left"
+                  aria-hidden="true"
+                />
+              </span>
+            </div>
+            <div class="mr-3">
+              <button class="btn btn-sm btn-outline-secondary">
+                로그인
+              </button>
+            </div>
           </div>
         </div>
         <!-- 게시글 제목 -->
