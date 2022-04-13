@@ -267,7 +267,7 @@
  */
 // eslint-disable-next-line import/extensions
 import countriesList from '@/assets/js/countries';
-import Login from '@/components/Login.vue';
+import Login from '@/views/Login/Index.vue';
 import Flatpickr from '@/components/Flatpickr.vue';
 
 export default {
