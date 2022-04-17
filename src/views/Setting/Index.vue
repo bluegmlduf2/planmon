@@ -18,7 +18,7 @@
       </div>
       <div class="user-image-setting d-flex flex-column justify-content-center align-items-center mb-4">
         <img
-          class="profile-img mb-4"
+          class="profile-img mb-3"
           src="https://placeimg.com/640/480/any"
         >
         <button
@@ -29,7 +29,7 @@
         </button>
         <button
           type="button"
-          class="btn btn-light mb-4 w-100"
+          class="btn btn-light mb-2 w-100"
         >
           프로필이미지 삭제
         </button>
