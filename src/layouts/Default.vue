@@ -104,7 +104,7 @@
                 </a>
               </li>
               <li>
-                <router-link to="#">
+                <router-link :to="{ name: 'setting.index' }">
                   설정
                 </router-link>
               </li>

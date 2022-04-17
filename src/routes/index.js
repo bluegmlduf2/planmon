@@ -55,6 +55,13 @@ export default [
     component: () => import('@/views/Post/Index.vue'),
   },
 
+  // 환경설정
+  {
+    path: '/setting',
+    name: 'setting.index',
+    component: () => import('@/views/Setting/Index.vue'),
+  },
+
   // Account
   {
     path: '/account',
@@ -64,18 +71,6 @@ export default [
     // If the user needs to be authenticated to view this page.
     meta: {
       auth: true,
-    },
-  },
-
-  // Login
-  {
-    path: '/login',
-    name: 'login.index',
-    component: () => import('@/views/Login/Index.vue'),
-
-    // If the user needs to be a guest to view this page.
-    meta: {
-      guest: true,
     },
   },
 

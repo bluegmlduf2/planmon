@@ -14,8 +14,8 @@
         </h5>
       </div>
       <div class="login-title mt-4 mb-2">
-        <h2>로그인</h2>
-        <p>이메일로 로그인합니다</p>
+        <h2>{{ isSignup ? "회원등록":"로그인" }}</h2>
+        <p>이메일로 {{ isSignup ? "회원등록":"로그인" }}합니다</p>
       </div>
 
       <div class="form-group">
@@ -49,15 +49,67 @@
           입력하신 비밀번호를 확인해주세요
         </div>
       </div>
+      <div
+        v-if="isSignup"
+        class="form-group"
+      >
+        <input
+          id="loginPassWordReInput"
+          type="password"
+          placeholder="비밀번호를 재입력해주세요"
+          autocomplete="current-password"
+          class="form-control"
+          :class="{ 'is-invalid': false }"
+        >
+        <div
+          class="invalid-feedback"
+          for="loginPassWordReInput"
+        >
+          입력하신 비밀번호를 확인해주세요
+        </div>
+      </div>
+      <div
+        v-if="isSignup"
+        class="input-group mb-3"
+      >
+        <input
+          id="emailValidInput"
+          type="text"
+          class="form-control"
+          :class="{ 'is-invalid': false }"
+          placeholder="이메일로 전송된 인증번호를 입력해주세요"
+          aria-label="emailValidButton"
+          aria-describedby="emailValidButton"
+        >
+        <div class="input-group-append">
+          <button
+            id="emailValidButton"
+            class="btn btn-outline-secondary btn-sm"
+            type="button"
+          >
+            {{ isMailed?"인증":"전송" }}
+          </button>
+        </div>
+        <div
+          class="invalid-feedback"
+          for="emailValidInput"
+        >
+          입력하신 인증번호를 확인해주세요
+        </div>
+      </div>
+
       <button
-        type="submit"
+        type="button"
         class="btn btn-primary w-100"
       >
-        로그인
+        {{ isSignup ? "회원등록":"로그인" }}
       </button>
       <div class="login-footer">
-        <span>아직 회원이 아니신분은 </span>
-        <a href="#">여기를 클릭해주세요</a>
+        <span>{{ isSignup ? "로그인화면은":"아직 회원이 아니신분은" }}</span>
+        <span
+          class="clickable"
+          @click="changeView()"
+        > 여기를 클릭해주세요</span>
       </div>
     </div>
   </div>
@@ -84,7 +136,8 @@ export default {
 
   data() {
     return {
-      // toggleMenuActive: false, // 슬라이드 토글 메뉴 활성화
+      isSignup: false, // 회원등록 여부
+      isMailed: false, // 확인메일전송 여부
       // deleteButtonActive: false, // 삭제상태 활성화
     };
   },
@@ -96,8 +149,14 @@ export default {
     },
   },
   methods: {
+    changeView() {
+      this.isMailed = false;
+      this.isSignup = !this.isSignup;
+    },
     // 로그인화면 닫기 (자식 컴포넌트에서 props를 변경하지 못해서 부모에게 변경요청)
     closeLogin() {
+      this.isSignup = false;
+      this.isMailed = false;
       this.$emit('closeLogin');
     },
   },
