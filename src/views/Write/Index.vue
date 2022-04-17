@@ -1,5 +1,5 @@
 <template>
-  <v-layout>
+  <v-layout :is-left-menu-active="true">
     <div
       slot="default-right-body"
       class="col-md-8 default-right p-4"

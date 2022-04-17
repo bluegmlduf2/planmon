@@ -88,7 +88,9 @@
           class="overlay"
           :class="[isMenuActive?'open':'']"
         >
-          <div class="overlay-menu">
+          <div
+            :class="[isConditionActive?'':'overlay-menu']"
+          >
             <ul>
               <li>
                 <router-link :to="{ name: 'home.index' }">
