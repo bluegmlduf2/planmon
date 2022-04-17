@@ -25,7 +25,7 @@
           :class="[isMenuActive?'open':'']"
         >
           <div
-            :class="[isConditionActive?'':'overlay-menu']"
+            :class="{'overlay-menu':!isConditionActive&&TODOauthenticated}"
           >
             <ul>
               <li>
@@ -41,17 +41,17 @@
                   {{ true?"로그인":"로그아웃" }}
                 </a>
               </li>
-              <li>
+              <li v-if="TODOauthenticated">
                 <router-link :to="{ name: 'setting.index' }">
                   설정
                 </router-link>
               </li>
-              <li>
+              <li v-if="TODOauthenticated">
                 <router-link to="#">
                   글쓰기
                 </router-link>
               </li>
-              <li>
+              <li v-if="TODOauthenticated">
                 <router-link to="#">
                   내가 작성한 일정
                 </router-link>
@@ -240,6 +240,7 @@ export default {
   data() {
     return {
       menuCollapsed: false,
+      TODOauthenticated: true, // TODO 로그인상태유무 임시
       isLoginActive: false, // 로그인화면 활성화유무
       isMenuActive: false, // NAV메뉴 활성화유무
       isConditionActive: false, // 나의 일정 정보 표시 유무
