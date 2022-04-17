@@ -1,68 +1,4 @@
 <template>
-  <!-- <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <router-link
-        :to="{ name: 'home.index' }"
-        class="navbar-brand"
-      >
-        Vue 2 Boilerplate
-      </router-link>
-
-      <button
-        class="navbar-toggler"
-        type="button"
-        @click="toggleMenu"
-      >
-        <span class="navbar-toggler-icon" />
-      </button>
-
-      <div
-        :class="{ show : menuCollapsed}"
-        class="collapse navbar-collapse"
-      >
-        <ul class="navbar-nav mr-auto">
-          <router-link
-            :to="{ name: 'home.index' }"
-            active-class="active"
-            class="nav-item"
-            tag="li"
-          >
-            <a class="nav-link">
-              Home
-            </a>
-          </router-link>
-          <router-link
-            :to="{ name: 'account.index' }"
-            active-class="active"
-            class="nav-item"
-            tag="li"
-          >
-            <a class="nav-link">
-              Account
-            </a>
-          </router-link>
-        </ul>
-        <span class="navbar-text">
-          <a
-            class="btn btn-secondary"
-            href="#"
-            @click.prevent="logout"
-          >
-            <i class="fa fa-sign-out" />
-          </a>
-        </span>
-      </div>
-    </nav>
-
-    <div class="container pt-4">
-      <div class="row">
-        <div class="col col-12">
-          Content will be placed here
-          <slot />
-        </div>
-      </div>
-    </div>
-  </div> -->
   <div class="container default-body">
     <Login
       :is-login="isLoginActive"
@@ -70,7 +6,7 @@
     />
     <div class="row justify-content-md-center default-background mt-md-1 mt-lg-1">
       <div
-        :class="{leftmenuactive:isLeftMenuActive}"
+        :class="{leftmenuactive:isLeftMenuActive,'mb-5':isMenuActive}"
         class="col-md-4 default-left p-5"
       >
         <!-- 햄버거버튼 -->
@@ -108,6 +44,11 @@
               <li>
                 <router-link :to="{ name: 'setting.index' }">
                   설정
+                </router-link>
+              </li>
+              <li>
+                <router-link to="#">
+                  글쓰기
                 </router-link>
               </li>
               <li>
