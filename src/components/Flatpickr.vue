@@ -1,11 +1,21 @@
 <template>
-  <flat-pickr
-    id="entryDate"
-    v-model="inputDateValue"
-    :config="config"
-    class="form-control flat-pickr"
-    :placeholder="placeholderValue"
-  />
+  <div class="input-group">
+    <flat-pickr
+      id="entryDate"
+      v-model="inputDateValue"
+      :config="config"
+      class="form-control flat-pickr"
+      :placeholder="placeholderValue"
+    />
+    <button
+      type="button"
+      class="btn bg-transparent"
+      style="margin-left: -40px; z-index: 100; color:#7b8694"
+      data-clear
+    >
+      <i class="fa fa-times" />
+    </button>
+  </div>
 </template>
 
 <script>

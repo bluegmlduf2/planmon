@@ -25,47 +25,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="form-group col-md-4">
-            <Flatpickr
-              id="entryStartDate"
-              :input-date="entryDate"
-              placeholder="시작예정일을 선택해주세요"
-              :class="{ 'is-invalid': validation.startDate }"
-              aria-describedby="validationStartDate"
-            />
-            <small
-              v-if="!validation.startDate"
-              class="form-text text-muted"
-            >입국전 일정 등록시 미선택</small>
-            <div
-              v-if="validation.startDate"
-              id="validationStartDate"
-              class="invalid-feedback"
-            >
-              시작예정일을 선택해주세요
-            </div>
-          </div>
-          <div class="form-group col-md-4">
-            <Flatpickr
-              id="entryEndDate"
-              :input-date="entryDate"
-              placeholder="종료예정일을 선택해주세요"
-              :class="{ 'is-invalid': validation.endDate }"
-              aria-describedby="validationEndDate"
-            />
-            <small
-              v-if="!validation.endDate"
-              class="form-text text-muted"
-            >입국후 일정 등록시 미선택</small>
-            <div
-              v-if="validation.endDate"
-              id="validationEndDate"
-              class="invalid-feedback"
-            >
-              종료예정일을 선택해주세요
-            </div>
-          </div>
-          <div class="form-group col-md-4">
+          <div class="form-group col-md-6">
             <select
               id="exampleFormControlSelect1"
               v-model="selectedCountry"
@@ -95,6 +55,80 @@
               class="invalid-feedback"
             >
               국가를 선택해주세요
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <select
+              id="exampleFormControlSelect1"
+              v-model="selectedStayStatus"
+              class="form-control"
+              :class="{ 'is-invalid': validation.stayStatus }"
+              aria-describedby="validationStayStatus"
+              required
+            >
+              <option
+                value="null"
+                selected
+                disabled
+              >
+                체류상태를 선택해주세요
+              </option>
+              <option
+                v-for="e in stayStatus"
+                :key="e.value"
+                :value="e.value"
+              >
+                {{ e.text }}
+              </option>
+            </select>
+            <div
+              v-if="validation.stayStatus"
+              id="validationStayStatus"
+              class="invalid-feedback"
+            >
+              체류상태를 선택해주세요
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <Flatpickr
+              id="entryStartDate"
+              :input-date="entryDate"
+              placeholder="시작예정일을 선택해주세요"
+              :class="{ 'is-invalid': validation.startDate }"
+              aria-describedby="validationStartDate"
+            />
+            <small
+              v-if="!validation.startDate"
+              class="form-text text-muted"
+            >체류중인 경우에만 선택</small>
+            <div
+              v-if="validation.startDate"
+              id="validationStartDate"
+              class="invalid-feedback"
+            >
+              시작예정일을 선택해주세요
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <Flatpickr
+              id="entryEndDate"
+              :input-date="entryDate"
+              placeholder="종료예정일을 선택해주세요"
+              :class="{ 'is-invalid': validation.endDate }"
+              aria-describedby="validationEndDate"
+            />
+            <small
+              v-if="!validation.endDate"
+              class="form-text text-muted"
+            >체류중인 경우에만 선택</small>
+            <div
+              v-if="validation.endDate"
+              id="validationEndDate"
+              class="invalid-feedback"
+            >
+              종료예정일을 선택해주세요
             </div>
           </div>
         </div>
@@ -144,6 +178,7 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
 import { Editor } from '@toast-ui/vue-editor';
 import countriesList from '@/assets/js/countries';
+import stayStatusList from '@/assets/js/stayStatus';
 import Flatpickr from '@/components/Flatpickr.vue';
 
 export default {
@@ -162,7 +197,9 @@ export default {
   data() {
     return {
       countries: [], // 국가
+      stayStatus: [], // 체류상태
       selectedCountry: null, // 선택된 국가
+      selectedStayStatus: null, // 선택된 체류상태 (기본 체류중)
       editorText: '',
       editorOptions: {
         minHeight: '200px',
@@ -182,6 +219,7 @@ export default {
         startDate: false,
         endDate: false,
         country: false,
+        stayStatus: false,
         content: false,
       },
     };
@@ -189,17 +227,22 @@ export default {
   created() {
     this.initEntyDate(); // 입국날짜 초기화
     this.initCountries(); // 국가 초기화
+    this.initStayStatus(); // 체류상태 초기화
   },
   methods: {
     // 입국날짜 초기화
     initEntyDate() {
-      const todayDate = new Date().toISOString().slice(0, 10); // 오늘날짜를 yyyy-mm-dd 형식으로 받는다
-      this.entryDate = todayDate;
+      // const todayDate = new Date().toISOString().slice(0, 10); // 오늘날짜를 yyyy-mm-dd 형식으로 받는다
+      // this.entryDate = todayDate;
       this.entryDate = ''; // TODO 삭제예정
     },
     // 국가 초기화
     initCountries() {
       this.countries = countriesList;
+    },
+    // 체류상태 초기화
+    initStayStatus() {
+      this.stayStatus = stayStatusList;
     },
   },
 };

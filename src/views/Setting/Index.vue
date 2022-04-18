@@ -34,7 +34,7 @@
           프로필이미지 삭제
         </button>
       </div>
-      <div class="user-input-setting d-flex flex-column justify-content-start align-items-start mb-4">
+      <div class="user-input-setting d-flex flex-column justify-content-start align-items-center mb-4 p-1">
         <div class="form-group row">
           <label
             for="inputEmail3"
@@ -80,7 +80,7 @@
             class="col-4 col-form-label lb-08"
           >새비밀번호ㅤ입력
           </label>
-          <div class="col-6 mb-3">
+          <div class="col-6">
             <input
               id=""
               type="password"
@@ -88,12 +88,12 @@
             >
           </div>
         </div>
-        <div class="row mb-2">
+        <div class="row mb-4">
           <label
             class="col-4 col-form-label lb-08"
           >새비밀번호 재입력
           </label>
-          <div class="col-6 mb-3">
+          <div class="col-6">
             <input
               id=""
               type="password"
@@ -101,15 +101,12 @@
             >
           </div>
         </div>
-        <div class="d-flex justify-content-between align-items-center w-100">
-          <span>
-            탈퇴처리
-          </span>
+        <div class="w-100">
           <button
             type="button"
-            class="btn btn-outline-danger"
+            class="btn btn-outline-danger w-100"
           >
-            탈퇴
+            회원탈퇴
           </button>
         </div>
       </div>

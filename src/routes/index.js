@@ -41,6 +41,13 @@ export default [
     component: () => import('@/views/Alllist/Index.vue'),
   },
 
+  // 내 일정
+  {
+    path: '/mylist',
+    name: 'mylist.index',
+    component: () => import('@/views/Mylist/Index.vue'),
+  },
+
   // 글쓰기 화면
   {
     path: '/write',

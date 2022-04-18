@@ -69,8 +69,8 @@ span.sm-title
 // 컴포넌트 포커스시 부트스트랩 기본 효과제거
 .form-control:focus:not(a)
 	outline: none!important
-	border-color: rgb(229, 233, 237)!important
-	box-shadow: 0 0 4px rgb(0 0 0/20%)!important
+	border-color: transparent!important
+	box-shadow: 0 0 5px gray!important
 
 // 플랫피커 배경색 초기화
 .flat-pickr
@@ -154,6 +154,9 @@ span.sm-title
 	border-radius: 50%
 	-o-object-fit: cover
 	object-fit: cover;
+// select 태그의 기본 폰트색상 초기화
+select 
+	color #6c757d !important
 // p태그의 기본 마진을 초기화
 p
 	margin: 0!important
@@ -186,6 +189,7 @@ p
 .list-menu > li:hover
 	background: rgb(225, 225, 225)
 
+
 /*****************
 * 로그인화면
 ******************/ 
@@ -197,7 +201,7 @@ p
 	right: 0;
 	bottom: 0;
 	width: 100%;
-	z-index: 2;
+	z-index: 300;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -263,6 +267,7 @@ p
 			margin 1.25rem 0
 		.default-welcome
 			width: 95%
+			margin-bottom 0.4rem
 			h1
 				padding-left 0.7rem
 			p
@@ -336,6 +341,9 @@ p
 				a:hover
 					transition color 0.25s ease-out 100ms
 					color #5579ee!important
+		.entry-date-form-small
+			color: #767988
+			font-size 0.8rem
 					
 // 햄버거 메뉴
 .button_container 
@@ -383,10 +391,10 @@ p
 	width 90%
 	height 0%
 	border-radius: 15px;
-	z-index 1
+	z-index 200
 	overflow hidden
 	&.open 
-		height 76.5% // 평소엔 안보이다가 open 클래스가 붙으면 높이 75%인 햄버거버튼메뉴가 보임
+		height 80.5% // 평소엔 안보이다가 open 클래스가 붙으면 높이 75%인 햄버거버튼메뉴가 보임
 		overflow: visible
 		li 
 			animation fadeInRight 0.4s ease forwards

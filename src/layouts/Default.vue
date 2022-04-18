@@ -47,12 +47,12 @@
                 </router-link>
               </li>
               <li v-if="TODOauthenticated">
-                <router-link to="#">
+                <router-link :to="{ name: 'write.index' }">
                   글쓰기
                 </router-link>
               </li>
               <li v-if="TODOauthenticated">
-                <router-link to="#">
+                <router-link :to="{ name: 'mylist.index' }">
                   내가 작성한 일정
                 </router-link>
               </li>
@@ -101,11 +101,42 @@
               class="form-control"
             >
               <option
+                value="null"
+                selected
+                disabled
+              >
+                국가를 선택해주세요
+              </option>
+              <option
                 v-for="country in countries"
                 :key="country.value"
                 :value="country.value"
               >
                 {{ country.text }}
+              </option>
+            </select>
+          </div>
+          <!-- 검색 조건 체류상태 선택 -->
+          <div class="form-group">
+            <span class="sm-title">체류상태</span>
+            <select
+              id="exampleFormControlSelect1"
+              v-model="selectedStayStatus"
+              class="form-control"
+            >
+              <option
+                value="null"
+                selected
+                disabled
+              >
+                체류상태를 선택해주세요
+              </option>
+              <option
+                v-for="e in stayStatus"
+                :key="e.value"
+                :value="e.value"
+              >
+                {{ e.text }}
               </option>
             </select>
           </div>
@@ -117,6 +148,9 @@
               placeholder="입국날짜를 선택해주세요"
             />
           </div>
+          <small
+            class="form-text entry-date-form-small"
+          >체류중인 경우에만 선택</small>
         </div>
         <!-- 할일목록 -->
         <div
@@ -210,6 +244,7 @@
  */
 // eslint-disable-next-line import/extensions
 import countriesList from '@/assets/js/countries';
+import stayStatusList from '@/assets/js/stayStatus';
 import Login from '@/views/Login/Index.vue';
 import Flatpickr from '@/components/Flatpickr.vue';
 
@@ -246,12 +281,15 @@ export default {
       isConditionActive: false, // 나의 일정 정보 표시 유무
       entryDate: null, // 입국날짜
       countries: [], // 국가
+      stayStatus: [], // 체류상태
       selectedCountry: null, // 선택된 국가
+      selectedStayStatus: null, // 선택된 체류상태
     };
   },
   created() {
     this.initEntyDate(); // 입국날짜 초기화
     this.initCountries(); // 국가 초기화
+    this.initStayStatus(); // 체류상태 초기화
   },
   /**
    * The methods that the layout can use.
@@ -259,12 +297,18 @@ export default {
   methods: {
     // 입국날짜 초기화
     initEntyDate() {
-      const todayDate = new Date().toISOString().slice(0, 10); // 오늘날짜를 yyyy-mm-dd 형식으로 받는다
-      this.entryDate = todayDate;
+      // const todayDate = new Date().toISOString().slice(0, 10); // 오늘날짜를 yyyy-mm-dd 형식으로 받는다
+      // this.entryDate = todayDate;
+      this.entryDate = ''; // TODO 삭제예정
     },
     // 국가 초기화
     initCountries() {
       this.countries = countriesList;
+    },
+
+    // 체류상태 초기화
+    initStayStatus() {
+      this.stayStatus = stayStatusList;
     },
 
     /**
