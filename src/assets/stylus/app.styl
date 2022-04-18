@@ -188,8 +188,32 @@ p
 	z-index 1
 .list-menu > li:hover
 	background: rgb(225, 225, 225)
-
-
+// ... 처리
+.over-text
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+// 체류중 태그 표시
+.tag
+	box-sizing: border-box;
+	width: 100px;
+	padding: 6px 10px;
+	border-radius: 10px;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+.tag-list
+	width: 90px;
+	font-size: 0.7rem
+.tag-blue
+	color: rgb(94, 159, 241);
+	background: rgb(227, 239, 253);
+.tag-green
+	color: rgb(90, 198, 197);
+	background: rgb(224, 245, 244);
+.tag-red
+	color: rgb(240, 142, 109);
+	background: rgb(253, 238, 232);
 /*****************
 * 로그인화면
 ******************/ 
@@ -507,7 +531,7 @@ p
 		.list-content
 			cursor pointer
 			margin-left 0.7rem
-			width 100%
+			width 90%
 			line-height 30px
 			height 30px
 			padding-left 10px
@@ -585,6 +609,11 @@ p
 	display: flex
 	justify-content: space-between
 	align-items: center
+	width: 100%
+	h2
+		margin-bottom 0
+	.post-title-w80
+		width: 90%
 .post-user-info
 	display: flex
 	justify-content: space-between

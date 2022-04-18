@@ -64,6 +64,11 @@
             >
               {{ item.text }}
             </span>
+            <span
+              class="tag tag-list tag-blue"
+            >
+              체류중 일정
+            </span>
           </div>
         </li>
       </ul>

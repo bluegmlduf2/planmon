@@ -99,10 +99,6 @@
               :class="{ 'is-invalid': validation.startDate }"
               aria-describedby="validationStartDate"
             />
-            <small
-              v-if="!validation.startDate"
-              class="form-text text-muted"
-            >체류중인 경우에만 선택</small>
             <div
               v-if="validation.startDate"
               id="validationStartDate"
@@ -119,10 +115,6 @@
               :class="{ 'is-invalid': validation.endDate }"
               aria-describedby="validationEndDate"
             />
-            <small
-              v-if="!validation.endDate"
-              class="form-text text-muted"
-            >체류중인 경우에만 선택</small>
             <div
               v-if="validation.endDate"
               id="validationEndDate"
