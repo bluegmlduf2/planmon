@@ -188,6 +188,12 @@ p
 	z-index 1
 .list-menu > li:hover
 	background: rgb(225, 225, 225)
+// 리스트 스크롤 숨김처리
+	.list-blind
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
+	.list-blind::-webkit-scrollbar
+		display: none; /* Chrome, Safari, Opera*/
 // ... 처리
 .over-text
 	overflow: hidden;
@@ -214,6 +220,15 @@ p
 .tag-red
 	color: rgb(240, 142, 109);
 	background: rgb(253, 238, 232);
+// 토스트 버튼
+.toast-button
+	height: 40px;
+	padding: 5px 15px;
+	border-radius: 5px;
+	color: #fff;
+	cursor: pointer;
+	border: thin solid currentColor;
+	background: transparent
 /*****************
 * 로그인화면
 ******************/ 
@@ -481,7 +496,10 @@ p
 /****************/
 .list-container
 	width 100%
-	.list-body-ul 
+	.list-body
+		max-height:455px;
+		overflow-y:scroll;
+	.list-body-ul
 		list-style:none;
 		padding-left 0.5rem
 	.list-search+.input-groupt

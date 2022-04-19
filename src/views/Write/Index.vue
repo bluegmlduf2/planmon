@@ -146,6 +146,7 @@
             <button
               id="writeContPostBtn"
               class="btn btn-purple btn-option"
+              @click="writePost"
             >
               <b>글쓰기</b>
             </button>
@@ -172,6 +173,7 @@ import { Editor } from '@toast-ui/vue-editor';
 import countriesList from '@/assets/js/countries';
 import stayStatusList from '@/assets/js/stayStatus';
 import Flatpickr from '@/components/Flatpickr.vue';
+import DeleteConfirm from '@/components/DeleteConfirm.vue';
 
 export default {
   /**
@@ -235,6 +237,18 @@ export default {
     // 체류상태 초기화
     initStayStatus() {
       this.stayStatus = stayStatusList;
+    },
+    // 글쓰기
+    writePost() {
+      this.$toast.info({
+        component: DeleteConfirm,
+        listeners: {
+          deleteList: () => this.testMethod(),
+        },
+      }, { timeout: 7000 });
+    },
+    testMethod() {
+      console.log(this.countries);
     },
   },
 };

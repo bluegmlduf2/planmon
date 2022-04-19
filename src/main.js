@@ -24,6 +24,7 @@ import './plugins/bootstrap';
 import './plugins/font-awesome';
 import './plugins/register-service-worker';
 import './plugins/flatpickr';
+import './plugins/vue-toastification';
 
 /* ============
  * Styling

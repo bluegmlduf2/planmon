@@ -29,7 +29,7 @@
         </ul>
       </div>
     </div>
-    <div class="list-body">
+    <div class="list-body list-blind">
       <ul class="list-body-ul">
         <li
           v-for="(item, index) in paramList"
