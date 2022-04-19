@@ -24,18 +24,13 @@
           </div>
         </div>
         <!-- 게시글 제목 -->
-        <div class="d-flex justify-content-between align-items-center mb-1">
-          <span class="tag tag-green mb-2">입국전 일정</span>
-          <span class="ml-2"><i
-            class="fa fa-share-alt"
-            aria-hidden="true"
-          /> 50명이 스크랩했습니다</span>
-        </div>
-        <div class="row">
-          <div class="col-md-12 mt-1 mb-3 post-title">
-            <h2 class="over-text">
-              제목입니다^^111111111111111111111111111111111111111
-            </h2>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <span class="tag tag-green">입국전 일정</span>
+          <div class="d-flex align-items-center">
+            <span class="mr-2 scrab-span"><i
+              class="fa fa-share-alt"
+              aria-hidden="true"
+            /> 50명이 스크랩했습니다</span>
             <div
               class="list-checkbox list-add mr-1"
             >
@@ -45,6 +40,14 @@
               >
               <label for="itemvalue" />
             </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-12 mt-1 mb-3 post-title">
+            <h2 class="over-text">
+              제목입니다^^111111111111111111111111111111111111111
+            </h2>
           </div>
         </div>
         <!-- 이름과 수정삭제 버튼 -->
