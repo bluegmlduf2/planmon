@@ -65,11 +65,11 @@
         <!-- 조건 1 -->
         <div class="post-condition mb-2">
           <h5 class="mb-2">
-            작성자 기준
+            작성자 일정
           </h5>
           <div class="row">
             <div class="form-group col-6">
-              <label for="postStartDate">일정시작일자</label>
+              <label for="postStartDate">일정시작일</label>
               <div
                 id="postStartDate"
                 class="post-date"
@@ -78,7 +78,7 @@
               </div>
             </div>
             <div class="form-group col-6">
-              <label for="postEndDate">일정종료일자</label>
+              <label for="postEndDate">일정종료일(+100일)</label>
               <div
                 id="postEndDate"
                 class="post-date"
@@ -91,14 +91,14 @@
         <!-- 조건 2 -->
         <div class="post-condition mb-3">
           <div class="mb-2 post-startDate-cont">
-            <h5>
-              {{ true?'내 입국일 기준':'내 지정일 기준' }}
+            <h5 class="ellipsis">
+              {{ '유저명1' }}님의 일정
             </h5>
             <!-- 슬라이드 메뉴 -->
             <span
-              class="font-light-color list-menu-body"
+              class="font-light-color list-menu-body write-span-font"
               @click="toggleMenuActive=!toggleMenuActive"
-            >일정시작일자 변경</span>
+            >일정 변경</span>
             <ul
               class="list-menu list-option-post"
               :class="[toggleMenuActive?'open':'']"
@@ -135,7 +135,7 @@
           </div>
           <div class="row">
             <div class="form-group col-6">
-              <label for="postStartDate">일정시작일자</label>
+              <label for="postStartDate">일정시작일</label>
               <div
                 id="postStartDate"
                 class="post-date"
@@ -144,7 +144,7 @@
               </div>
             </div>
             <div class="form-group col-6">
-              <label for="postEndDate">일정종료일자</label>
+              <label for="postEndDate">일정종료일(+100일)</label>
               <div
                 id="postEndDate"
                 class="post-date"
