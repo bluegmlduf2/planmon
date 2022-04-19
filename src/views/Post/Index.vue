@@ -24,8 +24,12 @@
           </div>
         </div>
         <!-- 게시글 제목 -->
-        <div class="row">
-          <span class="tag tag-green ml-3 mb-2">입국전 일정</span>
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <span class="tag tag-green mb-2">입국전 일정</span>
+          <span class="ml-2"><i
+            class="fa fa-share-alt"
+            aria-hidden="true"
+          /> 50명이 스크랩했습니다</span>
         </div>
         <div class="row">
           <div class="col-md-12 mt-1 mb-3 post-title">

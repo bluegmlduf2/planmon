@@ -104,6 +104,15 @@
       >
         {{ isSignup ? "회원등록":"로그인" }}
       </button>
+      <div
+        v-if="!isSignup"
+        class="login-footer login-footer-top"
+      >
+        <span
+          class="clickable"
+          @click="changeView()"
+        > 비밀번호를 잊으셨나요?</span>
+      </div>
       <div class="login-footer">
         <span>{{ isSignup ? "로그인화면은":"아직 회원이 아니신분은" }}</span>
         <span
