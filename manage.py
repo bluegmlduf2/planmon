@@ -8,12 +8,16 @@ from app import blueprint
 from app.main import create_app, db
 from app.main.model import user, blacklist
 
-app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
+# main디렉토리에 있는 사용자 환경설정 끝난 플라스크 앱 초기화
+app = create_app(os.getenv('SERVER_ENV') or 'dev') # dev, prod, test 중에 동작 (기본 dev)
 app.register_blueprint(blueprint)
 
 app.app_context().push()
 
-manager = Manager(app)
+# flask_script사용 등록
+# 파이선 스크립트 실행 명령어등을 사용자 지정가능
+# @manager.command def run() -> manager.run() -> python3 manage.py run
+manager = Manager(app) 
 
 migrate = Migrate(app, db)
 
@@ -22,6 +26,7 @@ manager.add_command('db', MigrateCommand)
 
 @manager.command
 def run():
+    # 플라스크 앱 기동
     app.run()
 
 

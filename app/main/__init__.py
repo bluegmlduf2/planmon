@@ -10,6 +10,7 @@ flask_bcrypt = Bcrypt()
 
 
 def create_app(config_name: str) -> Flask:
+    # 플라스크 앱 초기환경설정후 반환
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
     db.init_app(app)

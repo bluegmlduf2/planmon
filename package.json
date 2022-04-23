@@ -1,5 +1,5 @@
 {
-  "name": "vue-2-boilerplate",
+  "name": "vue-2-planmon",
   "version": "0.0.0",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -76,7 +76,7 @@
   "keywords": [
     "Vue",
     "Next",
-    "Boilerplate",
+    "planmon",
     "Webpack",
     "Lint",
     "Medium",

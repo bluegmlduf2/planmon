@@ -119,3 +119,6 @@ ENV/
 # mypy
 .mypy_cache/
 /migrations%
+
+#DB테스팅데이터
+migrations

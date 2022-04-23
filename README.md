@@ -185,11 +185,11 @@ Note: make sure you have `pip` and `virtualenv` installed.
 
 Make sure to run the initial migration commands to update the database.
     
-    > python manage.py db init
+    > python manage.py db init # 초기화
 
-    > python manage.py db migrate --message 'initial database migration'
+    > python manage.py db migrate --message 'initial database migration' # 생성
 
-    > python manage.py db upgrade
+    > python manage.py db upgrade  # 적용
 
 
 ### Viewing the app ###
@@ -218,3 +218,4 @@ If you want to contribute to this flask restplus boilerplate, clone the reposito
 ```
 https://github.com/cosmic-byte/flask-restplus-boilerplate.git
 ```
+
