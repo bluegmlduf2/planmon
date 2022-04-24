@@ -17,7 +17,7 @@ authorizations = {
 # flask-restful의 라이브러리
 # Swagger라는 rest api를 문서화해주는 도구를 지원
 api = Api(
-    blueprint,
+    blueprint, # flask_restx로 blueprint를 사용가능하도록 설정
     title='FLASK RESTPLUS(RESTX) API PLANMON WITH JWT',
     version='1.0',
     description='PLANMON for flask restplus (restx) web service',

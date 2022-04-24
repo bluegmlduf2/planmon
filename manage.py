@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from flask_migrate import Migrate, MigrateCommand
+from flask_migrate import Migrate, MigrateCommand # 테이블을 생성하고 컬럼을 추가하는 등의 작업을 할 수 있게 해주는 Flask-Migrate 라이브러리
 from flask_script import Manager
 
 from app import blueprint
@@ -10,7 +10,7 @@ from app.main.model import user, blacklist
 
 # main디렉토리에 있는 사용자 환경설정 끝난 플라스크 앱 초기화
 app = create_app(os.getenv('SERVER_ENV') or 'dev') # dev, prod, test 중에 동작 (기본 dev)
-app.register_blueprint(blueprint)
+app.register_blueprint(blueprint) # 플라스크 app객체로 app폴더의 blueprint을 등록
 
 app.app_context().push()
 

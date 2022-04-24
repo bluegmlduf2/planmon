@@ -1,3 +1,4 @@
+# 맥은 기본 python버전 2.7이기때문에 python이 아니라 python3 명령어를 사용하는것이 좋다
 .ONESHELL:
 
 .PHONY: clean install tests run all

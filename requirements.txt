@@ -6,10 +6,10 @@ eventlet==0.31.0
 flask>=0.12.3
 Flask-Bcrypt==0.7.1
 Flask-Cors==3.0.9
-Flask-Migrate==2.1.1
+Flask-Migrate==2.1.1  # (ORM) 파이썬의 ORM의 테이블을 생성하고 컬럼을 추가하는 등의 작업을 할 수 있게 준다 (설치시 SQLAlchemy도 자동설치)
 flask-restx==0.5.1
 Flask-Script==2.0.6
-Flask-SQLAlchemy==2.5.1
+Flask-SQLAlchemy==2.5.1 # (ORM) 파이썬 ORM중의 하나. (mysql, Postgres, oracle, mssql, sqlite 등)을 지원함 
 Flask-Testing==0.7.1
 gunicorn==19.7.1
 itsdangerous==0.24
