@@ -19,19 +19,14 @@ const returnModule = {
 };
 
 // 파이어베이스 모듈들을 내보냄
-// 싱글턴 패턴
 function initFireBase() {
-  // 한번 초기화 된적이 있으면 firebase모듈만 내보낸다
-  if (returnModule.auth) {
-    // 파이어베이스 모듈반환
-    return returnModule;
-  }
   // 최초 로딩시 한번만 파이어베이스 초기화
   initializeApp(
     firebaseConfig,
   );
-
+  // 인증권한 설정
   returnModule.auth = getAuth();
+
   // 파이어베이스 모듈반환
   return returnModule;
 }
