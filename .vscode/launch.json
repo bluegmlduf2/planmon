@@ -5,21 +5,20 @@
     // 2.makefile 안에 있는 아래의 명령어를 파이선 디버깅에 환경에 적용
     // . venv/bin/activate;
 	// python3 manage.py run
-    "version": "0.2.0",
     "configurations": [
         {
             "name": "플라스크 서버 디버깅",
             "type": "python",
             "request": "launch",
-            "pythonPath": "${workspaceFolder}/venv/bin/python3.9", // virtualenv가상환경 사용시 venv의 파이선 경로를 지정
+            "python": "${workspaceFolder}/venv/bin/python3.9", // virtualenv가상환경 사용시 venv의 파이선 경로를 지정
             "program": "${workspaceFolder}/manage.py", // 실행할 진입 파일(모듈)
             "args": [
                 "run",
             ], // flask_script로 실행할 커맨드 run
             "env": {
-                "FLASK_ENV": "development", // development,production (플라스크 기동시 참조)
+                "FLASK_ENV": "production", // development,production (플라스크 기동시 참조함)
                 "FLASK_DEBUG": "1" // 0:off ,1:on
-            },// 환경변수설정
+            },// 환경변수설정 .env와 같다고 보면됨
             "console": "integratedTerminal",
             "justMyCode": true
         }
