@@ -17,6 +17,7 @@ import Vue from 'vue';
 
 import './plugins/vuex';
 import './plugins/axios';
+import firebase from './plugins/firebase';
 import { i18n } from './plugins/vue-i18n';
 import { router } from './plugins/vue-router';
 import './plugins/vuex-router-sync';
@@ -68,6 +69,14 @@ new Vue({
    */
   store,
 
+  // 파이어 베이스 인증정보 새로고침마다 갱신
+  created() {
+    firebase.onAuthStateChanged(firebase.auth, (user) => {
+      if (user) {
+        this.$store.dispatch('autoSignIn', user);
+      }
+    });
+  },
   /**
    * Will render the application.
    *

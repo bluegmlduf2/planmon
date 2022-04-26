@@ -21,6 +21,7 @@
       <div class="form-group">
         <input
           id="loginEmailInput"
+          v-model="email"
           type="email"
           placeholder="이메일을 입력해주세요"
           class="form-control"
@@ -36,6 +37,7 @@
       <div class="form-group">
         <input
           id="loginPassWordInput"
+          v-model="password"
           type="password"
           placeholder="비밀번호를 입력해주세요"
           autocomplete="current-password"
@@ -99,10 +101,26 @@
       </div>
 
       <button
+        v-if="isSignup"
         type="button"
         class="btn btn-primary w-100"
       >
-        {{ isSignup ? "회원등록":"로그인" }}
+        회원등록
+      </button>
+      <button
+        v-else
+        type="button"
+        class="btn btn-primary w-100"
+        :disabled="loading"
+        @click="onSignin"
+      >
+        <span
+          v-if="loading"
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        />
+        {{ loading?'Loading...':'로그인' }}
       </button>
       <div
         v-if="!isSignup"
@@ -147,14 +165,48 @@ export default {
     return {
       isSignup: false, // 회원등록 여부
       isMailed: false, // 확인메일전송 여부
+      email: '',
+      password: '',
       // deleteButtonActive: false, // 삭제상태 활성화
     };
   },
-
+  // data와는 다른 함수형 변수
   computed: {
     // 로그인화면 열기 (props로 받아온 초기값 설정)
     isLoginStatus() {
       return this.isLogin;
+    },
+    // 유저정보 (store에서 값이 변경될때마다 갱신)
+    user() {
+      return this.$store.getters.user;
+    },
+    // 유저정보 (store에서 값이 변경될때마다 갱신)
+    error() {
+      return this.$store.getters.error;
+    },
+    // 로딩바 (store에서 값이 변경될때마다 갱신)
+    loading() {
+      return this.$store.getters.loading;
+    },
+  },
+  // 해당 computed들이 변하는가 감시, 변할때 작동
+  watch: {
+    user(value) {
+      // computed의 user가 초기화때 한번 로그인때 한번 2번 실행되기때문에 isLoginStatus를 추가
+      if (value !== null && value !== undefined && this.isLoginStatus) {
+        this.closeLogin();
+        this.$toast.info('플랜몬에 오신것을 환영합니다', {
+          timeout: 2500,
+          hideProgressBar: true,
+          showCloseButtonOnHover: true,
+        });
+      }
+    },
+    error(value) {
+      if (value !== null && value !== undefined) {
+        this.$toast.error(value.message);
+        this.onDismissed();
+      }
     },
   },
   methods: {
@@ -164,9 +216,26 @@ export default {
     },
     // 로그인화면 닫기 (자식 컴포넌트에서 props를 변경하지 못해서 부모에게 변경요청)
     closeLogin() {
+      this.email = '';
+      this.password = '';
       this.isSignup = false;
       this.isMailed = false;
       this.$emit('closeLogin');
+    },
+    // 로그인
+    onSignin() {
+      this.$store.dispatch('signUserIn', { email: this.email, password: this.password });
+    },
+    // 비밀번호초기화
+    // eslint-disable-next-line consistent-return
+    onResetPassword() {
+      if (this.email === '') {
+        return this.$store.dispatch('setError', { message: 'Email can not be blank' });
+      }
+      this.$store.dispatch('resetPasswordWithEmail', { email: this.email });
+    },
+    onDismissed() {
+      this.$store.dispatch('clearError');
     },
   },
 };

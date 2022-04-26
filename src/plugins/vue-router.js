@@ -24,19 +24,8 @@ export const router = new VueRouter({
   },
 });
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((m) => m.meta.auth) && !store.state.auth.authenticated) {
-    /*
-     * If the user is not authenticated and visits
-     * a page that requires authentication, redirect to the login page
-     */
-    next({
-      name: 'login.index',
-    });
-  } else if (to.matched.some((m) => m.meta.guest) && store.state.auth.authenticated) {
-    /*
-     * If the user is authenticated and visits
-     * an guest page, redirect to the dashboard page
-     */
+  if (to.matched.some((m) => m.meta.auth) && !store.getters.user) {
+    // 로그인한 상태가 아니라면 홈화면을 표시
     next({
       name: 'home.index',
     });

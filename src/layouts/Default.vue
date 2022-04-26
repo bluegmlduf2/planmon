@@ -2,7 +2,7 @@
   <div class="container default-body">
     <Login
       :is-login="isLoginActive"
-      @closeLogin="isLoginActive=false"
+      @closeLogin="isMenuActive=false,isLoginActive=false"
     />
     <div class="row justify-content-md-center default-background mt-md-1 mt-lg-1">
       <div
@@ -25,7 +25,7 @@
           :class="[isMenuActive?'open':'']"
         >
           <div
-            :class="{'overlay-menu':!isConditionActive&&TODOauthenticated}"
+            :class="{'overlay-menu':!isConditionActive&&userIsAuthenticated}"
           >
             <ul>
               <li>
@@ -35,23 +35,31 @@
               </li>
               <li>
                 <a
+                  v-if="userIsAuthenticated"
+                  href="#"
+                  @click="onLogout"
+                >
+                  로그아웃
+                </a>
+                <a
+                  v-else
                   href="#"
                   @click="isLoginActive = true"
                 >
-                  {{ true?"로그인":"로그아웃" }}
+                  로그인
                 </a>
               </li>
-              <li v-if="TODOauthenticated">
+              <li v-if="userIsAuthenticated">
                 <router-link :to="{ name: 'setting.index' }">
                   설정
                 </router-link>
               </li>
-              <li v-if="TODOauthenticated">
+              <li v-if="userIsAuthenticated">
                 <router-link :to="{ name: 'write.index' }">
                   글쓰기
                 </router-link>
               </li>
-              <li v-if="TODOauthenticated">
+              <li v-if="userIsAuthenticated">
                 <router-link :to="{ name: 'mylist.index' }">
                   내가 작성한 일정
                 </router-link>
@@ -275,7 +283,6 @@ export default {
   data() {
     return {
       menuCollapsed: false,
-      TODOauthenticated: true, // TODO 로그인상태유무 임시
       isLoginActive: false, // 로그인화면 활성화유무
       isMenuActive: false, // NAV메뉴 활성화유무
       isConditionActive: false, // 나의 일정 정보 표시 유무
@@ -285,6 +292,12 @@ export default {
       selectedCountry: null, // 선택된 국가
       selectedStayStatus: null, // 선택된 체류상태
     };
+  },
+  computed: {
+    // 유저 인증정보 (store에서 갱신된 유저인증정보 취득)
+    userIsAuthenticated() {
+      return this.$store.getters.user !== null && this.$store.getters.user !== undefined;
+    },
   },
   created() {
     this.initEntyDate(); // 입국날짜 초기화
@@ -311,11 +324,16 @@ export default {
       this.stayStatus = stayStatusList;
     },
 
-    /**
-     * Will log the user out.
-     */
-    logout() {
-      this.$store.dispatch('auth/logout');
+    // 로그아웃
+    onLogout() {
+      this.isMenuActive = false; // nav메뉴 닫기
+      this.$store.dispatch('logout');
+      if (this.$route.path !== '/') this.$router.push('/');
+      this.$toast.info('다음에 또 봐요', {
+        timeout: 2500,
+        hideProgressBar: true,
+        showCloseButtonOnHover: true,
+      });
     },
 
     /**
