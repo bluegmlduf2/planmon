@@ -18,10 +18,6 @@ export default [
     path: '/todolist',
     name: 'todolist.index',
     component: () => import('@/views/Todolist/Index.vue'),
-    meta: {
-      auth: true,
-      guest: true,
-    },
   },
 
   // 추천 일정
@@ -36,10 +32,6 @@ export default [
     path: '/completelist',
     name: 'completelist.index',
     component: () => import('@/views/Completelist/Index.vue'),
-    meta: {
-      auth: true,
-      guest: true,
-    },
   },
 
   // 모든 일정
@@ -47,10 +39,6 @@ export default [
     path: '/alllist',
     name: 'alllist.index',
     component: () => import('@/views/Alllist/Index.vue'),
-    meta: {
-      auth: true,
-      guest: true,
-    },
   },
 
   // 내 일정
@@ -58,10 +46,6 @@ export default [
     path: '/mylist',
     name: 'mylist.index',
     component: () => import('@/views/Mylist/Index.vue'),
-    meta: {
-      auth: true,
-      guest: true,
-    },
   },
 
   // 글쓰기 화면
@@ -89,23 +73,6 @@ export default [
     meta: {
       auth: true,
     },
-  },
-
-  // Account
-  {
-    path: '/account',
-    name: 'account.index',
-    component: () => import('@/views/Account/Index.vue'),
-
-    // If the user needs to be authenticated to view this page.
-    meta: {
-      auth: true,
-    },
-  },
-
-  {
-    path: '/',
-    redirect: '/home',
   },
 
   {
