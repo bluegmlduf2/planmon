@@ -17,8 +17,11 @@
         <h2>{{ isSignup ? "회원등록":"로그인" }}</h2>
         <p>이메일로 {{ isSignup ? "회원등록":"로그인" }}합니다</p>
       </div>
-
-      <div class="form-group">
+      <!-- 이메일 입력 -->
+      <div
+        class="form-group"
+        :disabled="loading"
+      >
         <input
           id="loginEmailInput"
           v-model="email"
@@ -34,85 +37,12 @@
           입력하신 이메일을 확인해주세요
         </div>
       </div>
-      <div class="form-group">
-        <input
-          id="loginPassWordInput"
-          v-model="password"
-          type="password"
-          placeholder="비밀번호를 입력해주세요"
-          autocomplete="current-password"
-          class="form-control"
-          :class="{ 'is-invalid': false }"
-        >
-        <div
-          class="invalid-feedback"
-          for="loginPassWordInput"
-        >
-          입력하신 비밀번호를 확인해주세요
-        </div>
-      </div>
-      <div
-        v-if="isSignup"
-        class="form-group"
-      >
-        <input
-          id="loginPassWordReInput"
-          type="password"
-          placeholder="비밀번호를 재입력해주세요"
-          autocomplete="current-password"
-          class="form-control"
-          :class="{ 'is-invalid': false }"
-        >
-        <div
-          class="invalid-feedback"
-          for="loginPassWordReInput"
-        >
-          입력하신 비밀번호를 확인해주세요
-        </div>
-      </div>
-      <div
-        v-if="isSignup"
-        class="input-group mb-3"
-      >
-        <input
-          id="emailValidInput"
-          type="text"
-          class="form-control"
-          :class="{ 'is-invalid': false }"
-          placeholder="이메일로 전송된 인증번호를 입력해주세요"
-          aria-label="emailValidButton"
-          aria-describedby="emailValidButton"
-        >
-        <div class="input-group-append">
-          <button
-            id="emailValidButton"
-            class="btn btn-outline-secondary btn-sm"
-            type="button"
-          >
-            {{ isMailed?"인증":"전송" }}
-          </button>
-        </div>
-        <div
-          class="invalid-feedback"
-          for="emailValidInput"
-        >
-          입력하신 인증번호를 확인해주세요
-        </div>
-      </div>
-
+      <!-- 로그인/회원등록 버튼 -->
       <button
-        v-if="isSignup"
-        type="button"
-        class="btn btn-primary w-100"
-      >
-        회원등록
-      </button>
-      <button
-        v-else
         type="button"
         class="btn btn-primary w-100"
         :disabled="loading"
-        @click="onSignin"
+        @click="onSigninEmailLink"
       >
         <span
           v-if="loading"
@@ -120,17 +50,22 @@
           role="status"
           aria-hidden="true"
         />
-        {{ loading?'Loading...':'로그인' }}
+        {{ loading?'인증중입니다':isSignup?'이메일로 회원등록':'이메일로 로그인' }}
       </button>
-      <div
-        v-if="!isSignup"
-        class="login-footer login-footer-top"
+      <button
+        type="button"
+        class="btn btn-secondary w-100 mt-2"
+        :disabled="loading"
+        @click="onSigninGoogle"
       >
         <span
-          class="clickable"
-          @click="changeView()"
-        > 비밀번호를 잊으셨나요?</span>
-      </div>
+          v-if="loading"
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        />
+        {{ loading?'인증중입니다':isSignup?'구글계정으로 회원등록':'구글계정으로 로그인' }}
+      </button>
       <div class="login-footer">
         <span>{{ isSignup ? "로그인화면은":"아직 회원이 아니신분은" }}</span>
         <span
@@ -164,9 +99,7 @@ export default {
   data() {
     return {
       isSignup: false, // 회원등록 여부
-      isMailed: false, // 확인메일전송 여부
       email: '',
-      password: '',
       // deleteButtonActive: false, // 삭제상태 활성화
     };
   },
@@ -211,28 +144,22 @@ export default {
   },
   methods: {
     changeView() {
-      this.isMailed = false;
+      this.email = '';
       this.isSignup = !this.isSignup;
     },
     // 로그인화면 닫기 (자식 컴포넌트에서 props를 변경하지 못해서 부모에게 변경요청)
     closeLogin() {
       this.email = '';
-      this.password = '';
       this.isSignup = false;
-      this.isMailed = false;
       this.$emit('closeLogin');
     },
     // 로그인
-    onSignin() {
-      this.$store.dispatch('signUserIn', { email: this.email, password: this.password });
+    onSigninEmailLink() {
+      this.$store.dispatch('signUserInEmailLink', { email: this.email });
     },
-    // 비밀번호초기화
-    // eslint-disable-next-line consistent-return
-    onResetPassword() {
-      if (this.email === '') {
-        return this.$store.dispatch('setError', { message: 'Email can not be blank' });
-      }
-      this.$store.dispatch('resetPasswordWithEmail', { email: this.email });
+    // 구글 계정으로 로그인
+    onSigninGoogle() {
+      this.$store.dispatch('signUserInGoogle');
     },
     onDismissed() {
       this.$store.dispatch('clearError');

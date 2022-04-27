@@ -10,46 +10,17 @@ export default {
     },
   },
   actions: {
-    // 회원등록
-    signUserUp({ commit }, payload) {
+    // 이메일 로그인 및 회원등록
+    signUserInEmailLink({ commit }, payload) {
       commit('setLoading', true);
       commit('clearError');
-      firebase.createUserWithEmailAndPassword(firebase.auth, payload.email, payload.password)
+      firebase.sendSignInLinkToEmail(firebase.auth, payload.email, firebase.actionCodeSettings)
         .then(
-          (user) => {
+          // 이메일 링크를 성공적으로 보냄
+          () => {
+            // 이메일 링크 인증전까지 임시로 메일정보를 입력(이메일 로그인 완료시 삭제됨)
+            window.localStorage.setItem('emailForSignIn', payload.email);
             commit('setLoading', false);
-            const newUser = {
-              id: user.uid,
-              name: user.displayName,
-              email: user.email,
-              photoUrl: user.photoURL,
-            };
-            commit('setUser', newUser);
-          },
-        )
-        .catch(
-          (error) => {
-            commit('setLoading', false);
-            commit('setError', error);
-            console.log(error);
-          },
-        );
-    },
-    // 로그인
-    signUserIn({ commit }, payload) {
-      commit('setLoading', true);
-      commit('clearError');
-      firebase.signInWithEmailAndPassword(firebase.auth, payload.email, payload.password)
-        .then(
-          (user) => {
-            commit('setLoading', false);
-            const newUser = {
-              id: user.uid,
-              name: user.displayName,
-              email: user.email,
-              photoUrl: user.photoURL,
-            };
-            commit('setUser', newUser);
           },
         )
         .catch(
@@ -75,24 +46,21 @@ export default {
           },
         );
     },
-    // 자동 로그인 상태
-    autoSignIn({ commit }, payload) {
-      commit('setUser', {
-        id: payload.uid,
-        name: payload.displayName,
-        email: payload.email,
-        photoUrl: payload.photoURL,
-      });
-    },
-    // 비밀번호 재설정
-    resetPasswordWithEmail({ commit }, payload) {
-      const { email } = payload;
+    // 구글 계정으로 로그인 및 회원등록
+    signUserInGoogle({ commit }) {
       commit('setLoading', true);
-      firebase.sendPasswordResetEmail(firebase.auth, email)
+      commit('clearError');
+      firebase.signInWithPopup(firebase.auth, new firebase.GoogleAuthProvider())
         .then(
-          () => {
+          (user) => {
             commit('setLoading', false);
-            console.log('Email Sent');
+            const newUser = {
+              id: user.uid,
+              name: user.displayName,
+              email: user.email,
+              photoUrl: user.photoURL,
+            };
+            commit('setUser', newUser);
           },
         )
         .catch(
@@ -102,6 +70,15 @@ export default {
             console.log(error);
           },
         );
+    },
+    // 자동 로그인 상태
+    autoSignIn({ commit }, payload) {
+      commit('setUser', {
+        id: payload.uid,
+        name: payload.displayName,
+        email: payload.email,
+        photoUrl: payload.photoURL,
+      });
     },
     // 로그아웃
     logout({ commit }) {
