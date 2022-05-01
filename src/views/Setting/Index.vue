@@ -19,23 +19,25 @@
       <div class="user-image-setting d-flex flex-column justify-content-center align-items-center mb-4">
         <img
           class="profile-img mb-3"
-          src="https://placeimg.com/640/480/any"
+          :src="userImage"
         >
         <button
           type="button"
           class="btn btn-primary mb-2 w-100"
+          @click="updatePhotoUrl('register')"
         >
           프로필이미지 등록
         </button>
         <button
           type="button"
           class="btn btn-light mb-2 w-100"
+          @click="updatePhotoUrl('delete')"
         >
           프로필이미지 삭제
         </button>
       </div>
-      <div class="user-input-setting d-flex flex-column justify-content-start align-items-center mb-4 p-1">
-        <div class="form-group row">
+      <div class="user-input-setting d-flex flex-column justify-content-start align-items-center p-1">
+        <div class="form-group row mb-4">
           <label
             for="inputEmail3"
             class="col-4 col-form-label"
@@ -44,6 +46,7 @@
           <div class="col-6">
             <input
               id="inputEmail3"
+              v-model="displayName"
               type="text"
               class="form-control"
             >
@@ -51,55 +54,10 @@
           <button
             type="button"
             class="btn btn-light col-2"
+            @click="updateDisplayName"
           >
             변경
           </button>
-        </div>
-        <div class="form-group row">
-          <label
-            for="inputEmail3"
-            class="col-4 col-form-label"
-          >비밀번호
-          </label>
-          <div class="col-6">
-            <input
-              id="inputEmail3"
-              type="password"
-              class="form-control"
-            >
-          </div>
-          <button
-            type="button"
-            class="btn btn-light col-2"
-          >
-            변경
-          </button>
-        </div>
-        <div class="row">
-          <label
-            class="col-4 col-form-label lb-08"
-          >새비밀번호ㅤ입력
-          </label>
-          <div class="col-6">
-            <input
-              id=""
-              type="password"
-              class="form-control"
-            >
-          </div>
-        </div>
-        <div class="row mb-4">
-          <label
-            class="col-4 col-form-label lb-08"
-          >새비밀번호 재입력
-          </label>
-          <div class="col-6">
-            <input
-              id=""
-              type="password"
-              class="form-control"
-            >
-          </div>
         </div>
         <div class="w-100">
           <button
@@ -139,12 +97,50 @@ export default {
 
   data() {
     return {
+      displayName: '',
     };
   },
-  created() {
+  // data와는 다른 함수형 변수
+  computed: {
+    // 유저정보 (store에서 값이 변경될때마다 갱신)
+    user() {
+      return this.$store.getters.user;
+    },
+    // 로딩바 (store에서 값이 변경될때마다 갱신)
+    loading() {
+      return this.$store.getters.loading;
+    },
+    // 유저이미지 반환
+    userImage() {
+      // eslint-disable-next-line global-require
+      return this.$store.getters.user.photoUrl ? this.$store.getters.user.photoUrl : require('@/assets/img/user.png');
+    },
   },
-
+  created() {
+    this.initSetting();
+  },
   methods: {
+    initSetting() {
+      this.displayName = this.user.name;
+    },
+    // 프로필정보 변경
+    updateDisplayName() {
+      const payload = { displayName: this.displayName };
+      this.$store.dispatch('updateProfile', payload);
+    },
+    // 프로필사진 변경
+    updatePhotoUrl(args) {
+      const payload = {};
+      if (args === 'register') {
+      // 유저 이미지 추가
+        // payload.photoURL = this.photoUrl;
+        payload.photoURL = 'https://i.pravatar.cc/200';
+      } else if (args === 'delete') {
+      // 유저 이미지 삭제
+        payload.photoURL = '';
+      }
+      this.$store.dispatch('updateProfile', payload);
+    },
   },
 
 };

@@ -21,9 +21,7 @@ export default {
           // 이메일 링크를 성공적으로 보냄
           () => {
             Vue.prototype.$toast.info('인증 이메일을 보냈습니다\n해당 메일의 인증 링크로 로그인해주세요', {
-              timeout: 3500,
-              hideProgressBar: true,
-              showCloseButtonOnHover: true,
+              timeout: 4000,
             });
             // 이메일 링크 인증전까지 임시로 메일정보를 입력(이메일 로그인 완료시 삭제됨)
             window.localStorage.setItem('emailForSignIn', payload.email);
@@ -74,11 +72,7 @@ export default {
             .then(() => {
               // 임시적으로 저장해뒀던 로그인 이메일 삭제
               window.localStorage.removeItem('emailForSignIn');
-              Vue.prototype.$toast.info('플랜몬에 오신것을 환영합니다', {
-                timeout: 2500,
-                hideProgressBar: true,
-                showCloseButtonOnHover: true,
-              });
+              Vue.prototype.$toast.info('플랜몬에 오신것을 환영합니다');
             })
             .catch((error) => {
               // 처음에 렌더링이 2회 실행되면서 아래의 에러가 발생한다.
@@ -89,6 +83,23 @@ export default {
             });
         }
       }
+    },
+    // 사용자 프로필 업데이트
+    updateProfile({ commit }, payload) {
+      commit('setLoading', true);
+      commit('clearError');
+      // 사용자 프로필 업데이트
+      const { currentUser } = firebase.auth;
+      firebase.updateProfile(currentUser, payload).then(() => {
+        Vue.prototype.$toast.info('유저 정보를 변경했습니다');
+        commit('setUser', {
+          name: payload.displayName ? payload.displayName : currentUser.displayName,
+          photoUrl: payload.photoURL,
+        });
+      }).catch((error) => {
+        Vue.prototype.$toast.error(firebaseError(error));
+        commit('setLoading', false);
+      });
     },
     // 자동 로그인 상태
     autoSignIn({ commit }, payload) {
