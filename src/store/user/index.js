@@ -43,7 +43,8 @@ export default {
       commit('clearError');
       firebase.signInWithPopup(firebase.auth, new firebase.GoogleAuthProvider())
         .then(
-          (user) => {
+          (result) => {
+            const { user } = result;
             commit('setLoading', false);
             const newUser = {
               id: user.uid,

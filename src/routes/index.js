@@ -74,9 +74,4 @@ export default [
       auth: true,
     },
   },
-
-  {
-    path: '/*',
-    redirect: '/home',
-  },
 ];

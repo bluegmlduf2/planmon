@@ -25,7 +25,7 @@ export const router = new VueRouter({
 });
 router.beforeEach((to, from, next) => {
   if (to.matched.some((m) => m.meta.auth) && !store.getters.user) {
-    // 로그인한 상태가 아니라면 홈화면을 표시
+    // 새로고침 혹은 화면에 권한이 없는 경우 홈으로 이동
     next({
       name: 'home.index',
     });

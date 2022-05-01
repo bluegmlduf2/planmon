@@ -77,7 +77,7 @@
               Planmon
             </router-link>
           </h1>
-          <p>플랜몬에 오신것을 환영합니다!</p>
+          <p><span v-if="!!user">{{ !!user.name?user.name:user.email }}님<br></span> 플랜몬에 오신것을 환영합니다!</p>
         </div>
         <!-- 검색입력 -->
         <div class="search-bar">
@@ -297,6 +297,10 @@ export default {
     // 유저 인증정보 (store에서 갱신된 유저인증정보 취득)
     userIsAuthenticated() {
       return this.$store.getters.user !== null && this.$store.getters.user !== undefined;
+    },
+    // 유저정보 (store에서 값이 변경될때마다 갱신)
+    user() {
+      return this.$store.getters.user;
     },
   },
   created() {
