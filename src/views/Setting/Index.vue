@@ -63,6 +63,7 @@
           <button
             type="button"
             class="btn btn-outline-danger w-100"
+            @click="deleteUser"
           >
             회원탈퇴
           </button>
@@ -81,6 +82,7 @@
  */
 
 import VLayout from '@/layouts/Default.vue';
+import DeleteConfirm from '@/components/DeleteConfirm.vue';
 
 export default {
   /**
@@ -140,6 +142,17 @@ export default {
         payload.photoURL = '';
       }
       this.$store.dispatch('updateProfile', payload);
+    },
+    // 유저삭제
+    deleteUser() {
+      this.$toast.info({
+        component: DeleteConfirm,
+        listeners: {
+          confirmEvent: () => {
+            this.$store.dispatch('deleteUser');
+          },
+        },
+      }, { timeout: 7000 });
     },
   },
 

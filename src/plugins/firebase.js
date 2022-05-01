@@ -10,6 +10,7 @@ import {
   isSignInWithEmailLink,
   signInWithEmailLink,
   updateProfile,
+  deleteUser,
 } from 'firebase/auth';
 // SDK v9를 사용, SDK8는 firebase를 모든 모듈을 통채로 사용했다면 SDK9는 필요한 모듈(auth)만 import하기때문에 적은 용량의 이점이 있음
 
@@ -45,6 +46,7 @@ const returnModule = {
   isSignInWithEmailLink,
   signInWithEmailLink,
   updateProfile,
+  deleteUser,
 };
 
 // 파이어베이스 모듈들을 내보냄

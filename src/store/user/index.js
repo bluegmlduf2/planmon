@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import firebase from '@/plugins/firebase';
 import firebaseError from '@/assets/js/firebaseError';
+import { router } from '@/plugins/vue-router';
 
 export default {
   state: {
@@ -25,15 +26,15 @@ export default {
             });
             // 이메일 링크 인증전까지 임시로 메일정보를 입력(이메일 로그인 완료시 삭제됨)
             window.localStorage.setItem('emailForSignIn', payload.email);
-            commit('setLoading', false);
           },
         )
         .catch(
           (error) => {
             Vue.prototype.$toast.error(firebaseError(error));
-            commit('setLoading', false);
           },
-        );
+        ).finally(() => {
+          commit('setLoading', false);
+        });
     },
     // 구글 계정으로 로그인 및 회원등록
     signUserInGoogle({ commit }) {
@@ -43,7 +44,6 @@ export default {
         .then(
           (result) => {
             const { user } = result;
-            commit('setLoading', false);
             const newUser = {
               id: user.uid,
               name: user.displayName,
@@ -56,9 +56,10 @@ export default {
         .catch(
           (error) => {
             Vue.prototype.$toast.error(firebaseError(error));
-            commit('setLoading', false);
           },
-        );
+        ).finally(() => {
+          commit('setLoading', false);
+        });
     },
     // 이메일 링크 인증
     signInWithEmailLink() {
@@ -94,10 +95,26 @@ export default {
         Vue.prototype.$toast.info('유저 정보를 변경했습니다');
         commit('setUser', {
           name: payload.displayName ? payload.displayName : currentUser.displayName,
-          photoUrl: payload.photoURL,
+          photoUrl: payload.photoURL ? payload.photoURL : currentUser.photoURL,
         });
       }).catch((error) => {
         Vue.prototype.$toast.error(firebaseError(error));
+      }).finally(() => {
+        commit('setLoading', false);
+      });
+    },
+    // 유저 삭제
+    deleteUser({ commit }) {
+      commit('setLoading', true);
+      commit('clearError');
+      // 유저 삭제
+      firebase.deleteUser(firebase.auth.currentUser).then(() => {
+        Vue.prototype.$toast.info('회원탈퇴처리 되었습니다\n감사합니다');
+        commit('setUser', null);
+        router.push({ name: 'home.index' });
+      }).catch((error) => {
+        Vue.prototype.$toast.error(firebaseError(error));
+      }).finally(() => {
         commit('setLoading', false);
       });
     },

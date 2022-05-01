@@ -243,7 +243,7 @@ export default {
       this.$toast.info({
         component: DeleteConfirm,
         listeners: {
-          deleteList: () => this.testMethod(),
+          confirmEvent: () => this.testMethod(),
         },
       }, { timeout: 7000 });
     },
