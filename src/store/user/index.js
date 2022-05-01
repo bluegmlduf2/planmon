@@ -1,4 +1,6 @@
+import Vue from 'vue';
 import firebase from '@/plugins/firebase';
+import firebaseError from '@/assets/js/firebaseError';
 
 export default {
   state: {
@@ -18,6 +20,11 @@ export default {
         .then(
           // 이메일 링크를 성공적으로 보냄
           () => {
+            Vue.prototype.$toast.info('인증 이메일을 보냈습니다\n해당 메일의 인증 링크로 로그인해주세요', {
+              timeout: 3500,
+              hideProgressBar: true,
+              showCloseButtonOnHover: true,
+            });
             // 이메일 링크 인증전까지 임시로 메일정보를 입력(이메일 로그인 완료시 삭제됨)
             window.localStorage.setItem('emailForSignIn', payload.email);
             commit('setLoading', false);
@@ -25,24 +32,8 @@ export default {
         )
         .catch(
           (error) => {
-            const err = error;
-            let message = '로그인에 실패하였습니다';
-            switch (err.code) {
-              case 'auth/invalid-email':
-                message = '유효하지 않은 이메일입니다';
-                break;
-              case 'auth/wrong-password':
-                message = '비밀번호가 일치하지 않습니다';
-                break;
-              case 'auth/invalid-credential':
-                message = '유효하지 않은 접근입니다';
-                break;
-              default:
-                break;
-            }
-            err.message = message;
+            Vue.prototype.$toast.error(firebaseError(error));
             commit('setLoading', false);
-            commit('setError', err);
           },
         );
     },
@@ -65,11 +56,38 @@ export default {
         )
         .catch(
           (error) => {
+            Vue.prototype.$toast.error(firebaseError(error));
             commit('setLoading', false);
-            commit('setError', error);
-            console.log(error);
           },
         );
+    },
+    // 이메일 링크 인증
+    signInWithEmailLink() {
+      // 로그인 이메일링크가 인증되었는지 확인, 인증되었다면 true
+      if (firebase.isSignInWithEmailLink(firebase.auth, window.location.href)) {
+        // 인증메일을 보낸 기기와 로그인 기기가 다른지 확인
+        const email = window.localStorage.getItem('emailForSignIn');
+        if (email) {
+          // 인증이 완료되면 로그인 유저정보 취득
+          firebase.signInWithEmailLink(firebase.auth, email, window.location.href)
+            .then(() => {
+              // 임시적으로 저장해뒀던 로그인 이메일 삭제
+              window.localStorage.removeItem('emailForSignIn');
+              Vue.prototype.$toast.info('플랜몬에 오신것을 환영합니다', {
+                timeout: 2500,
+                hideProgressBar: true,
+                showCloseButtonOnHover: true,
+              });
+            })
+            .catch((error) => {
+              // 처음에 렌더링이 2회 실행되면서 아래의 에러가 발생한다.
+              // 해당 에러는 묵시적으로 제외하고 그외의 에러가 발생시 경고메세지로 표시
+              if (error.code !== 'auth/invalid-action-code') {
+                Vue.prototype.$toast.error(firebaseError(error));
+              }
+            });
+        }
+      }
     },
     // 자동 로그인 상태
     autoSignIn({ commit }, payload) {

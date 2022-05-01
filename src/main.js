@@ -72,6 +72,9 @@ new Vue({
   // 파이어 베이스 인증정보 새로고침마다 갱신
   created() {
     firebase.onAuthStateChanged(firebase.auth, (user) => {
+      // 이메일인증부분
+      this.$store.dispatch('signInWithEmailLink');
+      // 유저가 존재하면 로그인 정보갱신
       if (user) {
         this.$store.dispatch('autoSignIn', user);
       }

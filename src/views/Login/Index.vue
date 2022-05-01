@@ -113,10 +113,6 @@ export default {
     user() {
       return this.$store.getters.user;
     },
-    // 유저정보 (store에서 값이 변경될때마다 갱신)
-    error() {
-      return this.$store.getters.error;
-    },
     // 로딩바 (store에서 값이 변경될때마다 갱신)
     loading() {
       return this.$store.getters.loading;
@@ -133,12 +129,6 @@ export default {
           hideProgressBar: true,
           showCloseButtonOnHover: true,
         });
-      }
-    },
-    error(value) {
-      if (value !== null && value !== undefined) {
-        this.$toast.error(value.message);
-        this.onDismissed();
       }
     },
   },
@@ -160,9 +150,6 @@ export default {
     // 구글 계정으로 로그인
     onSigninGoogle() {
       this.$store.dispatch('signUserInGoogle');
-    },
-    onDismissed() {
-      this.$store.dispatch('clearError');
     },
   },
 };
