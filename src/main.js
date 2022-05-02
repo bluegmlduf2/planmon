@@ -78,6 +78,7 @@ new Vue({
       if (user) {
         this.$store.dispatch('autoSignIn', user);
       }
+      this.$store.dispatch('setInitSelection'); // 초기선택값 데이터 초기화
     });
   },
   /**

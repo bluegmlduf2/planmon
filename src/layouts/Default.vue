@@ -104,8 +104,7 @@
           <div class="form-group">
             <span class="sm-title">국가선택</span>
             <select
-              id="exampleFormControlSelect1"
-              v-model="selectedCountry"
+              v-model="selection.country"
               class="form-control"
             >
               <option
@@ -128,8 +127,7 @@
           <div class="form-group">
             <span class="sm-title">체류상태</span>
             <select
-              id="exampleFormControlSelect1"
-              v-model="selectedStayStatus"
+              v-model="selection.stayStatus"
               class="form-control"
             >
               <option
@@ -152,7 +150,6 @@
           <span class="sm-title">입국날짜</span>
           <div class="input-group entry-date-form">
             <Flatpickr
-              :input-date="entryDate"
               placeholder="입국날짜를 선택해주세요"
             />
           </div>
@@ -168,7 +165,7 @@
         >
           <div class="search-todoList-title">
             <span class="sm-title">할일 항목</span>
-            <span>4/22</span>
+            <span>{{ `${completelist.length}/${alllist}` }}</span>
           </div>
           <div class="progress">
             <div
@@ -177,14 +174,14 @@
               aria-valuenow="25"
               aria-valuemin="0"
               aria-valuemax="100"
-              style="width:25%"
+              :style="{'width':progressPercent+'%'}"
             />
           </div>
           <div class="search-todoList-status">
             <div>
               <router-link :to="{ name: 'completelist.index' }">
                 <h3 class="status-total">
-                  11
+                  {{ completelist.length }}
                 </h3>
                 <p class="status-title">
                   완료된
@@ -197,7 +194,7 @@
             <div>
               <router-link :to="{ name: 'todolist.index' }">
                 <h3 class="status-total">
-                  11
+                  {{ todolist.length }}
                 </h3>
                 <p class="status-title">
                   다가오는
@@ -210,7 +207,7 @@
             <div>
               <router-link :to="{ name: 'alllist.index' }">
                 <h3 class="status-total">
-                  11
+                  {{ alllist }}
                 </h3>
                 <p class="status-title">
                   모든
@@ -254,7 +251,7 @@
 import countriesList from '@/assets/js/countries';
 import stayStatusList from '@/assets/js/stayStatus';
 import Login from '@/views/Login/Index.vue';
-import Flatpickr from '@/components/Flatpickr.vue';
+import Flatpickr from '@/components/FlatpickrDefault.vue';
 
 export default {
   /**
@@ -286,13 +283,11 @@ export default {
       isLoginActive: false, // 로그인화면 활성화유무
       isMenuActive: false, // NAV메뉴 활성화유무
       isConditionActive: false, // 나의 일정 정보 표시 유무
-      entryDate: null, // 입국날짜
-      countries: [], // 국가
-      stayStatus: [], // 체류상태
-      selectedCountry: null, // 선택된 국가
-      selectedStayStatus: null, // 선택된 체류상태
+      countries: [], // 국가 리스트
+      stayStatus: [], // 체류상태 리스트
     };
   },
+
   computed: {
     // 유저 인증정보 (store에서 갱신된 유저인증정보 취득)
     userIsAuthenticated() {
@@ -302,22 +297,44 @@ export default {
     user() {
       return this.$store.getters.user;
     },
+    // 선택한 항목 리스트 (갱신도 필요하기에 setter(mutation)도 등록)
+    selection: {
+      get() {
+        // return Object.assign({}, this.$store.getters.selection)
+        return this.$store.getters.selection;
+      },
+      set(value) {
+        this.$store.commit('setSelection', value);
+      },
+    },
+    // 선택된 TODO리스트 (store에서 값이 변경될때마다 갱신)
+    todolist() {
+      return this.$store.getters.selection.todolist;
+    },
+    // 선택된 완료리스트 (store에서 값이 변경될때마다 갱신)
+    completelist() {
+      return this.$store.getters.selection.completelist;
+    },
+    // 선택된 모든리스트의 길이 (store에서 값이 변경될때마다 갱신)
+    alllist() {
+      return this.$store.getters.selection.todolist.length + this.$store.getters.selection.completelist.length;
+    },
+    // 선택된 모든리스트의 길이 (store에서 값이 변경될때마다 갱신)
+    progressPercent() {
+      // eslint-disable-next-line no-mixed-operators
+      const percent = this.completelist.length / this.todolist.length * 100;
+      return percent;
+    },
   },
+
   created() {
-    this.initEntyDate(); // 입국날짜 초기화
-    this.initCountries(); // 국가 초기화
-    this.initStayStatus(); // 체류상태 초기화
+    this.initCountries(); // 국가 리스트 초기화
+    this.initStayStatus(); // 체류상태 리스트 초기화
   },
   /**
    * The methods that the layout can use.
    */
   methods: {
-    // 입국날짜 초기화
-    initEntyDate() {
-      // const todayDate = new Date().toISOString().slice(0, 10); // 오늘날짜를 yyyy-mm-dd 형식으로 받는다
-      // this.entryDate = todayDate;
-      this.entryDate = ''; // TODO 삭제예정
-    },
     // 국가 초기화
     initCountries() {
       this.countries = countriesList;

@@ -46,6 +46,7 @@
         </button>
       </div>
       <button
+        v-if="this.$store.getters.user"
         class="btn btn-purple btn-option home-write-position"
         @click="$router.push({name: 'write.index'})"
       >
