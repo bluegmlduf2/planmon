@@ -20,9 +20,11 @@ export default {
     },
   },
   actions: {
+    // 선택값 데이터 초기화
     setInitSelection({ commit }) {
       let selection;
-      const isLogined = this.state.user.user;
+      const isLogined = this.getters.user;
+      // 로그인상태일시
       if (isLogined) {
         // TODO axios로 selection 가져옴
         selection = {
@@ -33,6 +35,7 @@ export default {
           completelist: [1],
         };
       } else {
+      // 미로그인시
         const selectionStorage = window.localStorage.getItem('selection');
         if (!selectionStorage) {
           window.localStorage.setItem('selection', JSON.stringify({
@@ -45,6 +48,11 @@ export default {
         }
         selection = JSON.parse(window.localStorage.getItem('selection'));
       }
+      commit('setSelection', selection);
+    },
+    // 선택한 항목을 저장
+    addSelection({ commit }, payload) {
+      const selection = { ...this.getters.selection, ...payload };
       commit('setSelection', selection);
     },
     clearSelection({ commit }) {

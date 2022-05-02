@@ -104,7 +104,7 @@
           <div class="form-group">
             <span class="sm-title">국가선택</span>
             <select
-              v-model="selection.country"
+              v-model="country"
               class="form-control"
             >
               <option
@@ -115,11 +115,11 @@
                 국가를 선택해주세요
               </option>
               <option
-                v-for="country in countries"
-                :key="country.value"
-                :value="country.value"
+                v-for="e in countriesList"
+                :key="e.value"
+                :value="e.value"
               >
-                {{ country.text }}
+                {{ e.text }}
               </option>
             </select>
           </div>
@@ -127,7 +127,7 @@
           <div class="form-group">
             <span class="sm-title">체류상태</span>
             <select
-              v-model="selection.stayStatus"
+              v-model="stayStatus"
               class="form-control"
             >
               <option
@@ -138,7 +138,7 @@
                 체류상태를 선택해주세요
               </option>
               <option
-                v-for="e in stayStatus"
+                v-for="e in stayStatusList"
                 :key="e.value"
                 :value="e.value"
               >
@@ -283,8 +283,8 @@ export default {
       isLoginActive: false, // 로그인화면 활성화유무
       isMenuActive: false, // NAV메뉴 활성화유무
       isConditionActive: false, // 나의 일정 정보 표시 유무
-      countries: [], // 국가 리스트
-      stayStatus: [], // 체류상태 리스트
+      countriesList: [], // 국가 리스트
+      stayStatusList: [], // 체류상태 리스트
     };
   },
 
@@ -298,13 +298,28 @@ export default {
       return this.$store.getters.user;
     },
     // 선택한 항목 리스트 (갱신도 필요하기에 setter(mutation)도 등록)
-    selection: {
+    country: {
       get() {
-        // return Object.assign({}, this.$store.getters.selection)
-        return this.$store.getters.selection;
+        return this.$store.getters.selection.country;
       },
       set(value) {
-        this.$store.commit('setSelection', value);
+        this.$store.dispatch('addSelection', { country: value });
+      },
+    },
+    stayStatus: {
+      get() {
+        return this.$store.getters.selection.stayStatus;
+      },
+      set(value) {
+        this.$store.dispatch('addSelection', { stayStatus: value });
+      },
+    },
+    entryDate: {
+      get() {
+        return this.$store.getters.selection.entryDates;
+      },
+      set(value) {
+        this.$store.dispatch('addSelection', { entryDate: value });
       },
     },
     // 선택된 TODO리스트 (store에서 값이 변경될때마다 갱신)
@@ -337,12 +352,12 @@ export default {
   methods: {
     // 국가 초기화
     initCountries() {
-      this.countries = countriesList;
+      this.countriesList = countriesList;
     },
 
     // 체류상태 초기화
     initStayStatus() {
-      this.stayStatus = stayStatusList;
+      this.stayStatusList = stayStatusList;
     },
 
     // 로그아웃

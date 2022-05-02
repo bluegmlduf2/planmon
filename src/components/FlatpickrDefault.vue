@@ -2,7 +2,7 @@
   <div class="input-group">
     <flat-pickr
       id="entryDate"
-      v-model="inputDate.entryDate"
+      v-model="entryDate"
       :config="config"
       class="form-control flat-pickr"
       :placeholder="placeholderValue"
@@ -51,12 +51,12 @@ export default {
     };
   },
   computed: {
-    inputDate: {
+    entryDate: {
       get() {
-        return this.$store.getters.selection;
+        return this.$store.getters.selection.entryDate;
       },
       set(value) {
-        this.$store.commit('setSelection', value);
+        this.$store.dispatch('addSelection', { entryDate: value });
       },
     },
   },
