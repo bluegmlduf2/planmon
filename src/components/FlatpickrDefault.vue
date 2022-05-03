@@ -1,7 +1,6 @@
 <template>
   <div class="input-group">
     <flat-pickr
-      id="entryDate"
       v-model="entryDate"
       :config="config"
       class="form-control flat-pickr"

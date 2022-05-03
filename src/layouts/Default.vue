@@ -250,6 +250,7 @@
 // eslint-disable-next-line import/extensions
 import countriesList from '@/assets/js/countries';
 import stayStatusList from '@/assets/js/stayStatus';
+import message from '@/assets/js/message';
 import Login from '@/views/Login/Index.vue';
 import Flatpickr from '@/components/FlatpickrDefault.vue';
 
@@ -303,6 +304,9 @@ export default {
         return this.$store.getters.selection.country;
       },
       set(value) {
+        if (!this.user) {
+          this.$toast.info(message.localStorageAlert);
+        }
         this.$store.dispatch('addSelection', { country: value });
       },
     },
@@ -311,15 +315,10 @@ export default {
         return this.$store.getters.selection.stayStatus;
       },
       set(value) {
+        if (!this.user) {
+          this.$toast.info(message.localStorageAlert);
+        }
         this.$store.dispatch('addSelection', { stayStatus: value });
-      },
-    },
-    entryDate: {
-      get() {
-        return this.$store.getters.selection.entryDates;
-      },
-      set(value) {
-        this.$store.dispatch('addSelection', { entryDate: value });
       },
     },
     // 선택된 TODO리스트 (store에서 값이 변경될때마다 갱신)
@@ -365,7 +364,7 @@ export default {
       this.isMenuActive = false; // nav메뉴 닫기
       this.$store.dispatch('logout');
       if (this.$route.path !== '/') this.$router.push({ name: 'home.index' });// 홈화면이 아니라면 홈화면으로 이동
-      this.$toast.info('다음에 또 봐요');
+      this.$toast.info(message.logout);
     },
 
     /**

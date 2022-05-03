@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import message from '@/assets/js/message';
 
 export default {
   /**
@@ -124,7 +125,7 @@ export default {
       // computed의 user가 초기화때 한번 로그인때 한번 2번 실행되기때문에 isLoginStatus를 추가
       if (value !== null && value !== undefined && this.isLoginStatus) {
         this.closeLogin();
-        this.$toast.info('플랜몬에 오신것을 환영합니다');
+        this.$toast.info(message.welcome);
       }
     },
   },
