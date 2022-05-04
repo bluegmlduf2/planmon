@@ -74,4 +74,11 @@ export default [
       auth: true,
     },
   },
+
+  // 에러페이지
+  {
+    path: '/*',
+    name: 'error.index',
+    component: () => import('@/views/Error/Index.vue'),
+  },
 ];

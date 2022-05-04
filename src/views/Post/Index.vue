@@ -28,9 +28,13 @@
           <span class="tag tag-green">입국전 일정</span>
           <div class="d-flex align-items-center">
             <span class="mr-2 scrab-span"><i
-              class="fa fa-share-alt"
+              class="fa fa-comment-o"
               aria-hidden="true"
-            /> 50명이 스크랩했습니다</span>
+            /> 3</span>
+            <span class="mr-2 scrab-span"><i
+              class="fa fa-eye"
+              aria-hidden="true"
+            /> 50</span>
             <div
               class="list-checkbox list-add mr-1"
             >
