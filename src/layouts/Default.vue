@@ -336,7 +336,7 @@ export default {
     // 선택된 모든리스트의 길이 (store에서 값이 변경될때마다 갱신)
     progressPercent() {
       // eslint-disable-next-line no-mixed-operators
-      const percent = this.completelist.length / this.todolist.length * 100;
+      const percent = this.completelist.length / this.alllist * 100;
       return percent;
     },
   },
