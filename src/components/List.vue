@@ -41,7 +41,7 @@
               <input
                 :id="item.value"
                 type="checkbox"
-                @click="updateCheckInput(item)"
+                @click="updateCheckInput($event,item)"
               >
               <label :for="item.value" />
             </div>
@@ -65,6 +65,7 @@
 
 <script>
 import SlotMixin from '@/mixins/slot';
+import ListConfirm from '@/components/ListConfirm.vue';
 
 export default {
   /**
@@ -142,15 +143,40 @@ export default {
       this.isAdded = !this.isAdded; // 모드변경
       this.toggleMenuActive = false; // 슬라이드 닫기
     },
-    // TODO 버튼클릭시 선택화면 뜬다음에 선택하면 삭제 ,그리고 체크시 해당 체크이외에 전부 취소
-    updateCheckInput(args) {
-      // isAdded: true 추가모드 false 삭제모드
-      const param = {
-        isAdded: this.isAdded,
-        postId: args.value,
-        hidden: !!args.hidden,
+    // 추가,삭제 체크박스 선택시
+    updateCheckInput(e, args) {
+      // 추가, 삭제 진행함수
+      const processUpdate = () => {
+        // isAdded: true 추가모드 false 삭제모드
+        const param = {
+          isAdded: this.isAdded,
+          postId: args.value,
+          hidden: !!args.hidden,
+        };
+        this.$emit('updateCheckInput', param);
       };
-      this.$emit('updateCheckInput', param);
+
+      // 삭제 진행시 확인 창을 표시
+      if (!this.isAdded) {
+        const toastId = this.$toast.info({
+          component: ListConfirm,
+          listeners: {
+            // 삭제 확인시 삭제진행
+            confirmEvent: () => {
+              this.$toast.dismiss(toastId);
+              processUpdate();
+            },
+            // 삭제 취소시 체크표시를 취소함
+            cancelEvent: () => {
+              this.$toast.dismiss(toastId);
+              e.target.checked = false;
+            },
+          },
+        }, { timeout: 7000, closeOnClick: false, closeButton: false });
+      } else {
+        // 추가 진행시 그냥 진행
+        processUpdate();
+      }
     },
     // 체크박스 등록삭제상태 표시 (computed파라미터전달이 안되서 method로 작성)
     setCheckStatus(args) {
