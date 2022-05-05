@@ -5,7 +5,12 @@
       class="col-md-8 default-right p-4"
     >
       <!-- 다가오는 일정 -->
-      <v-list :param-list="todoList">
+      <v-list
+        :param-list="todoList"
+        :param-show-buttons="true"
+        :param-is-add="true"
+        @updateCheckInput="selectTodoCheckInput"
+      >
         <div slot="search">
           <v-search>
             <input
@@ -69,29 +74,23 @@ export default {
     // 다가오는 일정 초기화
     initTodoList() {
       this.todoList = [{
-        value: '1',
-        text: '일본11111111111111111111111111111111111',
+        value: '1a',
+        text: '첫번째 다가오는 일정',
       }, {
-        value: '2',
-        text: '미국222222222222',
+        value: '2a',
+        text: '두번째 다가오는 일정',
       },
       {
-        value: '3',
-        text: '중국33333333333333333333',
-      },
-      {
-        value: '4',
-        text: '4444444444444444444444',
-      },
-      {
-        value: '5',
-        text: '555555555555555555555',
-      },
-      {
-        value: '6',
-        text: '66666666666666666666666',
+        value: '3a',
+        text: '세번째 다가오는 일정',
       },
       ];
+    },
+    // 다가오는 일정 체크박스 선택
+    selectTodoCheckInput(param) {
+      const checkedItem = param;
+      checkedItem.listKind = 'todo';
+      this.$store.dispatch('updateList', checkedItem);
     },
   },
 

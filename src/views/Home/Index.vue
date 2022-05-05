@@ -5,7 +5,12 @@
       class="col-md-8 default-right p-4 add-padding-bottom"
     >
       <!-- 다가오는 일정 -->
-      <v-list :param-list="todoList">
+      <v-list
+        :param-list="todoList"
+        :param-show-buttons="false"
+        :param-is-add="true"
+        @updateCheckInput="selectTodoCheckInput"
+      >
         <span
           slot="header"
         >
@@ -25,14 +30,17 @@
       </div>
       <hr>
       <!-- 추천 일정 -->
-      <v-list :param-list="recommendedList">
+      <v-list
+        :param-list="recommendedList"
+        :param-show-buttons="false"
+        :param-is-add="true"
+        @updateCheckInput="selectRecCheckInput"
+      >
         <span
           slot="header"
         >
           추천 일정
         </span>
-        <!-- 슬롯을 공백으로 보내서 일정삭제버튼을 표시안하는 trick -->
-        <span slot="deleteList" />
       </v-list>
       <div
         class="list-footer"
@@ -98,48 +106,55 @@ export default {
     // 다가오는 일정 초기화
     initTodoList() {
       this.todoList = [{
-        value: '1',
-        text: '일본11111111111111111111111111111111111',
+        value: '1bb',
+        text: '첫번째 다가오는 일정',
       }, {
-        value: '2',
-        text: '미국222222222222',
+        value: '2bb',
+        text: '두번째 다가오는 일정',
       },
       {
-        value: '3',
-        text: '중국33333333333333333333',
-      },
-      {
-        value: '4',
-        text: '4444444444444444444444',
-      },
-      {
-        value: '5',
-        text: '555555555555555555555',
+        value: '3bb',
+        text: '세번째 다가오는 일정',
       },
       ];
     },
     // 추천 일정 초기화
     initRecommendedList() {
       this.recommendedList = [{
-        value: '11',
-        text: '11111111111111111111111',
+        value: '1a',
+        text: '첫번째 추천일정',
       }, {
-        value: '22',
-        text: '22222222222222222',
+        value: '2a',
+        text: '두번째 추천일정',
       },
       {
-        value: '33',
-        text: '333333333333333',
+        value: '3a',
+        text: '세번째 추천일정',
       },
       {
-        value: '44',
-        text: '4444444444444444444444',
+        value: '4a',
+        text: '네번째 추천일정',
       },
       {
-        value: '55',
-        text: '555555555555555555555',
+        value: '5a',
+        text: '다섯번째 추천일정',
       },
-      ];
+      {
+        value: '6a',
+        text: '여섯번째 추천일정',
+      }];
+    },
+    // 다가오는 일정 체크박스 선택
+    selectTodoCheckInput(param) {
+      const checkedItem = param;
+      checkedItem.listKind = 'todo';
+      this.$store.dispatch('updateList', checkedItem);
+    },
+    // 추천 일정 체크박스 선택
+    selectRecCheckInput(param) {
+      const checkedItem = param;
+      checkedItem.listKind = 'rec';
+      this.$store.dispatch('updateList', checkedItem);
     },
   },
 

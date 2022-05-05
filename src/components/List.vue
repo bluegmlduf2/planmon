@@ -13,18 +13,15 @@
         />
         <ul
           class="list-menu list-option-home"
-          :class="[toggleMenuActive?'open':'']"
+          :class="openSlideMenu"
         >
           <li>등록일자순 정렬</li>
           <li>완료순으로 정렬</li>
           <li
-            @click="deleteButtonActive=!deleteButtonActive"
+            v-if="paramShowButtons"
+            @click="changeCheckInput"
           >
-            <slot
-              name="deleteList"
-            >
-              {{ deleteButtonActive?'일정 추가':'일정 삭제' }}
-            </slot>
+            {{ isAdded?'일정 삭제':'일정 추가' }}
           </li>
         </ul>
       </div>
@@ -35,26 +32,16 @@
           v-for="(item, index) in paramList"
           :key="index"
         >
-          <!-- 일정삭제모드 -->
+          <!-- 일정 -->
           <div class="list-item">
             <div
-              v-if="deleteButtonActive"
-              class="list-checkbox list-del"
+              class="list-checkbox"
+              :class="setCheckStatus(item)"
             >
               <input
                 :id="item.value"
                 type="checkbox"
-              >
-              <label :for="item.value" />
-            </div>
-            <!-- 일정추가모드 -->
-            <div
-              v-else
-              class="list-checkbox list-add"
-            >
-              <input
-                :id="item.value"
-                type="checkbox"
+                @click="updateCheckInput(item)"
               >
               <label :for="item.value" />
             </div>
@@ -90,7 +77,6 @@ export default {
   mixins: [
     SlotMixin,
   ],
-
   /**
    * The properties that the component accepts.
    */
@@ -104,25 +90,28 @@ export default {
       default: null,
       type: Array,
     },
+    paramShowButtons: {
+      default: false,
+      type: Boolean,
+      required: true,
+    },
+    paramIsAdd: {
+      default: true,
+      type: Boolean,
+      required: true,
+    },
   },
 
   data() {
     return {
       toggleMenuActive: false, // 슬라이드 토글 메뉴 활성화
-      deleteButtonActive: false, // 삭제상태 활성화
+      isAdded: this.paramIsAdd, // 삭제상태 활성화
     };
   },
-
   /**
    * The computed properties that the component can use.
    */
   computed: {
-    /**
-     * Computed property which will compute the classes
-     * for the header of the card.
-     *
-     * @returns {Array} The classes for the header.
-     */
     classNamesHeader() {
       const classNames = ['card-header'];
 
@@ -135,10 +124,46 @@ export default {
 
       return classNames;
     },
+    // 슬라이드 메뉴 선택시 상태에 맞는 높이의 클래스적용
+    openSlideMenu() {
+      if (this.toggleMenuActive) {
+        if (this.paramShowButtons) {
+          return 'open menu3';
+        }
+        return 'open menu2';
+      }
+      return '';
+    },
   },
 
   methods: {
+    // 체크모드 변경
+    changeCheckInput() {
+      this.isAdded = !this.isAdded; // 모드변경
+      this.toggleMenuActive = false; // 슬라이드 닫기
+    },
     // TODO 버튼클릭시 선택화면 뜬다음에 선택하면 삭제 ,그리고 체크시 해당 체크이외에 전부 취소
+    updateCheckInput(args) {
+      // isAdded: true 추가모드 false 삭제모드
+      const param = {
+        isAdded: this.isAdded,
+        postId: args.value,
+        hidden: !!args.hidden,
+      };
+      this.$emit('updateCheckInput', param);
+    },
+    // 체크박스 등록삭제상태 표시 (computed파라미터전달이 안되서 method로 작성)
+    setCheckStatus(args) {
+      // 모든 일정화면에서 완료일정의 추가시 체크박스 비표시
+      if (!!args.hidden && this.isAdded) {
+        return 'visible-hidden';
+      }
+      // 추가,삭제모드의 체크 표시
+      if (this.isAdded) {
+        return 'list-add';
+      }
+      return 'list-del';
+    },
   },
 };
 </script>

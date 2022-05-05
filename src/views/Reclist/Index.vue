@@ -5,7 +5,12 @@
       class="col-md-8 default-right p-4"
     >
       <!-- 추천 일정 -->
-      <v-list :param-list="recommendedList">
+      <v-list
+        :param-list="recommendedList"
+        :param-show-buttons="false"
+        :param-is-add="true"
+        @updateCheckInput="selectRecCheckInput"
+      >
         <div slot="search">
           <v-search>
             <input
@@ -70,29 +75,27 @@ export default {
     // 추천 일정 초기화
     initRecommendedList() {
       this.recommendedList = [{
-        value: '11',
-        text: '11111111111111111111111',
+        value: '1a',
+        text: '첫번째 추천일정',
       }, {
-        value: '22',
-        text: '22222222222222222',
+        value: '2a',
+        text: '두번째 추천일정',
       },
       {
-        value: '33',
-        text: '333333333333333',
+        value: '3a',
+        text: '세번째 추천일정',
       },
       {
-        value: '44',
-        text: '4444444444444444444444',
-      },
-      {
-        value: '55',
-        text: '555555555555555555555',
-      },
-      {
-        value: '66',
-        text: '66666666666666666666666',
+        value: '4a',
+        text: '네번째 추천일정',
       },
       ];
+    },
+    // 추천 일정 체크박스 선택
+    selectRecCheckInput(param) {
+      const checkedItem = param;
+      checkedItem.listKind = 'rec';
+      this.$store.dispatch('updateList', checkedItem);
     },
   },
 

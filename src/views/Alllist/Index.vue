@@ -5,7 +5,12 @@
       class="col-md-8 default-right p-4"
     >
       <!-- 모든 일정 -->
-      <v-list :param-list="allList">
+      <v-list
+        :param-list="allList"
+        :param-show-buttons="true"
+        :param-is-add="true"
+        @updateCheckInput="selectAllCheckInput"
+      >
         <div slot="search">
           <v-search>
             <input
@@ -69,29 +74,21 @@ export default {
     // 추천 일정 초기화
     initAllList() {
       this.allList = [{
-        value: '11',
-        text: '11111111111111111111111',
+        value: '1a',
+        text: '첫번째 할일일정',
       }, {
-        value: '22',
-        text: '22222222222222222',
-      },
-      {
-        value: '33',
-        text: '333333333333333',
-      },
-      {
-        value: '44',
-        text: '4444444444444444444444',
-      },
-      {
-        value: '55',
-        text: '555555555555555555555',
-      },
-      {
-        value: '66',
-        text: '66666666666666666666666',
+        value: '2a',
+        text: '두번째 완료일정',
+        hidden: true,
       },
       ];
+    },
+    // 모든 일정 체크박스 선택
+    selectAllCheckInput(param) {
+      const checkedItem = param;
+      // 체크한 대상이 할일일정인지 완료일정인지 구분
+      checkedItem.listKind = checkedItem.hidden ? 'complete' : 'todo';
+      this.$store.dispatch('updateList', checkedItem);
     },
   },
 

@@ -121,6 +121,10 @@ span.sm-title
 	top: 7px;
 	width: 12px;
 }
+// 모든일정시 할일일정 추가시 체크 비표시
+.list-checkbox.visible-hidden {
+	visibility: hidden
+}
 .list-checkbox input[type="checkbox"] {
 	visibility: hidden;
 }
@@ -540,8 +544,11 @@ p
 			right: 0
 			width: 150px;
 			line-height: 35px;
-		// 오른쪽 슬라이드메뉴 열렸을때 크지정
-		.list-menu.list-option-home.open
+		// 오른쪽 슬라이드메뉴 열렸을때 크지정(메뉴 2개 높이)
+		.list-menu.list-option-home.open.menu2
+			height: 70px
+		// 오른쪽 슬라이드메뉴 열렸을때 크지정(메뉴 3개 높이)
+		.list-menu.list-option-home.open.menu3
 			height: 106px
 	.list-item
 		display: flex;
