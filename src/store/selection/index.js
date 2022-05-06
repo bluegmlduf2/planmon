@@ -1,3 +1,6 @@
+import Vue from 'vue';
+import message from '@/assets/js/message';
+
 // 선택 정보의 초기값
 const selectionInit = {
   country: null,
@@ -94,12 +97,14 @@ export default {
           // 추천일정 할일 일정에 추가
           // 중복된 일정이 아니라면 할일 일정에 추가
           selection.todolist = [...selection.todolist.filter((e) => e.postId !== checkedItem.postId), checkedItem];
+          Vue.prototype.$toast.info(message.addList);
         } else if (listKind === 'todo' || listKind === 'all') {
           // 할일일정, 모든일정의 추천일정 선택시 완료일정에 추가
           // 중복된 일정이 아니라면 완료 일정에 추가
           selection.completelist = [...selection.completelist.filter((e) => e.postId !== checkedItem.postId), checkedItem];
           // 할일 일정에서 삭제
           selection.todolist = [...selection.todolist.filter((e) => e.postId !== checkedItem.postId)];
+          Vue.prototype.$toast.info(message.completeList);
         }
         window.localStorage.setItem('selection', JSON.stringify(selection));
       }
@@ -126,6 +131,7 @@ export default {
         }
         window.localStorage.setItem('selection', JSON.stringify(selection));
       }
+      Vue.prototype.$toast.info(message.removeList);
       commit('setSelection', selection);
     },
   },
