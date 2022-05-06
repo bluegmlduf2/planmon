@@ -3,6 +3,7 @@ const selectionInit = {
   country: null,
   stayStatus: null,
   entryDate: null,
+  isShowMessage: true,
   todolist: [],
   completelist: [],
 };

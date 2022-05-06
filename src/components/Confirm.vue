@@ -1,5 +1,9 @@
 <template>
   <div class="container">
+    <span
+      v-if="confirmMessage"
+      class="mr-3 confirm-message"
+    >{{ confirmMessage }}<br><br></span>
     <button
       v-if="isShowButtons"
       class="toast-button"
@@ -14,26 +18,22 @@
       {{ buttonName }}
     </button>
     <span
-      v-if="message"
+      v-if="!confirmMessage"
       class="mr-3"
-    >?{{ message }} </span>
-    <span
-      v-else
-      class="mr-3"
-    >?{{ buttonName }}하시겠습니까 </span>
+    >?{{ buttonName }}하시겠습니까</span>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    // 버튼 두개 표시 여부
+    // 확인 버튼명
     buttonName: {
       type: String,
       required: true,
     },
-    // 버튼 두개 표시 여부
-    message: {
+    // 사용자 지정 확인메세지
+    confirmMessage: {
       default: '',
       type: String,
     },

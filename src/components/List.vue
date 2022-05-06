@@ -66,6 +66,7 @@
 <script>
 import SlotMixin from '@/mixins/slot';
 import Confirm from '@/components/Confirm.vue';
+import message from '@/assets/js/message';
 
 export default {
   /**
@@ -113,6 +114,14 @@ export default {
    * The computed properties that the component can use.
    */
   computed: {
+    // 유저정보 (store에서 값이 변경될때마다 갱신)
+    user() {
+      return this.$store.getters.user;
+    },
+    // 로컬스토리지 저장 알림창 (store에서 값이 변경될때마다 갱신)
+    showMessage() {
+      return this.$store.getters.selection.isShowMessage;
+    },
     classNamesHeader() {
       const classNames = ['card-header'];
 
@@ -145,7 +154,7 @@ export default {
     },
     // 추가,삭제 체크박스 선택시
     updateCheckInput(e, args) {
-      // 추가, 삭제 진행함수
+      // 추가, 삭제 메인 진행 함수
       const processUpdate = () => {
         // isAdded: true 추가모드 false 삭제모드
         const param = {
@@ -156,30 +165,49 @@ export default {
         this.$emit('updateCheckInput', param);
       };
 
-      // 삭제 진행시 확인 창을 표시
-      if (!this.isAdded) {
+      // 확인창 표시
+      const confirmToast = (buttonName, confirmMessage) => {
         const toastId = this.$toast.info({
           component: Confirm,
           props: {
-            buttonName: '삭제',
-            isShowButtons: true,
+            buttonName, // 확인의 버튼명
+            isShowButtons: true, // 확인, 취소버튼 2개 표시
+            confirmMessage, // 확인메세지 사용자 지정
           },
           listeners: {
-            // 삭제 확인시 삭제진행
+            // 확인(삭제)버튼
             confirmEvent: () => {
               this.$toast.dismiss(toastId);
-              processUpdate();
+              if (confirmMessage) {
+                // 추가모드에서 확인한 경우
+                // 로컬스토리지 경고 메세지 표시하지 않음을 설정
+                this.$store.dispatch('addSelection', { isShowMessage: false });
+              } else {
+                // 삭제모드에서 삭제한 경우
+                processUpdate();
+              }
             },
-            // 삭제 취소시 체크표시를 취소함
+            // 취소버튼 (삭제 취소시 체크표시를 취소)
             cancelEvent: () => {
               this.$toast.dismiss(toastId);
               e.target.checked = false;
             },
           },
         }, { timeout: 7000, closeOnClick: false, closeButton: false });
-      } else {
-        // 추가 진행시 그냥 진행
+      };
+
+      // 추가 삭제 로직 분기
+      if (this.isAdded) {
+        // 추가
+        // 다시보기 메세지 표시 (메세지보기가 상태이고 미로그인시)
+        if (this.showMessage && !this.user) {
+          confirmToast('확인', message.localStorageListAlert);
+        }
+        // 추가 진행
         processUpdate();
+      } else {
+        // 삭제
+        confirmToast('삭제');
       }
     },
     // 체크박스 등록삭제상태 표시 (computed파라미터전달이 안되서 method로 작성)
