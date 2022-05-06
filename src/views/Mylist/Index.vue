@@ -5,7 +5,11 @@
       class="col-md-8 default-right p-4"
     >
       <!-- 내가 작성한 일정 -->
-      <v-list :param-list="myList">
+      <v-list
+        :param-list="myList"
+        :param-show-buttons="false"
+        :param-is-add="true"
+      >
         <div slot="search">
           <v-search>
             <input
@@ -69,27 +73,17 @@ export default {
     // 내 일정 초기화
     initMyList() {
       this.myList = [{
-        value: '11',
-        text: '11111111111111111111111',
+        value: '1a',
+        text: '첫번째 할일일정',
+        hidden: true,
       }, {
-        value: '22',
-        text: '22222222222222222',
-      },
-      {
-        value: '33',
-        text: '333333333333333',
-      },
-      {
-        value: '44',
-        text: '4444444444444444444444',
-      },
-      {
-        value: '55',
-        text: '555555555555555555555',
-      },
-      {
-        value: '66',
-        text: '66666666666666666666666',
+        value: '2a',
+        text: '두번째 완료일정',
+        hidden: true,
+      }, {
+        value: '3a',
+        text: '세번째 완료일정',
+        hidden: true,
       },
       ];
     },

@@ -67,9 +67,6 @@
               <span class="mr-2">
                 수정
               </span>
-              <span>
-                삭제
-              </span>
             </div>
           </div>
         </div>

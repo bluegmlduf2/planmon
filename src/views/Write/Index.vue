@@ -174,6 +174,7 @@ import countriesList from '@/assets/js/countries';
 import stayStatusList from '@/assets/js/stayStatus';
 import Flatpickr from '@/components/Flatpickr.vue';
 import Confirm from '@/components/Confirm.vue';
+import message from '@/assets/js/message';
 
 export default {
   /**
@@ -244,6 +245,7 @@ export default {
         component: Confirm,
         props: {
           buttonName: '작성',
+          confirmMessage: message.writeConfirm, // 확인메세지 사용자 지정
         },
         listeners: {
           confirmEvent: () => this.testMethod(),
