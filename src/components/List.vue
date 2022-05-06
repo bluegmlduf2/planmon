@@ -65,7 +65,7 @@
 
 <script>
 import SlotMixin from '@/mixins/slot';
-import ListConfirm from '@/components/ListConfirm.vue';
+import Confirm from '@/components/Confirm.vue';
 
 export default {
   /**
@@ -159,7 +159,11 @@ export default {
       // 삭제 진행시 확인 창을 표시
       if (!this.isAdded) {
         const toastId = this.$toast.info({
-          component: ListConfirm,
+          component: Confirm,
+          props: {
+            buttonName: '삭제',
+            isShowButtons: true,
+          },
           listeners: {
             // 삭제 확인시 삭제진행
             confirmEvent: () => {

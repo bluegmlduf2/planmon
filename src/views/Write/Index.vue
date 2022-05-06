@@ -173,7 +173,7 @@ import { Editor } from '@toast-ui/vue-editor';
 import countriesList from '@/assets/js/countries';
 import stayStatusList from '@/assets/js/stayStatus';
 import Flatpickr from '@/components/Flatpickr.vue';
-import DeleteConfirm from '@/components/DeleteConfirm.vue';
+import Confirm from '@/components/Confirm.vue';
 
 export default {
   /**
@@ -241,7 +241,10 @@ export default {
     // 글쓰기
     writePost() {
       this.$toast.info({
-        component: DeleteConfirm,
+        component: Confirm,
+        props: {
+          buttonName: '작성',
+        },
         listeners: {
           confirmEvent: () => this.testMethod(),
         },

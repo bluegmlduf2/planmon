@@ -82,7 +82,7 @@
  */
 
 import VLayout from '@/layouts/Default.vue';
-import DeleteConfirm from '@/components/DeleteConfirm.vue';
+import Confirm from '@/components/Confirm.vue';
 
 export default {
   /**
@@ -146,7 +146,10 @@ export default {
     // 유저삭제
     deleteUser() {
       this.$toast.info({
-        component: DeleteConfirm,
+        component: Confirm,
+        props: {
+          buttonName: '삭제',
+        },
         listeners: {
           confirmEvent: () => {
             this.$store.dispatch('deleteUser');
