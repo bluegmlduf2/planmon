@@ -363,7 +363,7 @@ export default {
     onLogout() {
       this.isMenuActive = false; // nav메뉴 닫기
       this.$store.dispatch('logout');
-      if (this.$route.path !== '/') this.$router.push({ name: 'home.index' });// 홈화면이 아니라면 홈화면으로 이동
+      this.$router.replace('/'); // push와 다르게 replace는 히스토리를 만들지않음
       this.$toast.info(message.logout);
     },
 
