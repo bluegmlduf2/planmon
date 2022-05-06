@@ -1,6 +1,7 @@
 from flask_restx import Api # REST API구현
 from flask import Blueprint
 
+from .main.controller.list_controller import api as list_ns
 from .main.controller.user_controller import api as user_ns
 from .main.controller.auth_controller import api as auth_ns
 
@@ -25,5 +26,6 @@ api = Api(
     security='apikey'
 )
 
-api.add_namespace(user_ns, path='/user')
+api.add_namespace(user_ns, path='/api/user')
+api.add_namespace(list_ns, path='/api/list')
 api.add_namespace(auth_ns)

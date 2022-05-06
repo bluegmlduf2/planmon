@@ -4,8 +4,8 @@ class BaseProxy {
   /**
    * The constructor of the BaseProxy.
    *
-   * @param {string} endpoint   The endpoint being used.
-   * @param {Object} parameters The parameters for the request.
+   * @param {string} endpoint   엔드포인트 url, 자식 class에서 지정
+   * @param {Object} parameters 서버로 전달할 파라미터, 자식 class에서 지정
    */
   constructor(endpoint, parameters = {}) {
     this.endpoint = endpoint;
@@ -13,9 +13,9 @@ class BaseProxy {
   }
 
   /**
-   * Method used to set the query parameters.
+   * 전달할 파라미터의 중에서 복수의 값을 추가/수정한다.(추가/수정할 값을 키,값형태의 객체로 전달)
    *
-   * @param {Object} parameters The given parameters.
+   * @param {Object} parameters 추가/수정할 객체, 해당 키가 전달할 파라미터에 존재할 경우 수정, 없을경우 추가.
    *
    * @returns {BaseProxy} The instance of the proxy.
    */
@@ -28,10 +28,10 @@ class BaseProxy {
   }
 
   /**
-   * Method used to set a single parameter.
+   * 전달할 파라미터의 중에서 하나의 값을 추가/수정한다.(추가/수정할 값을 키와 값으로 전달)
    *
-   * @param {string} parameter The given parameter.
-   * @param {*} value The value to be set.
+   * @param {string} parameter 추가/수정할 키명
+   * @param {*} value 추가/수정할 값
    *
    * @returns {BaseProxy} The instance of the proxy.
    */
@@ -42,9 +42,9 @@ class BaseProxy {
   }
 
   /**
-   * Method used to remove all the parameters.
+   * 전달할 파라미터의 중에서 복수의 값을 삭제한다.(삭제할 파라미터의 키값을 배열로 전달)
    *
-   * @param {Array} parameters The given parameters.
+   * @param {Array} parameters 삭제할 파라미터명의 키값이 들어간 배열.
    *
    * @returns {BaseProxy} The instance of the proxy.
    */
@@ -57,9 +57,9 @@ class BaseProxy {
   }
 
   /**
-   * Method used to remove a single parameter.
+   * 전달할 파라미터의 중에서 하나의 값을 삭제한다.(삭제할 파라미터의 키값을 문자열로 전달)
    *
-   * @param {string} parameter The given parameter.
+   * @param {string} parameter 삭제할 파라미터명의 문자열.
    *
    * @returns {BaseProxy} The instance of the proxy.
    */
@@ -70,7 +70,8 @@ class BaseProxy {
   }
 
   /**
-   * The method used to perform an AJAX-request.
+   *  AJAX-request를 이용해서 데이터를 가져온다
+   *  (request method타입, 복수파라미터전송등 조금 더 세부적인 요청이 가능함)
    *
    * @param {string}      requestType The request type.
    * @param {string}      url         The URL for the request.
@@ -95,7 +96,7 @@ class BaseProxy {
   }
 
   /**
-   * Method used to fetch all items from the API.
+   * 파라미터없이 모든 데이터를 가져올때
    *
    * @returns {Promise} The result in a promise.
    */
@@ -104,7 +105,7 @@ class BaseProxy {
   }
 
   /**
-   * Method used to fetch a single item from the API.
+   * 하나의 데이터를 가져올때
    *
    * @param {int} id The given identifier.
    *
@@ -115,7 +116,7 @@ class BaseProxy {
   }
 
   /**
-   * Method used to create an item.
+   * 데이터 등록
    *
    * @param {Object} item The given item.
    *
@@ -126,7 +127,7 @@ class BaseProxy {
   }
 
   /**
-   * Method used to update an item.
+   * 데이터 수정
    *
    * @param {int}    id   The given identifier.
    * @param {Object} item The given item.
@@ -138,7 +139,7 @@ class BaseProxy {
   }
 
   /**
-   * Method used to destroy an item.
+   * 데이터 삭제
    *
    * @param {int} id The given identifier.
    *
@@ -149,7 +150,7 @@ class BaseProxy {
   }
 
   /**
-   * Method used to transform a parameters object to a parameters string.
+   * 현재 설정된 파라미터를 쿼리파라미터 형식으로 만든다
    *
    * @returns {string} The parameter string.
    */
