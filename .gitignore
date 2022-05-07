@@ -117,5 +117,8 @@ ENV/
 .mypy_cache/
 /migrations%
 
-#DB테스팅데이터
+# DB테스팅데이터
 migrations
+
+# 서버의 파이어베이스 보안키파일
+planmon-firebase-adminsdk.json

@@ -27,4 +27,5 @@ Werkzeug==0.15.5
 
 markupsafe==2.0.1 # 추가함
 python-dotenv # .env에 설정파일추가를 위해 설치
+firebase-admin==5.2.0 # 파이어베이스 인증위해 추가 
 #psycopg2-binary==2.8.5# postgre사용하지않기때문에 추가안함
