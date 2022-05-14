@@ -1,9 +1,47 @@
 from app.main.model.user import User
 from ..service.blacklist_service import save_token
 from typing import Dict, Tuple
-
+from firebase_admin import auth # 파이어베이스 인증모듈
 
 class Auth:
+
+    @staticmethod
+    def check_verified_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
+        '''인증 유저 확인 '''
+        try:
+            auth_token= data.headers.get('authorization')
+            if auth_token:
+                try:
+                    # 파이어베이스에서 유저정보인증 확인
+                    user = auth.verify_id_token(auth_token.replace("Bearer ",""))
+                    response_object = {
+                        'status': 'success',
+                        'message': '성공적으로 인증되었습니다',
+                        'Authorization': True,
+                        'uid': user.get('uid'),
+                    }
+                    return response_object, 200
+                except:
+                    #유효하지않은 토큰
+                    response_object = {
+                        'status': 'fail',
+                        'message': '유효하지않은 토큰입니다'
+                    }
+                    return response_object, 401
+            else:
+                response_object = {
+                    'status': 'fail',
+                    'message': '인증정보가 존재하지않습니다'
+                }
+                return response_object, 401
+
+        except Exception as e:
+            print(e)
+            response_object = {
+                'status': 'fail',
+                'message': '인증진행중 시스템에러 발생'
+            }
+            return response_object, 500
 
     @staticmethod
     def login_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:

@@ -1,8 +1,26 @@
 from flask_restx import Namespace, fields
 
+class SelectionDto:
+    api = Namespace('selection', description='유저선택정보')
+    selection = api.model('selection', {
+        'completelist': fields.List(description='완료일정리스트', default=[], cls_or_instance=fields.String()),
+        'country': fields.String(description='선택국가'),
+        'entryDate': fields.Date(description='입국날짜'),
+        'isShowMessage': fields.Boolean(required=True, default=False, description='경고메세지표시유무'),
+        'stayStatus': fields.String( description='체류상태'),
+        'todolist': fields.List(description='할일일정리스트', default=[], cls_or_instance=fields.String()),    
+    })
+
+class ListDto:
+    api = Namespace('list', description='일정관리')
+    list = api.model('list', {
+        'sort': fields.String(required=True, description='정렬순서'),
+        'paginationKey': fields.String(description='페이지네이션용 키')
+    })
+
 
 class UserDto:
-    api = Namespace('user', description='user related operations')
+    api = Namespace('user', description='유저정보')
     user = api.model('user', {
         'email': fields.String(required=True, description='user email address'),
         'username': fields.String(required=True, description='user username'),

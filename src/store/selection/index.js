@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import message from '@/assets/js/message';
+import SelectionProxy from '@/proxies/SelectionProxy';
 
 // 선택 정보의 초기값
 const selectionInit = {
@@ -30,14 +31,14 @@ export default {
       const isLogined = this.getters.user;
       // 로그인상태일시
       if (isLogined) {
-        // TODO axios로 selection 가져옴
-        selection = {
-          country: 'JP',
-          stayStatus: '2',
-          entryDate: '2022-05-10',
-          todolist: [1, 2, 3, 4, 5],
-          completelist: [1],
-        };
+        new SelectionProxy()
+          .getSelection()
+          .then((response) => {
+            commit('setSelection', response.data);
+          })
+          .catch(() => {
+            console.log('Request failed...');
+          });
       } else {
       // 미로그인시
         const selectionStorage = window.localStorage.getItem('selection');
@@ -46,8 +47,8 @@ export default {
           window.localStorage.setItem('selection', JSON.stringify(selectionInit));
         }
         selection = JSON.parse(window.localStorage.getItem('selection'));
+        commit('setSelection', selection);
       }
-      commit('setSelection', selection);
     },
     // 선택한 항목을 저장
     addSelection({ commit }, payload) {

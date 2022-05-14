@@ -108,8 +108,9 @@ export default {
     deleteUser({ commit }) {
       commit('setLoading', true);
       commit('clearError');
+      const { currentUser } = firebase.auth;
       // 유저 삭제
-      firebase.deleteUser(firebase.auth.currentUser).then(() => {
+      firebase.deleteUser(currentUser).then(() => {
         Vue.prototype.$toast.info(message.deleteUser);
         commit('setUser', null);
         router.push({ name: 'home.index' });
