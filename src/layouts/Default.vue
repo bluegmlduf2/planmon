@@ -363,9 +363,10 @@ export default {
     // 로그아웃
     onLogout() {
       this.isMenuActive = false; // nav메뉴 닫기
-      this.$store.dispatch('logout');
+      this.$store.dispatch('logout'); // 유저 정보삭제
+      this.$store.dispatch('clearSelection'); // 유저 선택 정보삭제
       this.$toast.info(message.logout);
-      this.$router.go(this.$router.currentRoute);
+      this.$router.push({ name: 'home.index' }).catch(() => {}); // 홈으로 이동한다. '/'패스일경우 에러가 발생하므로 catch로 에러무시
     },
 
     /**
