@@ -52,7 +52,7 @@ export default {
               photoUrl: user.photoURL,
             };
             commit('setUser', newUser);
-            router.go(); // 로그인 후 현재화면 새로고침
+            window.location.reload(); // 로그인 후 현재화면 새로고침
           },
         )
         .catch(
@@ -76,7 +76,7 @@ export default {
               // 임시적으로 저장해뒀던 로그인 이메일 삭제
               window.localStorage.removeItem('emailForSignIn');
               Vue.prototype.$toast.info(message.welcome);
-              router.go(); // 로그인 후 현재화면 새로고침
+              window.location.reload(); // 로그인 후 현재화면 새로고침
             })
             .catch((error) => {
               // 처음에 렌더링이 2회 실행되면서 아래의 에러가 발생한다.
