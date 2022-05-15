@@ -47,44 +47,47 @@ import store from './store';
 
 Vue.config.productionTip = false;
 
-/* eslint-disable no-new */
-new Vue({
-  /**
-   * Bind the Vue instance to the HTML.
-   */
-  el: '#app',
+let app;
 
-  /**
-   * The localization plugin.
-   */
-  i18n,
+firebase.onAuthStateChanged(firebase.auth, (user) => {
+  if (user) {
+    // 기존 로그인 정보가 있을시 유저정보 기존 유저정보 갱신
+    store.dispatch('autoSignIn', user);
+  } else {
+    // 유저로그인 정보가 없을때 항상 이메일 로그인인지 확인한다
+    // 이메일인증부분
+    store.dispatch('signInWithEmailLink');
+  }
 
-  /**
-   * The router.
-   */
-  router,
+  // 최초화면표시 , 화면새로고침시 뷰 객체를 최초 1회만 생성
+  if (!app) {
+  /* eslint-disable no-new */
+    app = new Vue({
+    /**
+     * Bind the Vue instance to the HTML.
+     */
+      el: '#app',
 
-  /**
-   * The Vuex store.
-   */
-  store,
+      /**
+     * The localization plugin.
+     */
+      i18n,
 
-  // 파이어 베이스 인증정보 새로고침마다 갱신
-  created() {
-    firebase.onAuthStateChanged(firebase.auth, (user) => {
-      // 이메일인증부분
-      this.$store.dispatch('signInWithEmailLink');
-      // 유저가 존재하면 로그인 정보갱신
-      if (user) {
-        this.$store.dispatch('autoSignIn', user);
-      }
-      this.$store.dispatch('setInitSelection'); // 초기선택값 데이터 초기화
+      /**
+     * The router.
+     */
+      router,
+
+      /**
+     * The Vuex store.
+     */
+      store,
+      /**
+     * Will render the application.
+     *
+     * @param {Function} h Will create an element.
+     */
+      render: (h) => h(App),
     });
-  },
-  /**
-   * Will render the application.
-   *
-   * @param {Function} h Will create an element.
-   */
-  render: (h) => h(App),
+  }
 });

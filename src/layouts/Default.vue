@@ -344,6 +344,7 @@ export default {
   created() {
     this.initCountries(); // 국가 리스트 초기화
     this.initStayStatus(); // 체류상태 리스트 초기화
+    this.$store.dispatch('setInitSelection'); // 초기선택값 데이터 초기화
   },
   /**
    * The methods that the layout can use.
@@ -363,8 +364,8 @@ export default {
     onLogout() {
       this.isMenuActive = false; // nav메뉴 닫기
       this.$store.dispatch('logout');
-      this.$router.replace('/'); // push와 다르게 replace는 히스토리를 만들지않음
       this.$toast.info(message.logout);
+      window.location.href = '/'; // 로그아웃후 홈화면 이동
     },
 
     /**
