@@ -7,7 +7,7 @@ from typing import Callable
 
 
 def token_required(f) -> Callable:
-    '''유저인증확인'''
+    '''토큰에 유저정보가 존재 필수, uid반환'''
     @wraps(f)
     def decorated(*args, **kwargs):
 
@@ -24,6 +24,18 @@ def token_required(f) -> Callable:
 
     return decorated
 
+def get_user_by_token(f) -> Callable:
+    '''토큰에 유저정보가 존재 필수가아님, uid반환'''
+    @wraps(f)
+    def decorated(*args, **kwargs):
+
+        data = Auth.check_verified_user(request)[0]
+        uid =data.get('uid') # uid
+        
+        # 인증이 문제없으면 진행
+        return f(uid ,*args, **kwargs)
+
+    return decorated
 
 def admin_token_required(f: Callable) -> Callable:
     @wraps(f)

@@ -39,17 +39,17 @@
               :class="setCheckStatus(item)"
             >
               <input
-                :id="item.value"
+                :id="item.postId"
                 type="checkbox"
                 @click="updateCheckInput($event,item)"
               >
-              <label :for="item.value" />
+              <label :for="item.postId" />
             </div>
             <span
               class="list-content ellipsis"
               @click="$router.push({name: 'post.index'})"
             >
-              {{ item.text }}
+              {{ item.title }}
             </span>
             <span
               class="tag tag-list tag-blue"
@@ -159,7 +159,7 @@ export default {
         // isAdded: true 추가모드 false 삭제모드
         const param = {
           isAdded: this.isAdded,
-          postId: args.value,
+          postId: args.postId,
           hidden: !!args.hidden,
         };
         this.$emit('updateCheckInput', param);

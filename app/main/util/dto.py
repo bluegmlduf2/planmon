@@ -11,11 +11,12 @@ class SelectionDto:
         'todolist': fields.List(description='할일일정리스트', default=[], cls_or_instance=fields.String()),    
     })
 
+
 class ListDto:
     api = Namespace('list', description='일정관리')
     list = api.model('list', {
-        'sort': fields.String(required=True, description='정렬순서'),
-        'paginationKey': fields.String(description='페이지네이션용 키')
+        'postId': fields.String(description='일정 ID'),
+        'title': fields.String(description='일정 제목'),
     })
 
 
