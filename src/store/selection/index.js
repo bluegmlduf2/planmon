@@ -51,8 +51,9 @@ export default {
         // TODO일정 추가
         // TODO 나중에 완료 목록갯수까지해서 promiseall로 구현하기
         // TODO 나중에 todolist의 포스트 id만 넘기고 해당 게시물 받아오기
+        // TODO getTodoList 일반변수 , getTodoListLocal 로컬스토리지의 게시물상세 postid주고 todolist받기
         new ListProxy()
-          .getTodoList()
+          .getTodoListLocal()
           .then((response) => {
             selection.todolist = response.data;
             commit('setSelection', selection);

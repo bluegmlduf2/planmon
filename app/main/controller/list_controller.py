@@ -2,7 +2,7 @@ from flask_restx import Resource
 
 from app.main.util.decorator import get_user_by_token
 from ..util.dto import ListDto
-from ..service.list_service import get_todolist
+from ..service.list_service import get_todolist, get_todolist_local
 from typing import Dict, Tuple
 
 api = ListDto.api
@@ -17,3 +17,11 @@ class TodoList(Resource):
     def get(uid,self):
         """할일 일정을 반환"""
         return get_todolist(uid)
+
+@api.route('/todolistlocal')
+class TodoListLocal(Resource):
+    @api.doc('할일 일정 가져오기 (로컬스토리지용)')
+    @api.marshal_list_with(_list, envelope='data')
+    def get(self):
+        """할일 일정을 반환"""
+        return get_todolist_local()

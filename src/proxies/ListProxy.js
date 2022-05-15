@@ -22,6 +22,18 @@ class ListProxy extends Proxy {
   getTodoList() {
     return this.submit('get', `${this.endpoint}/todolist`);
   }
+
+  /**
+   * 할일일정의 상세내용 가져오기 (로컬스토리지용)
+   *
+   * @param {String} sort 정렬
+   * @param {String} pageKey 페이지네이션용 키
+   *
+   * @returns {Promise} The result in a promise.
+   */
+  getTodoListLocal() {
+    return this.submit('get', `${this.endpoint}/todolistlocal`);
+  }
 }
 
 export default ListProxy;
