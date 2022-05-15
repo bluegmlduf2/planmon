@@ -6,7 +6,7 @@
     >
       <!-- 다가오는 일정 -->
       <v-list
-        :param-list="todoList"
+        :param-list="todolist"
         :param-show-buttons="false"
         :param-is-add="true"
         @updateCheckInput="selectTodoCheckInput"
@@ -76,7 +76,6 @@
 
 import VLayout from '@/layouts/Default.vue';
 import VList from '@/components/List.vue';
-import ListProxy from '@/proxies/ListProxy';
 
 export default {
   /**
@@ -94,27 +93,19 @@ export default {
 
   data() {
     return {
-      todoList: [], // 다가오는 일정 리스트
       recommendedList: [], // 추천 일정 리스트
     };
   },
+  computed: {
+    // 선택된 TODO리스트 (store에서 값이 변경될때마다 갱신)
+    todolist() {
+      return this.$store.getters.selection.todolist;
+    },
+  },
   created() {
-    this.initTodoList(); // 다가오는 일정 초기화 (최대 5개 호출)
     this.initRecommendedList(); // 추천 일정 초기화  (최대 5개 호출)
   },
-
   methods: {
-    // 다가오는 일정 초기화
-    initTodoList() {
-      new ListProxy()
-        .getTodoList()
-        .then((response) => {
-          this.todoList = response.data;
-        })
-        .catch(() => {
-          console.log('Request failed...');
-        });
-    },
     // 추천 일정 초기화
     initRecommendedList() {
       this.recommendedList = [{

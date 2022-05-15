@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import message from '@/assets/js/message';
 import SelectionProxy from '@/proxies/SelectionProxy';
+import ListProxy from '@/proxies/ListProxy';
 
 // 선택 정보의 초기값
 const selectionInit = {
@@ -47,7 +48,18 @@ export default {
           window.localStorage.setItem('selection', JSON.stringify(selectionInit));
         }
         selection = JSON.parse(window.localStorage.getItem('selection'));
-        commit('setSelection', selection);
+        // TODO일정 추가
+        // TODO 나중에 완료 목록갯수까지해서 promiseall로 구현하기
+        // TODO 나중에 todolist의 포스트 id만 넘기고 해당 게시물 받아오기
+        new ListProxy()
+          .getTodoList()
+          .then((response) => {
+            selection.todolist = response.data;
+            commit('setSelection', selection);
+          })
+          .catch(() => {
+            console.log('Request failed...');
+          });
       }
     },
     // 선택한 항목을 저장

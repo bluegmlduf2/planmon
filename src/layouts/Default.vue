@@ -365,7 +365,7 @@ export default {
       this.isMenuActive = false; // nav메뉴 닫기
       this.$store.dispatch('logout');
       this.$toast.info(message.logout);
-      window.location.href = '/'; // 로그아웃후 홈화면 이동
+      this.$router.go(this.$router.currentRoute);
     },
 
     /**

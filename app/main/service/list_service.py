@@ -1,6 +1,5 @@
 from app.main.model.list import List
 from app.main.model.mylist import Mylist
-from sqlalchemy.orm import load_only
 
 def get_todolist(uid):
     '''유저의 할일 리스트 취득'''
