@@ -19,7 +19,7 @@ app.app_context().push()
 # @manager.command def run() -> manager.run() -> python3 manage.py run
 manager = Manager(app) 
 
-migrate = Migrate(app, db)
+migrate = Migrate(app, db, render_as_batch=True) # 컬럼타입변경시  migrate가 컬럼 타입을 변경할수있도록 설정 render_as_batch=True
 
 manager.add_command('db', MigrateCommand)
 
