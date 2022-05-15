@@ -76,6 +76,7 @@
 
 import VLayout from '@/layouts/Default.vue';
 import VList from '@/components/List.vue';
+import ListProxy from '@/proxies/ListProxy';
 
 export default {
   /**
@@ -105,18 +106,14 @@ export default {
   methods: {
     // 다가오는 일정 초기화
     initTodoList() {
-      this.todoList = [{
-        value: '1bb',
-        text: '첫번째 다가오는 일정',
-      }, {
-        value: '2bb',
-        text: '두번째 다가오는 일정',
-      },
-      {
-        value: '3bb',
-        text: '세번째 다가오는 일정',
-      },
-      ];
+      new ListProxy()
+        .getTodoList()
+        .then((response) => {
+          this.todoList = response.data;
+        })
+        .catch(() => {
+          console.log('Request failed...');
+        });
     },
     // 추천 일정 초기화
     initRecommendedList() {

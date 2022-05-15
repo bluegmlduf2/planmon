@@ -45,6 +45,7 @@
 import VLayout from '@/layouts/Default.vue';
 import VList from '@/components/List.vue';
 import VSearch from '@/components/Search.vue';
+import ListProxy from '@/proxies/ListProxy';
 
 export default {
   /**
@@ -73,18 +74,14 @@ export default {
   methods: {
     // 다가오는 일정 초기화
     initTodoList() {
-      this.todoList = [{
-        value: '1a',
-        text: '첫번째 다가오는 일정',
-      }, {
-        value: '2a',
-        text: '두번째 다가오는 일정',
-      },
-      {
-        value: '3a',
-        text: '세번째 다가오는 일정',
-      },
-      ];
+      new ListProxy()
+        .getTodoList()
+        .then((response) => {
+          this.todoList = response.data;
+        })
+        .catch(() => {
+          console.log('Request failed...');
+        });
     },
     // 다가오는 일정 체크박스 선택
     selectTodoCheckInput(param) {
