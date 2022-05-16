@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import message from '@/assets/js/message';
 import SelectionProxy from '@/proxies/SelectionProxy';
-import ListProxy from '@/proxies/ListProxy';
+import TodoListProxy from '@/proxies/TodoListProxy';
 
 // 선택 정보의 초기값
 const selectionInit = {
@@ -50,10 +50,10 @@ export default {
         selection = JSON.parse(window.localStorage.getItem('selection'));
         // TODO일정 추가
         // TODO 나중에 완료 목록갯수까지해서 promiseall로 구현하기
-        // TODO 나중에 todolist의 포스트 id만 넘기고 해당 게시물 받아오기
-        // TODO getTodoList 일반변수 , getTodoListLocal 로컬스토리지의 게시물상세 postid주고 todolist받기
-        new ListProxy()
-          .getTodoListLocal()
+        // TODO 나중에 getTodoListLocal로 todolist의 포스트 id만 넘기고 해당 게시물 받아오기
+        // TODO 로그아웃후 기존 로컬스토리지 내용이 적용이 안됨
+        new TodoListProxy()
+          .getTodoList(selection)
           .then((response) => {
             selection.todolist = response.data;
             commit('setSelection', selection);

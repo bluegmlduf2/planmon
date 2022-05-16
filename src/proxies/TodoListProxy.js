@@ -1,39 +1,39 @@
 import Proxy from './Proxy';
 
-class ListProxy extends Proxy {
+class TodoListProxy extends Proxy {
   /**
    * The constructor for the ArtistProxy.
    *
    * @param {Object} parameters The query parameters.
    */
   constructor(parameters = {}) {
-    // proxy.js의 부모의 constructor를 실행, 부모의 endpoint는 list사용
-    super('list', parameters);
+    // proxy.js의 부모의 constructor를 실행, 부모의 endpoint는 todolist사용
+    super('todolist', parameters);
   }
 
   /**
-   * 할일일정 가져오기
+   * 키를 가지고 할일 일정 가져오기
    *
    * @param {String} sort 정렬
    * @param {String} pageKey 페이지네이션용 키
    *
    * @returns {Promise} The result in a promise.
    */
-  getTodoList() {
-    return this.submit('get', `${this.endpoint}/todolist`);
+  getTodoList({ todolist }) {
+    return this.find(JSON.stringify(todolist));
   }
 
   /**
-   * 할일일정의 상세내용 가져오기 (로컬스토리지용)
+   * 나의 할일 일정 가져오기
    *
    * @param {String} sort 정렬
    * @param {String} pageKey 페이지네이션용 키
    *
    * @returns {Promise} The result in a promise.
    */
-  getTodoListLocal() {
-    return this.submit('get', `${this.endpoint}/todolistlocal`);
+  getMyTodoList() {
+    return this.submit('get', `${this.endpoint}/mytodolist`);
   }
 }
 
-export default ListProxy;
+export default TodoListProxy;
