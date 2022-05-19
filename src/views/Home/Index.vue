@@ -4,7 +4,7 @@
       slot="default-right-body"
       class="col-md-8 default-right p-4 add-padding-bottom"
     >
-      <!-- 다가오는 일정 -->
+      <!-- 할일 일정 -->
       <v-list
         :param-list="todolist"
         :param-show-buttons="false"
@@ -97,7 +97,7 @@ export default {
     };
   },
   computed: {
-    // 선택된 TODO리스트 (store에서 값이 변경될때마다 갱신)
+    // 선택된 할일리스트 (store에서 값이 변경될때마다 갱신)
     todolist() {
       return this.$store.getters.todolist;
     },

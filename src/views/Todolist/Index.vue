@@ -4,7 +4,7 @@
       slot="default-right-body"
       class="col-md-8 default-right p-4"
     >
-      <!-- 다가오는 일정 -->
+      <!-- 할일 일정 -->
       <v-list
         :param-list="todolist"
         :param-show-buttons="true"
@@ -63,7 +63,7 @@ export default {
 
   data() {
     return {
-      // todolist: [], // 다가오는 일정 리스트
+      // todolist: [], // 할일 일정 리스트
     };
   },
   computed: {
@@ -75,21 +75,21 @@ export default {
     selection() {
       return this.$store.getters.selection;
     },
-    // 선택된 TODO리스트 (store에서 값이 변경될때마다 갱신)
+    // 선택된 할일리스트 (store에서 값이 변경될때마다 갱신)
     todolist() {
       return this.$store.getters.todolist;
     },
   },
   created() {
-    this.initTodoList(); // 다가오는 일정 초기화 (최대 5개 호출)
+    this.initTodoList(); // 할일 일정 초기화 (최대 5개 호출)
   },
   methods: {
-    // 다가오는 일정 초기화
+    // 할일 일정 초기화
     initTodoList() {
       // 로그인상태일시 나의 할일 일정 취득
       this.$store.dispatch('setInitTodoList');
     },
-    // 다가오는 일정 체크박스 선택
+    // 할ㅣㄹ 일정 체크박스 선택
     selectTodoCheckInput(param) {
       const checkedItem = param;
       checkedItem.listKind = 'todo';

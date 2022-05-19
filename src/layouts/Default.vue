@@ -321,7 +321,7 @@ export default {
         this.$store.dispatch('addSelection', { stayStatus: value });
       },
     },
-    // 선택된 TODO리스트 (store에서 값이 변경될때마다 갱신)
+    // 선택된 할일리스트 (store에서 값이 변경될때마다 갱신)
     todolist() {
       return this.$store.getters.todolist;
     },

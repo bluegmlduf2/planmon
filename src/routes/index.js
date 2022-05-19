@@ -13,7 +13,7 @@ export default [
     component: () => import('@/views/Home/Index.vue'),
   },
 
-  // 다가오는 일정
+  // 할일 일정
   {
     path: '/todolist',
     name: 'todolist.index',
