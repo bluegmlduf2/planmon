@@ -323,15 +323,15 @@ export default {
     },
     // 선택된 TODO리스트 (store에서 값이 변경될때마다 갱신)
     todolist() {
-      return this.$store.getters.selection.todolist;
+      return this.$store.getters.todolist;
     },
     // 선택된 완료리스트 (store에서 값이 변경될때마다 갱신)
     completelist() {
-      return this.$store.getters.selection.completelist;
+      return this.$store.getters.completelist;
     },
     // 선택된 모든리스트의 길이 (store에서 값이 변경될때마다 갱신)
     alllist() {
-      return this.$store.getters.selection.todolist.length + this.$store.getters.selection.completelist.length;
+      return this.$store.getters.todolist.length + this.$store.getters.completelist.length;
     },
     // 선택된 모든리스트의 길이 (store에서 값이 변경될때마다 갱신)
     progressPercent() {
@@ -344,7 +344,6 @@ export default {
   created() {
     this.initCountries(); // 국가 리스트 초기화
     this.initStayStatus(); // 체류상태 리스트 초기화
-    this.$store.dispatch('setInitSelection'); // 초기선택값 데이터 초기화
   },
   /**
    * The methods that the layout can use.
@@ -364,9 +363,7 @@ export default {
     onLogout() {
       this.isMenuActive = false; // nav메뉴 닫기
       this.$store.dispatch('logout'); // 유저 정보삭제
-      this.$store.dispatch('clearSelection'); // 유저 선택 정보삭제
       this.$toast.info(message.logout);
-      this.$router.push({ name: 'home.index' }).catch(() => {}); // 홈으로 이동한다. '/'패스일경우 에러가 발생하므로 catch로 에러무시
     },
 
     /**

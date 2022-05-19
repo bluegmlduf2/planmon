@@ -99,7 +99,7 @@ export default {
   computed: {
     // 선택된 TODO리스트 (store에서 값이 변경될때마다 갱신)
     todolist() {
-      return this.$store.getters.selection.todolist;
+      return this.$store.getters.todolist;
     },
   },
   created() {

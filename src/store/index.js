@@ -11,6 +11,7 @@ import Vuex from 'vuex';
 import createLogger from 'vuex/dist/logger';
 
 // Modules
+import list from './list';
 import selection from './selection';
 import user from './user';
 import shared from './shared';
@@ -22,6 +23,7 @@ export default new Vuex.Store({
    * Assign the modules to the store.
    */
   modules: {
+    list,
     selection,
     user,
     shared,

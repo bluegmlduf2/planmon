@@ -1,7 +1,5 @@
-import Vue from 'vue';
-import message from '@/assets/js/message';
 import SelectionProxy from '@/proxies/SelectionProxy';
-import TodoListProxy from '@/proxies/TodoListProxy';
+import { router } from '@/plugins/vue-router';
 
 // 선택 정보의 초기값
 const selectionInit = {
@@ -9,8 +7,10 @@ const selectionInit = {
   stayStatus: null,
   entryDate: null,
   isShowMessage: true,
-  todolist: [],
-  completelist: [],
+  myTodolist: [{ postId: '1' }, { postId: '2' }], // 로컬스토리지 보관을 위헤 위해 postId키만 보관
+  // myCompletelist: [{ postId: '3' }, { postId: '4' }], // 로컬스토리지 보관을 위헤 postId키만 보관
+  // myTodolist: [], // 로컬스토리지 보관을 위헤 위해 postId키만 보관
+  myCompletelist: [], // 로컬스토리지 보관을 위헤 postId키만 보관
 };
 
 export default {
@@ -26,16 +26,21 @@ export default {
     },
   },
   actions: {
-    // 선택값 데이터 초기화
+    // 사용자 선택값 데이터 초기화
     setInitSelection({ commit }) {
-      let selection;
       const isLogined = this.getters.user;
       // 로그인상태일시
       if (isLogined) {
         new SelectionProxy()
           .getSelection()
           .then((response) => {
+            // 사용자 선택사항 초기화
             commit('setSelection', response.data);
+            // TODO일정 초기화 (표시용)
+            // TODOLIST화면에서 2번 호출되는걸 막기 위한 처리
+            if (router.currentRoute.path !== '/todolist') {
+              this.dispatch('setInitTodoList');
+            }
           })
           .catch(() => {
             console.log('Request failed...');
@@ -47,20 +52,14 @@ export default {
         if (!selectionStorage) {
           window.localStorage.setItem('selection', JSON.stringify(selectionInit));
         }
-        selection = JSON.parse(window.localStorage.getItem('selection'));
-        // TODO일정 추가
-        // TODO 나중에 완료 목록갯수까지해서 promiseall로 구현하기
-        // TODO 나중에 getTodoListLocal로 todolist의 포스트 id만 넘기고 해당 게시물 받아오기
-        // TODO 로그아웃후 기존 로컬스토리지 내용이 적용이 안됨
-        new TodoListProxy()
-          .getTodoList(selection)
-          .then((response) => {
-            selection.todolist = response.data;
-            commit('setSelection', selection);
-          })
-          .catch(() => {
-            console.log('Request failed...');
-          });
+        const selection = JSON.parse(window.localStorage.getItem('selection'));
+        // 사용자 선택사항 초기화
+        commit('setSelection', selection);
+        // TODO일정 초기화 (표시용)
+        // TODOLIST화면에서 2번 호출되는걸 막기 위한 처리
+        if (router.currentRoute.path !== '/todolist') {
+          this.dispatch('setInitTodoList');
+        }
       }
     },
     // 선택한 항목을 저장
@@ -82,71 +81,6 @@ export default {
     },
     clearSelection({ commit }) {
       commit('clearSelection');
-    },
-    // 선택한 리스트를 추가, 삭제
-    updateList(_, payload) {
-      const checkedItem = payload;
-
-      if (checkedItem.isAdded) {
-        // 추가모드
-        this.dispatch('addList', checkedItem);
-      } else {
-        // 삭제모드
-        this.dispatch('removeList', checkedItem);
-      }
-    },
-    // 일정 추가
-    addList({ commit }, payload) {
-      const { selection } = this.getters;
-      const { listKind } = payload; // 클릭한 리스트 종류
-      const isLogined = this.getters.user; // 로그인 유무
-      const checkedItem = { postId: payload.postId }; // 입력값
-
-      // 로그인상태일시
-      if (isLogined) {
-        // TODO axios 리스트별 추가 삭제 찰;
-      } else {
-        // 미로그인시
-        if (listKind === 'rec') {
-          // 추천일정 할일 일정에 추가
-          // 중복된 일정이 아니라면 할일 일정에 추가
-          selection.todolist = [...selection.todolist.filter((e) => e.postId !== checkedItem.postId), checkedItem];
-          Vue.prototype.$toast.info(message.addList);
-        } else if (listKind === 'todo' || listKind === 'all') {
-          // 할일일정, 모든일정의 추천일정 선택시 완료일정에 추가
-          // 중복된 일정이 아니라면 완료 일정에 추가
-          selection.completelist = [...selection.completelist.filter((e) => e.postId !== checkedItem.postId), checkedItem];
-          // 할일 일정에서 삭제
-          selection.todolist = [...selection.todolist.filter((e) => e.postId !== checkedItem.postId)];
-          Vue.prototype.$toast.info(message.completeList);
-        }
-        window.localStorage.setItem('selection', JSON.stringify(selection));
-      }
-      commit('setSelection', selection);
-    },
-    // 일정 삭제
-    removeList({ commit }, payload) {
-      const { selection } = this.getters;
-      const { listKind } = payload; // 클릭한 리스트 종류
-      const isLogined = this.getters.user; // 로그인 유무
-      const checkedItem = { postId: payload.postId }; // 입력값
-
-      // 로그인상태일시
-      if (isLogined) {
-        // TODO axios 리스트별 추가 삭제 찰;
-      } else {
-        // 미로그인시
-        if (listKind === 'todo' || listKind === 'all') {
-          // 할일 일정, 모든일정의 할일일정 선택시 일정삭제
-          selection.todolist = [...selection.todolist.filter((e) => e.postId !== checkedItem.postId)];
-        } else if (listKind === 'complete') {
-          // 완료일정 선택시 일정삭제
-          selection.completelist = [...selection.completelist.filter((e) => e.postId !== checkedItem.postId)];
-        }
-        window.localStorage.setItem('selection', JSON.stringify(selection));
-      }
-      Vue.prototype.$toast.info(message.removeList);
-      commit('setSelection', selection);
     },
   },
   getters: {

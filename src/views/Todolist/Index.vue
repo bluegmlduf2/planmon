@@ -45,7 +45,6 @@
 import VLayout from '@/layouts/Default.vue';
 import VList from '@/components/List.vue';
 import VSearch from '@/components/Search.vue';
-import TodoListProxy from '@/proxies/TodoListProxy';
 
 export default {
   /**
@@ -64,7 +63,7 @@ export default {
 
   data() {
     return {
-      todolist: [], // 다가오는 일정 리스트
+      // todolist: [], // 다가오는 일정 리스트
     };
   },
   computed: {
@@ -76,6 +75,10 @@ export default {
     selection() {
       return this.$store.getters.selection;
     },
+    // 선택된 TODO리스트 (store에서 값이 변경될때마다 갱신)
+    todolist() {
+      return this.$store.getters.todolist;
+    },
   },
   created() {
     this.initTodoList(); // 다가오는 일정 초기화 (최대 5개 호출)
@@ -83,27 +86,8 @@ export default {
   methods: {
     // 다가오는 일정 초기화
     initTodoList() {
-      if (this.user) {
-        // 로그인상태일시 나의 할일 일정 취득
-        new TodoListProxy()
-          .getMyTodoList()
-          .then((response) => {
-            this.todolist = response.data;
-          })
-          .catch(() => {
-            console.log('Request failed...');
-          });
-      } else {
-        // 미로그인시
-        new TodoListProxy()
-          .getTodoList(this.selection)
-          .then((response) => {
-            this.todolist = response.data;
-          })
-          .catch(() => {
-            console.log('Request failed...');
-          });
-      }
+      // 로그인상태일시 나의 할일 일정 취득
+      this.$store.dispatch('setInitTodoList');
     },
     // 다가오는 일정 체크박스 선택
     selectTodoCheckInput(param) {

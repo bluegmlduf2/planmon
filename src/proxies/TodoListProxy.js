@@ -19,8 +19,9 @@ class TodoListProxy extends Proxy {
    *
    * @returns {Promise} The result in a promise.
    */
-  getTodoList({ todolist }) {
-    return this.find(JSON.stringify(todolist));
+  getTodoList({ myTodolist }) {
+    const parameter = myTodolist.map((e) => e.postId);
+    return this.find(JSON.stringify(parameter));
   }
 
   /**
