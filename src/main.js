@@ -59,7 +59,7 @@ firebase.onAuthStateChanged(firebase.auth, (user) => {
     store.dispatch('signInWithEmailLink');
   }
 
-  // 최초화면표시 , 화면새로고침시 뷰 객체를 최초 1회만 생성
+  // 로그인, 로그아웃시 뷰객체를 1회만 생성, 1회만 실행
   if (!app) {
   /* eslint-disable no-new */
     app = new Vue({
@@ -82,6 +82,12 @@ firebase.onAuthStateChanged(firebase.auth, (user) => {
      * The Vuex store.
      */
       store,
+
+      created() {
+        // 최초화면표시, 화면새로고침시, 로그인 로그아웃시 최초실행(전역초기값)
+        // 사용자 선택사항 초기화
+        store.dispatch('setInitSelection');
+      },
       /**
      * Will render the application.
      *

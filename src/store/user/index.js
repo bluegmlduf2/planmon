@@ -52,7 +52,7 @@ export default {
               photoUrl: user.photoURL,
             };
             commit('setUser', newUser);
-            this.dispatch('setInitSelection'); // 초기선택값 데이터 초기화
+            window.location.reload(); // 새로고침
           },
         )
         .catch(
@@ -75,8 +75,8 @@ export default {
             .then(() => {
               // 임시적으로 저장해뒀던 로그인 이메일 삭제
               window.localStorage.removeItem('emailForSignIn');
-              this.dispatch('setInitSelection'); // 초기선택값 데이터 초기화
               Vue.prototype.$toast.info(message.welcome);
+              window.location.reload(); // 새로고침
             })
             .catch((error) => {
               // 처음에 렌더링이 2회 실행되면서 아래의 에러가 발생한다.
@@ -135,6 +135,8 @@ export default {
     logout({ commit }) {
       firebase.signOut(firebase.auth);
       commit('setUser', null);
+      commit('clearSelection');
+      window.location.href = '/'; // 로그아웃시 홈화면이동
     },
   },
   getters: {
