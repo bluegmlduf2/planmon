@@ -31,7 +31,7 @@
       <hr>
       <!-- 추천 일정 -->
       <v-list
-        :param-list="recommendedList"
+        :param-list="reclist"
         :param-show-buttons="false"
         :param-is-add="true"
         @updateCheckInput="selectRecCheckInput"
@@ -90,48 +90,17 @@ export default {
     VLayout,
     VList,
   },
-
-  data() {
-    return {
-      recommendedList: [], // 추천 일정 리스트
-    };
-  },
   computed: {
-    // 선택된 할일리스트 (store에서 값이 변경될때마다 갱신)
+    // 할일일정 리스트 (store에서 값이 변경될때마다 갱신)
     todolist() {
       return this.$store.getters.todolist;
     },
-  },
-  created() {
-    this.initRecommendedList(); // 추천 일정 초기화  (최대 5개 호출)
+    // 추천일정 리스트 (store에서 값이 변경될때마다 갱신)
+    reclist() {
+      return this.$store.getters.reclist;
+    },
   },
   methods: {
-    // 추천 일정 초기화
-    initRecommendedList() {
-      this.recommendedList = [{
-        value: '1a',
-        text: '첫번째 추천일정',
-      }, {
-        value: '2a',
-        text: '두번째 추천일정',
-      },
-      {
-        value: '3a',
-        text: '세번째 추천일정',
-      },
-      {
-        value: '4a',
-        text: '네번째 추천일정',
-      },
-      {
-        value: '5a',
-        text: '다섯번째 추천일정',
-      },
-      {
-        value: '6a',
-        text: '여섯번째 추천일정',
-      }];
-    },
     // 다가오는 일정 체크박스 선택
     selectTodoCheckInput(param) {
       const checkedItem = param;

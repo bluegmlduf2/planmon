@@ -1,5 +1,4 @@
 import SelectionProxy from '@/proxies/SelectionProxy';
-import { router } from '@/plugins/vue-router';
 
 // 선택 정보의 초기값
 const selectionInit = {
@@ -36,11 +35,8 @@ export default {
           .then((response) => {
             // 사용자 선택사항 초기화
             commit('setSelection', response.data);
-            // TODO일정 초기화 (표시용)
-            // TODOLIST화면에서 2번 호출되는걸 막기 위한 처리
-            if (router.currentRoute.path !== '/todolist') {
-              this.dispatch('setInitTodoList');
-            }
+            // 홈화면의 리스트 초기화
+            this.dispatch('setInitHomeList');
           })
           .catch(() => {
             console.log('Request failed...');
@@ -55,11 +51,8 @@ export default {
         const selection = JSON.parse(window.localStorage.getItem('selection'));
         // 사용자 선택사항 초기화
         commit('setSelection', selection);
-        // TODO일정 초기화 (표시용)
-        // TODOLIST화면에서 2번 호출되는걸 막기 위한 처리
-        if (router.currentRoute.path !== '/todolist') {
-          this.dispatch('setInitTodoList');
-        }
+        // 홈화면의 리스트 초기화
+        this.dispatch('setInitHomeList');
       }
     },
     // 선택한 항목을 저장

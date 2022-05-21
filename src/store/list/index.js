@@ -1,27 +1,43 @@
 import Vue from 'vue';
 import message from '@/assets/js/message';
 import TodoListProxy from '@/proxies/TodoListProxy';
+import RecListProxy from '@/proxies/RecListProxy';
+import { router } from '@/plugins/vue-router';
 
 export default {
   state: {
     // todolist: [{ postId: '1', title: '타이틀1' }, { postId: '2', title: '타이틀2' }], // 표시용 리스트
     // completelist: [{ postId: '3', title: '타이틀3' }, { postId: '4', title: '타이틀4' }], // 표시용 리스트
     todolist: [], // 할일 일정 (표시용)
+    reclist: [], // 추천 일정 (표시용)
     completelist: [], // 완료 일정 (표시용)
   },
   mutations: {
     setTodoList(state, payload) {
       state.todolist = payload;
     },
+    setRecList(state, payload) {
+      state.reclist = payload;
+    },
     setCompleteList(state, payload) {
       state.completelist = payload;
     },
   },
   actions: {
+    // 홈화면에서 할일일정과 추천일정을 초기화
+    setInitHomeList() {
+      // 할일일정화면과 추천일정화면에서 2번 호출되는걸 막기 위한 처리
+      if (router.currentRoute.path === '/') {
+        // 홈화면의 할일일정 초기화 (표시용)
+        this.dispatch('setInitTodoList');
+        // 홈화면의 추천일정 초기화 (표시용)
+        this.dispatch('setInitRecList');
+      }
+    },
     // 할일일정 초기화
     setInitTodoList({ commit }) {
       const isLogined = this.getters.user; // 로그인 유무
-      // TODO일정 추가
+      // 할일일정 추가
       // 로그인 유무에 따라 사용하는 메서드가 다르다
       if (isLogined) {
         // 로그인 시
@@ -49,6 +65,20 @@ export default {
             console.log('Request failed...');
           });
       }
+    },
+    // 추천일정 초기화
+    setInitRecList({ commit }) {
+      // 추천일정 추가
+      const { selection } = this.getters;
+      // 로컬스토리지의 정보로 초기화
+      new RecListProxy()
+        .getRecList(selection)
+        .then((response) => {
+          commit('setRecList', response.data);
+        })
+        .catch(() => {
+          console.log('Request failed...');
+        });
     },
     // 선택한 리스트를 추가, 삭제
     updateList(_, payload) {
@@ -123,6 +153,9 @@ export default {
   getters: {
     todolist(state) {
       return state.todolist;
+    },
+    reclist(state) {
+      return state.reclist;
     },
     completelist(state) {
       return state.completelist;

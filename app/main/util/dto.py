@@ -24,6 +24,13 @@ class TodoListDto:
         'title': fields.String(description='일정 제목'),
     })
 
+class RecListDto:
+    api = Namespace('reclist', description='추천일정관리')
+    todolist = api.model('reclist', {
+        'postId': fields.String(description='일정 ID'),
+        'title': fields.String(description='일정 제목'),
+    })
+
 
 class UserDto:
     api = Namespace('user', description='유저정보')
