@@ -5,7 +5,7 @@ from ..service.rec_list_service import get_reclist
 import json
 
 api = RecListDto.api
-_reclist = RecListDto.todolist
+_reclist = RecListDto.reclist
 
 
 @api.route('/')

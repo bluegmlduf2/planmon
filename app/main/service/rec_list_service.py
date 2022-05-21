@@ -7,10 +7,13 @@ def get_reclist(selection):
     '''유저의 할일 리스트 취득'''
     # 빈 검색조건 제외
     filters = {k: v for k, v in selection.items() if v is not None} 
-    # 검색조건의 입국일자 존재시 제외
-    if filters.get('entryDate'):
-         del filters['entryDate']
-    my_reclist = List.query.filter_by(**filters).order_by(List.createdDate.desc()).all() # 추천 일정 취득
+    filters.pop('entryDate',None)  # 검색조건의 입국일자 존재시 제외
+    filters.pop('myCompletelist',None)  # 검색조건의 완료일정 존재시 제외
+    filters.pop('myTodolist',None)  # 검색조건의 할일일정 존재시 제외
+    myList = selection['myCompletelist']+[x['postId'] for x in selection['myTodolist']] # 검색조건으로 완료일정과 할일일정을 제외함 
+    
+    # 추천 일정 취득 (할일일정과 완료일정제외)
+    my_reclist = List.query.filter_by(**filters).filter(~List.postId.in_(myList)).order_by(List.createdDate.desc()).all() 
 
     # 체류중인상태에서 입국후 지난 날짜의 조건이 가까운 순서로 조회
     if selection['stayStatus'] == '1' and selection['entryDate'] is not None:
@@ -35,5 +38,5 @@ def get_reclist(selection):
             my_reclist.remove(x)
         # 변경한 순서의 리스트를 재할당 
         my_reclist = my_reclist+added_item
-
+        
     return my_reclist
