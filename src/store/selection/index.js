@@ -6,9 +6,9 @@ const selectionInit = {
   stayStatus: null,
   entryDate: null,
   isShowMessage: true,
-  myTodolist: [{ postId: '1' }, { postId: '2' }], // 로컬스토리지 보관을 위헤 위해 postId키만 보관
+  // myTodolist: [{ postId: '1' }, { postId: '2' }], // 로컬스토리지 보관을 위헤 위해 postId키만 보관
   // myCompletelist: [{ postId: '3' }, { postId: '4' }], // 로컬스토리지 보관을 위헤 postId키만 보관
-  // myTodolist: [], // 로컬스토리지 보관을 위헤 위해 postId키만 보관
+  myTodolist: [], // 로컬스토리지 보관을 위헤 위해 postId키만 보관
   myCompletelist: [], // 로컬스토리지 보관을 위헤 postId키만 보관
 };
 
