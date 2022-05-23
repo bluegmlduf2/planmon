@@ -197,7 +197,7 @@ export default {
         }, { timeout: 5000, closeOnClick: false, closeButton: false });
       };
 
-      // 현재 함수의 메인로직, 체크효과를 위해 체크후 0.45초후에 실행한다
+      // 현재 함수의 메인로직, 체크효과를 위해 체크후 0.4초후에 실행한다
       setTimeout(() => {
         // 추가 삭제 로직 분기
         if (this.isAdded) {
@@ -212,7 +212,7 @@ export default {
           // 삭제
           confirmToast('삭제');
         }
-      }, 450);
+      }, 400);
     },
     // 체크박스 등록삭제상태 표시 (computed파라미터전달이 안되서 method로 작성)
     setCheckStatus(args) {
