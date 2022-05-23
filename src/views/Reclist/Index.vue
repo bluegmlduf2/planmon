@@ -6,7 +6,7 @@
     >
       <!-- 추천 일정 -->
       <v-list
-        :param-list="recommendedList"
+        :param-list="reclist"
         :param-show-buttons="false"
         :param-is-add="true"
         @updateCheckInput="selectRecCheckInput"
@@ -61,11 +61,11 @@ export default {
     VList,
     VSearch,
   },
-
-  data() {
-    return {
-      recommendedList: [], // 추천 일정 리스트
-    };
+  computed: {
+    // 선택된 할일리스트 (store에서 값이 변경될때마다 갱신)
+    reclist() {
+      return this.$store.getters.reclist;
+    },
   },
   created() {
     this.initRecommendedList(); // 추천 일정 초기화  (최대 5개 호출)
@@ -74,22 +74,7 @@ export default {
   methods: {
     // 추천 일정 초기화
     initRecommendedList() {
-      this.recommendedList = [{
-        value: '1a',
-        text: '첫번째 추천일정',
-      }, {
-        value: '2a',
-        text: '두번째 추천일정',
-      },
-      {
-        value: '3a',
-        text: '세번째 추천일정',
-      },
-      {
-        value: '4a',
-        text: '네번째 추천일정',
-      },
-      ];
+      this.$store.dispatch('setInitRecList');
     },
     // 추천 일정 체크박스 선택
     selectRecCheckInput(param) {

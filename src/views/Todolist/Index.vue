@@ -89,7 +89,7 @@ export default {
       // 로그인상태일시 나의 할일 일정 취득
       this.$store.dispatch('setInitTodoList');
     },
-    // 할ㅣㄹ 일정 체크박스 선택
+    // 할일 일정 체크박스 선택
     selectTodoCheckInput(param) {
       const checkedItem = param;
       checkedItem.listKind = 'todo';
