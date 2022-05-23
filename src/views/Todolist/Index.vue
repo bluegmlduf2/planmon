@@ -67,14 +67,6 @@ export default {
     };
   },
   computed: {
-    // 유저정보 (store에서 값이 변경될때마다 갱신)
-    user() {
-      return this.$store.getters.user;
-    },
-    // 유저 선택 정보
-    selection() {
-      return this.$store.getters.selection;
-    },
     // 선택된 할일리스트 (store에서 값이 변경될때마다 갱신)
     todolist() {
       return this.$store.getters.todolist;

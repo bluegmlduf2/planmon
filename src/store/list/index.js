@@ -108,6 +108,8 @@ export default {
           // 추천일정 할일 일정에 추가
           // 중복된 일정이 아니라면 할일 일정에 추가
           selection.myTodolist = [...selection.myTodolist.filter((e) => e.postId !== checkedItem.postId), checkedItem];
+          this.dispatch('setInitRecList');
+          this.dispatch('setInitTodoList');
           Vue.prototype.$toast.info(message.addList);
         } else if (listKind === 'todo' || listKind === 'all') {
           // 할일일정, 모든일정의 추천일정 선택시 완료일정에 추가

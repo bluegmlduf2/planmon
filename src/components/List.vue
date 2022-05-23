@@ -162,6 +162,7 @@ export default {
           postId: args.postId,
           hidden: !!args.hidden,
         };
+        e.target.checked = false; // 성공시 해당 체크박스 체크제거
         this.$emit('updateCheckInput', param);
       };
 
@@ -193,22 +194,25 @@ export default {
               e.target.checked = false;
             },
           },
-        }, { timeout: 7000, closeOnClick: false, closeButton: false });
+        }, { timeout: 5000, closeOnClick: false, closeButton: false });
       };
 
-      // 추가 삭제 로직 분기
-      if (this.isAdded) {
-        // 추가
-        // 다시보기 메세지 표시 (메세지보기가 상태이고 미로그인시)
-        if (this.showMessage && !this.user) {
-          confirmToast('확인', message.localStorageListAlert);
+      // 현재 함수의 메인로직, 체크효과를 위해 체크후 0.45초후에 실행한다
+      setTimeout(() => {
+        // 추가 삭제 로직 분기
+        if (this.isAdded) {
+          // 추가
+          // 다시보기 메세지 표시 (메세지보기가 상태이고 미로그인시)
+          if (this.showMessage && !this.user) {
+            confirmToast('확인', message.localStorageListAlert);
+          }
+          // 추가 진행
+          processUpdate();
+        } else {
+          // 삭제
+          confirmToast('삭제');
         }
-        // 추가 진행
-        processUpdate();
-      } else {
-        // 삭제
-        confirmToast('삭제');
-      }
+      }, 450);
     },
     // 체크박스 등록삭제상태 표시 (computed파라미터전달이 안되서 method로 작성)
     setCheckStatus(args) {
