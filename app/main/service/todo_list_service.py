@@ -1,5 +1,6 @@
 from app.main.model.list import List
 from app.main.model.mylist import Mylist
+from  app.main.util import sort_by_id
 
 def get_my_todolist(uid):
     '''유저의 할일 리스트 취득'''
@@ -10,10 +11,5 @@ def get_my_todolist(uid):
 def get_todolist_by_id(postIds):
     '''일정의 키로 할일 리스트 취득'''
     todolist = List.query.filter(List.postId.in_(postIds)).all() # 일정 테이블에서 내 할일 일정 취득
-    todolist_sorted= [] # 정렬된 배열순서
     # 매개변수로 전달된 postIds의 순서대로 변경한다
-    for x in postIds:
-        for y in todolist:
-            if x == y.postId:
-                todolist_sorted.append(y)
-    return todolist_sorted
+    return sort_by_id(postIds,todolist)

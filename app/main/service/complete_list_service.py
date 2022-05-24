@@ -1,5 +1,6 @@
 from app.main.model.list import List
 from app.main.model.mylist import Mylist
+from  app.main.util import sort_by_id
 
 def get_my_completelist(uid):
     '''유저의 완료 리스트 취득'''
@@ -10,10 +11,5 @@ def get_my_completelist(uid):
 def get_completelist_by_id(postIds):
     '''일정의 키로 완료 리스트 취득'''
     completelist = List.query.filter(List.postId.in_(postIds)).all() # 일정 테이블에서 내 할일 일정 취득
-    completelist_sorted= [] # 정렬된 배열순서
     # 매개변수로 전달된 postIds의 순서대로 변경한다
-    for x in postIds:
-        for y in completelist:
-            if x == y.postId:
-                completelist_sorted.append(y)
-    return completelist_sorted
+    return sort_by_id(postIds,completelist)
