@@ -2,6 +2,7 @@ import Vue from 'vue';
 import message from '@/assets/js/message';
 import TodoListProxy from '@/proxies/TodoListProxy';
 import RecListProxy from '@/proxies/RecListProxy';
+import CompleteListProxy from '@/proxies/CompleteListProxy';
 import { router } from '@/plugins/vue-router';
 
 export default {
@@ -36,41 +37,37 @@ export default {
     },
     // 할일일정 초기화
     setInitTodoList({ commit }) {
-      const isLogined = this.getters.user; // 로그인 유무
-      // 할일일정 추가
-      // 로그인 유무에 따라 사용하는 메서드가 다르다
-      if (isLogined) {
-        // 로그인 시
-        // 나의 할일일정 초기화 (파이어베이스 토큰으로 검색)
-        // TODO 나중에 완료 목록갯수까지해서 promiseall로 구현하기
-        // TODO 로그아웃후 기존 로컬스토리지 내용이 적용이 안됨
-        new TodoListProxy()
-          .getMyTodoList()
-          .then((response) => {
-            commit('setTodoList', response.data);
-          })
-          .catch(() => {
-            console.log('Request failed...');
-          });
-      } else {
-        // 미로그인시
-        const { selection } = this.getters;
-        // 로컬스토리지의 정보로 초기화
-        new TodoListProxy()
-          .getTodoList(selection)
-          .then((response) => {
-            commit('setTodoList', response.data);
-          })
-          .catch(() => {
-            console.log('Request failed...');
-          });
-      }
+      const { selection } = this.getters;
+      // 로컬스토리지의 정보로 초기화
+      new TodoListProxy()
+        .getTodoList(selection)
+        .then((response) => {
+          commit('setTodoList', response.data);
+        })
+        .catch(() => {
+          console.log('Request failed...');
+        });
+      // }
+    },
+    // 완료 일정 초기화
+    setInitCompleteList({ commit }) {
+      // 완료 일정 추가
+      const { selection } = this.getters;
+      // 완료일정정보 취득
+      new CompleteListProxy()
+        .getCompleteList(selection)
+        .then((response) => {
+          commit('setCompleteList', response.data);
+        })
+        .catch(() => {
+          console.log('Request failed...');
+        });
     },
     // 추천일정 초기화
     setInitRecList({ commit }) {
       // 추천일정 추가
       const { selection } = this.getters;
-      // 로컬스토리지의 정보로 초기화
+      // 추천일정정보 취득
       new RecListProxy()
         .getRecList(selection)
         .then((response) => {

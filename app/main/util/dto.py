@@ -8,7 +8,7 @@ class SelectionDto:
         'title': fields.String(description='일정 제목'),
     })# 리스트의 스키마
     selection = api.model('selection', {
-        'myCompletelist': fields.List(description='완료일정리스트', default=[], cls_or_instance=fields.String()),
+        'myCompletelist': fields.List(description='완료일정리스트', default=[], cls_or_instance=fields.Nested(listSchema)),
         'country': fields.String(description='선택국가'),
         'entryDate': fields.Date(description='입국날짜'),
         'isShowMessage': fields.Boolean(required=True, default=False, description='경고메세지표시유무'),
@@ -16,10 +16,16 @@ class SelectionDto:
         'myTodolist': fields.List(description='할일일정리스트', default=[], cls_or_instance=fields.Nested(listSchema)),    
     })
 
-
 class TodoListDto:
     api = Namespace('todolist', description='할일일정관리')
     todolist = api.model('todolist', {
+        'postId': fields.String(description='일정 ID'),
+        'title': fields.String(description='일정 제목'),
+    })
+
+class CompleteListDto:
+    api = Namespace('completelist', description='완료일정관리')
+    completelist = api.model('completelist', {
         'postId': fields.String(description='일정 ID'),
         'title': fields.String(description='일정 제목'),
     })
@@ -31,7 +37,6 @@ class RecListDto:
         'title': fields.String(description='일정 제목'),
     })
 
-
 class UserDto:
     api = Namespace('user', description='유저정보')
     user = api.model('user', {
@@ -40,7 +45,6 @@ class UserDto:
         'password': fields.String(required=True, description='user password'),
         'public_id': fields.String(description='user Identifier')
     })
-
 
 class AuthDto:
     api = Namespace('auth', description='authentication related operations')

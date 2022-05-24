@@ -1,6 +1,5 @@
 from app.main.model.list import List
 from app.main.model.mylist import Mylist
-import operator
 
 def get_my_todolist(uid):
     '''유저의 할일 리스트 취득'''

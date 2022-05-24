@@ -165,7 +165,7 @@
         >
           <div class="search-todoList-title">
             <span class="sm-title">할일 항목</span>
-            <span>{{ `${completelist.length}/${alllist}` }}</span>
+            <span>{{ `${completelistCount}/${alllistCount}` }}</span>
           </div>
           <div class="progress">
             <div
@@ -181,7 +181,7 @@
             <div>
               <router-link :to="{ name: 'completelist.index' }">
                 <h3 class="status-total">
-                  {{ completelist.length }}
+                  {{ completelistCount }}
                 </h3>
                 <p class="status-title">
                   완료된
@@ -194,7 +194,7 @@
             <div>
               <router-link :to="{ name: 'todolist.index' }">
                 <h3 class="status-total">
-                  {{ todolist.length }}
+                  {{ todolistCount }}
                 </h3>
                 <p class="status-title">
                   다가오는
@@ -207,7 +207,7 @@
             <div>
               <router-link :to="{ name: 'alllist.index' }">
                 <h3 class="status-total">
-                  {{ alllist }}
+                  {{ alllistCount }}
                 </h3>
                 <p class="status-title">
                   모든
@@ -321,23 +321,25 @@ export default {
         this.$store.dispatch('addSelection', { stayStatus: value });
       },
     },
-    // 선택된 할일리스트 (store에서 값이 변경될때마다 갱신)
-    todolist() {
-      return this.$store.getters.todolist;
+    // 선택된 할일 리스트의 수
+    todolistCount() {
+      const todolistCount = this.$store.getters.todolist.length;
+      return todolistCount || 0;
     },
-    // 선택된 완료리스트 (store에서 값이 변경될때마다 갱신)
-    completelist() {
-      return this.$store.getters.completelist;
+    // 선택된 완료 리스트의 수
+    completelistCount() {
+      const completelistCount = this.$store.getters.completelist.length;
+      return completelistCount || 0;
     },
-    // 선택된 모든리스트의 길이 (store에서 값이 변경될때마다 갱신)
-    alllist() {
-      return this.$store.getters.todolist.length + this.$store.getters.completelist.length;
+    // 선택된 모든리스트의 수
+    alllistCount() {
+      return this.todolistCount + this.completelistCount;
     },
-    // 선택된 모든리스트의 길이 (store에서 값이 변경될때마다 갱신)
+    // 선택된 모든리스트의 길이
     progressPercent() {
       // eslint-disable-next-line no-mixed-operators
-      const percent = this.completelist.length / this.alllist * 100;
-      return percent;
+      const percent = this.completelistCount / this.alllistCount * 100;
+      return percent || 0;
     },
   },
 

@@ -10,8 +10,8 @@ def get_reclist(selection):
     filters.pop('entryDate',None)  # 검색조건의 입국일자 존재시 제외
     filters.pop('myCompletelist',None)  # 검색조건의 완료일정 존재시 제외
     filters.pop('myTodolist',None)  # 검색조건의 할일일정 존재시 제외
-    myList = selection['myCompletelist']+[x['postId'] for x in selection['myTodolist']] # 검색조건으로 완료일정과 할일일정을 제외함 
-    
+    myList = [x['postId'] for x in selection['myCompletelist']]+[x['postId'] for x in selection['myTodolist']] # 검색조건으로 완료일정과 할일일정을 제외함 
+
     # 추천 일정 취득 (할일일정과 완료일정제외)
     my_reclist = List.query.filter_by(**filters).filter(~List.postId.in_(myList)).order_by(List.createdDate.desc()).all() 
 

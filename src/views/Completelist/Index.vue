@@ -6,7 +6,7 @@
     >
       <!-- 완료 일정 -->
       <v-list
-        :param-list="completeList"
+        :param-list="completelist"
         :param-show-buttons="false"
         :param-is-add="false"
         @updateCheckInput="selectCompleteCheckInput"
@@ -63,8 +63,14 @@ export default {
 
   data() {
     return {
-      completeList: [], // 완료 일정 리스트
+      // completelist: [], // 완료 일정 리스트
     };
+  },
+  computed: {
+    // 선택된 완료리스트 (store에서 값이 변경될때마다 갱신)
+    completelist() {
+      return this.$store.getters.completelist;
+    },
   },
   created() {
     this.initCompleteList(); // 완료 일정 초기화
@@ -73,14 +79,8 @@ export default {
   methods: {
     // 완료 일정 초기화
     initCompleteList() {
-      this.completeList = [{
-        value: '1a',
-        text: '첫번째 완료일정',
-      }, {
-        value: '2a',
-        text: '두번째 완료일정',
-      },
-      ];
+      // 완료 일정 취득
+      this.$store.dispatch('setInitCompleteList');
     },
     // 완료된 일정 체크박스 선택
     selectCompleteCheckInput(param) {
