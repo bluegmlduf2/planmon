@@ -47,7 +47,6 @@ export default {
         .catch(() => {
           console.log('Request failed...');
         });
-      // }
     },
     // 완료 일정 초기화
     setInitCompleteList({ commit }) {
@@ -62,6 +61,31 @@ export default {
         .catch(() => {
           console.log('Request failed...');
         });
+    },
+    // 모든 일정 초기화
+    setInitAllList({ commit }) {
+      // 완료 일정 추가
+      const { selection } = this.getters;
+      // 할일일정정보 취득
+      const getTodoList = new TodoListProxy()
+        .getTodoList(selection);
+
+      // 완료일정정보 취득
+      const getCompleteList = new CompleteListProxy()
+        .getCompleteList(selection);
+
+      // TODO 할일.. 1.promise.all에러핸들링, 할일일정 완료일정 등록순서순으로 정렬하기
+      // 모든일정정보 취득
+      Promise.all([getTodoList, getCompleteList]).then((response) => {
+        // 할일일정 초기화
+        const todolist = response[0].data;
+        commit('setTodoList', todolist);
+        // 완료일정 초기화 (hidden 프라퍼티 추가)
+        const completeList = response[1].data.map((e) => ({ ...e, hidden: true }));
+        commit('setCompleteList', completeList);
+      }).catch(() => {
+        console.log('Request failed...');
+      });
     },
     // 추천일정 초기화
     setInitRecList({ commit }) {
@@ -160,6 +184,9 @@ export default {
     },
     completelist(state) {
       return state.completelist;
+    },
+    alllist(state) {
+      return [...state.todolist, ...state.completelist];
     },
   },
 };

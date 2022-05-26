@@ -6,7 +6,7 @@
     >
       <!-- 모든 일정 -->
       <v-list
-        :param-list="allList"
+        :param-list="alllist"
         :param-show-buttons="true"
         :param-is-add="true"
         @updateCheckInput="selectAllCheckInput"
@@ -63,25 +63,24 @@ export default {
 
   data() {
     return {
-      allList: [], // 추천 일정 리스트
+      // allList: [], // 추천 일정 리스트
     };
   },
+  computed: {
+    // 선택된 모든리스트
+    alllist() {
+      return this.$store.getters.alllist;
+    },
+  },
   created() {
-    this.initAllList(); // 추천 일정 초기화  (최대 5개 호출)
+    this.initAllList(); // 모든 일정 초기화  (최대 5개 호출)
   },
 
   methods: {
     // 추천 일정 초기화
     initAllList() {
-      this.allList = [{
-        value: '1a',
-        text: '첫번째 할일일정',
-      }, {
-        value: '2a',
-        text: '두번째 완료일정',
-        hidden: true,
-      },
-      ];
+      // 모든 일정 취득
+      this.$store.dispatch('setInitAllList');
     },
     // 모든 일정 체크박스 선택
     selectAllCheckInput(param) {
