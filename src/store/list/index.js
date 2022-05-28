@@ -33,6 +33,8 @@ export default {
         this.dispatch('setInitTodoList');
         // 홈화면의 추천일정 초기화 (표시용)
         this.dispatch('setInitRecList');
+        // 홈화면의 완료일정 초기화 (표시용)
+        this.dispatch('setInitCompleteList');
       }
     },
     // 할일일정 초기화
@@ -56,7 +58,9 @@ export default {
       new CompleteListProxy()
         .getCompleteList(selection)
         .then((response) => {
-          commit('setCompleteList', response.data);
+          // 완료일정 초기화 (hidden 프라퍼티 추가)
+          const completeList = response.data.map((e) => ({ ...e, hidden: true }));
+          commit('setCompleteList', completeList);
         })
         .catch(() => {
           console.log('Request failed...');
@@ -140,8 +144,7 @@ export default {
           // 할일 일정에서 삭제
           selection.myTodolist = [...selection.myTodolist.filter((e) => e.postId !== checkedItem.postId)];
           // 할일일정과 완료일정 초기화
-          this.dispatch('setInitTodoList');
-          this.dispatch('setInitCompleteList');
+          this.dispatch('setInitAllList');
           Vue.prototype.$toast.info(message.completeList);
         }
         window.localStorage.setItem('selection', JSON.stringify(selection));
