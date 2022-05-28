@@ -8,7 +8,6 @@
       <v-list
         :param-list="todolist"
         :param-show-buttons="true"
-        :param-is-add="true"
         @updateCheckInput="selectTodoCheckInput"
       >
         <div slot="search">

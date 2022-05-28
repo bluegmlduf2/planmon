@@ -8,7 +8,6 @@
       <v-list
         :param-list="myList"
         :param-show-buttons="false"
-        :param-is-add="true"
       >
         <div slot="search">
           <v-search>

@@ -93,8 +93,9 @@ span.sm-title
 	top: 0;
 	width: 26px;
 }
-// 추가모드버튼
-.list-checkbox.list-add label:after {
+// 추가모드버튼 , 완료일정표시
+.list-checkbox.list-add label:after
+.list-checkbox.visible-hidden label:after {
 	border: 2px solid #fff;
 	border-top: none;
 	border-right: none;
@@ -121,10 +122,6 @@ span.sm-title
 	top: 7px;
 	width: 12px;
 }
-// 모든일정시 할일일정 추가시 체크 비표시
-.list-checkbox.visible-hidden {
-	visibility: hidden
-}
 .list-checkbox input[type="checkbox"] {
 	visibility: hidden;
 }
@@ -139,6 +136,11 @@ span.sm-title
 	background-color: rgb(213, 63, 50);
 	border-color: rgb(213, 63, 50);
 	transition 0.25s
+}
+// 모든일정화면에서 완료일정시 비활성화(회색)으로 표시
+.list-checkbox.visible-hidden input[type="checkbox"]:checked + label{
+	background-color: rgb(204, 204, 204);
+	border-color: rgb(204, 204, 204);
 }
 .list-checkbox input[type="checkbox"]:checked + label:after {
 	opacity: 1;

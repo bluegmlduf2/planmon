@@ -7,8 +7,7 @@
       <!-- 완료 일정 -->
       <v-list
         :param-list="completelist"
-        :param-show-buttons="false"
-        :param-is-add="false"
+        :param-show-buttons="true"
         @updateCheckInput="selectCompleteCheckInput"
       >
         <div slot="search">

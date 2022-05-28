@@ -41,6 +41,8 @@
               <input
                 :id="item.postId"
                 type="checkbox"
+                :disabled="item.hidden && isAdded"
+                :checked="item.hidden && isAdded"
                 @click="updateCheckInput($event,item)"
               >
               <label :for="item.postId" />
@@ -97,17 +99,12 @@ export default {
       type: Boolean,
       required: true,
     },
-    paramIsAdd: {
-      default: true,
-      type: Boolean,
-      required: true,
-    },
   },
 
   data() {
     return {
-      toggleMenuActive: false, // 슬라이드 토글 메뉴 활성화
-      isAdded: this.paramIsAdd, // 삭제상태 활성화
+      toggleMenuActive: false, // 슬라이드 토글 메뉴 활성화 유무
+      isAdded: true, // 추가/삭제상태 유무
     };
   },
   /**

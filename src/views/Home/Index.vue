@@ -8,7 +8,6 @@
       <v-list
         :param-list="todolist"
         :param-show-buttons="false"
-        :param-is-add="true"
         @updateCheckInput="selectTodoCheckInput"
       >
         <span
@@ -33,7 +32,6 @@
       <v-list
         :param-list="reclist"
         :param-show-buttons="false"
-        :param-is-add="true"
         @updateCheckInput="selectRecCheckInput"
       >
         <span
