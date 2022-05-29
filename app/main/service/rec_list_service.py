@@ -1,6 +1,4 @@
-from sqlalchemy import false
 from app.main.model.list import List
-from app.main.model.mylist import Mylist
 from datetime import datetime
 from pytz import timezone
 
