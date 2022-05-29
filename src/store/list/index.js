@@ -166,11 +166,14 @@ export default {
         if (listKind === 'todo' || listKind === 'all') {
           // 할일 일정, 모든일정의 할일일정 선택시 일정삭제
           selection.myTodolist = [...selection.myTodolist.filter((e) => e.postId !== checkedItem.postId)];
-          // 할일 일정 초기화 (표시용)
+          // 할일일정과 완료일정 초기화
+          this.dispatch('setInitRecList');
           this.dispatch('setInitTodoList');
         } else if (listKind === 'complete') {
           // 완료일정 선택시 일정삭제
           selection.myCompletelist = [...selection.myCompletelist.filter((e) => e.postId !== checkedItem.postId)];
+          // 할일일정과 완료일정 초기화
+          this.dispatch('setInitAllList');
         }
         window.localStorage.setItem('selection', JSON.stringify(selection));
       }

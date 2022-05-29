@@ -4,6 +4,7 @@
     <div class="list-haeder">
       <h4>
         <slot name="header" />
+        <span v-if="!isAdded">(삭제)</span>
       </h4>
       <div class="list-menu-body">
         <i

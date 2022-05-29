@@ -2,12 +2,13 @@
   <v-layout>
     <div
       slot="default-right-body"
-      class="col-md-8 default-right p-4 add-padding-bottom"
+      class="col-md-8 default-right p-4"
+      :class="{'add-padding-bottom':user}"
     >
       <!-- 할일 일정 -->
       <v-list
         :param-list="todolist"
-        :param-show-buttons="false"
+        :param-show-buttons="true"
         @updateCheckInput="selectTodoCheckInput"
       >
         <span
@@ -52,7 +53,7 @@
         </button>
       </div>
       <button
-        v-if="this.$store.getters.user"
+        v-if="user"
         class="btn btn-purple btn-option home-write-position"
         @click="$router.push({name: 'write.index'})"
       >
@@ -89,6 +90,10 @@ export default {
     VList,
   },
   computed: {
+    // 유저정보 (store에서 값이 변경될때마다 갱신)
+    user() {
+      return this.$store.getters.user;
+    },
     // 할일일정 리스트 (store에서 값이 변경될때마다 갱신)
     todolist() {
       return this.$store.getters.todolist;
