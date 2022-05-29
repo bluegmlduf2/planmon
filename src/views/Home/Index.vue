@@ -9,10 +9,13 @@
       <v-list
         :param-list="todolist"
         :param-show-buttons="true"
+        :param-is-home="true"
         @updateCheckInput="selectTodoCheckInput"
       >
         <span
           slot="header"
+          class="cursor-pointer"
+          @click="$router.push({name: 'todolist.index'})"
         >
           다가오는 일정
         </span>
@@ -21,6 +24,7 @@
         class="list-footer"
       >
         <button
+          v-if="todolist.length > 9"
           type="button"
           class="btn btn-light w-100"
           @click="$router.push({name: 'todolist.index'})"
@@ -33,10 +37,13 @@
       <v-list
         :param-list="reclist"
         :param-show-buttons="false"
+        :param-is-home="true"
         @updateCheckInput="selectRecCheckInput"
       >
         <span
           slot="header"
+          class="cursor-pointer"
+          @click="$router.push({name: 'reclist.index', params: {get20perpage:true}})"
         >
           추천 일정
         </span>
@@ -45,9 +52,10 @@
         class="list-footer"
       >
         <button
+          v-if="reclist.length > 9"
           type="button"
           class="btn btn-light w-100"
-          @click="$router.push({name: 'reclist.index'})"
+          @click="$router.push({name: 'reclist.index', params: {get20perpage:true}})"
         >
           +
         </button>

@@ -27,7 +27,10 @@
         </ul>
       </div>
     </div>
-    <div class="list-body list-blind">
+    <div
+      class="list-blind"
+      :class="{'list-body':paramIsHome}"
+    >
       <ul class="list-body-ul">
         <li
           v-for="(item, index) in paramList"
@@ -86,11 +89,6 @@ export default {
    * The properties that the component accepts.
    */
   props: {
-    contextualStyle: {
-      default: 'primary',
-      type: String,
-      required: false,
-    },
     paramList: {
       default: null,
       type: Array,
@@ -99,6 +97,11 @@ export default {
       default: false,
       type: Boolean,
       required: true,
+    },
+    // 홈화면에서 해당 컴포넌트 사용시 true
+    paramIsHome: {
+      default: false,
+      type: Boolean,
     },
   },
 
@@ -119,18 +122,6 @@ export default {
     // 로컬스토리지 저장 알림창 (store에서 값이 변경될때마다 갱신)
     showMessage() {
       return this.$store.getters.selection.isShowMessage;
-    },
-    classNamesHeader() {
-      const classNames = ['card-header'];
-
-      if (this.contextualStyle) {
-        classNames.push(`bg-${this.contextualStyle}`);
-        classNames.push('text-white');
-      } else {
-        classNames.push('bg-default');
-      }
-
-      return classNames;
     },
     // 슬라이드 메뉴 선택시 상태에 맞는 높이의 클래스적용
     openSlideMenu() {

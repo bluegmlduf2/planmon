@@ -12,6 +12,9 @@ export default {
     todolist: [], // 할일 일정 (표시용)
     reclist: [], // 추천 일정 (표시용)
     completelist: [], // 완료 일정 (표시용)
+    todolistPage: { currentPage: 1, hasNext: false }, // 할일 일정 페이지네이션
+    reclistPage: { currentPage: 1, hasNext: false }, // 추천 일정 페이지네이션
+    completelistPage: { currentPage: 1, hasNext: false }, // 완료 일정 페이지네이션
   },
   mutations: {
     setTodoList(state, payload) {
@@ -22,6 +25,15 @@ export default {
     },
     setCompleteList(state, payload) {
       state.completelist = payload;
+    },
+    setTodoListPage(state, payload) {
+      state.todolistPage = payload;
+    },
+    setRecListPage(state, payload) {
+      state.reclistPage = payload;
+    },
+    setCompleteListPage(state, payload) {
+      state.completelistPage = payload;
     },
   },
   actions: {
@@ -92,14 +104,41 @@ export default {
       });
     },
     // 추천일정 초기화
-    setInitRecList({ commit }) {
-      // 추천일정 추가
+    setInitRecList({ commit }, payload) {
       const { selection } = this.getters;
+      const get20perpage = !!payload; // 홈화면에서 해당일정화면으로 이동시 최초 일정을 20개를 표시한다
+      const selectionWithPage = { ...selection, get20perpage };
+      // 추천일정 추가
       // 추천일정정보 취득
       new RecListProxy()
-        .getRecList(selection)
+        .getRecList(selectionWithPage)
         .then((response) => {
-          commit('setRecList', response.data);
+          // 서버에서 가져온 추천일정을 초기화
+          commit('setRecList', response.data.my_reclist);
+          // 페이지네이션 정보초기화
+          const pageNation = { hasNext: response.data.has_next };
+          // 홈화면에서 해당 일정화면 이동시에 일정을 20개를 표시하므로 현재페이지를 2페이지로 설정
+          pageNation.currentPage = get20perpage ? 2 : 1;
+          commit('setRecListPage', pageNation);
+        })
+        .catch(() => {
+          console.log('Request failed...');
+        });
+    },
+    // 추천일정 가져오기 (페이지네이션)
+    getRecList({ commit }) {
+      const { selection, reclistPage } = this.getters;
+      const selectionWithPage = { ...selection, ...reclistPage };
+      // 추천일정 추가
+      // 추천일정정보 취득
+      new RecListProxy()
+        .getRecList(selectionWithPage)
+        .then((response) => {
+          // 서버에서 가져온 추천일정을 초기화
+          commit('setRecList', [...this.getters.reclist, ...response.data.my_reclist]);
+          // 페이지네이션 정보초기화
+          const pageNation = { currentPage: response.data.current_page, hasNext: response.data.has_next };
+          commit('setRecListPage', pageNation);
         })
         .catch(() => {
           console.log('Request failed...');
@@ -193,6 +232,15 @@ export default {
     },
     alllist(state) {
       return [...state.todolist, ...state.completelist];
+    },
+    todolistPage(state) {
+      return state.todolistPage;
+    },
+    reclistPage(state) {
+      return state.reclistPage;
+    },
+    completelistPage(state) {
+      return state.completelistPage;
     },
   },
 };

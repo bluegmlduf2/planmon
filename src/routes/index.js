@@ -17,6 +17,7 @@ export default [
   {
     path: '/todolist',
     name: 'todolist.index',
+    props: true, // route.param 전달데이터를 props로도 받는다
     component: () => import('@/views/Todolist/Index.vue'),
   },
 
@@ -24,6 +25,7 @@ export default [
   {
     path: '/reclist',
     name: 'reclist.index',
+    props: true, // route.param 전달데이터를 props로도 받는다
     component: () => import('@/views/Reclist/Index.vue'),
   },
 

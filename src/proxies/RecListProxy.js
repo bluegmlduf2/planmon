@@ -20,10 +20,10 @@ class RecListProxy extends Proxy {
    * @returns {Promise} The result in a promise.
    */
   getRecList({
-    country, stayStatus, entryDate, myCompletelist, myTodolist,
+    country, stayStatus, entryDate, myCompletelist, myTodolist, get20perpage, currentPage,
   }) {
     const parameter = {
-      country, stayStatus, entryDate, myCompletelist, myTodolist,
+      country, stayStatus, entryDate, myCompletelist, myTodolist, get20perpage, currentPage,
     };
     return this.find(JSON.stringify(parameter));
   }

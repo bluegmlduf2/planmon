@@ -29,7 +29,16 @@
       </v-list>
       <div
         class="list-footer"
-      />
+      >
+        <button
+          v-if="reclistPage.hasNext"
+          type="button"
+          class="btn btn-light w-100"
+          @click="$store.dispatch('getRecList')"
+        >
+          +
+        </button>
+      </div>
     </div>
   </v-layout>
 </template>
@@ -60,10 +69,24 @@ export default {
     VList,
     VSearch,
   },
+  /**
+   * The properties that the component accepts.
+   */
+  props: {
+    // 초기화시 일정을 20개를 표시한다
+    get20perpage: {
+      default: false,
+      type: Boolean,
+    },
+  },
   computed: {
     // 선택된 할일리스트 (store에서 값이 변경될때마다 갱신)
     reclist() {
       return this.$store.getters.reclist;
+    },
+    // 추천일정화면의 페이지네이션 정보
+    reclistPage() {
+      return this.$store.getters.reclistPage;
     },
   },
   created() {
@@ -71,9 +94,9 @@ export default {
   },
 
   methods: {
-    // 추천 일정 초기화
+    // 추천 일정 초기화 (기본적으로 10개를 가져오며 홈화면에서 더보기 버튼 클릭시만 20개를 가져온다)
     initRecommendedList() {
-      this.$store.dispatch('setInitRecList');
+      this.$store.dispatch('setInitRecList', this.get20perpage);
     },
     // 추천 일정 체크박스 선택
     selectRecCheckInput(param) {
