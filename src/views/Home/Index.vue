@@ -24,7 +24,7 @@
         class="list-footer"
       >
         <button
-          v-if="todolist.length > 9"
+          v-if="todolistLength > 9"
           type="button"
           class="btn btn-light w-100"
           @click="$router.push({name: 'todolist.index', params: {get20perpage:true}})"
@@ -52,7 +52,7 @@
         class="list-footer"
       >
         <button
-          v-if="reclist.length > 9"
+          v-if="reclistLength > 9"
           type="button"
           class="btn btn-light w-100"
           @click="$router.push({name: 'reclist.index', params: {get20perpage:true}})"
@@ -109,6 +109,14 @@ export default {
     // 추천일정 리스트 (store에서 값이 변경될때마다 갱신)
     reclist() {
       return this.$store.getters.reclist;
+    },
+    // 현재화면에 표시하고있는 할일일정 리스트 길이
+    todolistLength() {
+      return this.$store.getters.todolist || 0;
+    },
+    // 현재화면에 표시하고있는 추천일정 리스트 길이
+    reclistLength() {
+      return this.$store.getters.reclist || 0;
     },
   },
   methods: {
