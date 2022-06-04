@@ -28,7 +28,16 @@
       </v-list>
       <div
         class="list-footer"
-      />
+      >
+        <button
+          v-if="todolistPage.hasNext"
+          type="button"
+          class="btn btn-light w-100"
+          @click="$store.dispatch('getTodoList')"
+        >
+          +
+        </button>
+      </div>
     </div>
   </v-layout>
 </template>
@@ -59,16 +68,24 @@ export default {
     VList,
     VSearch,
   },
-
-  data() {
-    return {
-      // todolist: [], // 할일 일정 리스트
-    };
+  /**
+   * The properties that the component accepts.
+   */
+  props: {
+    // 초기화시 일정을 20개를 표시한다
+    get20perpage: {
+      default: false,
+      type: Boolean,
+    },
   },
   computed: {
     // 선택된 할일리스트 (store에서 값이 변경될때마다 갱신)
     todolist() {
       return this.$store.getters.todolist;
+    },
+    // 할일일정화면의 페이지네이션 정보
+    todolistPage() {
+      return this.$store.getters.todolistPage;
     },
   },
   created() {
@@ -78,7 +95,7 @@ export default {
     // 할일 일정 초기화
     initTodoList() {
       // 로그인상태일시 나의 할일 일정 취득
-      this.$store.dispatch('setInitTodoList');
+      this.$store.dispatch('setInitTodoList', this.get20perpage);
     },
     // 할일 일정 체크박스 선택
     selectTodoCheckInput(param) {

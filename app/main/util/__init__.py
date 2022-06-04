@@ -1,11 +1,16 @@
-def sort_by_id(ids,list):
+from app.main.model.list import List
+from sqlalchemy import case
+
+def sort_by_id(postIds):
     '''매개변수로 전달된 리스트의 순서를 postIds의 순서에 맞춰 변경한다'''
-    sorted_list= [] # 정렬된 배열순서
-    for x in ids:
-        for y in list:
-            if x == y.postId:
-                sorted_list.append(y)
-    return sorted_list
+    # 사용자 정렬 (등록일순)
+    if postIds:
+        return case(
+            {_id: index for index, _id in enumerate(postIds)},
+            value=List.postId
+        )
+    else:
+        return None
 
 def remove_unnecessary_elements(selection):
     '''SQL의 조건 매개변수에 불필요한 칼럼을 제거한다'''

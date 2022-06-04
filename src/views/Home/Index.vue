@@ -15,7 +15,7 @@
         <span
           slot="header"
           class="cursor-pointer"
-          @click="$router.push({name: 'todolist.index'})"
+          @click="$router.push({name: 'todolist.index', params: {get20perpage:true}})"
         >
           다가오는 일정
         </span>
@@ -27,7 +27,7 @@
           v-if="todolist.length > 9"
           type="button"
           class="btn btn-light w-100"
-          @click="$router.push({name: 'todolist.index'})"
+          @click="$router.push({name: 'todolist.index', params: {get20perpage:true}})"
         >
           +
         </button>
