@@ -1,21 +1,23 @@
 from app.main.model.list import List
 from datetime import datetime
 from pytz import timezone
+from app.main.util import remove_unnecessary_elements,get_next_page,get_per_page
 
 def get_reclist(selection):
     '''유저의 할일 리스트 취득'''
-    # 빈 검색조건 제외
-    filters = {k: v for k, v in selection.items() if v is not None}
-    # 검색조건에서 불필요해진 조건 제거
-    for x in ['entryDate','myCompletelist','myTodolist','get20perpage','currentPage']:
-        filters.pop(x,None)    
-    page = selection['currentPage']+1 if selection.get('currentPage',False) else 1 # 다음페이지를 가져온다 만약 가져올 페이지가 존재하지 않으면 1페이지를 가져온다
-    per_page = 20 if selection.get('get20perpage',False) else 10 # 가져올 게시물의 갯수, 존재하지 않을 경우 10개씩 표시한다
-    myList = [x['postId'] for x in selection['myCompletelist']]+[x['postId'] for x in selection['myTodolist']] # 검색조건으로 완료일정과 할일일정을 제외함 
+    # SQL의 검색조건 취득
+    filters = remove_unnecessary_elements(selection) 
+    
+    # 페이지네이션 취득
+    page = get_next_page(selection) # 표시할 페이지수를 취득
+    per_page =get_per_page(selection) # 한 페이지에 표시할 게시물의 수를 취득
 
-    # 추천 일정 취득 
-    # 할일일정과 완료일정제외 
-    # 10개씩 한 페이지씩로 가져오기
+    # 추천일정에서 표시할 일정중 나의 완료일정과 할일일정을 제외함(검색조건) 
+    myList = [x['postId'] for x in selection['myCompletelist']]+[x['postId'] for x in selection['myTodolist']]
+
+    # 추천 일정 취득
+    # 나의 할일일정과 완료일정제외된결과
+    # 일정을 10개를 한페이지로 표시한다
     my_reclist_qeury = List.query.filter_by(**filters).filter(~List.postId.in_(myList)).order_by(List.createdDate.desc()).paginate(page,per_page,error_out=False)
     my_reclist = {
         'my_reclist':my_reclist_qeury.items, # 추천일정

@@ -1,6 +1,6 @@
 from app.main.model.list import List
 from app.main.model.mylist import Mylist
-from  app.main.util import sort_by_id
+from app.main.util import sort_by_id
 
 def get_my_completelist(uid):
     '''유저의 완료 리스트 취득'''
