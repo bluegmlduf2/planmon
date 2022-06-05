@@ -327,8 +327,7 @@ export default {
     },
     // 선택된 완료 리스트의 수
     completelistCount() {
-      const completelistCount = this.$store.getters.completelist.length;
-      return completelistCount || 0;
+      return this.$store.getters.completelistCount;
     },
     // 선택된 모든리스트의 수
     alllistCount() {

@@ -28,7 +28,16 @@
       </v-list>
       <div
         class="list-footer"
-      />
+      >
+        <button
+          v-if="completelistPage.hasNext"
+          type="button"
+          class="btn btn-light w-100"
+          @click="$store.dispatch('getCompleteList')"
+        >
+          +
+        </button>
+      </div>
     </div>
   </v-layout>
 </template>
@@ -60,15 +69,14 @@ export default {
     VSearch,
   },
 
-  data() {
-    return {
-      // completelist: [], // 완료 일정 리스트
-    };
-  },
   computed: {
     // 선택된 완료리스트 (store에서 값이 변경될때마다 갱신)
     completelist() {
       return this.$store.getters.completelist;
+    },
+    // 완료일정화면의 페이지네이션 정보
+    completelistPage() {
+      return this.$store.getters.completelistPage;
     },
   },
   created() {

@@ -18,12 +18,12 @@ def get_todolist_by_id(postInfo):
     postIds = postInfo.get('myTodolist',None)
     
     # 일정 테이블에서 내 할일 일정 취득
-    my_todolist_qeury = List.query.filter(List.postId.in_(postIds)).order_by(sort_by_id(postIds)).paginate(page,per_page,error_out=False)
+    my_todolist_query = List.query.filter(List.postId.in_(postIds)).order_by(sort_by_id(postIds)).paginate(page,per_page,error_out=False)
 
     my_todolist = {
-        'my_todolist':my_todolist_qeury.items, # 할일일정 (받아온 키의 정렬순서대로)
-        'has_next':my_todolist_qeury.has_next, # 다음페이지 유무
-        'current_page':my_todolist_qeury.page, # 현재페이지
+        'my_todolist':my_todolist_query.items, # 할일일정 (받아온 키의 정렬순서대로)
+        'has_next':my_todolist_query.has_next, # 다음페이지 유무
+        'current_page':my_todolist_query.page, # 현재페이지
         'total_count':len(postInfo['myTodolist']), # 총 할일일정 건수
     }
 

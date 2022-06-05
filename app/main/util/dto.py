@@ -31,9 +31,15 @@ class TodoListDto:
 
 class CompleteListDto:
     api = Namespace('completelist', description='완료일정관리')
-    completelist = api.model('completelist', {
+    listSchema = api.model('listSchema', {
         'postId': fields.String(description='일정 ID'),
         'title': fields.String(description='일정 제목'),
+    })# 리스트의 스키마
+    completelist = api.model('completelist', {
+        'my_completelist': fields.List(description='완료일정리스트', default=[], cls_or_instance=fields.Nested(listSchema)),
+        'has_next': fields.Boolean(description='다음페이지 유무'),
+        'current_page': fields.Integer(description='현재 페이지'),
+        'total_count': fields.Integer(description='총 완료일정 건수'),
     })
 
 class RecListDto:
@@ -46,6 +52,7 @@ class RecListDto:
         'my_reclist': fields.List(description='추천일정리스트', default=[], cls_or_instance=fields.Nested(listSchema)),
         'has_next': fields.Boolean(description='다음페이지 유무'),
         'current_page': fields.Integer(description='현재 페이지'),
+        'total_count': fields.Integer(description='총 추천일정 건수'),
     })
 
 class UserDto:

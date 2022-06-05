@@ -25,7 +25,9 @@ export default {
     todolistPage: { currentPage: 1, hasNext: false }, // 할일 일정 페이지네이션
     reclistPage: { currentPage: 1, hasNext: false }, // 추천 일정 페이지네이션
     completelistPage: { currentPage: 1, hasNext: false }, // 완료 일정 페이지네이션
+    reclistCount: 0, // 추천일정의 총건수
     todolistCount: 0, // 할일일정의 총건수
+    completelistCount: 0, // 완료일정의 총건수
   },
   mutations: {
     // 일정초기화
@@ -46,11 +48,19 @@ export default {
       state.reclistPage = setPagenation(payload);
     },
     setCompleteListPage(state, payload) {
-      state.completelistPage = payload;
+      state.completelistPage = setPagenation(payload);
     },
-    // 총일정수 초기화
+    // 추천일정의 총일정수 초기화
+    setRecListCount(state, payload) {
+      state.reclistCount = payload;
+    },
+    // 할일일정의 총일정수 초기화
     setTodoListCount(state, payload) {
       state.todolistCount = payload;
+    },
+    // 완료일정의 총일정수 초기화
+    setCompleteListCount(state, payload) {
+      state.completelistCount = payload;
     },
   },
   actions: {
@@ -109,16 +119,46 @@ export default {
     },
 
     // 완료 일정 초기화
-    setInitCompleteList({ commit }) {
-      // 완료 일정 추가
+    setInitCompleteList({ commit }, payload) {
       const { selection } = this.getters;
+      const get20perpage = !!payload; // 홈화면에서 해당일정화면으로 이동시 최초 일정을 20개를 표시한다
+      const selectionWithPage = { ...selection, ...get20perpage };
+
+      // 완료 일정 추가
       // 완료일정정보 취득
       new CompleteListProxy()
-        .getCompleteList(selection)
+        .getCompleteList(selectionWithPage)
         .then((response) => {
           // 완료일정 초기화 (hidden 프라퍼티 추가)
-          const completeList = response.data.map((e) => ({ ...e, hidden: true }));
+          const completeList = response.data.my_completelist.map((e) => ({ ...e, hidden: true }));
+          // 서버에서 가져온 완료일정을 초기화
           commit('setCompleteList', completeList);
+          // 서버에서 가져온 완료일정의 총 일정 수 초기화
+          commit('setCompleteListCount', response.data.total_count);
+          // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
+          commit('setCompleteListPage', { response, get20perpage });
+        })
+        .catch(() => {
+          console.log('Request failed...');
+        });
+    },
+
+    // 완료일정 가져오기 (페이지네이션)
+    getCompleteList({ commit }) {
+      const { selection, completelistPage } = this.getters;
+      const selectionWithPage = { ...selection, ...completelistPage };
+
+      // 완료 일정 추가
+      // 완료일정정보 취득
+      new CompleteListProxy()
+        .getCompleteList(selectionWithPage)
+        .then((response) => {
+          // 완료일정 초기화 (hidden 프라퍼티 추가)
+          const completeList = response.data.my_completelist.map((e) => ({ ...e, hidden: true }));
+          // 서버에서 가져온 완료일정을 초기화
+          commit('setCompleteList', [...this.getters.completelist, ...completeList]);
+          // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
+          commit('setCompleteListPage', { response });
         })
         .catch(() => {
           console.log('Request failed...');
@@ -129,6 +169,11 @@ export default {
     setInitAllList({ commit }) {
       // 완료 일정 추가
       const { selection } = this.getters;
+
+      // 추천일정정보 취득
+      const getRecList = new RecListProxy()
+        .getRecList(selection);
+
       // 할일일정정보 취득
       const getTodoList = new TodoListProxy()
         .getTodoList(selection);
@@ -139,13 +184,19 @@ export default {
 
       // TODO 할일.. 1.promise.all에러핸들링, 할일일정 완료일정 등록순서순으로 정렬하기
       // 모든일정정보 취득
-      Promise.all([getTodoList, getCompleteList]).then((response) => {
-        // 할일일정 초기화
-        const todolist = response[0].data;
-        commit('setTodoList', todolist);
-        // 완료일정 초기화 (hidden 프라퍼티 추가)
-        const completeList = response[1].data.map((e) => ({ ...e, hidden: true }));
-        commit('setCompleteList', completeList);
+      Promise.all([getRecList, getTodoList, getCompleteList]).then((response) => {
+        // 서버에서 가져온 추천일정을 초기화
+        commit('setRecList', response[0].data.my_reclist);
+        // 서버에서 가져온 추천일정의 총 일정 수 초기화
+        commit('setRecListCount', response[0].data.total_count);
+        // 서버에서 가져온 할일일정을 초기화
+        commit('setTodoList', response[1].data.my_todolist);
+        // 서버에서 가져온 할일일정의 총 일정 수 초기화
+        commit('setTodoListCount', response[1].data.total_count);
+        // 서버에서 가져온 완료일정을 초기화
+        commit('setCompleteList', response[2].data.my_completelist);
+        // 서버에서 가져온 완료일정의 총 일정 수 초기화
+        commit('setCompleteListCount', response[2].data.total_count);
       }).catch(() => {
         console.log('Request failed...');
       });
@@ -163,6 +214,8 @@ export default {
         .then((response) => {
           // 서버에서 가져온 추천일정을 초기화
           commit('setRecList', response.data.my_reclist);
+          // 서버에서 가져온 추천일정의 총 일정 수 초기화
+          commit('setRecListCount', response.data.total_count);
           // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
           commit('setRecListPage', { response, get20perpage });
         })
@@ -290,8 +343,14 @@ export default {
     completelistPage(state) {
       return state.completelistPage;
     },
+    reclistCount(state) {
+      return state.reclistCount;
+    },
     todolistCount(state) {
       return state.todolistCount;
+    },
+    completelistCount(state) {
+      return state.completelistCount;
     },
   },
 };
