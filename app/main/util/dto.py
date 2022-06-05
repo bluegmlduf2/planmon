@@ -26,6 +26,7 @@ class TodoListDto:
         'my_todolist': fields.List(description='할일일정리스트', default=[], cls_or_instance=fields.Nested(listSchema)),
         'has_next': fields.Boolean(description='다음페이지 유무'),
         'current_page': fields.Integer(description='현재 페이지'),
+        'total_count': fields.Integer(description='총 할일일정 건수'),
     })
 
 class CompleteListDto:

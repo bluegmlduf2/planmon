@@ -323,8 +323,7 @@ export default {
     },
     // 선택된 할일 리스트의 수
     todolistCount() {
-      const todolistCount = this.$store.getters.todolist.length;
-      return todolistCount || 0;
+      return this.$store.getters.todolistCount;
     },
     // 선택된 완료 리스트의 수
     completelistCount() {

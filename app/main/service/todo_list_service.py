@@ -24,6 +24,7 @@ def get_todolist_by_id(postInfo):
         'my_todolist':my_todolist_qeury.items, # 할일일정 (받아온 키의 정렬순서대로)
         'has_next':my_todolist_qeury.has_next, # 다음페이지 유무
         'current_page':my_todolist_qeury.page, # 현재페이지
+        'total_count':len(postInfo['myTodolist']), # 총 할일일정 건수
     }
 
     # 매개변수로 전달된 postIds의 순서대로 변경한다

@@ -25,8 +25,10 @@ export default {
     todolistPage: { currentPage: 1, hasNext: false }, // 할일 일정 페이지네이션
     reclistPage: { currentPage: 1, hasNext: false }, // 추천 일정 페이지네이션
     completelistPage: { currentPage: 1, hasNext: false }, // 완료 일정 페이지네이션
+    todolistCount: 0, // 할일일정의 총건수
   },
   mutations: {
+    // 일정초기화
     setTodoList(state, payload) {
       state.todolist = payload;
     },
@@ -36,6 +38,7 @@ export default {
     setCompleteList(state, payload) {
       state.completelist = payload;
     },
+    // 페이지네이션 초기화
     setTodoListPage(state, payload) {
       state.todolistPage = setPagenation(payload);
     },
@@ -44,6 +47,10 @@ export default {
     },
     setCompleteListPage(state, payload) {
       state.completelistPage = payload;
+    },
+    // 총일정수 초기화
+    setTodoListCount(state, payload) {
+      state.todolistCount = payload;
     },
   },
   actions: {
@@ -72,6 +79,8 @@ export default {
         .then((response) => {
           // 서버에서 가져온 할일일정을 초기화
           commit('setTodoList', response.data.my_todolist);
+          // 서버에서 가져온 할일일정의 총 일정 수 초기화
+          commit('setTodoListCount', response.data.total_count);
           // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
           commit('setTodoListPage', { response, get20perpage });
         })
@@ -280,6 +289,9 @@ export default {
     },
     completelistPage(state) {
       return state.completelistPage;
+    },
+    todolistCount(state) {
+      return state.todolistCount;
     },
   },
 };
