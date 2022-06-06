@@ -77,6 +77,47 @@ export default {
       }
     },
 
+    // 추천일정 초기화
+    setInitRecList({ commit }, payload) {
+      const { selection } = this.getters;
+      const get20perpage = !!payload; // 홈화면에서 해당일정화면으로 이동시 최초 일정을 20개를 표시한다
+      const selectionWithPage = { ...selection, get20perpage };
+      // 추천일정 추가
+      // 추천일정정보 취득
+      new RecListProxy()
+        .getRecList(selectionWithPage)
+        .then((response) => {
+          // 서버에서 가져온 추천일정을 초기화
+          commit('setRecList', response.data.my_reclist);
+          // 서버에서 가져온 추천일정의 총 일정 수 초기화
+          commit('setRecListCount', response.data.total_count);
+          // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
+          commit('setRecListPage', { response, get20perpage });
+        })
+        .catch(() => {
+          console.log('Request failed...');
+        });
+    },
+
+    // 추천일정 가져오기 (페이지네이션)
+    getRecList({ commit }) {
+      const { selection, reclistPage } = this.getters;
+      const selectionWithPage = { ...selection, ...reclistPage };
+      // 추천일정 추가
+      // 추천일정정보 취득
+      new RecListProxy()
+        .getRecList(selectionWithPage)
+        .then((response) => {
+          // 서버에서 가져온 추천일정을 초기화
+          commit('setRecList', [...this.getters.reclist, ...response.data.my_reclist]);
+          // 페이지네이션 정보초기화
+          commit('setRecListPage', { response });
+        })
+        .catch(() => {
+          console.log('Request failed...');
+        });
+    },
+
     // 할일일정 초기화
     setInitTodoList({ commit }, payload) {
       const { selection } = this.getters;
@@ -165,82 +206,35 @@ export default {
         });
     },
 
-    // 모든 일정 초기화
+    // 모든 일정 초기화 (모든 일정은 페이지네이션이 없다)
     setInitAllList({ commit }) {
-      // 완료 일정 추가
       const { selection } = this.getters;
-
-      // 추천일정정보 취득
-      const getRecList = new RecListProxy()
-        .getRecList(selection);
+      const selectionWithPage = { ...selection };
+      selectionWithPage.getAllPages = true; // 모든 일정에선 모든 일정을 표시한다
 
       // 할일일정정보 취득
-      const getTodoList = new TodoListProxy()
-        .getTodoList(selection);
+      const setInitTodoList = new TodoListProxy()
+        .getTodoList(selectionWithPage);
 
       // 완료일정정보 취득
-      const getCompleteList = new CompleteListProxy()
-        .getCompleteList(selection);
+      const setInitCompleteList = new CompleteListProxy()
+        .getCompleteList(selectionWithPage);
 
-      // TODO 할일.. 1.promise.all에러핸들링, 할일일정 완료일정 등록순서순으로 정렬하기
       // 모든일정정보 취득
-      Promise.all([getRecList, getTodoList, getCompleteList]).then((response) => {
-        // 서버에서 가져온 추천일정을 초기화
-        commit('setRecList', response[0].data.my_reclist);
-        // 서버에서 가져온 추천일정의 총 일정 수 초기화
-        commit('setRecListCount', response[0].data.total_count);
+      Promise.all([setInitTodoList, setInitCompleteList]).then((response) => {
         // 서버에서 가져온 할일일정을 초기화
-        commit('setTodoList', response[1].data.my_todolist);
+        commit('setTodoList', response[0].data.my_todolist);
         // 서버에서 가져온 할일일정의 총 일정 수 초기화
-        commit('setTodoListCount', response[1].data.total_count);
+        commit('setTodoListCount', response[0].data.total_count);
+        // 서버에서 가져온 완료일정을 초기화 (hidden 프라퍼티 추가)
+        const completeList = response[1].data.my_completelist.map((e) => ({ ...e, hidden: true }));
         // 서버에서 가져온 완료일정을 초기화
-        commit('setCompleteList', response[2].data.my_completelist);
+        commit('setCompleteList', completeList);
         // 서버에서 가져온 완료일정의 총 일정 수 초기화
-        commit('setCompleteListCount', response[2].data.total_count);
+        commit('setCompleteListCount', response[1].data.total_count);
       }).catch(() => {
         console.log('Request failed...');
       });
-    },
-
-    // 추천일정 초기화
-    setInitRecList({ commit }, payload) {
-      const { selection } = this.getters;
-      const get20perpage = !!payload; // 홈화면에서 해당일정화면으로 이동시 최초 일정을 20개를 표시한다
-      const selectionWithPage = { ...selection, get20perpage };
-      // 추천일정 추가
-      // 추천일정정보 취득
-      new RecListProxy()
-        .getRecList(selectionWithPage)
-        .then((response) => {
-          // 서버에서 가져온 추천일정을 초기화
-          commit('setRecList', response.data.my_reclist);
-          // 서버에서 가져온 추천일정의 총 일정 수 초기화
-          commit('setRecListCount', response.data.total_count);
-          // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
-          commit('setRecListPage', { response, get20perpage });
-        })
-        .catch(() => {
-          console.log('Request failed...');
-        });
-    },
-
-    // 추천일정 가져오기 (페이지네이션)
-    getRecList({ commit }) {
-      const { selection, reclistPage } = this.getters;
-      const selectionWithPage = { ...selection, ...reclistPage };
-      // 추천일정 추가
-      // 추천일정정보 취득
-      new RecListProxy()
-        .getRecList(selectionWithPage)
-        .then((response) => {
-          // 서버에서 가져온 추천일정을 초기화
-          commit('setRecList', [...this.getters.reclist, ...response.data.my_reclist]);
-          // 페이지네이션 정보초기화
-          commit('setRecListPage', { response });
-        })
-        .catch(() => {
-          console.log('Request failed...');
-        });
     },
 
     // 선택한 리스트를 추가, 삭제
@@ -269,20 +263,31 @@ export default {
       } else {
         // 미로그인시
         if (listKind === 'rec') {
-          // 추천일정 할일 일정에 추가
+          // 추천일정화면에서 추가
           // 중복된 일정이 아니라면 할일 일정에 추가 (일정을 뒤에 추가)
           selection.myTodolist = [...selection.myTodolist.filter((e) => e.postId !== checkedItem.postId), checkedItem];
           // 할일일정과 완료일정 초기화
           this.dispatch('setInitRecList');
           this.dispatch('setInitTodoList');
           Vue.prototype.$toast.info(message.addList);
-        } else if (listKind === 'todo' || listKind === 'all') {
-          // 할일일정, 모든일정의 추천일정 선택시 완료일정에 추가
+        } else if (listKind === 'todo') {
+          // 할일일정화면에서 추가
           // 중복된 일정이 아니라면 완료 일정에 추가 (일정을 앞에 추가)
           selection.myCompletelist = [checkedItem, ...selection.myCompletelist.filter((e) => e.postId !== checkedItem.postId)];
           // 할일 일정에서 삭제
           selection.myTodolist = [...selection.myTodolist.filter((e) => e.postId !== checkedItem.postId)];
-          // 할일일정과 완료일정 초기화
+          // 할일일정 초기화
+          this.dispatch('setInitTodoList');
+          // 완료일정 초기화
+          this.dispatch('setInitCompleteList');
+          Vue.prototype.$toast.info(message.completeList);
+        } else if (listKind === 'all_todo') {
+          // 모든일정화면에서 할일추가
+          // 중복된 일정이 아니라면 완료 일정에 추가 (일정을 앞에 추가)
+          selection.myCompletelist = [checkedItem, ...selection.myCompletelist.filter((e) => e.postId !== checkedItem.postId)];
+          // 할일 일정에서 삭제
+          selection.myTodolist = [...selection.myTodolist.filter((e) => e.postId !== checkedItem.postId)];
+          // 모든일정 초기화
           this.dispatch('setInitAllList');
           Vue.prototype.$toast.info(message.completeList);
         }
@@ -303,16 +308,33 @@ export default {
         // TODO axios 리스트별 추가 삭제 찰;
       } else {
         // 미로그인시
-        if (listKind === 'todo' || listKind === 'all') {
-          // 할일 일정, 모든일정의 할일일정 선택시 일정삭제
+        if (listKind === 'todo') {
+          // 할일일정화면에서 완료일정 삭제
+          // 할일일정삭제
           selection.myTodolist = [...selection.myTodolist.filter((e) => e.postId !== checkedItem.postId)];
-          // 할일일정과 완료일정 초기화
+          // 할일일정 초기화
           this.dispatch('setInitRecList');
+          // 완료일정 초기화
           this.dispatch('setInitTodoList');
         } else if (listKind === 'complete') {
-          // 완료일정 선택시 일정삭제
+          // 완료일정화면에서 완료일정 삭제
+          // 완료일정 삭제
           selection.myCompletelist = [...selection.myCompletelist.filter((e) => e.postId !== checkedItem.postId)];
-          // 할일일정과 완료일정 초기화
+          // 할일일정 초기화
+          this.dispatch('setInitTodoList');
+          // 완료일정 초기화
+          this.dispatch('setInitCompleteList');
+        } else if (listKind === 'all_todo') {
+          // 모든일정화면에서 할일일정 삭제
+          // 할일일정삭제
+          selection.myTodolist = [...selection.myTodolist.filter((e) => e.postId !== checkedItem.postId)];
+          // 모든일정 초기화
+          this.dispatch('setInitAllList');
+        } else if (listKind === 'all_complete') {
+          // 모든일정화면에서 완료일정 삭제
+          // 완료일정삭제
+          selection.myCompletelist = [...selection.myCompletelist.filter((e) => e.postId !== checkedItem.postId)];
+          // 모든일정 초기화
           this.dispatch('setInitAllList');
         }
         window.localStorage.setItem('selection', JSON.stringify(selection));

@@ -85,7 +85,7 @@ export default {
     selectAllCheckInput(param) {
       const checkedItem = param;
       // 체크한 대상이 할일일정인지 완료일정인지 구분
-      checkedItem.listKind = checkedItem.hidden ? 'complete' : 'todo';
+      checkedItem.listKind = checkedItem.hidden ? 'all_complete' : 'all_todo';
       this.$store.dispatch('updateList', checkedItem);
     },
   },

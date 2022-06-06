@@ -19,8 +19,8 @@ class CompleteListProxy extends Proxy {
    *
    * @returns {Promise} The result in a promise.
    */
-  getCompleteList({ myCompletelist, currentPage }) {
-    const parameter = { currentPage };
+  getCompleteList({ myCompletelist, currentPage, getAllPages }) {
+    const parameter = { currentPage, getAllPages };
     parameter.myCompletelist = myCompletelist?.map((e) => e.postId);
     return this.find(JSON.stringify(parameter));
   }
