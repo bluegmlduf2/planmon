@@ -29,7 +29,9 @@
           >
             <ul>
               <li>
-                <router-link :to="{ name: 'home.index' }">
+                <router-link
+                  :to="{ name: 'home.index', params: { homeInit : true}}"
+                >
                   Home
                 </router-link>
               </li>
@@ -73,7 +75,9 @@
           class="default-welcome"
         >
           <h1>
-            <router-link :to="{ name: 'home.index' }">
+            <router-link
+              :to="{ name: 'home.index', params: { homeInit : true}}"
+            >
               Planmon
             </router-link>
           </h1>
