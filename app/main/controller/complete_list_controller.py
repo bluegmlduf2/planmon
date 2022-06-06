@@ -2,7 +2,7 @@ from flask_restx import Resource
 
 from app.main.util.decorator import get_user_by_token
 from ..util.dto import CompleteListDto
-from ..service.complete_list_service import get_completelist_by_id, get_my_completelist
+from ..service.complete_list_service import get_completelist_in_localstorage, get_my_completelist
 import json
 
 api = CompleteListDto.api
@@ -20,4 +20,4 @@ class CompleteList(Resource):
             return get_my_completelist(uid)
         else:
             """로컬 스토리지의 완료 일정을 반환"""
-            return get_completelist_by_id(json.loads(postInfo))
+            return get_completelist_in_localstorage(json.loads(postInfo))

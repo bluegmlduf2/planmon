@@ -8,7 +8,7 @@ def get_my_todolist(uid):
     my_todolist = List.query.filter(List.postId.in_(my_todolist_id_list)).all() # 일정 테이블에서 내 할일 일정 취득
     return my_todolist
 
-def get_todolist_by_id(postInfo):
+def get_todolist_in_localstorage(postInfo):
     '''일정의 키로 할일 리스트 취득'''
     # 페이지네이션 취득
     page = get_next_page(postInfo) # 표시할 페이지수를 취득
