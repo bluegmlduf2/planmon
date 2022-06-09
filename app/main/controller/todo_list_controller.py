@@ -2,7 +2,7 @@ from flask_restx import Resource
 
 from app.main.util.decorator import get_user_by_token
 from ..util.dto import TodoListDto
-from ..service.todo_list_service import get_todolist_in_localstorage, get_my_todolist
+from ..service.todo_list_service import get_my_todolist
 import json
 
 api = TodoListDto.api
@@ -14,10 +14,5 @@ class TodoList(Resource):
     @get_user_by_token
     @api.marshal_list_with(_todolist, envelope='data')
     def get(uid,self,postInfo):
-        # 로그인 유무에 따라 전달값이 다르다
-        if uid:
-            """나의 할일 일정을 반환"""
-            return get_my_todolist(uid)
-        else:
-            """로컬 스토리지의 할일 일정을 반환"""
-            return get_todolist_in_localstorage(json.loads(postInfo))
+        """할일 일정을 반환"""
+        return get_my_todolist(uid,json.loads(postInfo))

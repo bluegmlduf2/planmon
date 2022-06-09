@@ -20,16 +20,22 @@ def remove_unnecessary_elements(selection):
     return filters
 
 def get_next_page(selection):
-    if selection.get('getAllPages',False):
-    # 모든일정은 모든 페이지를 표시한다
+    # 페이지네이션 없이 일정만 가져오는 경우 모든 일정을 표시한다
+    if selection is None:
+        return 1
+    # 모든일정의 초기화시 모든 일정을 표시한다
+    elif selection.get('getAllPages',False):
         return 1
     else:
         # 다음페이지를 가져온다 만약 가져올 페이지가 존재하지 않으면 1페이지를 가져온다
         return selection['currentPage']+1 if selection.get('currentPage',False) else 1 
 
 def get_per_page(selection):
-    if selection.get('getAllPages',False):
-    # 모든일정은 모든 페이지를 표시한다
+    # 페이지네이션 없이 일정만 가져오는 경우 모든 일정을 표시한다
+    if selection is None:
+        return 10000
+    # 모든일정의 초기화시 모든 일정을 표시한다
+    elif selection.get('getAllPages',False):
         return 10000
     else:
     # 한 페이지에 표시할 게시물의 수를 취득, 존재하지 않을 경우 10개씩 표시한다
