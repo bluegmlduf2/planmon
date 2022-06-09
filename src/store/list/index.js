@@ -17,8 +17,6 @@ function setPagenation(payload) {
 
 export default {
   state: {
-    // todolist: [{ postId: '1', title: '타이틀1' }, { postId: '2', title: '타이틀2' }], // 표시용 리스트
-    // completelist: [{ postId: '3', title: '타이틀3' }, { postId: '4', title: '타이틀4' }], // 표시용 리스트
     todolist: [], // 할일 일정 (표시용)
     reclist: [], // 추천 일정 (표시용)
     completelist: [], // 완료 일정 (표시용)
