@@ -13,7 +13,9 @@ class SelectionDto:
         'entryDate': fields.Date(description='입국날짜'),
         'isShowMessage': fields.Boolean(required=True, default=False, description='경고메세지표시유무'),
         'stayStatus': fields.String( description='체류상태'),
-        'myTodolist': fields.List(description='할일일정리스트', default=[], cls_or_instance=fields.Nested(listSchema)),    
+        'myTodolist': fields.List(description='할일일정리스트', default=[], cls_or_instance=fields.Nested(listSchema)),
+        'todolistCount': fields.Integer(description='총 할일일정수'),
+        'completelistCount': fields.Integer(description='총 완료일정수'),    
     })
 
 class TodoListDto:
@@ -26,7 +28,7 @@ class TodoListDto:
         'my_todolist': fields.List(description='할일일정리스트', default=[], cls_or_instance=fields.Nested(listSchema)),
         'has_next': fields.Boolean(description='다음페이지 유무'),
         'current_page': fields.Integer(description='현재 페이지'),
-        'total_count': fields.Integer(description='총 할일일정 건수'),
+        'total_count': fields.Integer(description='총 할일일정 수'),
     })
 
 class CompleteListDto:
@@ -39,7 +41,7 @@ class CompleteListDto:
         'my_completelist': fields.List(description='완료일정리스트', default=[], cls_or_instance=fields.Nested(listSchema)),
         'has_next': fields.Boolean(description='다음페이지 유무'),
         'current_page': fields.Integer(description='현재 페이지'),
-        'total_count': fields.Integer(description='총 완료일정 건수'),
+        'total_count': fields.Integer(description='총 완료일정 수'),
     })
 
 class RecListDto:
@@ -52,7 +54,7 @@ class RecListDto:
         'my_reclist': fields.List(description='추천일정리스트', default=[], cls_or_instance=fields.Nested(listSchema)),
         'has_next': fields.Boolean(description='다음페이지 유무'),
         'current_page': fields.Integer(description='현재 페이지'),
-        'total_count': fields.Integer(description='총 추천일정 건수'),
+        'total_count': fields.Integer(description='총 추천일정 수'),
     })
 
 class UserDto:

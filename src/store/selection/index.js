@@ -24,21 +24,28 @@ export default {
   },
   actions: {
     // 사용자 선택값 데이터 초기화
+    // eslint-disable-next-line consistent-return
     setInitSelection({ commit }) {
       const isLogined = this.getters.user;
       // 로그인상태일시
       if (isLogined) {
-        new SelectionProxy()
+        return new SelectionProxy()
           .getSelection()
           .then((response) => {
+            debugger;
+            const selection = response.data;
+            // 각 일정의 수를 초기화후 삭제
+            commit('setTodoListCount', selection.todolistCount);
+            commit('setCompleteListCount', selection.completelistCount);
+            delete selection.todolistCount;
+            delete selection.completelistCount;
             // 사용자 선택사항 초기화
-            commit('setSelection', response.data);
-            // 홈화면의 리스트 초기화
-            this.dispatch('setInitHomeList');
+            commit('setSelection', selection);
           })
           .catch(() => {
             console.log('Request failed...');
           });
+      // eslint-disable-next-line no-else-return
       } else {
       // 미로그인시
         const selectionStorage = window.localStorage.getItem('selection');
@@ -47,10 +54,11 @@ export default {
           window.localStorage.setItem('selection', JSON.stringify(selectionInit));
         }
         const selection = JSON.parse(window.localStorage.getItem('selection'));
+        // 각 일정의 수를 초기화
+        commit('setTodoListCount', selection.myTodolist.length);
+        commit('setCompleteListCount', selection.myCompletelist.length);
         // 사용자 선택사항 초기화
         commit('setSelection', selection);
-        // 홈화면의 리스트 초기화
-        this.dispatch('setInitHomeList');
       }
     },
     // 선택한 항목을 저장
