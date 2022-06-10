@@ -18,13 +18,14 @@ def get_reclist(selection):
     # 추천 일정 취득
     # 나의 할일일정과 완료일정제외된결과
     # 일정을 10개를 한페이지로 표시한다
-    my_reclist_query = List.query.filter_by(**filters).filter(~List.postId.in_(myList)).order_by(List.createdDate.desc()).paginate(page,per_page,error_out=False)
-    my_reclist_count=List.query.filter_by(**filters).filter(~List.postId.in_(myList)).count()
+    my_reclist_query = List.query.filter_by(**filters).filter(~List.postId.in_(myList)).order_by(List.createdDate.desc())
+    my_reclist_result = my_reclist_query.paginate(page,per_page,error_out=False)
+    my_reclist_count = my_reclist_query.count()
     my_reclist = {
-        'my_reclist':my_reclist_query.items, # 추천일정
-        'has_next':my_reclist_query.has_next, # 다음페이지 유무
-        'current_page':my_reclist_query.page, # 현재페이지
-        'total_count':my_reclist_count, # 총 추천일정 건수
+        'my_reclist':my_reclist_result.items, # 추천일정
+        'has_next':my_reclist_result.has_next, # 다음페이지 유무
+        'current_page':my_reclist_result.page, # 현재페이지
+        'total_count':my_reclist_count, # 총 추천일정 수
     }
 
     # 체류중인상태에서 입국후 지난 날짜의 조건이 가까운 순서로 조회
