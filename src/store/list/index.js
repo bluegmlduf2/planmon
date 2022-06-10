@@ -3,7 +3,6 @@ import message from '@/assets/js/message';
 import TodoListProxy from '@/proxies/TodoListProxy';
 import RecListProxy from '@/proxies/RecListProxy';
 import CompleteListProxy from '@/proxies/CompleteListProxy';
-import { router } from '@/plugins/vue-router';
 
 // 페이지네이션을 초기화를 위해 vuex.list에서 공통으로 사용하는 함수
 function setPagenation(payload) {
@@ -62,19 +61,6 @@ export default {
     },
   },
   actions: {
-    // 홈화면에서 할일일정과 추천일정을 초기화
-    setInitHomeList() {
-      // 할일일정화면과 추천일정화면에서 2번 호출되는걸 막기 위한 처리
-      if (router.currentRoute.path === '/') {
-        // 홈화면의 할일일정 초기화 (표시용)
-        this.dispatch('setInitTodoList');
-        // 홈화면의 추천일정 초기화 (표시용)
-        this.dispatch('setInitRecList');
-        // 홈화면의 완료일정 초기화 (표시용)
-        this.dispatch('setInitCompleteList');
-      }
-    },
-
     // 추천일정 초기화
     setInitRecList({ commit }, payload) {
       const { selection } = this.getters;
@@ -82,7 +68,7 @@ export default {
       const selectionWithPage = { ...selection, get20perpage };
       // 추천일정 추가
       // 추천일정정보 취득
-      new RecListProxy()
+      return new RecListProxy()
         .getRecList(selectionWithPage)
         .then((response) => {
           // 서버에서 가져온 추천일정을 초기화
@@ -123,7 +109,7 @@ export default {
       const selectionWithPage = { ...selection, get20perpage };
 
       // 로컬스토리지의 정보로 초기화
-      new TodoListProxy()
+      return new TodoListProxy()
         .getTodoList(selectionWithPage)
         .then((response) => {
           // 서버에서 가져온 할일일정을 초기화
@@ -165,7 +151,7 @@ export default {
 
       // 완료 일정 추가
       // 완료일정정보 취득
-      new CompleteListProxy()
+      return new CompleteListProxy()
         .getCompleteList(selectionWithPage)
         .then((response) => {
           // 완료일정 초기화 (hidden 프라퍼티 추가)
@@ -219,7 +205,7 @@ export default {
         .getCompleteList(selectionWithPage);
 
       // 모든일정정보 취득
-      Promise.all([setInitTodoList, setInitCompleteList]).then((response) => {
+      return Promise.all([setInitTodoList, setInitCompleteList]).then((response) => {
         // 서버에서 가져온 할일일정을 초기화
         commit('setTodoList', response[0].data.my_todolist);
         // 서버에서 가져온 할일일정의 총 일정 수 초기화
