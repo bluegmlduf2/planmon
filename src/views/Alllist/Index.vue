@@ -77,9 +77,11 @@ export default {
 
   methods: {
     // 추천 일정 초기화
-    initAllList() {
+    async initAllList() {
+      // 사용자 선택값 데이터 초기화
+      await this.$store.dispatch('setInitSelection');
       // 모든 일정 취득
-      this.$store.dispatch('setInitAllList');
+      await this.$store.dispatch('setInitAllList');
     },
     // 모든 일정 체크박스 선택
     selectAllCheckInput(param) {

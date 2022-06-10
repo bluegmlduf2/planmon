@@ -10,7 +10,6 @@ export default [
   {
     path: '/',
     name: 'home.index',
-    props: true, // route.param 전달데이터를 props로도 받는다
     component: () => import('@/views/Home/Index.vue'),
   },
 

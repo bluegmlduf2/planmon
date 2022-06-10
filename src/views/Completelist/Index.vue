@@ -85,9 +85,11 @@ export default {
 
   methods: {
     // 완료 일정 초기화
-    initCompleteList() {
+    async initCompleteList() {
+      // 사용자 선택값 데이터 초기화
+      await this.$store.dispatch('setInitSelection');
       // 완료 일정 취득
-      this.$store.dispatch('setInitCompleteList');
+      await this.$store.dispatch('setInitCompleteList');
     },
     // 완료된 일정 체크박스 선택
     selectCompleteCheckInput(param) {

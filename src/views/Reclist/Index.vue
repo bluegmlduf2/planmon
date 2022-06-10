@@ -95,8 +95,11 @@ export default {
 
   methods: {
     // 추천 일정 초기화 (기본적으로 10개를 가져오며 홈화면에서 더보기 버튼 클릭시만 20개를 가져온다)
-    initRecommendedList() {
-      this.$store.dispatch('setInitRecList', this.get20perpage);
+    async initRecommendedList() {
+      // 사용자 선택값 데이터 초기화
+      await this.$store.dispatch('setInitSelection');
+      // 추천일정 초기화
+      await this.$store.dispatch('setInitRecList', this.get20perpage);
     },
     // 추천 일정 체크박스 선택
     selectRecCheckInput(param) {

@@ -96,16 +96,6 @@ export default {
     VLayout,
     VList,
   },
-  /**
-   * The properties that the component accepts.
-   */
-  props: {
-    // 홈버튼 클릭시 초기화
-    homeInit: {
-      default: false,
-      type: Boolean,
-    },
-  },
   computed: {
     // 유저정보 (store에서 값이 변경될때마다 갱신)
     user() {
@@ -134,13 +124,13 @@ export default {
   },
   methods: {
     // 홈버튼 및 배너클릭으로 홈화면으로 돌아갈때 할일일정과 추천일정을 초기화한다
-    initHomeList() {
-      if (this.homeInit) {
-        // 추천일정 초기화
-        this.$store.dispatch('setInitRecList');
-        // 할일일정 초기화
-        this.$store.dispatch('setInitTodoList');
-      }
+    async initHomeList() {
+      // 사용자 선택값 데이터 초기화
+      await this.$store.dispatch('setInitSelection');
+      // 홈화면의 할일일정 초기화 (표시용)
+      await this.$store.dispatch('setInitTodoList');
+      // 홈화면의 추천일정 초기화 (표시용)
+      await this.$store.dispatch('setInitRecList');
     },
     // 다가오는 일정 체크박스 선택
     selectTodoCheckInput(param) {

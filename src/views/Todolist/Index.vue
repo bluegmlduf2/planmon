@@ -93,9 +93,11 @@ export default {
   },
   methods: {
     // 할일 일정 초기화
-    initTodoList() {
+    async initTodoList() {
+      // 사용자 선택값 데이터 초기화
+      await this.$store.dispatch('setInitSelection');
       // 로그인상태일시 나의 할일 일정 취득
-      this.$store.dispatch('setInitTodoList', this.get20perpage);
+      await this.$store.dispatch('setInitTodoList', this.get20perpage);
     },
     // 할일 일정 체크박스 선택
     selectTodoCheckInput(param) {
