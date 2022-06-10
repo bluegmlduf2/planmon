@@ -28,7 +28,7 @@ def get_my_todolist(uid, postInfo = None):
         'my_todolist':my_todolist_result.items, # 할일일정 (받아온 키의 정렬순서대로)
         'has_next':my_todolist_result.has_next, # 다음페이지 유무
         'current_page':my_todolist_result.page, # 현재페이지
-        'total_count':my_todolist_count, # 총 할일일정 건수
+        'total_count':my_todolist_count, # 총 할일일정 수
     }
 
     return my_todolist

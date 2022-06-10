@@ -26,7 +26,7 @@ def get_my_completelist(uid, postInfo = None):
         'my_completelist':my_completelist_result.items, # 완료일정 (받아온 키의 정렬순서대로)
         'has_next':my_completelist_result.has_next, # 다음페이지 유무
         'current_page':my_completelist_result.page, # 현재페이지
-        'total_count':my_completelist_count, # 총 완료일정 건수
+        'total_count':my_completelist_count, # 총 완료일정 수
     }
 
     return my_completelist
