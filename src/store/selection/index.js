@@ -1,4 +1,6 @@
+import Vue from 'vue';
 import SelectionProxy from '@/proxies/SelectionProxy';
+import message from '@/assets/js/message';
 
 // 선택 정보의 초기값
 const selectionInit = {
@@ -70,15 +72,15 @@ export default {
       if (isLogined) {
         new SelectionProxy()
           .updateSelection(selection)
-          .then(() => {
-            // const selection = response.data;
-            // // 각 일정의 수를 초기화후 삭제
-            // commit('setTodoListCount', selection.todolistCount);
-            // commit('setCompleteListCount', selection.completelistCount);
-            // delete selection.todolistCount;
-            // delete selection.completelistCount;
-            // // 사용자 선택사항 초기화
-            // commit('setSelection', selection);
+          .then(async () => {
+            // 사용자 선택값 데이터 초기화
+            await this.dispatch('setInitSelection');
+            // 홈화면의 할일일정 초기화 (표시용)
+            await this.dispatch('setInitTodoList');
+            // 홈화면의 추천일정 초기화 (표시용)
+            await this.dispatch('setInitRecList');
+            // 변경 성공 메세지
+            Vue.prototype.$toast.info(message.changeSelection);
           })
           .catch(() => {
             console.log('Request failed...');
