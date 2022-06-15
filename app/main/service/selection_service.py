@@ -1,6 +1,8 @@
+from app.main import db
 from app.main.model.user import User
 from app.main.service.todo_list_service import get_my_todolist
 from app.main.service.complete_list_service import get_my_completelist
+from datetime import datetime
 
 def get_a_selection(uid):
     '''유저선택정보를 취득'''
@@ -12,3 +14,26 @@ def get_a_selection(uid):
     setattr(user,'todolistCount',todolist['total_count']) # 나의 총 할일 일정 취득후 등록
     setattr(user,'completelistCount',completelist['total_count']) # 나의 총 완료 일정 취득후 등록
     return user
+
+def update_a_selection(uid,selection):
+    '''유저선택정보를 갱신'''
+    try:
+        user=User.query.filter_by(uid=uid).first()
+        # 기존 유저가 존재할 경우 유저선택정보를 갱신
+        if user:
+            user.country=selection['country']
+            user.entryDate=datetime.strptime(selection['entryDate'], '%Y-%m-%d')
+            user.stayStatus=selection['stayStatus']
+            db.session.commit()
+                        
+            response_object = {
+                'status': 'success',
+                'message': '유저선택정보를 변경했습니다'
+            }
+            return response_object, 201
+    except Exception as e:
+        response_object = {
+            'status': 'fail',
+            'message': '유저선택정보를 변경중 에러가 발생하였습니다'
+        }
+        return response_object, 401

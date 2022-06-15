@@ -32,7 +32,6 @@ export default {
         return new SelectionProxy()
           .getSelection()
           .then((response) => {
-            debugger;
             const selection = response.data;
             // 각 일정의 수를 초기화후 삭제
             commit('setTodoListCount', selection.todolistCount);
@@ -69,6 +68,21 @@ export default {
       const isLogined = this.getters.user;
       // 로그인상태일시
       if (isLogined) {
+        new SelectionProxy()
+          .updateSelection(selection)
+          .then(() => {
+            // const selection = response.data;
+            // // 각 일정의 수를 초기화후 삭제
+            // commit('setTodoListCount', selection.todolistCount);
+            // commit('setCompleteListCount', selection.completelistCount);
+            // delete selection.todolistCount;
+            // delete selection.completelistCount;
+            // // 사용자 선택사항 초기화
+            // commit('setSelection', selection);
+          })
+          .catch(() => {
+            console.log('Request failed...');
+          });
         // TODO axios로 selection 가져옴
         insertSelection = selection;
       } else {

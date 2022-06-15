@@ -21,6 +21,18 @@ class SelectionProxy extends Proxy {
   getSelection() {
     return this.submit('get', `${this.endpoint}/selection`);
   }
+
+  /**
+   * 로그인한 유저의 선택사항 갱신하기
+   *
+   * @param {String} sort 정렬
+   *
+   * @returns {Promise} The result in a promise.
+   */
+  updateSelection({ country, entryDate, stayStatus }) {
+    const parameter = { country, entryDate, stayStatus };
+    return this.submit('put', `${this.endpoint}/selection`, parameter);
+  }
 }
 
 export default SelectionProxy;

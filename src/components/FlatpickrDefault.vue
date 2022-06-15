@@ -55,7 +55,11 @@ export default {
         return this.$store.getters.selection.entryDate;
       },
       set(value) {
-        this.$store.dispatch('addSelection', { entryDate: value });
+        const entryDateBefore = this.$store.getters.selection.entryDate;
+        // 초기화시 중복실행되기때문에 아래와 같이 처리
+        if (entryDateBefore !== value) {
+          this.$store.dispatch('addSelection', { entryDate: value });
+        }
       },
     },
   },
