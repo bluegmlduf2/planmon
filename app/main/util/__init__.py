@@ -1,5 +1,6 @@
 from app.main.model.list import List
 from datetime import datetime
+from sqlalchemy import case
 from pytz import timezone
 from uuid import uuid1
 
