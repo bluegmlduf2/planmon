@@ -1,7 +1,6 @@
 from .. import db
-from datetime import datetime
-from pytz import timezone
 from uuid import uuid1
+from app.main.util import get_current_time
 
 class List(db.Model):
     """ 리스트정보 취득 """
@@ -22,9 +21,8 @@ class List(db.Model):
 
     def __init__(self):
         self.postId = str(uuid1()) # 시스템의 현재시간과 호스트ID 기반으로 UUID 생성
-        current_date_time = datetime.now(timezone('Asia/Seoul')) # 한국기준 시간
-        self.createdDate = current_date_time # 작성시간 초기화
-        self.updatedDate = current_date_time # 수정시간 초기화
+        self.createdDate = get_current_time() # 작성시간 초기화
+        self.updatedDate = get_current_time() # 수정시간 초기화
 
     def __repr__(self):
         return "<List '{}'>".format(self.postId)

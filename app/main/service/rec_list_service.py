@@ -3,8 +3,7 @@ from app.main.model.user import User
 from app.main.model.list import List
 from app.main.model.mylist import Mylist
 from datetime import datetime
-from pytz import timezone
-from app.main.util import remove_unnecessary_elements,get_next_page,get_per_page
+from app.main.util import remove_unnecessary_elements,get_next_page,get_per_page,get_current_time
 from ..service.complete_list_service import get_my_completelist
 from ..service.todo_list_service import get_my_todolist
 
@@ -46,7 +45,7 @@ def get_reclist(uid,selection):
     if selection['stayStatus'] == '1' and selection['entryDate'] is not None:
         dateFormat = '%Y-%m-%d'
         entryDate = datetime.strptime(selection['entryDate'],dateFormat) # 입국날짜
-        currentDate = datetime.strptime(datetime.now(timezone('Asia/Seoul')).strftime(dateFormat),dateFormat) # 현재시간
+        currentDate = datetime.strptime(get_current_time().strftime(dateFormat),dateFormat) # 현재시간
         # 만약 입국날짜가 현재시간보다 미래일 경우 일반 추천 일정반환
         if currentDate < entryDate:
             return my_reclist['my_reclist']

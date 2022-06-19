@@ -1,5 +1,10 @@
 from app.main.model.list import List
-from sqlalchemy import case
+from datetime import datetime
+from pytz import timezone
+
+def get_current_time():
+    '''서울기준으로 현재시간을 가져온다'''
+    return datetime.now(timezone('Asia/Seoul'))
 
 def sort_by_id(postIds):
     '''매개변수로 전달된 리스트의 순서를 postIds의 순서에 맞춰 변경한다'''
