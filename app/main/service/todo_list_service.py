@@ -12,7 +12,7 @@ def get_my_todolist(uid, postInfo = None):
     # 로그인 상태인경우
     if uid:
         # 서버에 저장된 내 할일 일정 취득
-        postIds = [x.myListId for x in Mylist.query.filter_by(uid=uid, listKind='todo').order_by(Mylist.addedDate.desc()).all()]
+        postIds = [x.myListIdRef for x in Mylist.query.filter_by(uid=uid, listKind='todo').order_by(Mylist.addedDate.desc()).all()]
     else:
     # 미로그인 상태인 경우
         # 로컬스토리지에 저장된 내 할일일정의 키값 취득

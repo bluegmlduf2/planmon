@@ -21,7 +21,7 @@ class List(db.Model):
     updatedDate = db.Column(db.DateTime, nullable=False)
 
     def __init__(self):
-        self.postId = uuid1() # 시스템의 현재시간과 호스트ID 기반으로 UUID 생성
+        self.postId = str(uuid1()) # 시스템의 현재시간과 호스트ID 기반으로 UUID 생성
         current_date_time = datetime.now(timezone('Asia/Seoul')) # 한국기준 시간
         self.createdDate = current_date_time # 작성시간 초기화
         self.updatedDate = current_date_time # 수정시간 초기화
