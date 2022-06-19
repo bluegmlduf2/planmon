@@ -27,6 +27,17 @@ class RecListProxy extends Proxy {
     };
     return this.find(JSON.stringify(parameter));
   }
+
+  /**
+   * 추천일정을 추가하기
+   *
+   * @param {String} sort 정렬
+   *
+   * @returns {Promise} The result in a promise.
+   */
+  updateRecList(postId) {
+    return this.update(postId);
+  }
 }
 
 export default RecListProxy;

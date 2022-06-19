@@ -243,14 +243,29 @@ export default {
 
       // 로그인상태일시
       if (isLogined) {
-        // TODO axios 리스트별 추가 삭제 찰;
+        if (listKind === 'rec') {
+          // 추가한 일정의 ID
+          const { postId } = payload;
+          // 추천일정 추가
+          new RecListProxy()
+            .updateRecList(postId)
+            .then(() => {
+              // 할일일정과 추천일정 초기화
+              this.dispatch('setInitRecList');
+              this.dispatch('setInitTodoList');
+              Vue.prototype.$toast.info(message.addList);
+            })
+            .catch(() => {
+              console.log('Request failed...');
+            });
+        }
       } else {
         // 미로그인시
         if (listKind === 'rec') {
           // 추천일정화면에서 추가
           // 중복된 일정이 아니라면 할일 일정에 추가 (일정을 뒤에 추가)
           selection.myTodolist = [...selection.myTodolist.filter((e) => e.postId !== checkedItem.postId), checkedItem];
-          // 할일일정과 완료일정 초기화
+          // 할일일정과 추천일정 초기화
           this.dispatch('setInitRecList');
           this.dispatch('setInitTodoList');
           Vue.prototype.$toast.info(message.addList);
