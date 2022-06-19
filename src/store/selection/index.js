@@ -65,8 +65,6 @@ export default {
     // 선택한 항목을 저장
     addSelection({ commit }, payload) {
       const selection = { ...this.getters.selection, ...payload }; // 선택한 항목
-      let insertSelection; // 입력할 항목
-
       const isLogined = this.getters.user;
       // 로그인상태일시
       if (isLogined) {
@@ -85,14 +83,18 @@ export default {
           .catch(() => {
             console.log('Request failed...');
           });
-        // TODO axios로 selection 가져옴
-        insertSelection = selection;
       } else {
         // 미로그인시
+        // 사용자 선택값 데이터 초기화
         window.localStorage.setItem('selection', JSON.stringify(selection));
-        insertSelection = selection;
+        commit('setSelection', selection);
+        // 홈화면의 할일일정 초기화 (표시용)
+        this.dispatch('setInitTodoList');
+        // 홈화면의 추천일정 초기화 (표시용)
+        this.dispatch('setInitRecList');
+        // 변경 성공 메세지
+        Vue.prototype.$toast.info(message.changeSelection);
       }
-      commit('setSelection', insertSelection);
     },
     clearSelection({ commit }) {
       commit('clearSelection');
