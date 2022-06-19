@@ -1,6 +1,5 @@
 from .. import db
-from app.main.util import get_current_time
-from uuid import uuid1
+from app.main.util import get_current_time,get_uuid
 class Mylist(db.Model):
     """ 유저가 선택중인 일정 정보 취득 """
     __tablename__ = "mylist"
@@ -12,7 +11,7 @@ class Mylist(db.Model):
     addedDate = db.Column(db.DateTime, nullable=False)
 
     def __init__(self):
-        self.myListId = str(uuid1()) # 시스템의 현재시간과 호스트ID 기반으로 UUID 생성
+        self.myListId = get_uuid() # 시스템의 현재시간과 호스트ID 기반으로 UUID 생성
         self.addedDate = get_current_time() # 일정 등록시간 초기화
 
     def __repr__(self):

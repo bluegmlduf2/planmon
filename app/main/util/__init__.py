@@ -1,6 +1,11 @@
 from app.main.model.list import List
 from datetime import datetime
 from pytz import timezone
+from uuid import uuid1
+
+def get_uuid():
+    '''UUID를 문자열로 취득'''
+    return str(uuid1())
 
 def get_current_time():
     '''서울기준으로 현재시간을 가져온다'''

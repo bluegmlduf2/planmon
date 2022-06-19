@@ -1,6 +1,5 @@
 from .. import db
-from uuid import uuid1
-from app.main.util import get_current_time
+from app.main.util import get_current_time,get_uuid
 
 class List(db.Model):
     """ 리스트정보 취득 """
@@ -20,7 +19,7 @@ class List(db.Model):
     updatedDate = db.Column(db.DateTime, nullable=False)
 
     def __init__(self):
-        self.postId = str(uuid1()) # 시스템의 현재시간과 호스트ID 기반으로 UUID 생성
+        self.postId = get_uuid() # 시스템의 현재시간과 호스트ID 기반으로 UUID 생성
         self.createdDate = get_current_time() # 작성시간 초기화
         self.updatedDate = get_current_time() # 수정시간 초기화
 
