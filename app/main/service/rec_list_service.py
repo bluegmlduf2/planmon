@@ -2,6 +2,7 @@ from app.main import db
 from app.main.model.user import User
 from app.main.model.list import List
 from app.main.model.mylist import Mylist
+from sqlalchemy import exc
 from datetime import datetime
 from app.main.util import remove_unnecessary_elements,get_next_page,get_per_page,get_current_time
 from ..service.complete_list_service import get_my_completelist
@@ -87,6 +88,12 @@ def update_reclist(uid,postId):
                 'message': '유저선택정보를 변경했습니다'
             }
             return response_object, 201
+    except exc.IntegrityError as e:
+        response_object = {
+            'status': 'fail',
+            'message': '이미 등록된 일정입니다'
+        }
+        return response_object, 401
     except Exception as e:
         response_object = {
             'status': 'fail',
