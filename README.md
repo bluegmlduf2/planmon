@@ -204,6 +204,8 @@ Make sure to run the initial migration commands to update the database. (디비�
     1. python3 manage.py db migrate 
     2. python3 manage.py db upgrade  
 
+    만약 변경사항이 적용이 안된다면 테이블을 지웠다가 upgrade를 해본다
+
 ### Viewing the app ###
 
     Open the following url on your browser to view swagger documentation
