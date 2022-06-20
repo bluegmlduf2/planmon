@@ -72,7 +72,6 @@ def get_reclist(uid,selection):
 def update_reclist(uid,postId):
     '''유저의 추천일정을 추가함'''
     try:
-        print(postId)
         user=User.query.filter_by(uid=uid).first()
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
