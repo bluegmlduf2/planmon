@@ -12,7 +12,7 @@ class List(db.Model):
     country = db.Column(db.String(2), nullable=False)
     stayStatus = db.Column(db. String(1), nullable=False)
     postViewCount = db.Column(db.Integer, nullable=False ,default=1)
-    afterEntryDate = db.Column(db.Integer, nullable=True)
+    afterEntryDate = db.Column(db.Integer, nullable=True ,default=0)
     startDate = db.Column(db.Date, nullable=False)
     endDate = db.Column(db.Date, nullable=False)
     createdDate = db.Column(db.DateTime, nullable=False)
