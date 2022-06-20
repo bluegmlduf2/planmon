@@ -6,6 +6,20 @@ from app.main.model.user import User
 from typing import Dict, Tuple
 
 
+def get_user(uid):
+    '''유저가 존재하는지 확인'''
+    # 유저가 존재하면 1(True)를 반환함
+    is_user=User.query.filter_by(uid=uid).count()
+    return is_user
+
+def save_user(uid):
+    '''유저가 존재하지 않으면 DB에 유저 등록'''
+    user = User()
+    user.uid = uid
+    db.session.add(user)
+    db.session.commit()
+
+################################# 여기부터 아래는 미사용 ##########################################
 def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     user = User.query.filter_by(email=data['email']).first()
     if not user:

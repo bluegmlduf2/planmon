@@ -3,6 +3,7 @@ from functools import wraps
 from flask import request
 
 from app.main.service.auth_helper import Auth
+from app.main.service.user_service import get_user,save_user
 from typing import Callable
 
 
@@ -19,6 +20,10 @@ def token_required(f) -> Callable:
         if not token:
             return data, status
         
+        # 인증되었지만 DB에 유저정보가 없을시 DB에 유저ID 등록
+        if not get_user(uid):
+            save_user(uid)
+
         # 인증이 문제없으면 진행
         return f(uid ,*args, **kwargs)
 
@@ -32,6 +37,11 @@ def get_user_by_token(f) -> Callable:
         data = Auth.check_verified_user(request)[0]
         uid =data.get('uid') # uid
         
+        # 인증되었지만 DB에 유저정보가 없을시 DB에 유저ID 등록
+        if uid:
+            if not get_user(uid):
+                save_user(uid)
+
         # 인증이 문제없으면 진행
         return f(uid ,*args, **kwargs)
 
