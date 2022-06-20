@@ -22,7 +22,7 @@ def update_a_selection(uid,selection):
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
             user.country=selection['country']
-            user.entryDate=datetime.strptime(selection['entryDate'], '%Y-%m-%d')
+            user.entryDate=datetime.strptime(selection['entryDate'], '%Y-%m-%d') if selection['entryDate'] else None
             user.stayStatus=selection['stayStatus']
             db.session.commit()
                         
