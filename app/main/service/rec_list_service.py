@@ -84,7 +84,7 @@ def update_reclist(uid,postId):
                         
             response_object = {
                 'status': 'success',
-                'message': '유저선택정보를 변경했습니다'
+                'message': '추천일정을 등록했습니다'
             }
             return response_object, 201
     except exc.IntegrityError as e:
@@ -96,6 +96,6 @@ def update_reclist(uid,postId):
     except Exception as e:
         response_object = {
             'status': 'fail',
-            'message': '유저선택정보를 변경중 에러가 발생하였습니다'
+            'message': '추천일정 등록중 에러가 발생하였습니다'
         }
         return response_object, 401
