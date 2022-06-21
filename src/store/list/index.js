@@ -258,6 +258,22 @@ export default {
             .catch(() => {
               console.log('Request failed...');
             });
+        } else if (listKind === 'todo') {
+          // 할일일정화면에서 추가
+          const { postId } = payload;
+          // 추천일정 추가
+          new TodoListProxy()
+            .updateTodoList(postId)
+            .then(() => {
+              // 할일일정과 초기화
+              this.dispatch('setInitTodoList');
+              // 완료일정 초기화
+              this.dispatch('setInitCompleteList');
+              Vue.prototype.$toast.info(message.completeList);
+            })
+            .catch(() => {
+              console.log('Request failed...');
+            });
         }
       } else {
         // 미로그인시

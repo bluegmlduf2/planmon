@@ -26,6 +26,17 @@ class TodoListProxy extends Proxy {
     parameter.myTodolist = myTodolist?.map((e) => e.postId);
     return this.find(JSON.stringify(parameter));
   }
+
+  /**
+   * 할일일정을 추가하기
+   *
+   * @param {String} sort 정렬
+   *
+   * @returns {Promise} The result in a promise.
+   */
+  updateTodoList(postId) {
+    return this.update(postId);
+  }
 }
 
 export default TodoListProxy;

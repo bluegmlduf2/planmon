@@ -1,5 +1,8 @@
+from app.main import db
 from app.main.model.list import List
 from app.main.model.mylist import Mylist
+from app.main.model.user import User
+from sqlalchemy import exc
 from app.main.util import sort_by_id,get_next_page,get_per_page
 
 def get_my_todolist(uid, postInfo = None):
@@ -32,3 +35,38 @@ def get_my_todolist(uid, postInfo = None):
     }
 
     return my_todolist
+
+def update_todolist(uid,postId):
+    '''유저의 할일일정을 추가함'''
+    try:
+        user=User.query.filter_by(uid=uid).first()
+        # 기존 유저가 존재할 경우 유저선택정보를 갱신
+        if user:
+            # 기존 데이터 삭제
+            Mylist.query.filter_by(uid=uid, myListIdRef=postId).delete()
+            # 새로운 일정 추가
+            mylist = Mylist()
+            mylist.myListIdRef = postId
+            mylist.uid = uid
+            mylist.listKind = 'complete'
+            db.session.add(mylist)
+            # 커밋
+            db.session.commit()
+                        
+            response_object = {
+                'status': 'success',
+                'message': '할일일정을 등록했습니다'
+            }
+            return response_object, 201
+    except exc.IntegrityError as e:
+        response_object = {
+            'status': 'fail',
+            'message': '이미 등록된 일정입니다'
+        }
+        return response_object, 401
+    except Exception as e:
+        response_object = {
+            'status': 'fail',
+            'message': '할일일정 등록중 에러가 발생하였습니다'
+        }
+        return response_object, 401
