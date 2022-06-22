@@ -337,10 +337,9 @@ export default {
       // 로그인상태일시
       if (isLogined) {
         if (listKind === 'todo') {
-          // 할일일정화면에서 완료일정 삭제
-          // 할일일정삭제
+          // 할일일정화면에서 할일일정 삭제
           const { postId } = payload;
-          // 추천일정 추가
+          // 할일일정 삭제
           new TodoListProxy()
             .destroyTodoList(postId)
             .then(() => {
@@ -348,6 +347,50 @@ export default {
               this.dispatch('setInitRecList');
               // 완료일정 초기화
               this.dispatch('setInitTodoList');
+              Vue.prototype.$toast.info(message.removeList);
+            })
+            .catch(() => {
+              console.log('Request failed...');
+            });
+        } else if (listKind === 'complete') {
+          // 완료일정화면에서 완료일정 삭제
+          const { postId } = payload;
+          // 완료일정 삭제
+          new CompleteListProxy()
+            .destroyCompleteList(postId)
+            .then(() => {
+              // 할일일정 초기화
+              this.dispatch('setInitTodoList');
+              // 완료일정 초기화
+              this.dispatch('setInitCompleteList');
+              Vue.prototype.$toast.info(message.removeList);
+            })
+            .catch(() => {
+              console.log('Request failed...');
+            });
+        } else if (listKind === 'all_todo') {
+          // 모든일정화면에서 할일일정 삭제 (페이지네이션 상관없이 모든 일정취득)
+          const { postId } = payload;
+          // 할일일정 삭제
+          new TodoListProxy()
+            .destroyTodoList(postId)
+            .then(() => {
+              // 모든일정 초기화
+              this.dispatch('setInitAllList');
+              Vue.prototype.$toast.info(message.removeList);
+            })
+            .catch(() => {
+              console.log('Request failed...');
+            });
+        } else if (listKind === 'all_complete') {
+          // 모든일정화면에서 완료일정 삭제 (페이지네이션 상관없이 모든 일정취득)
+          const { postId } = payload;
+          // 완료일정 삭제
+          new CompleteListProxy()
+            .destroyCompleteList(postId)
+            .then(() => {
+              // 모든일정 초기화
+              this.dispatch('setInitAllList');
               Vue.prototype.$toast.info(message.removeList);
             })
             .catch(() => {

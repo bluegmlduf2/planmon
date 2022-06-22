@@ -24,6 +24,17 @@ class CompleteListProxy extends Proxy {
     parameter.myCompletelist = myCompletelist?.map((e) => e.postId);
     return this.find(JSON.stringify(parameter));
   }
+
+  /**
+   * 완료일정을 삭제하기
+   *
+   * @param {String} sort 정렬
+   *
+   * @returns {Promise} The result in a promise.
+   */
+  destroyCompleteList(postId) {
+    return this.destroy(postId);
+  }
 }
 
 export default CompleteListProxy;
