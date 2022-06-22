@@ -2,7 +2,7 @@ from flask_restx import Resource
 
 from app.main.util.decorator import token_required,get_user_by_token
 from ..util.dto import TodoListDto
-from ..service.todo_list_service import get_my_todolist,update_todolist
+from ..service.todo_list_service import get_my_todolist,update_todolist,destroy_todolist
 import json
 
 api = TodoListDto.api
@@ -23,3 +23,10 @@ class TodoList(Resource):
         """유저의 할일일정을 추가함"""
         postId = param # 유저가 추가한 추천일정
         return update_todolist(uid,postId)
+
+    @token_required
+    @api.doc('로그인한 유저의 할일일정을 삭제')
+    def delete(uid,self,param):
+        """유저의 할일일정을 삭제함"""
+        postId = param # 유저가 삭제한 추천일정
+        return destroy_todolist(uid,postId)

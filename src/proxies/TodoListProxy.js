@@ -37,6 +37,17 @@ class TodoListProxy extends Proxy {
   updateTodoList(postId) {
     return this.update(postId);
   }
+
+  /**
+   * 할일일정을 삭제하기
+   *
+   * @param {String} sort 정렬
+   *
+   * @returns {Promise} The result in a promise.
+   */
+  destroyTodoList(postId) {
+    return this.destroy(postId);
+  }
 }
 
 export default TodoListProxy;

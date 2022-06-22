@@ -274,6 +274,21 @@ export default {
             .catch(() => {
               console.log('Request failed...');
             });
+        } else if (listKind === 'all_todo') {
+          // 할일일정화면에서 추가
+          // all_todo를 분리한 이유는 모든일정화면에서 할일일정을 추가할경우, 페이지네이션 없이 모든 일정을 가져오게 하기 위함
+          const { postId } = payload;
+          // 추천일정 추가
+          new TodoListProxy()
+            .updateTodoList(postId)
+            .then(() => {
+              // 모든일정 초기화 (페이지네이션 없이 모든 일정 취득)
+              this.dispatch('setInitAllList');
+              Vue.prototype.$toast.info(message.completeList);
+            })
+            .catch(() => {
+              console.log('Request failed...');
+            });
         }
       } else {
         // 미로그인시
@@ -299,10 +314,11 @@ export default {
         } else if (listKind === 'all_todo') {
           // 모든일정화면에서 할일추가
           // 중복된 일정이 아니라면 완료 일정에 추가 (일정을 앞에 추가)
+          // all_todo를 분리한 이유는 모든일정화면에서 할일일정을 추가할경우, 페이지네이션 없이 모든 일정을 가져오게 하기 위함
           selection.myCompletelist = [checkedItem, ...selection.myCompletelist.filter((e) => e.postId !== checkedItem.postId)];
           // 할일 일정에서 삭제
           selection.myTodolist = [...selection.myTodolist.filter((e) => e.postId !== checkedItem.postId)];
-          // 모든일정 초기화
+          // 모든일정 초기화 (페이지네이션 없이 모든 일정 취득)
           this.dispatch('setInitAllList');
           Vue.prototype.$toast.info(message.completeList);
         }
@@ -320,7 +336,24 @@ export default {
 
       // 로그인상태일시
       if (isLogined) {
-        // TODO axios 리스트별 추가 삭제 찰;
+        if (listKind === 'todo') {
+          // 할일일정화면에서 완료일정 삭제
+          // 할일일정삭제
+          const { postId } = payload;
+          // 추천일정 추가
+          new TodoListProxy()
+            .destroyTodoList(postId)
+            .then(() => {
+              // 할일일정 초기화
+              this.dispatch('setInitRecList');
+              // 완료일정 초기화
+              this.dispatch('setInitTodoList');
+              Vue.prototype.$toast.info(message.removeList);
+            })
+            .catch(() => {
+              console.log('Request failed...');
+            });
+        }
       } else {
         // 미로그인시
         if (listKind === 'todo') {
@@ -353,8 +386,8 @@ export default {
           this.dispatch('setInitAllList');
         }
         window.localStorage.setItem('selection', JSON.stringify(selection));
+        Vue.prototype.$toast.info(message.removeList);
       }
-      Vue.prototype.$toast.info(message.removeList);
       commit('setSelection', selection);
     },
   },
