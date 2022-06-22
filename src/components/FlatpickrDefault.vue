@@ -53,8 +53,15 @@ export default {
     };
   },
   computed: {
-    entryDate() {
-      return this.$store.getters.selection.entryDate;
+    entryDate: {
+      get() {
+        return this.$store.getters.selection.entryDate;
+      },
+      set() {
+        // flatpicker는 v-model이 필수이다 그러므로 computed의 get/set을 남겨둔다 (:entryDate사용시 에러발생)
+        // set사용시 두번 실행되므로 onClose()를 이용해 한번만 실행하도록 변경
+        return null;
+      },
     },
   },
 };
