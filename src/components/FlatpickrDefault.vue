@@ -46,21 +46,15 @@ export default {
         dateFormat: 'Y-m-d',
         locale: korean.ko,
         disableMobile: 'true', // flatpicker모바일모드끄기
+        onClose: (_, selectedEntryDate) => {
+          this.$store.dispatch('addSelection', { entryDate: selectedEntryDate });
+        }, // 입국날짜 변경시 동작
       },
     };
   },
   computed: {
-    entryDate: {
-      get() {
-        return this.$store.getters.selection.entryDate;
-      },
-      set(value) {
-        const entryDateBefore = this.$store.getters.selection.entryDate;
-        // 초기화시 중복실행되기때문에 아래와 같이 처리
-        if (entryDateBefore !== value) {
-          this.$store.dispatch('addSelection', { entryDate: value });
-        }
-      },
+    entryDate() {
+      return this.$store.getters.selection.entryDate;
     },
   },
 };
