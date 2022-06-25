@@ -57,6 +57,19 @@ class RecListDto:
         'total_count': fields.Integer(description='총 추천일정 수'),
     })
 
+class MyListDto:
+    api = Namespace('mylist', description='내가 작성한 일정관리')
+    listSchema = api.model('listSchema', {
+        'postId': fields.String(description='일정 ID'),
+        'title': fields.String(description='일정 제목'),
+    })# 리스트의 스키마
+    mylist = api.model('mylist', {
+        'my_list': fields.List(description='내가 작성한 일정리스트', default=[], cls_or_instance=fields.Nested(listSchema)),
+        'has_next': fields.Boolean(description='다음페이지 유무'),
+        'current_page': fields.Integer(description='현재 페이지'),
+        'total_count': fields.Integer(description='총 추천일정 수'),
+    })
+
 class UserDto:
     api = Namespace('user', description='유저정보')
     user = api.model('user', {

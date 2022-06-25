@@ -27,7 +27,16 @@
       </v-list>
       <div
         class="list-footer"
-      />
+      >
+        <button
+          v-if="mylistPage.hasNext"
+          type="button"
+          class="btn btn-light w-100"
+          @click="$store.dispatch('getMyList')"
+        >
+          +
+        </button>
+      </div>
     </div>
   </v-layout>
 </template>
@@ -58,35 +67,36 @@ export default {
     VList,
     VSearch,
   },
-
-  data() {
-    return {
-      myList: [], // 내 일정 리스트
-    };
+  computed: {
+    // 선택된 모든리스트
+    myList() {
+      return this.$store.getters.mylist;
+    },
+    // 내가 작성한 일정화면의 페이지네이션 정보
+    mylistPage() {
+      return this.$store.getters.mylistPage;
+    },
   },
+
   created() {
     this.initMyList(); // 내 일정 초기화  (최대 5개 호출)
   },
 
   methods: {
     // 내 일정 초기화
-    initMyList() {
-      this.myList = [{
-        value: '1a',
-        text: '첫번째 할일일정',
-        hidden: true,
-      }, {
-        value: '2a',
-        text: '두번째 완료일정',
-        hidden: true,
-      }, {
-        value: '3a',
-        text: '세번째 완료일정',
-        hidden: true,
-      },
-      ];
+    async initMyList() {
+      // 사용자 선택값 데이터 초기화
+      await this.$store.dispatch('setInitSelection');
+      // 나의 일정 취득
+      await this.$store.dispatch('setInitMyList');
+    },
+    // 모든 일정 체크박스 선택
+    selectAllCheckInput(param) {
+      const checkedItem = param;
+      // 체크한 대상이 할일일정인지 완료일정인지 구분
+      checkedItem.listKind = checkedItem.hidden ? 'all_complete' : 'all_todo';
+      this.$store.dispatch('updateList', checkedItem);
     },
   },
-
 };
 </script>

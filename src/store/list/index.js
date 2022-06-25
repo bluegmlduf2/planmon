@@ -3,6 +3,7 @@ import message from '@/assets/js/message';
 import TodoListProxy from '@/proxies/TodoListProxy';
 import RecListProxy from '@/proxies/RecListProxy';
 import CompleteListProxy from '@/proxies/CompleteListProxy';
+import MyListProxy from '@/proxies/MyListProxy';
 
 // 페이지네이션을 초기화를 위해 vuex.list에서 공통으로 사용하는 함수
 function setPagenation(payload) {
@@ -19,12 +20,15 @@ export default {
     todolist: [], // 할일 일정 (표시용)
     reclist: [], // 추천 일정 (표시용)
     completelist: [], // 완료 일정 (표시용)
+    mylist: [], // 내가 작성한 일정 (표시용)
     todolistPage: { currentPage: 1, hasNext: false }, // 할일 일정 페이지네이션
     reclistPage: { currentPage: 1, hasNext: false }, // 추천 일정 페이지네이션
     completelistPage: { currentPage: 1, hasNext: false }, // 완료 일정 페이지네이션
+    mylistPage: { currentPage: 1, hasNext: false }, // 내가 작성한 일정 페이지네이션
     reclistCount: 0, // 추천일정의 총건수
     todolistCount: 0, // 할일일정의 총건수
     completelistCount: 0, // 완료일정의 총건수
+    mylistCount: 0, // 내가 작성한 일정의 총건수
   },
   mutations: {
     // 일정초기화
@@ -37,6 +41,9 @@ export default {
     setCompleteList(state, payload) {
       state.completelist = payload;
     },
+    setMyList(state, payload) {
+      state.mylist = payload;
+    },
     // 페이지네이션 초기화
     setTodoListPage(state, payload) {
       state.todolistPage = setPagenation(payload);
@@ -47,17 +54,21 @@ export default {
     setCompleteListPage(state, payload) {
       state.completelistPage = setPagenation(payload);
     },
-    // 추천일정의 총일정수 초기화
+    setMyListPage(state, payload) {
+      state.mylistPage = setPagenation(payload);
+    },
+    // 총일정수 초기화
     setRecListCount(state, payload) {
       state.reclistCount = payload;
     },
-    // 할일일정의 총일정수 초기화
     setTodoListCount(state, payload) {
       state.todolistCount = payload;
     },
-    // 완료일정의 총일정수 초기화
     setCompleteListCount(state, payload) {
       state.completelistCount = payload;
+    },
+    setMyListCount(state, payload) {
+      state.mylistCount = payload;
     },
   },
   actions: {
@@ -219,6 +230,29 @@ export default {
       }).catch(() => {
         console.log('Request failed...');
       });
+    },
+
+    // 내가 작성한 일정 초기화
+    setInitMyList({ commit }) {
+      const { selection } = this.getters;
+      const selectionWithPage = { ...selection, get20perpage: true };
+
+      // 내가 작성한 일정정보 취득
+      return new MyListProxy()
+        .getMyList(selectionWithPage)
+        .then((response) => {
+          // 내가 작성한 일정 초기화 (hidden 프라퍼티 추가)
+          const myList = response.data.my_list.map((e) => ({ ...e, hidden: true }));
+          // 서버에서 가져온 완료일정을 초기화
+          commit('setMyList', myList);
+          // 서버에서 가져온 완료일정의 총 일정 수 초기화
+          commit('setMyListCount', response.data.total_count);
+          // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
+          commit('setMyListPage', { response, get20perpage: true });
+        })
+        .catch(() => {
+          console.log('Request failed...');
+        });
     },
 
     // 선택한 리스트를 추가, 삭제
@@ -435,6 +469,7 @@ export default {
     },
   },
   getters: {
+    // 일정정보
     todolist(state) {
       return state.todolist;
     },
@@ -447,6 +482,10 @@ export default {
     alllist(state) {
       return [...state.todolist, ...state.completelist];
     },
+    mylist(state) {
+      return state.mylist;
+    },
+    // 일정의 페이지 정보
     todolistPage(state) {
       return state.todolistPage;
     },
@@ -456,6 +495,10 @@ export default {
     completelistPage(state) {
       return state.completelistPage;
     },
+    mylistPage(state) {
+      return state.mylistPage;
+    },
+    // 일정의 총 일정수 정보
     reclistCount(state) {
       return state.reclistCount;
     },
@@ -464,6 +507,9 @@ export default {
     },
     completelistCount(state) {
       return state.completelistCount;
+    },
+    mylistCount(state) {
+      return state.mylistCount;
     },
   },
 };
