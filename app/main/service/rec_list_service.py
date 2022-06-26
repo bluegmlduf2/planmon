@@ -41,9 +41,21 @@ def get_reclist_orderby(selection,my_reclist_query):
     # 페이지네이션 취득
     page = get_next_page(selection) # 표시할 페이지수를 취득
     per_page =get_per_page(selection) # 한 페이지에 표시할 게시물의 수를 취득
+    searchWord = selection.get('searchWord',None) # 재검색어
 
-    # 일반 추천일정의 SQL
-    my_reclist_result = my_reclist_query.\
+    # 검색어가 존재할 경우
+    if searchWord:
+        # 재검색시 사용하는 검색조건 (제목과 내용에 해당 단어를 포함하는지 검색)
+        search = "%{}%".format(searchWord) 
+        # 일반 추천일정의 SQL
+        my_reclist_result = my_reclist_query.\
+        filter((List.title.like(search))|(List.content.like(search))).\
+        order_by(List.createdDate.desc()).\
+        paginate(page,per_page,error_out=False)
+    else:
+    # 검색어가 존재하지 않을경우
+        # 일반 추천일정의 SQL
+        my_reclist_result = my_reclist_query.\
         order_by(List.createdDate.desc()).\
         paginate(page,per_page,error_out=False)
 
@@ -59,6 +71,8 @@ def get_reclist_orderby_entry_date(selection,my_reclist_query):
     '''나의 입국날짜에 근접한 추천일정을 반환'''
     entryDate = datetime.strptime(selection['entryDate'],'%Y-%m-%d') # 나의 입국날짜
     currentDate = datetime.strptime(get_current_time().strftime('%Y-%m-%d'),'%Y-%m-%d') # 현재시간
+    searchWord = selection.get('searchWord',None) # 재검색어
+
     # 만약 나의 입국날짜가 현재시간보다 미래일 경우 일반 추천 일정반환
     if currentDate < entryDate:
         return  get_reclist_orderby(selection,my_reclist_query)
@@ -66,12 +80,23 @@ def get_reclist_orderby_entry_date(selection,my_reclist_query):
     # 페이지네이션 취득
     page = get_next_page(selection) # 표시할 페이지수를 취득
     per_page =get_per_page(selection) # 한 페이지에 표시할 게시물의 수를 취득
-
     diff = (currentDate-entryDate).days # 내 입국후 경과 일수
-    # 내 입국경과일수보다 입국경과일수가 높은 게시물을 반환하는 SQL
-    my_reclist_result_order_by = my_reclist_query.\
-        order_by(case((List.afterEntryDate >= diff, 1),else_=0).desc()).\
-        paginate(page,per_page,error_out=False)
+
+    # 검색어가 존재할 경우
+    if searchWord:
+        # 재검색시 사용하는 검색조건 (제목과 내용에 해당 단어를 포함하는지 검색)
+        search = "%{}%".format(searchWord) 
+        # 내 입국경과일수보다 입국경과일수가 높은 게시물을 반환하는 SQL
+        my_reclist_result_order_by = my_reclist_query.\
+            filter((List.title.like(search))|(List.content.like(search))).\
+            order_by(case((List.afterEntryDate >= diff, 1),else_=0).desc()).\
+            paginate(page,per_page,error_out=False)
+    else:
+    # 검색어가 존재하지 않을 경우
+        # 내 입국경과일수보다 입국경과일수가 높은 게시물을 반환하는 SQL
+        my_reclist_result_order_by = my_reclist_query.\
+            order_by(case((List.afterEntryDate >= diff, 1),else_=0).desc()).\
+            paginate(page,per_page,error_out=False)
 
     my_reclist = {} # 반환일정정보
     my_reclist['my_reclist'] = my_reclist_result_order_by.items

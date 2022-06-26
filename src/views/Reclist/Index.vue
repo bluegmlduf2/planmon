@@ -11,14 +11,9 @@
         @updateCheckInput="selectRecCheckInput"
       >
         <div slot="search">
-          <v-search>
-            <input
-              slot="searchBtn"
-              type="search"
-              placeholder="결과 재검색"
-              class="form-control"
-            >
-          </v-search>
+          <v-search
+            @searchList="searchRecList"
+          />
         </div>
         <span
           slot="header"
@@ -34,7 +29,7 @@
           v-if="reclistPage.hasNext"
           type="button"
           class="btn btn-light w-100"
-          @click="$store.dispatch('getRecList')"
+          @click="getRecList"
         >
           +
         </button>
@@ -79,6 +74,11 @@ export default {
       type: Boolean,
     },
   },
+  data() {
+    return {
+      searchWord: '', // 재검색어
+    };
+  },
   computed: {
     // 선택된 할일리스트 (store에서 값이 변경될때마다 갱신)
     reclist() {
@@ -96,16 +96,41 @@ export default {
   methods: {
     // 추천 일정 초기화 (기본적으로 10개를 가져오며 홈화면에서 더보기 버튼 클릭시만 20개를 가져온다)
     async initRecommendedList() {
+      // 추천일정 초기화를 위한 파라미터
+      const param = { get20perpage: this.get20perpage };
       // 사용자 선택값 데이터 초기화
       await this.$store.dispatch('setInitSelection');
       // 추천일정 초기화
-      await this.$store.dispatch('setInitRecList', this.get20perpage);
+      await this.$store.dispatch('setInitRecList', param);
     },
     // 추천 일정 체크박스 선택
     selectRecCheckInput(param) {
       const checkedItem = param;
       checkedItem.listKind = 'rec';
       this.$store.dispatch('updateList', checkedItem);
+    },
+    // 결과내 재검색 기능
+    searchRecList(searchWord) {
+      // 결과내 재검색어
+      this.searchWord = searchWord;
+      // 추천일정 초기화를 위한 파라미터
+      const param = {
+        get20perpage: this.get20perpage,
+        searchWord,
+      };
+      // 추천일정 초기화
+      this.$store.dispatch('setInitRecList', param);
+    },
+    // 검색 결과 더보기
+    getRecList() {
+      // 재검색어가 존재할 경우
+      if (this.searchWord) {
+        const param = { searchWord: this.searchWord };
+        this.$store.dispatch('getRecList', param);
+      } else {
+      // 재검색어가 존재하지 않을 경우
+        this.$store.dispatch('getRecList');
+      }
     },
   },
 

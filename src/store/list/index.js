@@ -75,8 +75,7 @@ export default {
     // 추천일정 초기화
     setInitRecList({ commit }, payload) {
       const { selection } = this.getters;
-      const get20perpage = !!payload; // 홈화면에서 해당일정화면으로 이동시 최초 일정을 20개를 표시한다
-      const selectionWithPage = { ...selection, get20perpage };
+      const selectionWithPage = { ...selection, ...payload };
 
       // 추천일정정보 취득
       return new RecListProxy()
@@ -87,7 +86,7 @@ export default {
           // 서버에서 가져온 추천일정의 총 일정 수 초기화
           commit('setRecListCount', response.data.total_count);
           // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
-          commit('setRecListPage', { response, get20perpage });
+          commit('setRecListPage', { response, ...payload });
         })
         .catch(() => {
           console.log('Request failed...');
@@ -95,9 +94,9 @@ export default {
     },
 
     // 추천일정 가져오기 (페이지네이션)
-    getRecList({ commit }) {
+    getRecList({ commit }, payload) {
       const { selection, reclistPage } = this.getters;
-      const selectionWithPage = { ...selection, ...reclistPage };
+      const selectionWithPage = { ...selection, ...reclistPage, ...payload };
 
       // 추천일정정보 취득
       new RecListProxy()
@@ -116,7 +115,7 @@ export default {
     // 할일일정 초기화
     setInitTodoList({ commit }, payload) {
       const { selection } = this.getters;
-      const get20perpage = !!payload; // 홈화면에서 해당일정화면으로 이동시 최초 일정을 20개를 표시한다
+      const get20perpage = !!payload?.get20perpage; // 홈화면에서 해당일정화면으로 이동시 최초 일정을 20개를 표시한다
       const selectionWithPage = { ...selection, get20perpage };
 
       // 로컬스토리지의 정보로 초기화
@@ -157,7 +156,7 @@ export default {
     // 완료 일정 초기화
     setInitCompleteList({ commit }, payload) {
       const { selection } = this.getters;
-      const get20perpage = !!payload; // 홈화면에서 해당일정화면으로 이동시 최초 일정을 20개를 표시한다
+      const get20perpage = !!payload?.get20perpage; // 홈화면에서 해당일정화면으로 이동시 최초 일정을 20개를 표시한다
       const selectionWithPage = { ...selection, ...get20perpage };
 
       // 완료일정정보 취득
