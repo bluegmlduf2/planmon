@@ -11,14 +11,9 @@
         :param-show-checkbox="false"
       >
         <div slot="search">
-          <v-search>
-            <input
-              slot="searchBtn"
-              type="search"
-              placeholder="결과 재검색"
-              class="form-control"
-            >
-          </v-search>
+          <v-search
+            @searchList="searchMyList"
+          />
         </div>
         <span
           slot="header"

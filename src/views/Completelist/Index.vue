@@ -11,14 +11,9 @@
         @updateCheckInput="selectCompleteCheckInput"
       >
         <div slot="search">
-          <v-search>
-            <input
-              slot="searchBtn"
-              type="search"
-              placeholder="결과 재검색"
-              class="form-control"
-            >
-          </v-search>
+          <v-search
+            @searchList="searchCompleteList"
+          />
         </div>
         <span
           slot="header"

@@ -11,14 +11,9 @@
         @updateCheckInput="selectTodoCheckInput"
       >
         <div slot="search">
-          <v-search>
-            <input
-              slot="searchBtn"
-              type="search"
-              placeholder="결과 재검색"
-              class="form-control"
-            >
-          </v-search>
+          <v-search
+            @searchList="searchTodoList"
+          />
         </div>
         <span
           slot="header"
@@ -94,10 +89,12 @@ export default {
   methods: {
     // 할일 일정 초기화
     async initTodoList() {
+      // 추천일정 초기화를 위한 파라미터
+      const param = { get20perpage: this.get20perpage };
       // 사용자 선택값 데이터 초기화
       await this.$store.dispatch('setInitSelection');
       // 로그인상태일시 나의 할일 일정 취득
-      await this.$store.dispatch('setInitTodoList', this.get20perpage);
+      await this.$store.dispatch('setInitTodoList', param);
     },
     // 할일 일정 체크박스 선택
     selectTodoCheckInput(param) {
