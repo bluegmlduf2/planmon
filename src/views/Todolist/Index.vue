@@ -28,7 +28,7 @@
           v-if="todolistPage.hasNext"
           type="button"
           class="btn btn-light w-100"
-          @click="$store.dispatch('getTodoList')"
+          @click="getTodoList"
         >
           +
         </button>
@@ -73,6 +73,11 @@ export default {
       type: Boolean,
     },
   },
+  data() {
+    return {
+      searchWord: '', // 재검색어
+    };
+  },
   computed: {
     // 선택된 할일리스트 (store에서 값이 변경될때마다 갱신)
     todolist() {
@@ -102,7 +107,29 @@ export default {
       checkedItem.listKind = 'todo';
       this.$store.dispatch('updateList', checkedItem);
     },
+    // 결과내 재검색 기능
+    searchTodoList(searchWord) {
+      // 결과내 재검색어
+      this.searchWord = searchWord;
+      // 할일일정 초기화를 위한 파라미터
+      const param = {
+        get20perpage: false,
+        searchWord,
+      };
+      // 할일일정 초기화
+      this.$store.dispatch('setInitTodoList', param);
+    },
+    // 검색 결과 더보기
+    getTodoList() {
+      // 재검색어가 존재할 경우
+      if (this.searchWord) {
+        const param = { searchWord: this.searchWord };
+        this.$store.dispatch('getTodoList', param);
+      } else {
+        // 재검색어가 존재하지 않을 경우
+        this.$store.dispatch('getTodoList');
+      }
+    },
   },
-
 };
 </script>

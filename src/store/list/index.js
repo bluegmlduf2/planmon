@@ -115,8 +115,7 @@ export default {
     // 할일일정 초기화
     setInitTodoList({ commit }, payload) {
       const { selection } = this.getters;
-      const get20perpage = !!payload?.get20perpage; // 홈화면에서 해당일정화면으로 이동시 최초 일정을 20개를 표시한다
-      const selectionWithPage = { ...selection, get20perpage };
+      const selectionWithPage = { ...selection, ...payload };
 
       // 로컬스토리지의 정보로 초기화
       return new TodoListProxy()
@@ -127,7 +126,7 @@ export default {
           // 서버에서 가져온 할일일정의 총 일정 수 초기화
           commit('setTodoListCount', response.data.total_count);
           // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
-          commit('setTodoListPage', { response, get20perpage });
+          commit('setTodoListPage', { response, ...payload });
         })
         .catch(() => {
           console.log('Request failed...');
@@ -135,9 +134,9 @@ export default {
     },
 
     // 할일일정 가져오기 (페이지네이션)
-    getTodoList({ commit }) {
+    getTodoList({ commit }, payload) {
       const { selection, todolistPage } = this.getters;
-      const selectionWithPage = { ...selection, ...todolistPage };
+      const selectionWithPage = { ...selection, ...todolistPage, ...payload };
 
       // 할일일정정보 취득
       new TodoListProxy()
