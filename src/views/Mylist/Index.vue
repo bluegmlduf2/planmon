@@ -8,6 +8,7 @@
       <v-list
         :param-list="myList"
         :param-show-buttons="false"
+        :param-show-checkbox="false"
       >
         <div slot="search">
           <v-search>

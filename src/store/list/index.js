@@ -77,7 +77,7 @@ export default {
       const { selection } = this.getters;
       const get20perpage = !!payload; // 홈화면에서 해당일정화면으로 이동시 최초 일정을 20개를 표시한다
       const selectionWithPage = { ...selection, get20perpage };
-      // 추천일정 추가
+
       // 추천일정정보 취득
       return new RecListProxy()
         .getRecList(selectionWithPage)
@@ -98,7 +98,7 @@ export default {
     getRecList({ commit }) {
       const { selection, reclistPage } = this.getters;
       const selectionWithPage = { ...selection, ...reclistPage };
-      // 추천일정 추가
+
       // 추천일정정보 취득
       new RecListProxy()
         .getRecList(selectionWithPage)
@@ -139,7 +139,7 @@ export default {
     getTodoList({ commit }) {
       const { selection, todolistPage } = this.getters;
       const selectionWithPage = { ...selection, ...todolistPage };
-      // 할일일정 추가
+
       // 할일일정정보 취득
       new TodoListProxy()
         .getTodoList(selectionWithPage)
@@ -160,7 +160,6 @@ export default {
       const get20perpage = !!payload; // 홈화면에서 해당일정화면으로 이동시 최초 일정을 20개를 표시한다
       const selectionWithPage = { ...selection, ...get20perpage };
 
-      // 완료 일정 추가
       // 완료일정정보 취득
       return new CompleteListProxy()
         .getCompleteList(selectionWithPage)
@@ -184,7 +183,6 @@ export default {
       const { selection, completelistPage } = this.getters;
       const selectionWithPage = { ...selection, ...completelistPage };
 
-      // 완료 일정 추가
       // 완료일정정보 취득
       new CompleteListProxy()
         .getCompleteList(selectionWithPage)
@@ -241,14 +239,33 @@ export default {
       return new MyListProxy()
         .getMyList(selectionWithPage)
         .then((response) => {
-          // 내가 작성한 일정 초기화 (hidden 프라퍼티 추가)
-          const myList = response.data.my_list.map((e) => ({ ...e, hidden: true }));
-          // 서버에서 가져온 완료일정을 초기화
-          commit('setMyList', myList);
-          // 서버에서 가져온 완료일정의 총 일정 수 초기화
+          // 서버에서 가져온 내가 작성한 일정을 초기화
+          commit('setMyList', response.data.my_list);
+          // 서버에서 가져온 내가 작성한 일정의 총 일정 수 초기화
           commit('setMyListCount', response.data.total_count);
           // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
           commit('setMyListPage', { response, get20perpage: true });
+        })
+        .catch(() => {
+          console.log('Request failed...');
+        });
+    },
+
+    // 내가 작성한 일정 가져오기 (페이지네이션)
+    getMyList({ commit }) {
+      const { selection, mylistPage } = this.getters;
+      const selectionWithPage = { ...selection, ...mylistPage };
+
+      // 내가 작성한 일정정보 취득
+      return new MyListProxy()
+        .getMyList(selectionWithPage)
+        .then((response) => {
+          // 서버에서 가져온 내가 작성한 일정을 초기화
+          commit('setMyList', [...this.getters.mylist, ...response.data.my_list]);
+          // 서버에서 가져온 내가 작성한 일정의 총 일정 수 초기화
+          commit('setMyListCount', response.data.total_count);
+          // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
+          commit('setMyListPage', { response });
         })
         .catch(() => {
           console.log('Request failed...');

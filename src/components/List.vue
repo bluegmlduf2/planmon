@@ -39,6 +39,7 @@
           <!-- 일정 -->
           <div class="list-item">
             <div
+              v-if="paramShowCheckbox"
               class="list-checkbox"
               :class="setCheckStatus(item)"
             >
@@ -101,6 +102,11 @@ export default {
     // 홈화면에서 해당 컴포넌트 사용시 true
     paramIsHome: {
       default: false,
+      type: Boolean,
+    },
+    // 리스트의 체크박스 사용하는지 여부 (내가 작성한 일정화면에선 사용하지않음)
+    paramShowCheckbox: {
+      default: true,
       type: Boolean,
     },
   },
