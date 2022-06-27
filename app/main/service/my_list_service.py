@@ -6,10 +6,26 @@ def get_mylist(uid,postInfo):
     # 페이지네이션 취득
     page = get_next_page(postInfo) # 표시할 페이지수를 취득
     per_page = get_per_page(postInfo) # 한 페이지에 표시할 게시물의 수를 취득
+    searchWord = postInfo.get('searchWord',None) if postInfo else None # 재검색어
+
+    # 메인 SQL
+    main_query = List.query.filter_by(writerUid=uid)
+
+    # 검색어가 존재할 경우
+    if searchWord:
+        # 재검색시 사용하는 검색조건 (제목과 내용에 해당 단어를 포함하는지 검색)
+        search = "%{}%".format(searchWord)
+        # 내 작성한 일정의 상세 정보 취득
+        my_list_query = main_query.\
+            filter((List.title.like(search))|(List.content.like(search))).\
+            order_by(List.createdDate.desc())
+    else:
+    # 검색어가 존재하지 않을경우
+        # 내가 작성한 일정의 상세 정보 취득
+        my_list_query = main_query.order_by(List.createdDate.desc())
 
     # 서버에 저장된 내가 작성한 일정 취득
-    my_list_query = List.query.filter_by(writerUid=uid).order_by(List.createdDate.desc())
-    my_list_count = my_list_query.count() # 내가 작성한 일정의 총 수
+    my_list_count = main_query.count() # 내가 작성한 일정의 총 수
     my_list_result = my_list_query.paginate(page,per_page,error_out=False) # 나의 일정의 페이지네이션 된 값
     
     my_list = {

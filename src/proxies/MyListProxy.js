@@ -19,8 +19,8 @@ class MyListProxy extends Proxy {
    *
    * @returns {Promise} The result in a promise.
    */
-  getMyList({ get20perpage, currentPage }) {
-    const parameter = { get20perpage, currentPage };
+  getMyList({ get20perpage, currentPage, searchWord }) {
+    const parameter = { get20perpage, currentPage, searchWord };
     return this.find(JSON.stringify(parameter));
   }
 }

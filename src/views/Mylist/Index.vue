@@ -28,7 +28,7 @@
           v-if="mylistPage.hasNext"
           type="button"
           class="btn btn-light w-100"
-          @click="$store.dispatch('getMyList')"
+          @click="getMyList"
         >
           +
         </button>
@@ -63,6 +63,11 @@ export default {
     VList,
     VSearch,
   },
+  data() {
+    return {
+      searchWord: '', // 재검색어
+    };
+  },
   computed: {
     // 선택된 모든리스트
     myList() {
@@ -92,6 +97,26 @@ export default {
       // 체크한 대상이 할일일정인지 완료일정인지 구분
       checkedItem.listKind = checkedItem.hidden ? 'all_complete' : 'all_todo';
       this.$store.dispatch('updateList', checkedItem);
+    },
+    // 결과내 재검색 기능
+    searchMyList(searchWord) {
+      // 결과내 재검색어
+      this.searchWord = searchWord;
+      // 내가 작성한 일정 초기화를 위한 파라미터
+      const param = { searchWord };
+      // 할일일정 초기화
+      this.$store.dispatch('setInitMyList', param);
+    },
+    // 검색 결과 더보기
+    getMyList() {
+      // 재검색어가 존재할 경우
+      if (this.searchWord) {
+        const param = { searchWord: this.searchWord };
+        this.$store.dispatch('getMyList', param);
+      } else {
+        // 재검색어가 존재하지 않을 경우
+        this.$store.dispatch('getMyList');
+      }
     },
   },
 };

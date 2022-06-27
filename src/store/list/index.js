@@ -228,9 +228,10 @@ export default {
     },
 
     // 내가 작성한 일정 초기화
-    setInitMyList({ commit }) {
+    setInitMyList({ commit }, payload) {
       const { selection } = this.getters;
-      const selectionWithPage = { ...selection, get20perpage: true };
+      const get20perpage = true; // 초기 화면 20개 일정표시 유무
+      const selectionWithPage = { ...selection, get20perpage, ...payload };
 
       // 내가 작성한 일정정보 취득
       return new MyListProxy()
@@ -241,7 +242,7 @@ export default {
           // 서버에서 가져온 내가 작성한 일정의 총 일정 수 초기화
           commit('setMyListCount', response.data.total_count);
           // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
-          commit('setMyListPage', { response, get20perpage: true });
+          commit('setMyListPage', { response, get20perpage });
         })
         .catch(() => {
           console.log('Request failed...');
@@ -249,7 +250,7 @@ export default {
     },
 
     // 내가 작성한 일정 가져오기 (페이지네이션)
-    getMyList({ commit }) {
+    getMyList({ commit }, payload) {
       const { selection, mylistPage } = this.getters;
       const selectionWithPage = { ...selection, ...mylistPage };
 
@@ -262,7 +263,7 @@ export default {
           // 서버에서 가져온 내가 작성한 일정의 총 일정 수 초기화
           commit('setMyListCount', response.data.total_count);
           // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
-          commit('setMyListPage', { response });
+          commit('setMyListPage', { response, ...payload });
         })
         .catch(() => {
           console.log('Request failed...');
