@@ -18,6 +18,7 @@
         type="search"
         placeholder="결과 재검색"
         class="form-control"
+        @keyup.enter="searchList"
       >
     </div>
   </div>
