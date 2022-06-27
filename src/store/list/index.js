@@ -197,9 +197,9 @@ export default {
     },
 
     // 모든 일정 초기화 (모든 일정은 페이지네이션이 없다)
-    setInitAllList({ commit }) {
+    setInitAllList({ commit }, payload) {
       const { selection } = this.getters;
-      const selectionWithPage = { ...selection };
+      const selectionWithPage = { ...selection, ...payload };
       selectionWithPage.getAllPages = true; // 모든 일정에선 모든 일정을 표시한다
 
       // 할일일정정보 취득
