@@ -48,6 +48,9 @@ export default [
     path: '/mylist',
     name: 'mylist.index',
     component: () => import('@/views/Mylist/Index.vue'),
+    meta: {
+      auth: true,
+    },
   },
 
   // 글쓰기 화면
