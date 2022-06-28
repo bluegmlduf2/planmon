@@ -86,16 +86,21 @@
         <!-- 검색입력 -->
         <div class="search-bar">
           <div class="input-groupt">
-            <button class="btn">
+            <button
+              class="btn"
+              @click="searchRecList"
+            >
               <i
                 class="fa fa-search"
                 aria-hidden="true"
               />
             </button>
             <input
+              v-model="searchRecWord"
               type="search"
               class="form-control"
               placeholder="추천 일정 검색"
+              @keyup.enter="searchRecList"
             >
           </div>
         </div>
@@ -290,6 +295,7 @@ export default {
       isConditionActive: false, // 나의 일정 정보 표시 유무
       countriesList: [], // 국가 리스트
       stayStatusList: [], // 체류상태 리스트
+      searchRecWord: '', // 추천일정검색 단어
     };
   },
 
@@ -370,11 +376,22 @@ export default {
       this.$toast.info(message.logout);
     },
 
-    /**
-     * Will toggle the menu.
-     */
+    // 메뉴토글기능
     toggleMenu() {
       this.menuCollapsed = !this.menuCollapsed;
+    },
+
+    // 추천일정검색기능
+    searchRecList() {
+      // 검색어가 존재하지않고 추천일정화면이 아닌 경우
+      if (this.searchRecWord !== '' && this.$route.path !== '/reclist') {
+        // 추천일정 검색과 함께 추천페이지 이동
+        this.$router.push({ name: 'reclist.index', params: { searchRecWord: this.searchRecWord } });
+      } else if (this.$route.path === '/reclist') {
+        // 만약 추천일정화면에서 재검색하는 경우 메세지 표시
+        this.$toast.info(message.reSearch);
+        this.searchRecWord = '';
+      }
     },
   },
 };

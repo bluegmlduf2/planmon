@@ -15,5 +15,5 @@ export default {
   completeList: '일정을 완료했습니다',
   removeList: '일정을 삭제했습니다',
   writeConfirm: '일정 게시글은 수정은 가능하지만 삭제가 불가능합니다\n작성하시겠습니까',
-
+  reSearch: '추천일정 화면의 결과 재검색을 이용해주세요',
 };
