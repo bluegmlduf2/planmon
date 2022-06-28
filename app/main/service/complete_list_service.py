@@ -6,7 +6,7 @@ from sqlalchemy import exc
 from app.main.util import sort_by_id
 from app.main.service import get_next_page,get_per_page,get_filter_condition_by_searchword
 
-def get_my_completelist(uid, postInfo):
+def get_my_completelist(uid, postInfo = None):
     '''유저의 완료 리스트 취득'''
     # 페이지네이션 취득
     page = get_next_page(postInfo) # 표시할 페이지수를 취득
