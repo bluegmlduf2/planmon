@@ -101,10 +101,7 @@ export default {
       // 결과내 재검색어
       this.searchWord = searchWord;
       // 완료일정 초기화를 위한 파라미터
-      const param = {
-        get20perpage: false,
-        searchWord,
-      };
+      const param = { searchWord };
       // 할일일정 초기화
       this.$store.dispatch('setInitCompleteList', param);
     },

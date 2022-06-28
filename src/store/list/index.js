@@ -155,7 +155,8 @@ export default {
     // 완료 일정 초기화
     setInitCompleteList({ commit }, payload) {
       const { selection } = this.getters;
-      const selectionWithPage = { ...selection, ...payload };
+      const get20perpage = false; // 화면 초기화시 10개 일정만 표시
+      const selectionWithPage = { ...selection, get20perpage, ...payload };
 
       // 완료일정정보 취득
       return new CompleteListProxy()
@@ -168,7 +169,7 @@ export default {
           // 서버에서 가져온 완료일정의 총 일정 수 초기화
           commit('setCompleteListCount', response.data.total_count);
           // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
-          commit('setCompleteListPage', { response, ...payload });
+          commit('setCompleteListPage', { response, get20perpage });
         })
         .catch(() => {
           console.log('Request failed...');
@@ -230,7 +231,7 @@ export default {
     // 내가 작성한 일정 초기화
     setInitMyList({ commit }, payload) {
       const { selection } = this.getters;
-      const get20perpage = true; // 초기 화면 20개 일정표시 유무
+      const get20perpage = false; // 화면 초기화시 10개 일정만 표시
       const selectionWithPage = { ...selection, get20perpage, ...payload };
 
       // 내가 작성한 일정정보 취득
