@@ -114,23 +114,15 @@ export default {
       // 결과내 재검색어
       this.searchWord = searchWord;
       // 추천일정 초기화를 위한 파라미터
-      const param = {
-        get20perpage: this.get20perpage,
-        searchWord,
-      };
+      const param = { searchWord };
       // 추천일정 초기화
       this.$store.dispatch('setInitRecList', param);
     },
     // 검색 결과 더보기
     getRecList() {
-      // 재검색어가 존재할 경우
-      if (this.searchWord) {
-        const param = { searchWord: this.searchWord };
-        this.$store.dispatch('getRecList', param);
-      } else {
-      // 재검색어가 존재하지 않을 경우
-        this.$store.dispatch('getRecList');
-      }
+      // 재검색어
+      const param = { searchWord: this.searchWord };
+      this.$store.dispatch('getRecList', param);
     },
   },
 

@@ -85,11 +85,9 @@ export default {
       this.$store.dispatch('updateList', checkedItem);
     },
     // 결과내 재검색 기능
-    searchAllList(searchWord) {
-      // 결과내 재검색어
-      this.searchWord = searchWord;
-      // 모든일정 초기화를 위한 파라미터
-      const param = { searchWord };
+    searchAllList() {
+      // 재검색어
+      const param = { searchWord: this.searchWord };
       // 할일일정 초기화
       this.$store.dispatch('setInitAllList', param);
     },

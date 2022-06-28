@@ -109,14 +109,9 @@ export default {
     },
     // 검색 결과 더보기
     getMyList() {
-      // 재검색어가 존재할 경우
-      if (this.searchWord) {
-        const param = { searchWord: this.searchWord };
-        this.$store.dispatch('getMyList', param);
-      } else {
-        // 재검색어가 존재하지 않을 경우
-        this.$store.dispatch('getMyList');
-      }
+      // 재검색어
+      const param = { searchWord: this.searchWord };
+      this.$store.dispatch('getMyList', param);
     },
   },
 };
