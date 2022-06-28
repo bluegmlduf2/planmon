@@ -4,7 +4,8 @@ from app.main.model.list import List
 from app.main.model.mylist import Mylist
 from sqlalchemy import exc,case
 from datetime import datetime
-from app.main.util import remove_unnecessary_elements,get_next_page,get_per_page,get_current_time
+from app.main.util import get_current_time
+from app.main.service import remove_unnecessary_elements,get_next_page,get_per_page
 from ..service.complete_list_service import get_my_completelist
 from ..service.todo_list_service import get_my_todolist
 

@@ -1,5 +1,5 @@
 from app.main.model.list import List
-from app.main.util import get_next_page,get_per_page
+from app.main.service import get_next_page,get_per_page
 
 def get_mylist(uid,postInfo):
     '''유저가 작성한 일정 리스트 취득'''

@@ -3,7 +3,8 @@ from app.main.model.list import List
 from app.main.model.mylist import Mylist
 from app.main.model.user import User
 from sqlalchemy import exc
-from app.main.util import sort_by_id,get_next_page,get_per_page
+from app.main.util import sort_by_id
+from app.main.service import get_next_page,get_per_page
 
 def get_my_todolist(uid, postInfo = None):
     '''유저의 할일 리스트 취득'''
