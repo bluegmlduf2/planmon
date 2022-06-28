@@ -28,7 +28,9 @@
             :class="{'overlay-menu':!isConditionActive&&userIsAuthenticated}"
           >
             <ul>
-              <li>
+              <li
+                @click="isMenuActive = false"
+              >
                 <router-link
                   :to="{ name: 'home.index'}"
                 >
