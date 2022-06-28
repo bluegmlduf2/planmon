@@ -1,3 +1,5 @@
+from app.main.model.list import List
+
 def remove_unnecessary_elements(selection):
     '''SQL의 조건 매개변수에 불필요한 칼럼을 제거한다'''
     necessary_elements = ['country','stayStatus'] # 필요한 칼럼
@@ -26,3 +28,18 @@ def get_per_page(selection):
     else:
     # 한 페이지에 표시할 게시물의 수를 취득, 존재하지 않을 경우 10개씩 표시한다
         return  20 if selection.get('get20perpage',False) else 10
+
+def get_filter_condition_by_searchword(selection):
+    '''제목과 내용에 해당 단어를 포함하는지에 대한 조건을 반환'''
+    # 재검색어
+    searchWord = selection.get('searchWord',None) if selection else None
+
+    # 검색어가 존재할 경우
+    if searchWord:
+        # 재검색시 사용하는 검색조건 (제목과 내용에 해당 단어를 포함하는지 검색)
+        search = "%{}%".format(searchWord)
+        # 재검색의 검색조건 반환
+        return (List.title.like(search))|(List.content.like(search))
+    else:
+    # 검색어가 존재하지않을 경우 (모든일정표시)
+        return True

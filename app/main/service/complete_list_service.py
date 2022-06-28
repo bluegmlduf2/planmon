@@ -4,16 +4,14 @@ from app.main.model.mylist import Mylist
 from app.main.model.user import User
 from sqlalchemy import exc
 from app.main.util import sort_by_id
-from app.main.service import get_next_page,get_per_page
+from app.main.service import get_next_page,get_per_page,get_filter_condition_by_searchword
 
-def get_my_completelist(uid, postInfo = None):
+def get_my_completelist(uid, postInfo):
     '''유저의 완료 리스트 취득'''
     # 페이지네이션 취득
     page = get_next_page(postInfo) # 표시할 페이지수를 취득
     per_page = get_per_page(postInfo) # 한 페이지에 표시할 게시물의 수를 취득
-    searchWord = postInfo.get('searchWord',None) if postInfo else None # 재검색어
 
-    postIds = None # 취득할 키값
     # 로그인 상태인경우
     if uid:
         # 서버에 저장된 내 완료 일정 취득
@@ -23,21 +21,16 @@ def get_my_completelist(uid, postInfo = None):
         # 로컬스토리지에 저장된 내 완료일정의 키값 취득
         postIds = postInfo.get('myCompletelist',None)
 
-    # 검색어가 존재할 경우
-    if searchWord:
-        # 재검색시 사용하는 검색조건 (제목과 내용에 해당 단어를 포함하는지 검색)
-        search = "%{}%".format(searchWord)
-        # 내 완료일정의 상세 정보 취득
-        my_completelist_query = List.query.filter(List.postId.in_(postIds)).\
-            filter((List.title.like(search))|(List.content.like(search))).\
-            order_by(sort_by_id(postIds))
-    else:
-    # 검색어가 존재하지 않을경우
-        # 내 완료일정의 상세 정보 취득
-        my_completelist_query = List.query.filter(List.postId.in_(postIds)).\
-            order_by(sort_by_id(postIds))
+    # 재검색시 사용하는 검색조건
+    filter_searchWord = get_filter_condition_by_searchword(postInfo)
 
-    my_completelist_result = my_completelist_query.paginate(page,per_page,error_out=False) # 완료일정의 페이지네이션 된 값
+    # 내 완료일정의 상세 정보 취득
+    my_completelist_query = List.query.filter(List.postId.in_(postIds)).\
+        filter(filter_searchWord).\
+        order_by(sort_by_id(postIds))
+
+    # 완료일정의 페이지네이션 된 값
+    my_completelist_result = my_completelist_query.paginate(page,per_page,error_out=False)
     
     my_completelist = {
         'my_completelist':my_completelist_result.items, # 완료일정 (받아온 키의 정렬순서대로)
