@@ -6,6 +6,7 @@ class SelectionDto:
     listSchema = api.model('listSchema', {
         'postId': fields.String(description='일정 ID'),
         'title': fields.String(description='일정 제목'),
+        'stayStatus': fields.String(description='일정 체류상태'),
     })# 리스트의 스키마
     selection = api.model('selection', {
         'myCompletelist': fields.List(description='완료일정리스트', default=[], cls_or_instance=fields.Nested(listSchema)),
@@ -23,6 +24,7 @@ class TodoListDto:
     listSchema = api.model('listSchema', {
         'postId': fields.String(description='일정 ID'),
         'title': fields.String(description='일정 제목'),
+        'stayStatus': fields.String(description='일정 체류상태'),
     })# 리스트의 스키마
     todolist = api.model('todolist', {
         'my_todolist': fields.List(description='할일일정리스트', default=[], cls_or_instance=fields.Nested(listSchema)),
@@ -36,6 +38,7 @@ class CompleteListDto:
     listSchema = api.model('listSchema', {
         'postId': fields.String(description='일정 ID'),
         'title': fields.String(description='일정 제목'),
+        'stayStatus': fields.String(description='일정 체류상태'),
     })# 리스트의 스키마
     completelist = api.model('completelist', {
         'my_completelist': fields.List(description='완료일정리스트', default=[], cls_or_instance=fields.Nested(listSchema)),
@@ -49,6 +52,7 @@ class RecListDto:
     listSchema = api.model('listSchema', {
         'postId': fields.String(description='일정 ID'),
         'title': fields.String(description='일정 제목'),
+        'stayStatus': fields.String(description='일정 체류상태'),
     })# 리스트의 스키마
     reclist = api.model('reclist', {
         'my_reclist': fields.List(description='추천일정리스트', default=[], cls_or_instance=fields.Nested(listSchema)),
@@ -62,6 +66,7 @@ class MyListDto:
     listSchema = api.model('listSchema', {
         'postId': fields.String(description='일정 ID'),
         'title': fields.String(description='일정 제목'),
+        'stayStatus': fields.String(description='일정 체류상태'),
     })# 리스트의 스키마
     mylist = api.model('mylist', {
         'my_list': fields.List(description='내가 작성한 일정리스트', default=[], cls_or_instance=fields.Nested(listSchema)),
