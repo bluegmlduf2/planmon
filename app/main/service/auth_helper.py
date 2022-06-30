@@ -97,6 +97,31 @@ class Auth:
             return response_object, 403
 
     @staticmethod
+    def get_user_info(uid: str):
+        '''파이어베이스에 저장된 유저의 정보을 반환한다'''
+        try:
+            user = auth.get_user(uid) # 유저정보취득
+            
+            # 유저 닉네임 (닉네임 존재하지않을시 생성타임스탬프를 이용해 유저닉네임생성) 삼항연산자
+            nickname=not user.display_name and "USER" + str(user.user_metadata.creation_timestamp) or user.display_name
+            
+            #유저 프로필 이미지
+            user_image=str(user.photo_url or '').replace('http://', '') # None을 공백 문자열로 변환후 url을 공백 변환
+            
+            # 전달할 유저정보
+            userInfo = {
+                'nickname':nickname,
+                'user_image':user_image
+            }
+            return userInfo
+        except auth.UserNotFoundError:
+            # 전달할 탈퇴유저정보
+            return {
+                'nickname':'탈퇴한 회원',
+                'user_image':None
+            }
+
+    @staticmethod
     def get_logged_in_user(new_request):
         # get the auth token
         auth_token = new_request.headers.get('Authorization')
