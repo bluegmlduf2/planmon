@@ -54,12 +54,12 @@
             </div>
             <span
               class="list-content ellipsis"
-              @click="$router.push({name: 'post.index'})"
+              @click="$router.push({name: 'post.index', params: {postId: item.postId}})"
             >
               {{ item.title }}
             </span>
             <span
-              class="tag tag-list tag-blue"
+              class="tag tag-list"
               :class="setStayStatusTag(item)"
             >
               {{ setStayStatusTagName(item) }}
@@ -72,10 +72,14 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import SlotMixin from '@/mixins/slot';
 import Confirm from '@/components/Confirm.vue';
 import message from '@/assets/js/message';
-import stayStatus from '@/assets/js/stayStatus';
+import globalFunc from '@/plugins/globalFunc';
+
+// 공통함수사용
+Vue.use(globalFunc);
 
 export default {
   /**
@@ -222,52 +226,6 @@ export default {
         return 'list-add';
       }
       return 'list-del';
-    },
-    // 리스트의 체류상태에 따라 표시 태그 반환
-    setStayStatusTag(args) {
-      // 태그명
-      let tagName = '';
-
-      switch (args.stayStatus) {
-        case stayStatus[0].value:
-          // 입국전
-          tagName = 'tag-green';
-          break;
-        case stayStatus[1].value:
-          // 체류중
-          tagName = 'tag-blue';
-          break;
-        case stayStatus[2].value:
-          // 귀국후
-          tagName = 'tag-red';
-          break;
-        default:
-      }
-
-      return tagName;
-    },
-    // 리스트의 체류상태에 따라 표시 태그이름 반환
-    setStayStatusTagName(args) {
-      // 태그명
-      let tagName = '';
-
-      switch (args.stayStatus) {
-        case stayStatus[0].value:
-          // 입국전
-          tagName = `${stayStatus[0].text} 일정`;
-          break;
-        case stayStatus[1].value:
-          // 체류중
-          tagName = `${stayStatus[1].text} 일정`;
-          break;
-        case stayStatus[2].value:
-          // 귀국후
-          tagName = `${stayStatus[2].text} 일정`;
-          break;
-        default:
-      }
-
-      return tagName;
     },
   },
 };
