@@ -6,7 +6,12 @@ export default {
     // 년월일 형식반환
     Vue.prototype.getDateFormat = (date) => {
       const dt = new Date(date);
-      return `${dt.getFullYear()}년 ${dt.getMonth()}월 ${dt.getDate()}일`;
+      // 데이터가 존재할때 YYYY년MM월DD일 형식으로 반환
+      if (date) {
+        return `${dt.getFullYear()}년 ${dt.getMonth()}월 ${dt.getDate()}일`;
+      }
+      // 일정로딩시 공백으로 표시
+      return '';
     };
 
     // 리스트의 체류상태에 따라 표시 태그 반환

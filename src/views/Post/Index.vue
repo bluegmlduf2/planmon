@@ -282,7 +282,6 @@ import VLayout from '@/layouts/Default.vue';
 import UserInfo from '@/components/UserInfo.vue';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/vue-editor';
-import post from '@/assets/js/post';
 import Flatpickr from '@/components/Flatpickr.vue';
 import globalFunc from '@/plugins/globalFunc';
 
@@ -307,7 +306,7 @@ export default {
     return {
       countries: [], // 국가
       selectedCountry: null, // 선택된 국가
-      viewerText: post.content,
+      viewerText: '',
       toggleMenuActive: false, // 슬라이드 토글 메뉴 활성화
       deleteButtonActive: false, // 삭제상태 활성화
       validation: {
@@ -336,10 +335,9 @@ export default {
       this.entryDate = todayDate;
     },
     // 게시글 초기화
-    initPost() {
+    async initPost() {
       const { postId } = this.$route.params; // URL로 부터 취득한 게시물 번호
-      this.$store.dispatch('setInitPost', postId);
-      this.viewerText = post;
+      await this.$store.dispatch('setInitPost', postId);
     },
   },
 };
