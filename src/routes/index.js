@@ -65,7 +65,7 @@ export default [
 
   // 게시글 보기 화면
   {
-    path: '/post',
+    path: '/post/:postId',
     name: 'post.index',
     component: () => import('@/views/Post/Index.vue'),
   },

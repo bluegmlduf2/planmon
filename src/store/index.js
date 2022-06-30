@@ -13,6 +13,7 @@ import createLogger from 'vuex/dist/logger';
 // Modules
 import list from './list';
 import selection from './selection';
+import post from './post';
 import user from './user';
 import shared from './shared';
 
@@ -25,6 +26,7 @@ export default new Vuex.Store({
   modules: {
     list,
     selection,
+    post,
     user,
     shared,
   },

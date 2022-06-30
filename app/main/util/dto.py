@@ -61,6 +61,22 @@ class RecListDto:
         'total_count': fields.Integer(description='총 추천일정 수'),
     })
 
+class PostDto:
+    api = Namespace('post', description='게시물정보')
+    post = api.model('post', {
+        'postId': fields.String(description='게시물 번호'),
+        'writerUserName': fields.String(description='게시물 작성자'),
+        'title': fields.String(description='게시물 제목'),
+        'content': fields.String(description='게시물 내용'),
+        'stayStatus': fields.String(description='체류상태'),
+        'postViewCount': fields.Integer(description='조회수'),
+        'afterEntryDate': fields.Integer(description='입국경과일'),
+        'startDate': fields.Date(description='일정시작일'),
+        'endDate': fields.Date(description='일정종료일'),
+        'createdDate': fields.Date(description='게시글작성일'),
+        'userAuth': fields.Boolean(description='게시글작성자유무'),
+    })
+
 class MyListDto:
     api = Namespace('mylist', description='내가 작성한 일정관리')
     listSchema = api.model('listSchema', {

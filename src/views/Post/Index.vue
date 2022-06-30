@@ -24,8 +24,11 @@
           </div>
         </div>
         <!-- 게시글 제목 -->
-        <div class="d-flex justify-content-between align-items-center mt-3">
-          <span class="tag tag-green">입국전 일정</span>
+        <div class="d-flex justify-content-between align-items-center">
+          <span
+            class="tag"
+            :class="setStayStatusTag(post)"
+          >{{ setStayStatusTagName(post) }}</span>
           <div class="d-flex align-items-center">
             <span class="mr-2 scrab-span"><i
               class="fa fa-comment-o"
@@ -34,7 +37,7 @@
             <span class="mr-2 scrab-span"><i
               class="fa fa-eye"
               aria-hidden="true"
-            /> 50</span>
+            /> {{ post.postViewCount }}</span>
             <div
               class="list-checkbox list-add mr-1"
             >
@@ -50,7 +53,7 @@
         <div class="row">
           <div class="col-md-12 mt-1 mb-3 post-title">
             <h2 class="over-text">
-              제목입니다^^111111111111111111111111111111111111111
+              {{ post.title }}
             </h2>
           </div>
         </div>
@@ -60,8 +63,8 @@
             <div>
               <span
                 class="post-bold mr-2"
-              >사용자명</span>
-              <span class="font-light-color">2022년 12월 13일</span>
+              >{{ post.writerUserName }}</span>
+              <span class="font-light-color">{{ getDateFormat(post.createdDate) }}</span>
             </div>
             <div class="post-update-buttons font-light-color">
               <span class="mr-2">
@@ -82,7 +85,7 @@
                 id="postStartDate"
                 class="post-date"
               >
-                2022년 12월 15일
+                {{ getDateFormat(post.startDate) }}
               </div>
             </div>
             <div class="form-group col-6">
@@ -91,7 +94,7 @@
                 id="postEndDate"
                 class="post-date"
               >
-                2022년 12월 31일
+                {{ getDateFormat(post.endDate) }}
               </div>
             </div>
           </div>
@@ -274,12 +277,17 @@
  */
 
 // Basic Use - Covers most scenarios
+import Vue from 'vue';
 import VLayout from '@/layouts/Default.vue';
 import UserInfo from '@/components/UserInfo.vue';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/vue-editor';
 import post from '@/assets/js/post';
 import Flatpickr from '@/components/Flatpickr.vue';
+import globalFunc from '@/plugins/globalFunc';
+
+// 공통함수사용
+Vue.use(globalFunc);
 
 export default {
   /**
@@ -299,7 +307,7 @@ export default {
     return {
       countries: [], // 국가
       selectedCountry: null, // 선택된 국가
-      viewerText: '',
+      viewerText: post.content,
       toggleMenuActive: false, // 슬라이드 토글 메뉴 활성화
       deleteButtonActive: false, // 삭제상태 활성화
       validation: {
@@ -311,7 +319,12 @@ export default {
       },
     };
   },
-
+  computed: {
+    // 게시글 정보
+    post() {
+      return this.$store.getters.post;
+    },
+  },
   created() {
     this.initEntyDate(); // 입국날짜 초기화
     this.initPost(); // 게시글 초기화
@@ -324,6 +337,8 @@ export default {
     },
     // 게시글 초기화
     initPost() {
+      const { postId } = this.$route.params; // URL로 부터 취득한 게시물 번호
+      this.$store.dispatch('setInitPost', postId);
       this.viewerText = post;
     },
   },
