@@ -1,5 +1,6 @@
 <template>
   <div class="container default-body">
+    <Spinner />
     <Login
       :is-login="isLoginActive"
       @closeLogin="isMenuActive=false,isLoginActive=false"
@@ -264,6 +265,7 @@ import stayStatusList from '@/assets/js/stayStatus';
 import message from '@/assets/js/message';
 import Login from '@/views/Login/Index.vue';
 import Flatpickr from '@/components/FlatpickrDefault.vue';
+import Spinner from '@/components/Spinner.vue';
 
 export default {
   /**
@@ -276,6 +278,7 @@ export default {
   components: {
     Login,
     Flatpickr,
+    Spinner,
   },
   props: {
     // 왼쪽메뉴 표시여부

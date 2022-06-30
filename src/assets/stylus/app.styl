@@ -244,6 +244,81 @@ p
 @media --medium
 	.confirm-message
 		white-space:pre
+// Loaders 스피너 (요청대기용)
+.loader-background {
+    background-color: rgba(249, 249, 249, 0.85);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; /* 모달배경을 꽉차게설정 top~bottom 0 설정이유 */
+    width: 100%;
+    z-index: 9999;
+    display: flex; /* 아래는 플렉스를 이용한 가운데 정렬 */
+    justify-content: center;
+    align-items: center;
+}
+.regot-loader {
+    font-size: 20px;
+    position: fixed;
+    transform: translateX(-50%); /** fixed의 width를 고려한 정중앙위치 */
+    width: 4em;
+    height: 1em;
+    /* margin: 100px auto; */
+    top: 50%;
+    left: 50%;
+}
+.regot {
+    width: 1em;
+    height: 1em;
+    border-radius: 0.5em;
+    background: rgb(134, 142, 150);
+    position: absolute;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    animation-iteration-count: infinite;
+}
+.regot1,
+.regot2 {
+    left: 0;
+}
+.regot3 {
+    left: 1.5em;
+}
+.regot4 {
+    left: 3em;
+}
+@keyframes show {
+    from {
+        transform: scale(0.001);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+@keyframes remove {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(0.001);
+    }
+}
+@keyframes shift {
+    to {
+        transform: translateX(1.5em);
+    }
+}
+.regot1 {
+    animation-name: show;
+}
+.regot2,
+.regot3 {
+    animation-name: shift;
+}
+.regot4 {
+    animation-name: remove;
+}
 /*****************
 * 로그인화면
 ******************/ 
