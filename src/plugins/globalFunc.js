@@ -19,7 +19,7 @@ export default {
       // 태그명
       let tagName = '';
 
-      switch (args.stayStatus) {
+      switch (args) {
         case stayStatus[0].value:
           // 입국전
           tagName = 'tag-green';
@@ -43,7 +43,7 @@ export default {
       // 태그명
       let tagName = '';
 
-      switch (args.stayStatus) {
+      switch (args) {
         case stayStatus[0].value:
           // 입국전
           tagName = `${stayStatus[0].text} 일정`;

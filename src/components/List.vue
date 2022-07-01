@@ -60,9 +60,9 @@
             </span>
             <span
               class="tag tag-list"
-              :class="setStayStatusTag(item)"
+              :class="setStayStatusTag(item.stayStatus)"
             >
-              {{ setStayStatusTagName(item) }}
+              {{ setStayStatusTagName(item.stayStatus) }}
             </span>
           </div>
         </li>
