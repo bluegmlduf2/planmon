@@ -106,8 +106,11 @@
             </div>
           </div>
         </div>
-        <!-- 조건 2 -->
-        <div class="post-condition mb-3">
+        <!-- 조건 2 (작성자에게는 표시하지 않음)-->
+        <div
+          v-if="!user || !post.userAuth"
+          class="post-condition mb-3"
+        >
           <div class="mb-2 post-startDate-cont">
             <h5 class="ellipsis">
               {{ user ? user.name : '사용자' }}의 일정
