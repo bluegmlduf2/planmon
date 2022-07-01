@@ -71,7 +71,10 @@
               <span class="font-light-color">{{ getDateFormat(post.createdDate) }}</span>
             </div>
             <div class="post-update-buttons font-light-color">
-              <span class="mr-2">
+              <span
+                v-if="user && post.userAuth"
+                class="mr-2"
+              >
                 수정
               </span>
             </div>
@@ -107,7 +110,7 @@
         <div class="post-condition mb-3">
           <div class="mb-2 post-startDate-cont">
             <h5 class="ellipsis">
-              {{ '유저명1' }}님의 일정
+              {{ user ? user.name : '사용자' }}의 일정
             </h5>
             <!-- 슬라이드 메뉴 -->
             <span
@@ -325,6 +328,10 @@ export default {
     // 게시글 정보
     post() {
       return this.$store.getters.post;
+    },
+    // 유저정보
+    user() {
+      return this.$store.getters.user;
     },
     myStartDate: {
       get() {
