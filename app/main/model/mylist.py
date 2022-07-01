@@ -9,6 +9,8 @@ class Mylist(db.Model):
     uid = db.Column(db.String(255), primary_key=True,nullable=False)
     listKind = db.Column(db.String(8), nullable=False) # todo,rec,all,complete
     addedDate = db.Column(db.DateTime, nullable=False)
+    myStartDate = db.Column(db.Date)
+    myEndDate = db.Column(db.Date)
 
     def __init__(self):
         self.myListId = get_uuid() # 시스템의 현재시간과 호스트ID 기반으로 UUID 생성
