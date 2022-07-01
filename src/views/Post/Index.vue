@@ -168,7 +168,7 @@
         <!-- 게시글표시 ToastUI Editor -->
         <Viewer
           id="toastUiEditor"
-          :initial-value="viewerText"
+          :initial-value="post.content"
           height="400px"
         />
         <!-- 댓글영역 -->

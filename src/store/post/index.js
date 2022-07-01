@@ -2,7 +2,7 @@ import PostProxy from '@/proxies/PostProxy';
 
 export default {
   state: {
-    post: {},
+    post: null,
   },
   mutations: {
     // 게시글 초기화
