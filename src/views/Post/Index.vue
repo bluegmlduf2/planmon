@@ -4,7 +4,11 @@
       slot="default-right-body"
       class="col-md-8 default-right p-4"
     >
-      <div class="condition-container">
+      <!-- v-if는 post의 최초 로딩시 nullException을 막기 위해 사용 -->
+      <div
+        v-if="post"
+        class="condition-container"
+      >
         <!-- 모바일화면용 뒤로가기버튼 -->
         <div class="d-block d-sm-block d-md-none d-lg-none d-xl-none">
           <div class="row mb-3 d-flex justify-content-between align-items-center">
@@ -27,8 +31,8 @@
         <div class="d-flex justify-content-between align-items-center">
           <span
             class="tag"
-            :class="setStayStatusTag(post)"
-          >{{ setStayStatusTagName(post) }}</span>
+            :class="setStayStatusTag(post.stayStatus)"
+          >{{ setStayStatusTagName(post.stayStatus) }}</span>
           <div class="d-flex align-items-center">
             <span class="mr-2 scrab-span"><i
               class="fa fa-comment-o"
@@ -306,7 +310,6 @@ export default {
     return {
       countries: [], // 국가
       selectedCountry: null, // 선택된 국가
-      viewerText: '',
       toggleMenuActive: false, // 슬라이드 토글 메뉴 활성화
       deleteButtonActive: false, // 삭제상태 활성화
       validation: {
