@@ -8,10 +8,19 @@ export default {
       const dt = new Date(date);
       // 데이터가 존재할때 YYYY년MM월DD일 형식으로 반환
       if (date) {
-        return `${dt.getFullYear()}년 ${dt.getMonth()}월 ${dt.getDate()}일`;
+        return `${dt.getFullYear()}년 ${dt.getMonth() + 1}월 ${dt.getDate()}일`;
       }
       // 일정로딩시 공백으로 표시
       return '';
+    };
+
+    // 두 날짜 사이의 일수 구하기
+    Vue.prototype.getDateDiff = (d1, d2) => {
+      const diffDate = new Date(d2).getTime() - new Date(d1).getTime(); // 종료일 - 시작일
+      const sign = Math.sign(diffDate) >= 0 ? '+' : '-'; // 음수양수에 따라 +-를 추가
+      const diffDay = Math.abs(diffDate / (1000 * 60 * 60 * 24)); // 밀리세컨 * 초 * 분 * 시 = 일
+
+      return `${sign}${diffDay}일`;
     };
 
     // 리스트의 체류상태에 따라 표시 태그 반환

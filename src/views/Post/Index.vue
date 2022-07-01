@@ -93,7 +93,7 @@
               </div>
             </div>
             <div class="form-group col-6">
-              <label for="postEndDate">일정종료일(+100일)</label>
+              <label for="postEndDate">일정종료일({{ getDateDiff(post.startDate,post.endDate) }})</label>
               <div
                 id="postEndDate"
                 class="post-date"
