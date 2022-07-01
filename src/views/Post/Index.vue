@@ -122,7 +122,7 @@
                 <label for="appointStartDate">일정시작일 지정</label>
                 <Flatpickr
                   id="appointStartDate"
-                  :input-date="entryDate"
+                  :input-date="myStartDate"
                   placeholder="일정시작일을 선택해주세요"
                 />
               </li>
@@ -130,7 +130,7 @@
                 <label for="appointEndDate">일정종료일 지정</label>
                 <Flatpickr
                   id="appointEndDate"
-                  :input-date="entryDate"
+                  :input-date="myEndDate"
                   placeholder="일정종료일을 선택해주세요"
                 />
               </li>
@@ -155,16 +155,16 @@
                 id="postStartDate"
                 class="post-date"
               >
-                2022년 12월 10일
+                {{ getDateFormat(myStartDate) }}
               </div>
             </div>
             <div class="form-group col-6">
-              <label for="postEndDate">일정종료일(+100일)</label>
+              <label for="postEndDate">일정종료일({{ getDateDiff(myStartDate,myEndDate) }})</label>
               <div
                 id="postEndDate"
                 class="post-date"
               >
-                2022년 12월 31일
+                {{ getDateFormat(myEndDate) }}
               </div>
             </div>
           </div>
@@ -325,6 +325,22 @@ export default {
     // 게시글 정보
     post() {
       return this.$store.getters.post;
+    },
+    myStartDate: {
+      get() {
+        return this.$store.getters.post.myStartDate;
+      },
+      set() {
+        // this.$store.dispatch('setInitTodoList', value);
+      },
+    },
+    myEndDate: {
+      get() {
+        return this.$store.getters.post.myEndDate;
+      },
+      set() {
+        // this.$store.dispatch('setInitTodoList', value);
+      },
     },
   },
   created() {
