@@ -12,49 +12,25 @@ def get_my_completelist(uid, postInfo = None):
     page = get_next_page(postInfo) # 표시할 페이지수를 취득
     per_page = get_per_page(postInfo) # 한 페이지에 표시할 게시물의 수를 취득
 
-    # 재검색시 사용하는 검색조건
-    filter_searchWord = get_filter_condition_by_searchword(postInfo)
-
     # 로그인 상태인경우
     if uid:
         # 서버에 저장된 내 완료 일정 취득
         postIds = [x.myListIdRef for x in Mylist.query.filter_by(uid=uid, listKind='complete').order_by(Mylist.addedDate.desc()).all()]
-
-        # 내 완료일정의 상세 정보 취득
-        my_completelist_query = db.session.query(List,Mylist.myStartDate,Mylist.myEndDate).\
-            filter(List.postId==Mylist.myListIdRef).\
-            filter(List.postId.in_(postIds)).\
-            filter(filter_searchWord).\
-            order_by(sort_by_id(postIds))
-        
-        # 완료일정의 페이지네이션 된 값
-        my_completelist_result = my_completelist_query.paginate(page,per_page,error_out=False)
-        
-        # myStartDate, myEndDate의 칼럼이 합쳐진 결과값
-        added_colimn_list = []
-
-        # myStartDate, myEndDate 칼럼을 List로 옮긴다
-        for x in my_completelist_result.items:
-            setattr(x[0],'myStartDate',x[1])
-            setattr(x[0],'myEndDate',x[2])
-            added_colimn_list.append(x[0])
-        
-        # 칼럼이 합쳐진 결과값을 셋팅
-        my_completelist_result.items = added_colimn_list
-
     else:
     # 미로그인 상태인 경우
         # 로컬스토리지에 저장된 내 완료일정의 키값 취득
         postIds = postInfo.get('myCompletelist',None)
 
-        # 내 완료일정의 상세 정보 취득
-        my_completelist_query = List.query.filter(List.postId.in_(postIds)).\
-            filter(filter_searchWord).\
-            order_by(sort_by_id(postIds))
-        
-        # 완료일정의 페이지네이션 된 값
-        my_completelist_result = my_completelist_query.paginate(page,per_page,error_out=False)
+    # 재검색시 사용하는 검색조건
+    filter_searchWord = get_filter_condition_by_searchword(postInfo)
 
+    # 내 완료일정의 상세 정보 취득
+    my_completelist_query = List.query.filter(List.postId.in_(postIds)).\
+        filter(filter_searchWord).\
+        order_by(sort_by_id(postIds))
+
+    # 완료일정의 페이지네이션 된 값
+    my_completelist_result = my_completelist_query.paginate(page,per_page,error_out=False)
     
     my_completelist = {
         'my_completelist':my_completelist_result.items, # 완료일정 (받아온 키의 정렬순서대로)
