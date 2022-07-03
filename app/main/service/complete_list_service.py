@@ -12,13 +12,13 @@ def get_my_completelist(uid, postInfo = None):
     page = get_next_page(postInfo) # 표시할 페이지수를 취득
     per_page = get_per_page(postInfo) # 한 페이지에 표시할 게시물의 수를 취득
 
+    # 재검색시 사용하는 검색조건
+    filter_searchWord = get_filter_condition_by_searchword(postInfo)
+
     # 로그인 상태인경우
     if uid:
         # 서버에 저장된 내 완료 일정 취득
         postIds = [x.myListIdRef for x in Mylist.query.filter_by(uid=uid, listKind='complete').order_by(Mylist.addedDate.desc()).all()]
-        
-        # 재검색시 사용하는 검색조건
-        filter_searchWord = get_filter_condition_by_searchword(postInfo)
 
         # 내 완료일정의 상세 정보 취득
         my_completelist_query = db.session.query(List,Mylist.myStartDate,Mylist.myEndDate).\
@@ -46,9 +46,6 @@ def get_my_completelist(uid, postInfo = None):
     # 미로그인 상태인 경우
         # 로컬스토리지에 저장된 내 완료일정의 키값 취득
         postIds = postInfo.get('myCompletelist',None)
-
-        # 재검색시 사용하는 검색조건
-        filter_searchWord = get_filter_condition_by_searchword(postInfo)
 
         # 내 완료일정의 상세 정보 취득
         my_completelist_query = List.query.filter(List.postId.in_(postIds)).\
