@@ -4,6 +4,11 @@ import TodoListProxy from '@/proxies/TodoListProxy';
 import RecListProxy from '@/proxies/RecListProxy';
 import CompleteListProxy from '@/proxies/CompleteListProxy';
 import MyListProxy from '@/proxies/MyListProxy';
+import PostProxy from '@/proxies/PostProxy';
+import globalFunc from '@/plugins/globalFunc';
+
+// 공통함수사용
+Vue.use(globalFunc);
 
 // 페이지네이션을 초기화를 위해 vuex.list에서 공통으로 사용하는 함수
 function setPagenation(payload) {
@@ -285,7 +290,7 @@ export default {
     },
 
     // 일정 추가
-    addList({ commit }, payload) {
+    async addList({ commit }, payload) {
       const { selection } = this.getters;
       const { listKind } = payload; // 클릭한 리스트 종류
       const isLogined = this.getters.user; // 로그인 유무
@@ -343,6 +348,16 @@ export default {
       } else {
         // 미로그인시
         if (listKind === 'rec') {
+          // 게시물로부터 취득할 데이터 컬럼
+          const param = { postId: payload.postId, requestItem: 'afterEntryDate' };
+          // 해당 게시물의 입국 경과일 취득
+          const response = await new PostProxy().getPostDetail(param);
+          // 게시물의 일정시작일과 일정 종료일을 추가
+          const afterEntryDate = response?.data?.afterEntryDate || 0;
+          const recommendedEndDate = new Date().setDate(new Date().getDate() + afterEntryDate); // 추천 게시글의 입국 경과일을 참조해서 추천일정 작성
+          checkedItem.myStartDate = Vue.prototype.getDateFormatYYYYMMDD(new Date()); // 추천 시작일자를 YYYY-MM-DD 형식으로 받는다
+          checkedItem.myEndDate = Vue.prototype.getDateFormatYYYYMMDD(new Date(recommendedEndDate)); // 추천 종료일자를 YYYY-MM-DD 형식으로 받는다
+
           // 추천일정화면에서 추가
           // 중복된 일정이 아니라면 할일 일정에 추가 (일정을 뒤에 추가)
           selection.myTodolist = [...selection.myTodolist.filter((e) => e.postId !== checkedItem.postId), checkedItem];

@@ -29,4 +29,12 @@ def update_view_count(post):
     '''게시물의 조회수 증가'''
     post.postViewCount = post.postViewCount+1 
     db.session.commit()
-    
+
+
+def get_post_detail(postId,requestItem):
+    """게시물에서 특정 정보만 취득"""
+    post_detail_column =getattr(List,requestItem) # 취득할 데이터
+    post_detail = List.query.filter_by(postId=postId).\
+        with_entities(post_detail_column).first()
+    return post_detail
+

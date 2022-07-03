@@ -22,6 +22,18 @@ class PostProxy extends Proxy {
     const parameter = { postId };
     return this.find(JSON.stringify(parameter));
   }
+
+  /**
+   * 게시물 상세정보 가져오기
+   *
+   * @param {String} postId 게시물 번호
+   * @param {String} requestItem 게시물에서 취득할 정보
+   *
+   * @returns {Promise} The result in a promise.
+   */
+  getPostDetail({ postId, requestItem }) {
+    return this.submit('get', `${this.endpoint}/${postId}/${requestItem}`);
+  }
 }
 
 export default PostProxy;

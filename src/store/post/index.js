@@ -36,9 +36,8 @@ export default {
             const myList = [...myTodolist, ...myCompletelist].find((e) => e.postId === payload);
 
             // 추천 시작,종료일자
-            const recommendedEndDate = new Date().setDate(new Date().getDate() + responseData.afterEntryDate); // 추천 게시글의 일정종료일과 비교해서 추천일정 선택
-            responseData.myStartDate = myList?.myStartDate ?? new Date(); // 시작일자가 존재하지 않을 경우 추천 시작일자 입력
-            responseData.myEndDate = myList?.myEndDate ?? recommendedEndDate; // 종료일자가 존재하지 않을 경우 추천 종료일자 입력
+            responseData.myStartDate = myList?.myStartDate;
+            responseData.myEndDate = myList?.myEndDate;
           }
 
           // 서버에서 가져온 게시글을 초기화

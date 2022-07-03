@@ -158,19 +158,31 @@
             <div class="form-group col-6">
               <label for="postStartDate">일정시작일</label>
               <div
+                v-if="myStartDate"
                 id="postStartDate"
                 class="post-date"
               >
                 {{ getDateFormat(myStartDate) }}
               </div>
+              <div v-else>
+                일정을 추가해주세요
+              </div>
             </div>
             <div class="form-group col-6">
-              <label for="postEndDate">일정종료일({{ getDateDiff(myStartDate,myEndDate) }})</label>
+              <label for="postEndDate">일정종료일
+                <span v-if="myStartDate&&myEndDate">
+                  ({{ getDateDiff(myStartDate,myEndDate) }})
+                </span>
+              </label>
               <div
+                v-if="myEndDate"
                 id="postEndDate"
                 class="post-date"
               >
                 {{ getDateFormat(myEndDate) }}
+              </div>
+              <div v-else>
+                일정을 추가해주세요
               </div>
             </div>
           </div>
@@ -338,7 +350,7 @@ export default {
     },
     myStartDate: {
       get() {
-        return this.$store.getters.post.myStartDate;
+        return this.$store.getters.post.myStartDate || '';
       },
       set() {
         // this.$store.dispatch('setInitTodoList', value);
@@ -346,7 +358,7 @@ export default {
     },
     myEndDate: {
       get() {
-        return this.$store.getters.post.myEndDate;
+        return this.$store.getters.post.myEndDate || '';
       },
       set() {
         // this.$store.dispatch('setInitTodoList', value);

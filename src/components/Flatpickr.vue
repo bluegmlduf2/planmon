@@ -32,11 +32,11 @@ export default {
    */
   props: {
     placeholder: {
-      type: String,
+      type: null, // 데이터,숫자,문자열형태등이 들어오기때문에 null로 지정
       required: true,
     },
     inputDate: {
-      type: String,
+      type: null, // 데이터,숫자,문자열형태등이 들어오기때문에 null로 지정
       required: true,
     },
   },

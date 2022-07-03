@@ -14,6 +14,19 @@ export default {
       return '';
     };
 
+    // YYYY-MM-DD형식을 반환
+    Vue.prototype.getDateFormatYYYYMMDD = (date) => {
+      const d = new Date(date);
+      let month = `${d.getMonth() + 1}`;
+      let day = `${d.getDate()}`;
+      const year = d.getFullYear();
+
+      if (month.length < 2) { month = `0${month}`; }
+      if (day.length < 2) { day = `0${day}`; }
+
+      return [year, month, day].join('-');
+    };
+
     // 두 날짜 사이의 일수 구하기
     Vue.prototype.getDateDiff = (d1, d2) => {
       const diffDate = new Date(d2).getTime() - new Date(d1).getTime(); // 종료일 - 시작일
