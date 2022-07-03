@@ -5,7 +5,7 @@ from app.main.model.mylist import Mylist
 from sqlalchemy import exc,case
 from datetime import datetime
 from app.main.util import get_current_time
-from app.main.service import remove_unnecessary_elements,get_next_page,get_per_page,get_filter_condition_by_searchword
+from app.main.service import remove_unnecessary_elements,get_next_page,get_per_page,get_filter_condition_by_searchword,get_recommended_enddate
 from ..service.complete_list_service import get_my_completelist
 from ..service.todo_list_service import get_my_todolist
 
@@ -101,6 +101,12 @@ def update_reclist(uid,postId):
             mylist.myListIdRef = postId
             mylist.uid = uid
             mylist.listKind = 'todo'
+
+            # 새로운 일정에 일정 시작일과 일정 종료일 추가
+            afterEntryDate = List.query.filter_by(postId=postId).first().afterEntryDate # 게시물의 입국 경과일
+            mylist.myStartDate =  get_current_time() # 추천 일정 시작일
+            mylist.myEndDate = get_recommended_enddate(afterEntryDate) # 추천 일정 종료일
+
             db.session.add(mylist)
             db.session.commit()
                         

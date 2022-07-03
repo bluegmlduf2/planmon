@@ -1,4 +1,6 @@
+from app.main.util import get_current_time
 from app.main.model.list import List
+from datetime import datetime,timedelta
 
 def remove_unnecessary_elements(selection):
     '''SQL의 조건 매개변수에 불필요한 칼럼을 제거한다'''
@@ -43,3 +45,8 @@ def get_filter_condition_by_searchword(selection):
     else:
     # 검색어가 존재하지않을 경우 (모든일정표시)
         return True
+
+def get_recommended_enddate(afterEntryDate):
+    '''게시물의 입국 경과일을 참조해서 추천 종료일을 반환'''
+    return datetime.strptime(get_current_time().strftime("%Y/%m/%d"), "%Y/%m/%d")\
+            +timedelta(days=afterEntryDate) # 게시물의 입국일 경과일을 더한 추천 종료 일수
