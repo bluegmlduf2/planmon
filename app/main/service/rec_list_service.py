@@ -16,12 +16,10 @@ def get_reclist(uid,selection):
         # 제외할 나의 완료일정과 할일일정을 디비에서 가져옴
         my_complete_list=[ x.postId for x in get_my_completelist(uid)['my_completelist']]
         my_todo_list=[ x.postId for x in get_my_todolist(uid)['my_todolist']]
-        my_list_comp_todo = my_complete_list+my_todo_list
-        my_list_not_me = List.query.\
-            filter(~List.postId.in_(my_list_comp_todo)).\
-            filter(List.writerUid==uid).\
-            with_entities(List.postId).all() # 완료일정,할일일정,작성자가 포함된 게시글을 제외한 데이터
-        myList = [y[0]for y in my_list_not_me] # 해당데이터로부터 게시물번호만 취득
+        my_list_not_me = List.query.filter(List.writerUid==uid).with_entities(List.postId).all()
+        my_list_not_me_list = [y[0]for y in my_list_not_me]
+        # 완료일정,할일일정,작성자가 포함된 게시글을 제외한 데이터
+        myList = my_complete_list+my_todo_list + my_list_not_me_list
     else:
         # 제외할 나의 완료일정과 할일일정을 로컬스토리지에서 가져옴
         my_complete_list=[x['postId'] for x in selection['myCompletelist']]
