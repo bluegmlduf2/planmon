@@ -46,10 +46,12 @@
               class="list-checkbox list-add mr-1"
             >
               <input
-                id="itemvalue"
+                :id="post.postId"
                 type="checkbox"
+                :checked="post.isAdded"
+                @click="updatePostCheckInput($event)"
               >
-              <label for="itemvalue" />
+              <label :for="post.postId" />
             </div>
           </div>
         </div>
@@ -305,6 +307,8 @@ import UserInfo from '@/components/UserInfo.vue';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/vue-editor';
 import Flatpickr from '@/components/Flatpickr.vue';
+import Confirm from '@/components/Confirm.vue';
+import message from '@/assets/js/message';
 import globalFunc from '@/plugins/globalFunc';
 
 // 공통함수사용
@@ -348,6 +352,10 @@ export default {
     user() {
       return this.$store.getters.user;
     },
+    // 로컬스토리지 저장 알림창 (store에서 값이 변경될때마다 갱신)
+    showMessage() {
+      return this.$store.getters.selection.isShowMessage;
+    },
     myStartDate: {
       get() {
         return this.$store.getters.post.myStartDate || '';
@@ -377,8 +385,78 @@ export default {
     },
     // 게시글 초기화
     async initPost() {
+      // 사용자 선택값 데이터 초기화
+      await this.$store.dispatch('setInitSelection');
+
       const { postId } = this.$route.params; // URL로 부터 취득한 게시물 번호
       await this.$store.dispatch('setInitPost', postId);
+    },
+    // 추가,삭제 체크박스 선택시
+    updatePostCheckInput(e) {
+      // 추가, 삭제 메인 진행 함수
+      const processUpdate = () => {
+        const { isAdded, postId } = this.post;
+        // isAdded: !isAdded 추가모드 isAdded 삭제모드
+        const param = {
+          postId,
+          isAdded: !isAdded,
+        };
+        // 추가일정일시 rec 삭제일정일시 todo
+        param.listKind = param.isAdded ? 'rec' : 'todo';
+        // 일정에 추가후 일정화면 초기화
+        this.$store.dispatch('updateList', param);
+        this.$store.dispatch('setInitPost', postId);
+      };
+
+      // 확인창 표시
+      const confirmToast = (buttonName, confirmMessage) => {
+        const toastId = this.$toast.info({
+          component: Confirm,
+          props: {
+            buttonName, // 확인의 버튼명
+            isShowButtons: true, // 확인, 취소버튼 2개 표시
+            confirmMessage, // 확인메세지 사용자 지정
+          },
+          listeners: {
+            // 확인(삭제)버튼
+            confirmEvent: () => {
+              this.$toast.dismiss(toastId);
+              if (confirmMessage) {
+                // 추가모드에서 확인한 경우
+                // 로컬스토리지 경고 메세지 표시하지 않음을 설정
+                this.$store.dispatch('addSelection', { isShowMessage: false });
+              } else {
+                // 삭제모드에서 삭제한 경우
+                processUpdate();
+              }
+            },
+            // 취소버튼 (삭제 취소시 체크표시를 취소)
+            cancelEvent: () => {
+              this.$toast.dismiss(toastId);
+              e.target.checked = !e.target.checked;
+            },
+          },
+        }, { timeout: 5000, closeOnClick: false, closeButton: false });
+      };
+
+      // 현재 함수의 메인로직, 체크효과를 위해 체크후 0.4초후에 실행한다
+      setTimeout(() => {
+        const isAdded = this.post; // 게시물의 추가상태유무
+        // 추가 삭제 로직 분기
+        // isAdded: !isAdded 추가모드 isAdded 삭제모드
+        if (isAdded) {
+          // 추가
+          // 다시보기 메세지 표시 (메세지보기가 상태이고 미로그인시)
+          if (this.showMessage && !this.user) {
+            confirmToast('확인', message.localStorageListAlert);
+          }
+          // 추가 진행
+          processUpdate();
+        } else {
+          // 삭제
+          confirmToast('삭제');
+        }
+      }, 400);
     },
   },
 };

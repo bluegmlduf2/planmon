@@ -15,6 +15,7 @@ export default {
     };
 
     // YYYY-MM-DD형식을 반환
+    // 로컬스토리지에 데이터형식을 적은용량으로 저장하기 위해 해당 포맷 사용
     Vue.prototype.getDateFormatYYYYMMDD = (date) => {
       const d = new Date(date);
       let month = `${d.getMonth() + 1}`;
@@ -26,6 +27,9 @@ export default {
 
       return [year, month, day].join('-');
     };
+
+    // 파라미터의 date에 일수를 더해서 반환
+    Vue.prototype.addDays = (date, addedDay) => new Date(date.getTime() + addedDay * 24 * 60 * 60 * 1000);
 
     // 두 날짜 사이의 일수 구하기
     Vue.prototype.getDateDiff = (d1, d2) => {

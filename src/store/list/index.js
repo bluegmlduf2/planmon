@@ -354,10 +354,9 @@ export default {
           const response = await new PostProxy().getPostDetail(param);
           // 게시물의 일정시작일과 일정 종료일을 추가
           const afterEntryDate = response?.data?.afterEntryDate || 0;
-          const recommendedEndDate = new Date().setDate(new Date().getDate() + afterEntryDate); // 추천 게시글의 입국 경과일을 참조해서 추천일정 작성
-          checkedItem.myStartDate = Vue.prototype.getDateFormatYYYYMMDD(new Date()); // 추천 시작일자를 YYYY-MM-DD 형식으로 받는다
-          checkedItem.myEndDate = Vue.prototype.getDateFormatYYYYMMDD(new Date(recommendedEndDate)); // 추천 종료일자를 YYYY-MM-DD 형식으로 받는다
-
+          const addedDated = Vue.prototype.addDays(new Date(), afterEntryDate); // 오늘 날짜 + 게시물의 입국경과일
+          checkedItem.myStartDate = Vue.prototype.getDateFormatYYYYMMDD(new Date()); // 추천 시작일자에 오늘 일자 입력
+          checkedItem.myEndDate = Vue.prototype.getDateFormatYYYYMMDD(addedDated); // 추천 종료일자를 추천종료일을 설정
           // 추천일정화면에서 추가
           // 중복된 일정이 아니라면 할일 일정에 추가 (일정을 뒤에 추가)
           selection.myTodolist = [...selection.myTodolist.filter((e) => e.postId !== checkedItem.postId), checkedItem];

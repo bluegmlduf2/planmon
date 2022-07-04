@@ -69,6 +69,7 @@ class PostDto:
         'title': fields.String(description='게시물 제목'),
         'content': fields.String(description='게시물 내용'),
         'stayStatus': fields.String(description='체류상태'),
+        'isAdded': fields.Boolean(description='추가된 일정 유무'),
         'postViewCount': fields.Integer(description='조회수'),
         'afterEntryDate': fields.Integer(description='입국경과일'),
         'startDate': fields.Date(description='일정시작일'),

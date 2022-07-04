@@ -16,7 +16,7 @@ export default {
   },
   actions: {
     // 게시물 초기화
-    setInitPost({ commit }, payload) {
+    async setInitPost({ commit }, payload) {
       commit('setSpinner', true); // 스피너 동작
       commit('clearPost'); // 게시글의 이전 내용 지우기
 
@@ -38,6 +38,7 @@ export default {
             // 추천 시작,종료일자
             responseData.myStartDate = myList?.myStartDate;
             responseData.myEndDate = myList?.myEndDate;
+            responseData.isAdded = !!myList; // 추가한 게시물의 유무
           }
 
           // 서버에서 가져온 게시글을 초기화

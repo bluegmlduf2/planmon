@@ -12,8 +12,13 @@ def get_post(uid,postId):
     # 유저정보 관련
     user = Auth.get_user_info(post.writerUid) # 파이어베이스에 저장된 유저정보 취득
     userAuth = True if uid == post.writerUid else False #게시물 작성자 유무
+    userAuth = True if uid == post.writerUid else False #게시물 작성자 유무
+    isAdded = bool(Mylist.query.filter_by(myListIdRef=postId,uid=uid).count()) # 이미 추가한 일정유무
+    
     setattr(post,'writerUserName',user['nickname']) # 게시물 작성자의 닉네임등록
     setattr(post,'userAuth',userAuth) # 게시물 작성자 유무
+    setattr(post,'userAuth',userAuth) # 게시물 작성자 유무
+    setattr(post,'isAdded',isAdded) # 추가한 게시물 유무
 
     # 로그인 유저일시 , 게시글 작성자가 아닐시 일정시작일시 등록
     if uid and not userAuth:
