@@ -16,7 +16,7 @@ export default {
   },
   actions: {
     // 게시물 초기화
-    async setInitPost({ commit }, payload) {
+    setInitPost({ commit }, payload) {
       commit('setSpinner', true); // 스피너 동작
       commit('clearPost'); // 게시글의 이전 내용 지우기
 

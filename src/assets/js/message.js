@@ -16,4 +16,7 @@ export default {
   removeList: '일정을 삭제했습니다',
   writeConfirm: '일정 게시글은 수정은 가능하지만 삭제가 불가능합니다\n작성하시겠습니까',
   reSearch: '추천일정 화면의 결과 재검색을 이용해주세요',
+  confirmEmptyDate: '일정을 선택해주세요',
+  confirmInvalidDate: '일정시작일에 일정종료일 이전 날짜를 선택해주세요',
+  noticeNotChangedDate: '변경한 일정시작일과 종료일이 적용되지 않았습니다\n다시 한번 확인후 적용해주세요',
 };

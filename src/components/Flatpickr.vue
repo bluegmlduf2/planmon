@@ -39,6 +39,12 @@ export default {
       type: null, // 데이터,숫자,문자열형태등이 들어오기때문에 null로 지정
       required: true,
     },
+    // 시작컴포넌트인지 종료컴포넌트 구분
+    inputType: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
 
   data() {
@@ -52,6 +58,11 @@ export default {
         dateFormat: 'Y-m-d',
         locale: korean.ko,
         disableMobile: 'true', // flatpicker모바일모드끄기
+        // 일자변경시 호출되는 메서드
+        onChange: (selectedDates) => {
+          const param = { selectedDates, inputType: this.inputType };
+          this.$emit('onChangeCalendar', param);
+        },
       },
     };
   },

@@ -131,7 +131,9 @@
                 <Flatpickr
                   id="appointStartDate"
                   :input-date="myStartDate"
+                  input-type="start"
                   placeholder="일정시작일을 선택해주세요"
+                  @onChangeCalendar="validationCheckMydate"
                 />
               </li>
               <li class="pt-2 pl-1 text-left">
@@ -139,18 +141,24 @@
                 <Flatpickr
                   id="appointEndDate"
                   :input-date="myEndDate"
+                  input-type="end"
                   placeholder="일정종료일을 선택해주세요"
+                  @onChangeCalendar="validationCheckMydate"
                 />
               </li>
               <li class="d-flex flex-row-reverse pt-2 pb-2">
                 <button
                   class="btn btn-outline-secondary"
                   style="border-radius:10px"
-                  @click="toggleMenuActive=!toggleMenuActive"
+                  @click="closeCalendar"
                 >
                   닫기
                 </button>
-                <button class="btn btn-purple btn-option btn-option-initial-size mr-2">
+                <button
+                  class="btn btn-purple btn-option btn-option-initial-size mr-2"
+                  :disabled="validation.myStartEndDate"
+                  @click="changeCalendar"
+                >
                   적용
                 </button>
               </li>
@@ -335,11 +343,8 @@ export default {
       toggleMenuActive: false, // 슬라이드 토글 메뉴 활성화
       deleteButtonActive: false, // 삭제상태 활성화
       validation: {
-        title: false,
-        startDate: false,
-        endDate: false,
-        country: false,
-        content: false,
+        // 나의 시작종료일정의 유효성유무
+        myStartEndDate: false,
       },
     };
   },
@@ -356,21 +361,13 @@ export default {
     showMessage() {
       return this.$store.getters.selection.isShowMessage;
     },
-    myStartDate: {
-      get() {
-        return this.$store.getters.post.myStartDate || '';
-      },
-      set() {
-        // this.$store.dispatch('setInitTodoList', value);
-      },
+    // 일정시작일
+    myStartDate() {
+      return this.$store.getters.post.myStartDate || '';
     },
-    myEndDate: {
-      get() {
-        return this.$store.getters.post.myEndDate || '';
-      },
-      set() {
-        // this.$store.dispatch('setInitTodoList', value);
-      },
+    // 일정종료일
+    myEndDate() {
+      return this.$store.getters.post.myEndDate || '';
     },
   },
   created() {
@@ -457,6 +454,43 @@ export default {
           confirmToast('삭제');
         }
       }, 400);
+    },
+    // 나의 시작 종료일정에 대한 유효성 검사
+    validationCheckMydate(selectedDate) {
+      // 데이터 컴포넌트에서 입력한 값
+      // 파라미터정보 1.데이터형식 입력값 2.YYYY-MM-DD 입력값 3.시작종료컴포넌트타입여부
+      const { selectedDates, inputType } = selectedDate;
+      // 입력한 시작일정
+      // eslint-disable-next-line no-underscore-dangle
+      const inputStartDate = document.querySelector('#appointStartDate')?._flatpickr?.selectedDates[0];
+      // 입력한 종료일정
+      // eslint-disable-next-line no-underscore-dangle
+      const inputEndDate = document.querySelector('#appointEndDate')?._flatpickr?.selectedDates[0];
+
+      // 일정을 선택하지 않은 경우 경우
+      if (!inputStartDate || !inputEndDate) {
+        this.$toast.warning(message.confirmEmptyDate);
+        this.validation.myStartEndDate = true;
+      } else if (inputType === 'start' && selectedDates[0] > inputEndDate) {
+      // 일정 종료일이 일정시작일보다 큰 경우
+        this.$toast.warning(message.confirmInvalidDate);
+        this.validation.myStartEndDate = true;
+      } else if (inputType === 'end' && inputStartDate > selectedDates[0]) {
+      // 일정 종료일이 일정시작일보다 큰 경우
+        this.$toast.warning(message.confirmInvalidDate);
+        this.validation.myStartEndDate = true;
+      } else {
+      // 유효성에 문제가 없으면 적용버튼을 활성화
+        this.validation.myStartEndDate = false;
+      }
+    },
+    // 일정변경창의 닫기버튼
+    closeCalendar() {
+      // 미적용상태 알림
+      if (this.validation.myStartEndDate) {
+        this.$toast.warning(message.noticeNotChangedDate);
+      }
+      this.toggleMenuActive = !this.toggleMenuActive;
     },
   },
 };
