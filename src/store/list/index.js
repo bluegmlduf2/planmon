@@ -366,8 +366,10 @@ export default {
           Vue.prototype.$toast.info(message.addList);
         } else if (listKind === 'todo') {
           // 할일일정화면에서 추가
+          // 완료일정에 추가할 할일일정
+          const selectedTodoList = [...selection.myTodolist].find((e) => e.postId === checkedItem.postId);
           // 중복된 일정이 아니라면 완료 일정에 추가 (일정을 앞에 추가)
-          selection.myCompletelist = [checkedItem, ...selection.myCompletelist.filter((e) => e.postId !== checkedItem.postId)];
+          selection.myCompletelist = [selectedTodoList, ...selection.myCompletelist.filter((e) => e.postId !== checkedItem.postId)];
           // 할일 일정에서 삭제
           selection.myTodolist = [...selection.myTodolist.filter((e) => e.postId !== checkedItem.postId)];
           // 할일일정 초기화
@@ -377,9 +379,11 @@ export default {
           Vue.prototype.$toast.info(message.completeList);
         } else if (listKind === 'all_todo') {
           // 모든일정화면에서 할일추가
+          // 완료일정에 추가할 할일일정
+          const selectedTodoList = [...selection.myTodolist].find((e) => e.postId === checkedItem.postId);
           // 중복된 일정이 아니라면 완료 일정에 추가 (일정을 앞에 추가)
           // all_todo를 분리한 이유는 모든일정화면에서 할일일정을 추가할경우, 페이지네이션 없이 모든 일정을 가져오게 하기 위함
-          selection.myCompletelist = [checkedItem, ...selection.myCompletelist.filter((e) => e.postId !== checkedItem.postId)];
+          selection.myCompletelist = [selectedTodoList, ...selection.myCompletelist.filter((e) => e.postId !== checkedItem.postId)];
           // 할일 일정에서 삭제
           selection.myTodolist = [...selection.myTodolist.filter((e) => e.postId !== checkedItem.postId)];
           // 모든일정 초기화 (페이지네이션 없이 모든 일정 취득)

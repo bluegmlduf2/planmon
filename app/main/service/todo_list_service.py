@@ -47,14 +47,21 @@ def update_todolist(uid,postId):
         user=User.query.filter_by(uid=uid).first()
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
-            # 기존 데이터 삭제
-            Mylist.query.filter_by(uid=uid, myListIdRef=postId).delete()
+            # 기존 데이터 취득
+            myTodoList = Mylist.query.filter_by(uid=uid, myListIdRef=postId)
+            myExTodoList = myTodoList.first()
+            
             # 새로운 일정 추가
             mylist = Mylist()
             mylist.myListIdRef = postId
             mylist.uid = uid
             mylist.listKind = 'complete'
-            db.session.add(mylist)
+            mylist.myStartDate = myExTodoList.myStartDate
+            mylist.myEndDate = myExTodoList.myEndDate
+            
+            myTodoList.delete() # 기존 할일 일정 삭제
+            db.session.add(mylist) # 신규 완료 일정 추가
+
             # 커밋
             db.session.commit()
                         
