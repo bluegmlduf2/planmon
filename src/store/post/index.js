@@ -34,11 +34,12 @@ export default {
             // 로컬스토리지의 나의 할일일정과 완료일정을 취득후, 해당 일정의 예정 시작일 예정 종료일을 취득
             const { myTodolist, myCompletelist } = this.getters.selection;
             const myList = [...myTodolist, ...myCompletelist].find((e) => e.postId === payload);
+            const myCompleteList = [...myCompletelist].find((e) => e.postId === payload);
 
-            // 추천 시작,종료일자
-            responseData.myStartDate = myList?.myStartDate;
-            responseData.myEndDate = myList?.myEndDate;
+            responseData.myStartDate = myList?.myStartDate; // 추천 시작일자
+            responseData.myEndDate = myList?.myEndDate; // 추천 종료일자
             responseData.isAdded = !!myList; // 추가한 게시물의 유무
+            responseData.isCompleted = !!myCompleteList; // 완료한 게시물의 유무
           }
 
           // 서버에서 가져온 게시글을 초기화

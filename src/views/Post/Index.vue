@@ -44,11 +44,13 @@
             /> {{ post.postViewCount }}</span>
             <div
               class="list-checkbox list-add mr-1"
+              :class="setCheckStatus(post.isCompleted)"
             >
               <input
                 :id="post.postId"
                 type="checkbox"
                 :checked="post.isAdded"
+                :disabled="post.isCompleted"
                 @click="updatePostCheckInput($event)"
               >
               <label :for="post.postId" />
@@ -118,7 +120,9 @@
               {{ user ? user.name : '사용자' }}의 일정
             </h5>
             <!-- 슬라이드 메뉴 -->
+            <!-- 일정변경버튼은 일정추가된 상태 & 완료된 일정이 아닐시 표시 -->
             <span
+              v-if="post.isAdded && !post.isCompleted"
               class="font-light-color list-menu-body write-span-font"
               @click="toggleMenuActive=!toggleMenuActive"
             >일정 변경</span>
@@ -133,7 +137,7 @@
                   :input-date="myStartDate"
                   input-type="start"
                   placeholder="일정시작일을 선택해주세요"
-                  @onChangeCalendar="validationCheckMydate"
+                  @onChangeCalendar="checkMydate"
                 />
               </li>
               <li class="pt-2 pl-1 text-left">
@@ -143,7 +147,7 @@
                   :input-date="myEndDate"
                   input-type="end"
                   placeholder="일정종료일을 선택해주세요"
-                  @onChangeCalendar="validationCheckMydate"
+                  @onChangeCalendar="checkMydate"
                 />
               </li>
               <li class="d-flex flex-row-reverse pt-2 pb-2">
@@ -456,7 +460,7 @@ export default {
       }, 400);
     },
     // 나의 시작 종료일정에 대한 유효성 검사
-    validationCheckMydate(selectedDate) {
+    checkMydate(selectedDate) {
       // 데이터 컴포넌트에서 입력한 값
       // 파라미터정보 1.데이터형식 입력값 2.YYYY-MM-DD 입력값 3.시작종료컴포넌트타입여부
       const { selectedDates, inputType } = selectedDate;
@@ -491,6 +495,14 @@ export default {
         this.$toast.warning(message.noticeNotChangedDate);
       }
       this.toggleMenuActive = !this.toggleMenuActive;
+    },
+    // 체크박스의 활성상태 제어 (computed파라미터전달이 안되서 method로 작성)
+    setCheckStatus(isCompleted) {
+      // 모든 일정화면에서 완료일정의 추가시 체크박스 비표시
+      if (isCompleted) {
+        return 'visible-hidden';
+      }
+      return '';
     },
   },
 };
