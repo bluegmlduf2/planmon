@@ -442,11 +442,12 @@ export default {
 
       // 현재 함수의 메인로직, 체크효과를 위해 체크후 0.4초후에 실행한다
       setTimeout(() => {
-        const isAdded = this.post; // 게시물의 추가상태유무
+        const { isAdded } = this.post; // 게시물의 추가상태유무
         // 추가 삭제 로직 분기
+
         // isAdded: !isAdded 추가모드 isAdded 삭제모드
-        if (isAdded) {
-          // 추가
+        // 일정추가
+        if (!isAdded) {
           // 다시보기 메세지 표시 (메세지보기가 상태이고 미로그인시)
           if (this.showMessage && !this.user) {
             confirmToast('확인', message.localStorageListAlert);
@@ -454,7 +455,7 @@ export default {
           // 추가 진행
           processUpdate();
         } else {
-          // 삭제
+          // 일정 삭제
           confirmToast('삭제');
         }
       }, 400);
