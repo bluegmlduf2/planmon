@@ -81,6 +81,13 @@ class PostDto:
         'myEndDate': fields.Date(description='나의 일정 종료일'),
     })
 
+class PostUpdateDateDto:
+    api = Namespace('postdate', description='게시물의 일정시작일 일정종료일 변경정보')
+    postupdatedate = api.model('postupdatedate', {
+        'myStartDate': fields.Date(description='나의 일정 시작일'),
+        'myEndDate': fields.Date(description='나의 일정 종료일'),
+    })
+
 class MyListDto:
     api = Namespace('mylist', description='내가 작성한 일정관리')
     listSchema = api.model('listSchema', {

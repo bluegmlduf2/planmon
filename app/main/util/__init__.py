@@ -24,3 +24,10 @@ def sort_by_id(postIds):
         )
     else:
         return None
+
+def convert_string_to_date(inputDate):
+    '''문자열을 데이터 형식(YYYY-MM-DD형식)으로 바꾼다'''
+    # datetime.strptime(inputDate,"%Y-%m-%dT%H:%M:%S.%fZ").date().strftime("%Y-%m-%d")
+    # 문자열 yyy-mm-dd'T'HH:mm:ss를 문자열 YYYY-MM-DD로 변환한 경우 
+    format = '%Y-%m-%d' # YYYY-MM-DD형식
+    return datetime.strptime(inputDate, format).date()

@@ -1,3 +1,5 @@
+import Vue from 'vue';
+import message from '@/assets/js/message';
 import PostProxy from '@/proxies/PostProxy';
 
 export default {
@@ -8,6 +10,14 @@ export default {
     // 게시글 초기화
     setPost(state, payload) {
       state.post = payload;
+    },
+    // 나의 일정 시작일 초기화
+    setMyStartDate(state, payload) {
+      state.post.myStartDate = payload;
+    },
+    // 나의 일정 종료일 초기화
+    setMyEndDate(state, payload) {
+      state.post.myEndDate = payload;
     },
     // 게시글 이전 내용 지우기
     clearPost(state) {
@@ -51,6 +61,32 @@ export default {
         .finally(() => {
           commit('setSpinner', false); // 스피너 정지
         });
+    },
+    // 게시물의 일정변경
+    updatePostCalendar({ commit }, payload) {
+      const { postId } = this.getters.post; // 게시물 ID
+      const isLogined = this.getters.user; // 로그인 유무
+      const param = { postId, ...payload }; //
+
+      // 로그인 상태일시
+      if (isLogined) {
+        // 추천일정 추가
+        new PostProxy()
+          .updatePostCalendar(param)
+          .then((response) => {
+            // 변경한 일정시작일과 일자종료일을 등록
+            commit('setMyStartDate', response.data.myStartDate);
+            commit('setMyEndDate', response.data.myEndDate);
+
+            Vue.prototype.$toast.info(message.changePostDate);
+          })
+          .catch(() => {
+            console.log('Request failed...');
+          });
+      }
+      // else {
+
+      // }
     },
   },
   getters: {

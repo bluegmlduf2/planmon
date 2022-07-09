@@ -34,6 +34,17 @@ class PostProxy extends Proxy {
   getPostDetail({ postId, requestItem }) {
     return this.submit('get', `${this.endpoint}/${postId}/${requestItem}`);
   }
+
+  /**
+   * 게시물의 사용자 일정 변경
+   *
+   * @param {String} sort 정렬
+   *
+   * @returns {Promise} The result in a promise.
+   */
+  updatePostCalendar(param) {
+    return this.submit('put', `${this.endpoint}/update-post-date`, param);
+  }
 }
 
 export default PostProxy;

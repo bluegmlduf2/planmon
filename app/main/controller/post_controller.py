@@ -1,12 +1,15 @@
 from flask_restx import Resource
+from flask import request
 
-from app.main.util.decorator import get_user_by_token
+from app.main.util.decorator import token_required,get_user_by_token
 from ..util.dto import PostDto
-from ..service.post_service import get_post,get_post_detail
+from ..util.dto import PostUpdateDateDto
+from ..service.post_service import get_post,get_post_detail,update_post_date
 import json
 
 api = PostDto.api
 _post = PostDto.post
+_postupdatedate = PostUpdateDateDto.postupdatedate
 
 
 @api.route('/<param>')
@@ -25,7 +28,19 @@ class Post(Resource):
 @api.param('param', '게시물 번호')
 @api.param('requestItem', '게시물에서 취득할 정보')
 class PostDetail(Resource):
+    @api.doc('게시물의 선택정보 가져오기')
     @api.marshal_with(_post, envelope='data')
     def get(self,param,requestItem):
         """게시물에서 특정 정보만 취득"""
         return get_post_detail(param,requestItem)
+
+
+@api.route('/update-post-date')
+class PostUpdateDate(Resource):
+    @token_required
+    @api.doc('게시물의 일정시적일과 일정종료일을 갱신')
+    @api.marshal_with(_postupdatedate, envelope='data')
+    def put(uid,self):
+        """게시물의 일정시작일과 종료일을 갱신"""
+        payload = request.json
+        return update_post_date(uid,payload)

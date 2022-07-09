@@ -2,6 +2,7 @@ from app.main import db
 from app.main.service.auth_helper import Auth
 from app.main.model.list import List
 from app.main.model.mylist import Mylist
+from app.main.util import convert_string_to_date
 
 def get_post(uid,postId):
     '''게시물 정보 취득'''
@@ -43,3 +44,27 @@ def get_post_detail(postId,requestItem):
         with_entities(post_detail_column).first()
     return post_detail
 
+def update_post_date(uid,param):
+    '''게시물의 일정시작일과 일정종료일을 갱신'''
+    try:
+        # 기존 데이터 취득
+        myTodoList = Mylist.query.filter_by(uid=uid, myListIdRef=param['postId']).first()
+
+        # 일정시작일과 일정종료일을 갱신
+        myTodoList.myStartDate = convert_string_to_date(param['inputStartDate'])
+        myTodoList.myEndDate = convert_string_to_date(param['inputEndDate'])
+
+        # 커밋
+        db.session.commit()
+                    
+        response_object = {
+            'myStartDate': myTodoList.myStartDate,
+            'myEndDate': myTodoList.myEndDate
+        }
+        return response_object
+    except Exception as e:
+        response_object = {
+            'status': 'fail',
+            'message': '일정시작일과 일정종료일을 등록중 에러가 발생하였습니다'
+        }
+        return response_object, 401

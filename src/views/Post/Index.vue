@@ -312,7 +312,7 @@
  * The home index page.
  */
 
-// Basic Use - Covers most scenarios
+/* eslint-disable no-param-reassign, no-underscore-dangle */
 import Vue from 'vue';
 import VLayout from '@/layouts/Default.vue';
 import UserInfo from '@/components/UserInfo.vue';
@@ -460,17 +460,21 @@ export default {
         }
       }, 400);
     },
+    // 일정변경창의 적용버튼
+    async changeCalendar() {
+      const inputStartDate = Vue.prototype.getDateFormatYYYYMMDD(document.querySelector('#appointStartDate')?._flatpickr?.selectedDates[0]); // 입력한 시작일정을 YYYY-MM-DD형식으로 저장
+      const inputEndDate = Vue.prototype.getDateFormatYYYYMMDD(document.querySelector('#appointEndDate')?._flatpickr?.selectedDates[0]); // 입력한 종료일정을 YYYY-MM-DD형식으로 저장
+      const param = { inputStartDate, inputEndDate };
+      await this.$store.dispatch('updatePostCalendar', param);
+      this.toggleMenuActive = !this.toggleMenuActive;
+    },
     // 나의 시작 종료일정에 대한 유효성 검사
     checkMydate(selectedDate) {
       // 데이터 컴포넌트에서 입력한 값
       // 파라미터정보 1.데이터형식 입력값 2.YYYY-MM-DD 입력값 3.시작종료컴포넌트타입여부
       const { selectedDates, inputType } = selectedDate;
-      // 입력한 시작일정
-      // eslint-disable-next-line no-underscore-dangle
-      const inputStartDate = document.querySelector('#appointStartDate')?._flatpickr?.selectedDates[0];
-      // 입력한 종료일정
-      // eslint-disable-next-line no-underscore-dangle
-      const inputEndDate = document.querySelector('#appointEndDate')?._flatpickr?.selectedDates[0];
+      const inputStartDate = document.querySelector('#appointStartDate')?._flatpickr?.selectedDates[0]; // 입력한 시작일정
+      const inputEndDate = document.querySelector('#appointEndDate')?._flatpickr?.selectedDates[0]; // 입력한 종료일정
 
       // 일정을 선택하지 않은 경우 경우
       if (!inputStartDate || !inputEndDate) {

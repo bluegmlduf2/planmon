@@ -19,4 +19,5 @@ export default {
   confirmEmptyDate: '일정을 선택해주세요',
   confirmInvalidDate: '일정시작일에 일정종료일 이전 날짜를 선택해주세요',
   noticeNotChangedDate: '변경한 일정시작일과 종료일이 적용되지 않았습니다\n다시 한번 확인후 적용해주세요',
+  changePostDate: '일정시작일과 일정종료일을 변경했습니다',
 };
