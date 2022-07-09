@@ -3,6 +3,7 @@ from app.main.service.auth_helper import Auth
 from app.main.model.list import List
 from app.main.model.mylist import Mylist
 from app.main.util import convert_string_to_date
+from app.main.service.comment_service import get_comment
 
 def get_post(uid,postId):
     '''게시물 정보 취득'''
@@ -28,6 +29,10 @@ def get_post(uid,postId):
         if mylist:
             setattr(post,'myStartDate', mylist.myStartDate ) # 로그인 유저의 일정 시작일
             setattr(post,'myEndDate', mylist.myEndDate ) # 로그인 유저의 일정 종료일               
+    
+    # 댓글과 대댓글정보 등록
+    comment = get_comment(uid,postId)
+    setattr(post,'comment', comment)
 
     return post
 

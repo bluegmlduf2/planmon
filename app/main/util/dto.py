@@ -63,6 +63,21 @@ class RecListDto:
 
 class PostDto:
     api = Namespace('post', description='게시물정보')
+    commentReplySchema = api.model('commentReplySchema', {
+        'commentReplyId': fields.String(description='대댓글 ID'),
+        'commentReplyUserName': fields.String(description='대댓글 작성자'),
+        'commentReplyContent': fields.String(description='대댓글 내용'),
+        'commentReplyAddedDate': fields.Date(description='대댓글 작성일'),
+        'commentReplyUserAuth': fields.Boolean(description='대댓글작성자유무'),
+    })# 대댓글의 스키마
+    commentSchema = api.model('commentSchema', {
+        'commentId': fields.String(description='댓글 ID'),
+        'commentUserName': fields.String(description='댓글 작성자'),
+        'commentContent': fields.String(description='댓글 내용'),
+        'commentAddedDate': fields.Date(description='댓글 작성일'),
+        'commentUserAuth': fields.Boolean(description='댓글작성자유무'),
+        'commentReply': fields.List(description='댓글정보', default=[], cls_or_instance=fields.Nested(commentReplySchema)),
+    })# 댓글의 스키마
     post = api.model('post', {
         'postId': fields.String(description='게시물 번호'),
         'writerUserName': fields.String(description='게시물 작성자'),
@@ -79,6 +94,7 @@ class PostDto:
         'userAuth': fields.Boolean(description='게시글작성자유무'),
         'myStartDate': fields.Date(description='나의 일정 시작일'),
         'myEndDate': fields.Date(description='나의 일정 종료일'),
+        'comment' :fields.List(description='댓글정보', default=[], cls_or_instance=fields.Nested(commentSchema)),
     })
 
 class PostUpdateDateDto:
