@@ -6,7 +6,6 @@ from flask_script import Manager
 
 from app import blueprint
 from app.main import create_app, db
-from app.main.model import user, blacklist
 
 # main디렉토리에 있는 사용자 환경설정 끝난 플라스크 앱 초기화
 app = create_app(os.getenv('SERVER_ENV') or 'dev') # dev, prod, test 중에 동작 (기본 dev)
