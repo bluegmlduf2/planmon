@@ -199,12 +199,20 @@ Make sure to run the initial migration commands to update the database. (디비�
     3.기존 사용하던 리비전을 2에서 생성한 신규 리비전으로 변경 
     4.model을 수정하면 migrate와 upgrade를 실행해줘야함
 
-    리비전 오류가 발생할시
+    리비전 오류가 발생할시, 가장 최근의 리비전으로 이동후 업그레이드
     0. python3 manage.py db stamp head
     1. python3 manage.py db migrate 
     2. python3 manage.py db upgrade  
 
-    만약 변경사항이 적용이 안된다면 테이블을 지웠다가 upgrade를 해본다
+    기타
+    - 만약 변경사항이 적용이 안된다면 테이블을 지웠다가 upgrade를 해본다
+    - 테이블 추가후 해당 추가한 model을 로직에서 사용하는 부분이 없으면 테이블 추가가 안된다
+
+    기타명령어
+    1.python3 manage.py db help 명령어보기
+    2.python3 manage.py db upgrade 리비전명 리비전업그레이드
+    3.python3 manage.py db downgrade 리비전명 리비전다운그레이드
+    4.python3 manage.py db history 리비전히스토리열람
 
 ### Viewing the app ###
 
