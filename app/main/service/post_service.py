@@ -51,8 +51,8 @@ def update_post_date(uid,param):
         myTodoList = Mylist.query.filter_by(uid=uid, myListIdRef=param['postId']).first()
 
         # 일정시작일과 일정종료일을 갱신
-        myTodoList.myStartDate = convert_string_to_date(param['inputStartDate'])
-        myTodoList.myEndDate = convert_string_to_date(param['inputEndDate'])
+        myTodoList.myStartDate = convert_string_to_date(param['myStartDate'])
+        myTodoList.myEndDate = convert_string_to_date(param['myEndDate'])
 
         # 커밋
         db.session.commit()

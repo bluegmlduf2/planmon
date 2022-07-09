@@ -462,9 +462,9 @@ export default {
     },
     // 일정변경창의 적용버튼
     async changeCalendar() {
-      const inputStartDate = Vue.prototype.getDateFormatYYYYMMDD(document.querySelector('#appointStartDate')?._flatpickr?.selectedDates[0]); // 입력한 시작일정을 YYYY-MM-DD형식으로 저장
-      const inputEndDate = Vue.prototype.getDateFormatYYYYMMDD(document.querySelector('#appointEndDate')?._flatpickr?.selectedDates[0]); // 입력한 종료일정을 YYYY-MM-DD형식으로 저장
-      const param = { inputStartDate, inputEndDate };
+      const myStartDate = Vue.prototype.getDateFormatYYYYMMDD(document.querySelector('#appointStartDate')?._flatpickr?.selectedDates[0]); // 입력한 시작일정을 YYYY-MM-DD형식으로 저장
+      const myEndDate = Vue.prototype.getDateFormatYYYYMMDD(document.querySelector('#appointEndDate')?._flatpickr?.selectedDates[0]); // 입력한 종료일정을 YYYY-MM-DD형식으로 저장
+      const param = { myStartDate, myEndDate };
       await this.$store.dispatch('updatePostCalendar', param);
       this.toggleMenuActive = !this.toggleMenuActive;
     },
@@ -473,18 +473,18 @@ export default {
       // 데이터 컴포넌트에서 입력한 값
       // 파라미터정보 1.데이터형식 입력값 2.YYYY-MM-DD 입력값 3.시작종료컴포넌트타입여부
       const { selectedDates, inputType } = selectedDate;
-      const inputStartDate = document.querySelector('#appointStartDate')?._flatpickr?.selectedDates[0]; // 입력한 시작일정
-      const inputEndDate = document.querySelector('#appointEndDate')?._flatpickr?.selectedDates[0]; // 입력한 종료일정
+      const myStartDate = document.querySelector('#appointStartDate')?._flatpickr?.selectedDates[0]; // 입력한 시작일정
+      const myEndDate = document.querySelector('#appointEndDate')?._flatpickr?.selectedDates[0]; // 입력한 종료일정
 
       // 일정을 선택하지 않은 경우 경우
-      if (!inputStartDate || !inputEndDate) {
+      if (!myStartDate || !myEndDate) {
         this.$toast.warning(message.confirmEmptyDate);
         this.validation.myStartEndDate = true;
-      } else if (inputType === 'start' && selectedDates[0] > inputEndDate) {
+      } else if (inputType === 'start' && selectedDates[0] > myEndDate) {
       // 일정 종료일이 일정시작일보다 큰 경우
         this.$toast.warning(message.confirmInvalidDate);
         this.validation.myStartEndDate = true;
-      } else if (inputType === 'end' && inputStartDate > selectedDates[0]) {
+      } else if (inputType === 'end' && myStartDate > selectedDates[0]) {
       // 일정 종료일이 일정시작일보다 큰 경우
         this.$toast.warning(message.confirmInvalidDate);
         this.validation.myStartEndDate = true;

@@ -66,7 +66,7 @@ export default {
     updatePostCalendar({ commit }, payload) {
       const { postId } = this.getters.post; // 게시물 ID
       const isLogined = this.getters.user; // 로그인 유무
-      const param = { postId, ...payload }; //
+      const param = { postId, ...payload }; // 게시물 ID와 일정시작종료일이 포함된 정보
 
       // 로그인 상태일시
       if (isLogined) {
@@ -83,10 +83,24 @@ export default {
           .catch(() => {
             console.log('Request failed...');
           });
-      }
-      // else {
+      } else {
+      // 미로그인 상태일시
+        const { selection } = this.getters;
 
-      // }
+        // 할일 일정의 일정시작일과 일정종료일을 변경
+        const selectedTodoList = [...selection.myTodolist].map((e) => (e.postId === param.postId ? param : e));
+        selection.myTodolist = selectedTodoList;
+
+        // 변경한 선택정보를 로컬스토리지와 선택정보에 저장
+        window.localStorage.setItem('selection', JSON.stringify(selection));
+        commit('setSelection', selection);
+
+        // 현재화면의 일정시작일과 일정종료일 변경
+        commit('setMyStartDate', param.myStartDate);
+        commit('setMyEndDate', param.myEndDate);
+
+        Vue.prototype.$toast.info(message.changePostDate);
+      }
     },
   },
   getters: {
