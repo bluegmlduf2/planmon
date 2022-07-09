@@ -13,7 +13,10 @@
       </div>
     </div>
     <div>
-      <div class="post-update-buttons font-light-color">
+      <div
+        v-if="paramShowButtons"
+        class="post-update-buttons font-light-color"
+      >
         <span class="mr-2">
           수정
         </span>
@@ -31,5 +34,16 @@ export default {
    * The name of the component.
    */
   name: 'UserInfo',
+  /**
+   * The properties that the component accepts.
+   */
+  props: {
+    // 로그인 상태에 따른 수정,삭제버튼의 표시여부
+    paramShowButtons: {
+      default: true,
+      type: Boolean,
+      required: true,
+    },
+  },
 };
 </script>

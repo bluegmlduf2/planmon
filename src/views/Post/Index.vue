@@ -214,14 +214,17 @@
           </div>
           <!-- 댓글입력부 -->
           <div>
-            <div>
+            <div v-if="user">
               <textarea
                 class="form-control input_textarea"
                 placeholder="댓글을 입력해주세요"
                 rows="3"
               />
             </div>
-            <div class="d-flex justify-content-end mt-2">
+            <div
+              v-if="user"
+              class="d-flex justify-content-end mt-2"
+            >
               <button
                 class="btn btn-purple btn-option font-weight-bold"
               >
@@ -232,7 +235,7 @@
           <!-- 댓글표시부 -->
           <div class="post-comment-view mt-3">
             <!-- 댓글작성자정보 -->
-            <UserInfo />
+            <UserInfo :param-show-buttons="user" />
             <!-- 댓글표시 -->
             <div class="mt-2 mb-2 pl-2">
               <span>
@@ -260,39 +263,41 @@
               <!-- 대댓글 표시부 -->
               <div class="comment-reply-cont">
                 <!-- 댓글작성자정보 -->
-                <UserInfo />
+                <UserInfo :param-show-buttons="user" />
                 <!-- 댓글표시 -->
                 <div class="mt-2 mb-3 pl-2">
                   <span>
                     {{ 'Lorem ipsum dolor sit amet consectetur adipisicing elit.'.repeat(5) }}
                   </span>
                 </div>
-                <!-- 대댓글 입력부 열기버튼-->
-                <div
-                  v-if="true"
-                  class="mt-3"
-                >
-                  <span class="btn btn-outline-secondary w-100">댓글작성</span>
-                </div>
-                <!-- 대댓글 입력부-->
-                <div
-                  v-else
-                  class="mt-4"
-                >
-                  <hr>
-                  <textarea
-                    class="form-control input_textarea"
-                    placeholder="댓글을 입력해주세요"
-                    rows="3"
-                  />
-                  <!-- 대댓글작성버튼 -->
-                  <div class="d-flex justify-content-end mt-2">
-                    <button class="btn mr-2">
-                      닫기
-                    </button>
-                    <button class="btn btn-purple btn-option btn-option-initial-size">
-                      등록
-                    </button>
+                <div v-if="user">
+                  <!-- 대댓글 입력부 열기버튼-->
+                  <div
+                    v-if="true"
+                    class="mt-3"
+                  >
+                    <span class="btn btn-outline-secondary w-100">댓글작성</span>
+                  </div>
+                  <!-- 대댓글 입력부-->
+                  <div
+                    v-else
+                    class="mt-4"
+                  >
+                    <hr>
+                    <textarea
+                      class="form-control input_textarea"
+                      placeholder="댓글을 입력해주세요"
+                      rows="3"
+                    />
+                    <!-- 대댓글작성버튼 -->
+                    <div class="d-flex justify-content-end mt-2">
+                      <button class="btn mr-2">
+                        닫기
+                      </button>
+                      <button class="btn btn-purple btn-option btn-option-initial-size">
+                        등록
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
