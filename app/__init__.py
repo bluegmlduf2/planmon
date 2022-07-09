@@ -7,7 +7,6 @@ from .main.controller.rec_list_controller import api as reclist_ns
 from .main.controller.my_list_controller import api as mylist_ns
 from .main.controller.post_controller import api as post_ns
 from .main.controller.user_controller import api as user_ns
-from .main.controller.auth_controller import api as auth_ns
 from .main.controller.selection_controller import api as selection_ns
 
 import firebase_admin # 서버 파 파이어베이스 모듈
@@ -38,4 +37,3 @@ api.add_namespace(reclist_ns, path='/api/reclist')
 api.add_namespace(selection_ns, path='/api/selection')
 api.add_namespace(mylist_ns, path='/api/mylist')
 api.add_namespace(post_ns, path='/api/post')
-api.add_namespace(auth_ns)
