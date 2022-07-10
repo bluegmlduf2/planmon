@@ -178,7 +178,10 @@
               >
                 {{ getDateFormat(myStartDate) }}
               </div>
-              <div v-else>
+              <div
+                v-else
+                class="post-date"
+              >
                 일정을 추가해주세요
               </div>
             </div>
@@ -195,7 +198,10 @@
               >
                 {{ getDateFormat(myEndDate) }}
               </div>
-              <div v-else>
+              <div
+                v-else
+                class="post-date"
+              >
                 일정을 추가해주세요
               </div>
             </div>
