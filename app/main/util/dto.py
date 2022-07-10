@@ -97,8 +97,29 @@ class PostDto:
         'comment' :fields.List(description='댓글정보', default=[], cls_or_instance=fields.Nested(commentSchema)),
     })
 
+class CommentDto:
+    api = Namespace('comment', description='댓글정보')
+    commentReplySchema = api.model('commentReplySchema', {
+        'commentReplyId': fields.String(description='대댓글 ID'),
+        'commentReplyUserName': fields.String(description='대댓글 작성자'),
+        'commentReplyContent': fields.String(description='대댓글 내용'),
+        'commentReplyAddedDate': fields.Date(description='대댓글 작성일'),
+        'commentReplyUserAuth': fields.Boolean(description='대댓글작성자유무'),
+    })# 대댓글의 스키마
+    comment = api.model('comment', {
+        'commentId': fields.String(description='댓글 ID'),
+        'commentUserName': fields.String(description='댓글 작성자'),
+        'commentContent': fields.String(description='댓글 내용'),
+        'commentAddedDate': fields.Date(description='댓글 작성일'),
+        'commentUserAuth': fields.Boolean(description='댓글작성자유무'),
+        'commentReply': fields.List(description='댓글정보', default=[], cls_or_instance=fields.Nested(commentReplySchema)),
+    })# 댓글의 스키마
+
+class CommentReplyDto:
+    api = Namespace('commentreply', description='대댓글정보')
+
 class PostUpdateDateDto:
-    api = Namespace('postdate', description='게시물의 일정시작일 일정종료일 변경정보')
+    api = Namespace('postupdatedate', description='게시물의 일정시작일 일정종료일 변경정보')
     postupdatedate = api.model('postupdatedate', {
         'myStartDate': fields.Date(description='나의 일정 시작일'),
         'myEndDate': fields.Date(description='나의 일정 종료일'),

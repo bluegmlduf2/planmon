@@ -222,6 +222,7 @@
           <div>
             <div v-if="user">
               <textarea
+                v-model="commentContent"
                 class="form-control input_textarea"
                 placeholder="댓글을 입력해주세요"
                 rows="3"
@@ -233,6 +234,7 @@
             >
               <button
                 class="btn btn-purple btn-option font-weight-bold"
+                @click="createComment"
               >
                 댓글작성
               </button>
@@ -346,7 +348,10 @@
                   >
                     닫기
                   </button>
-                  <button class="btn btn-purple btn-option btn-option-initial-size">
+                  <button
+                    class="btn btn-purple btn-option btn-option-initial-size"
+                    @click="createCommentReply($event,comment.commentId)"
+                  >
                     등록
                   </button>
                 </div>
@@ -401,6 +406,7 @@ export default {
       selectedCountry: null, // 선택된 국가
       toggleMenuActive: false, // 슬라이드 토글 메뉴 활성화
       deleteButtonActive: false, // 삭제상태 활성화
+      commentContent: '', // 입력중인 댓글내용
       validation: {
         // 나의 시작종료일정의 유효성유무
         myStartEndDate: false,
@@ -571,6 +577,19 @@ export default {
     // 대댓글의 갯수 (computed로 파라미터를 넘기는건 권장되지않기때문에 메서드 사용)
     commentReplyCount(comment) {
       return comment.commentReply.length;
+    },
+    // 댓글작성
+    async createComment() {
+      const param = { commentContent: this.commentContent };
+      await this.$store.dispatch('createComment', param);
+      this.commentContent = ''; // 입력한 댓글을 초기화
+    },
+    // 대댓글작성
+    async createCommentReply(e, commentId) {
+      // 입력한 대댓글내용
+      const commentReplyContent = e.target.parentElement.parentElement.querySelector('textarea').value;
+      const param = { commentId, commentReplyContent };
+      await this.$store.dispatch('createCommentReply', param);
     },
   },
 };

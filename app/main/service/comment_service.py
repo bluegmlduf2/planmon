@@ -3,6 +3,8 @@ from app.main import db
 from app.main.model.comment import Comment
 from app.main.service.auth_helper import Auth
 from app.main.model.commentreply import CommentReply
+from app.main.model.user import User
+from sqlalchemy import exc
 
 def get_comment(uid,postId):
     '''댓글 정보 취득'''
@@ -32,4 +34,36 @@ def get_comment(uid,postId):
                 setattr(commentReply,'commentReplyUserAuth',comment_user_reply_auth) # 대댓글 작성자 유무
 
     return comment
+
+def create_comment(uid,param):
+    '''댓글 등록'''
+    try:
+        user=User.query.filter_by(uid=uid).first()
+        # 기존 유저가 존재할 경우 유저선택정보를 갱신
+        if user:
+            comment = Comment()
+            comment.commentContent = param['commentContent']
+            comment.postIdRef = param['postId']
+            comment.commentUid = uid
+
+            db.session.add(comment)
+            db.session.commit()
+                        
+            response_object = {
+                'status': 'success',
+                'message': '댓글을 등록했습니다'
+            }
+            return response_object, 201
+    except exc.IntegrityError as e:
+        response_object = {
+            'status': 'fail',
+            'message': '이미 등록된 댓글입니다'
+        }
+        return response_object, 401
+    except Exception as e:
+        response_object = {
+            'status': 'fail',
+            'message': '댓글 등록중 에러가 발생하였습니다'
+        }
+        return response_object, 401
 
