@@ -14,6 +14,7 @@ import createLogger from 'vuex/dist/logger';
 import list from './list';
 import selection from './selection';
 import post from './post';
+import commemt from './commemt';
 import user from './user';
 import shared from './shared';
 
@@ -29,6 +30,7 @@ export default new Vuex.Store({
     post,
     user,
     shared,
+    commemt,
   },
 
   /**

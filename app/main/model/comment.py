@@ -1,4 +1,5 @@
 from .. import db
+from sqlalchemy.orm import relationship, backref
 from app.main.util import get_current_time,get_uuid
 
 class Comment(db.Model):
@@ -10,6 +11,7 @@ class Comment(db.Model):
     commentUid = db.Column(db.String(255), primary_key=True,nullable=False)
     commentContent = db.Column(db.Text(), nullable=False)
     commentAddedDate = db.Column(db.DateTime, nullable=False)
+    commentReply = relationship("CommentReply",order_by="CommentReply.commentReplyId",backref='Comment')
 
     def __init__(self):
         self.commentId = get_uuid() # 시스템의 현재시간과 호스트ID 기반으로 UUID 생성

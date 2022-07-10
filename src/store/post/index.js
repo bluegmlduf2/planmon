@@ -34,8 +34,12 @@ export default {
       return new PostProxy()
         .getPost(payload)
         .then((response) => {
-          // 서버로부터 받은 값
-          const responseData = response.data;
+          // 서버로부터 받은 값 (게시글)
+          const responsePostData = response.data;
+          // 서버로부터 받은 값 (댓글)
+          const responseCommentData = response.data.comment;
+          // 게시글 데이터에 포함된 댓글데이터 삭제
+          delete responsePostData.comment;
           // 유저 로그인 정보
           const isLogined = this.getters.user;
 
@@ -46,14 +50,16 @@ export default {
             const myList = [...myTodolist, ...myCompletelist].find((e) => e.postId === payload);
             const myCompleteList = [...myCompletelist].find((e) => e.postId === payload);
 
-            responseData.myStartDate = myList?.myStartDate; // 추천 시작일자
-            responseData.myEndDate = myList?.myEndDate; // 추천 종료일자
-            responseData.isAdded = !!myList; // 추가한 게시물의 유무
-            responseData.isCompleted = !!myCompleteList; // 완료한 게시물의 유무
+            responsePostData.myStartDate = myList?.myStartDate; // 추천 시작일자
+            responsePostData.myEndDate = myList?.myEndDate; // 추천 종료일자
+            responsePostData.isAdded = !!myList; // 추가한 게시물의 유무
+            responsePostData.isCompleted = !!myCompleteList; // 완료한 게시물의 유무
           }
 
           // 서버에서 가져온 게시글을 초기화
-          commit('setPost', responseData);
+          commit('setPost', responsePostData);
+          // 서버에서 가져온 댓글을 초기화
+          commit('setComment', responseCommentData);
         })
         .catch(() => {
           console.log('Request failed...');

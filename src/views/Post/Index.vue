@@ -210,9 +210,9 @@
         <!-- 댓글영역 -->
         <div class="mt-5 post-comment-write">
           <div class="mb-2">
-            <h5>4건의 댓글</h5>
+            <h5>{{ comments.length }}건의 댓글</h5>
           </div>
-          <!-- 댓글입력부 -->
+          <!-- 댓글입력 -->
           <div>
             <div v-if="user">
               <textarea
@@ -232,73 +232,117 @@
               </button>
             </div>
           </div>
-          <!-- 댓글표시부 -->
-          <div class="post-comment-view mt-3">
+          <!-- 댓글표시-->
+          <div
+            v-for="comment in comments"
+            :key="comment.commentId"
+            class="post-comment-view mt-3"
+          >
             <!-- 댓글작성자정보 -->
-            <UserInfo :param-show-buttons="user" />
-            <!-- 댓글표시 -->
+            <UserInfo
+              :param-show-buttons="comment.commentUserAuth"
+              :user-name="comment.commentUserName"
+              :added-date="comment.commentAddedDate"
+            />
+            <!-- 댓글내용 -->
             <div class="mt-2 mb-2 pl-2">
               <span>
-                {{ 'Lorem ipsum dolor sit amet consectetur adipisicing elit.'.repeat(5) }}
+                {{ comment.commentContent }}
               </span>
             </div>
-            <!-- 대댓글 영역 -->
-            <div>
-              <div class="comment-reply-show">
-                <span v-if="true">
-                  <i
-                    class="fa fa-plus ml-1 mr-1"
-                    aria-hidden="true"
-                  />
-                  {{ true?'1건의 댓글':'댓글남기기' }}
-                </span>
-                <span v-else>
-                  <i
-                    class="fa fa-minus ml-1 mr-1"
-                    aria-hidden="true"
-                  />
-                  댓글접기
-                </span>
-              </div>
-              <!-- 대댓글 표시부 -->
-              <div class="comment-reply-cont">
-                <!-- 댓글작성자정보 -->
-                <UserInfo :param-show-buttons="user" />
-                <!-- 댓글표시 -->
+            <!-- 대댓글 열기닫기 버튼 -->
+            <div
+              class="comment-reply-show"
+            >
+              <span
+                v-if="commentReplyCount(comment) == 0 && !comment.isClicked && user"
+                @click="comment.isClicked=true"
+              >
+                <i
+                  class="fa fa-plus ml-1 mr-1"
+                  aria-hidden="true"
+                />
+                댓글남기기
+              </span>
+              <span
+                v-else-if="commentReplyCount(comment)&& !comment.isClicked"
+                @click="comment.isClicked=true"
+              >
+                <i
+                  class="fa fa-plus ml-1 mr-1"
+                  aria-hidden="true"
+                />
+                {{ commentReplyCount(comment)+'건의 댓글' }}
+              </span>
+              <span
+                v-else-if="comment.isClicked"
+                @click="comment.isClicked=false"
+              >
+                <i
+                  class="fa fa-minus ml-1 mr-1"
+                  aria-hidden="true"
+                />
+                댓글접기
+              </span>
+            </div>
+            <!-- 대댓글영역-->
+            <div
+              v-for="(commentReply,idx) in comment.commentReply"
+              :key="idx"
+            >
+              <div
+                v-if="comment.isClicked"
+                class="comment-reply-cont"
+                :class="idx==0 ?'mt-2':''"
+              >
+                <!-- 대댓글작성자정보 -->
+                <UserInfo
+                  :param-show-buttons="commentReply.commentReplyUserAuth"
+                  :user-name="commentReply.commentReplyUserName"
+                  :added-date="commentReply.commentReplyAddedDate"
+                />
+                <!-- 대댓글내용 -->
                 <div class="mt-2 mb-3 pl-2">
                   <span>
-                    {{ 'Lorem ipsum dolor sit amet consectetur adipisicing elit.'.repeat(5) }}
+                    {{ commentReply.commentReplyContent }}
                   </span>
                 </div>
-                <div v-if="user">
-                  <!-- 대댓글 입력부 열기버튼-->
-                  <div
-                    v-if="true"
-                    class="mt-3"
+              </div>
+            </div>
+            <!-- 대댓글 입력-->
+            <div
+              v-if="user&& comment.isClicked"
+            >
+              <div
+                v-if="!comment.isWriteClicked"
+                class="mt-3"
+              >
+                <span
+                  class="btn btn-outline-secondary w-100"
+                  @click="comment.isWriteClicked = true"
+                >댓글작성</span>
+              </div>
+              <div
+                v-else
+                class="mt-3"
+              >
+                <hr>
+                <textarea
+                  class="form-control input_textarea"
+                  placeholder="댓글을 입력해주세요"
+                  rows="3"
+                />
+                <!-- 대댓글작성버튼 -->
+                <div class="d-flex justify-content-end mt-2">
+                  <button
+                    class="btn mr-2"
+                    @click="comment.isWriteClicked = false"
                   >
-                    <span class="btn btn-outline-secondary w-100">댓글작성</span>
-                  </div>
-                  <!-- 대댓글 입력부-->
-                  <div
-                    v-else
-                    class="mt-4"
-                  >
-                    <hr>
-                    <textarea
-                      class="form-control input_textarea"
-                      placeholder="댓글을 입력해주세요"
-                      rows="3"
-                    />
-                    <!-- 대댓글작성버튼 -->
-                    <div class="d-flex justify-content-end mt-2">
-                      <button class="btn mr-2">
-                        닫기
-                      </button>
-                      <button class="btn btn-purple btn-option btn-option-initial-size">
-                        등록
-                      </button>
-                    </div>
-                  </div>
+                    닫기
+                  </button>
+                  <button class="btn btn-purple btn-option btn-option-initial-size">
+                    등록
+                  </button>
                 </div>
               </div>
             </div>
@@ -361,6 +405,10 @@ export default {
     // 게시글 정보
     post() {
       return this.$store.getters.post;
+    },
+    // 댓글 정보
+    comments() {
+      return this.$store.getters.comments;
     },
     // 유저정보
     user() {
@@ -513,6 +561,10 @@ export default {
         return 'visible-hidden';
       }
       return '';
+    },
+    // 대댓글의 갯수 (computed로 파라미터를 넘기는건 권장되지않기때문에 메서드 사용)
+    commentReplyCount(comment) {
+      return comment.commentReply.length;
     },
   },
 };

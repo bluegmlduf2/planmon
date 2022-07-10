@@ -6,9 +6,9 @@
         src="https://placeimg.com/640/480/any"
       >
       <div class="d-flex flex-column align-items-start ml-2">
-        <p><b>사용자명</b></p>
+        <p><b>{{ userName }}</b></p>
         <p class="font-light-color">
-          2022년 12월 19일
+          {{ addedDate }}
         </p>
       </div>
     </div>
@@ -42,6 +42,18 @@ export default {
     paramShowButtons: {
       default: true,
       type: Boolean,
+      required: true,
+    },
+    // 작성자명
+    userName: {
+      default: '',
+      type: String,
+      required: true,
+    },
+    // 작성자의 댓글 등록일
+    addedDate: {
+      default: '',
+      type: String,
       required: true,
     },
   },
