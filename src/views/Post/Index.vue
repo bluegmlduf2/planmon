@@ -246,25 +246,23 @@
             :key="comment.commentId"
             class="post-comment-view mt-3"
           >
-            <!-- 댓글작성자정보 -->
-            <UserInfo
+            <!-- 댓글정보 -->
+            <CommentContainer
+              :id="comment.commentId"
+              type="comment"
               :param-show-buttons="comment.commentUserAuth"
               :user-name="comment.commentUserName"
               :added-date="comment.commentAddedDate"
+              :content="comment.commentContent"
+              :is-clicked="comment.isCommentClicked"
             />
-            <!-- 댓글내용 -->
-            <div class="mt-2 mb-2 pl-2 word-break">
-              <span>
-                {{ comment.commentContent }}
-              </span>
-            </div>
             <!-- 대댓글 열기닫기 버튼 -->
             <div
               class="comment-reply-show"
             >
               <span
-                v-if="commentReplyCount(comment) == 0 && !comment.isCommentClicked && user"
-                @click="comment.isCommentClicked=true"
+                v-if="commentReplyCount(comment) == 0 && !comment.isOpenClicked && user"
+                @click="comment.isOpenClicked=true"
               >
                 <i
                   class="fa fa-plus ml-1 mr-1"
@@ -273,8 +271,8 @@
                 댓글남기기
               </span>
               <span
-                v-else-if="commentReplyCount(comment)&& !comment.isCommentClicked"
-                @click="comment.isCommentClicked=true"
+                v-else-if="commentReplyCount(comment)&& !comment.isOpenClicked"
+                @click="comment.isOpenClicked=true"
               >
                 <i
                   class="fa fa-plus ml-1 mr-1"
@@ -283,8 +281,8 @@
                 {{ commentReplyCount(comment)+'건의 댓글' }}
               </span>
               <span
-                v-else-if="comment.isCommentClicked"
-                @click="comment.isCommentClicked=false"
+                v-else-if="comment.isOpenClicked"
+                @click="comment.isOpenClicked=false"
               >
                 <i
                   class="fa fa-minus ml-1 mr-1"
@@ -299,27 +297,25 @@
               :key="idx"
             >
               <div
-                v-if="comment.isCommentClicked"
+                v-if="comment.isOpenClicked"
                 class="comment-reply-cont"
                 :class="idx==0 ?'mt-2':''"
               >
-                <!-- 대댓글작성자정보 -->
-                <UserInfo
+                <!-- 대댓글정보 -->
+                <CommentContainer
+                  :id="commentReply.commentReplyId"
+                  type="commentReply"
                   :param-show-buttons="commentReply.commentReplyUserAuth"
                   :user-name="commentReply.commentReplyUserName"
                   :added-date="commentReply.commentReplyAddedDate"
+                  :content="commentReply.commentReplyContent"
+                  :is-clicked="commentReply.isCommentReplyClicked"
                 />
-                <!-- 대댓글내용 -->
-                <div class="mt-2 mb-3 pl-2 word-break">
-                  <span>
-                    {{ commentReply.commentReplyContent }}
-                  </span>
-                </div>
               </div>
             </div>
             <!-- 대댓글 입력-->
             <div
-              v-if="user&& comment.isCommentClicked"
+              v-if="user&& comment.isOpenClicked"
             >
               <div
                 v-if="!comment.isWriteClicked"
@@ -375,7 +371,7 @@
 /* eslint-disable no-param-reassign, no-underscore-dangle */
 import Vue from 'vue';
 import VLayout from '@/layouts/Default.vue';
-import UserInfo from '@/components/UserInfo.vue';
+import CommentContainer from '@/components/CommentContainer.vue';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/vue-editor';
 import Flatpickr from '@/components/Flatpickr.vue';
@@ -397,7 +393,7 @@ export default {
   components: {
     VLayout,
     Viewer,
-    UserInfo,
+    CommentContainer,
     Flatpickr,
   },
   data() {
