@@ -15,6 +15,7 @@ import list from './list';
 import selection from './selection';
 import post from './post';
 import commemt from './commemt';
+import commentreply from './commentreply';
 import user from './user';
 import shared from './shared';
 
@@ -31,6 +32,7 @@ export default new Vuex.Store({
     user,
     shared,
     commemt,
+    commentreply,
   },
 
   /**
