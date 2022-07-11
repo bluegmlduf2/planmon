@@ -69,6 +69,7 @@ class PostDto:
         'commentReplyContent': fields.String(description='대댓글 내용'),
         'commentReplyAddedDate': fields.Date(description='대댓글 작성일'),
         'commentReplyUserAuth': fields.Boolean(description='대댓글작성자유무'),
+        'isCommentReplyClicked': fields.Boolean(description='대댓글 수정버튼 활성화유무',default=False),
     })# 대댓글의 스키마
     commentSchema = api.model('commentSchema', {
         'commentId': fields.String(description='댓글 ID'),
@@ -76,6 +77,8 @@ class PostDto:
         'commentContent': fields.String(description='댓글 내용'),
         'commentAddedDate': fields.Date(description='댓글 작성일'),
         'commentUserAuth': fields.Boolean(description='댓글작성자유무'),
+        'isCommentClicked': fields.Boolean(description='대댓글 열기닫기버튼 활성화유무',default=False),
+        'isWriteClicked': fields.Boolean(description='대댓글 댓글작성버튼 활성화유무',default=False),
         'commentReply': fields.List(description='댓글정보', default=[], cls_or_instance=fields.Nested(commentReplySchema)),
     })# 댓글의 스키마
     post = api.model('post', {
@@ -105,6 +108,7 @@ class CommentDto:
         'commentReplyContent': fields.String(description='대댓글 내용'),
         'commentReplyAddedDate': fields.Date(description='대댓글 작성일'),
         'commentReplyUserAuth': fields.Boolean(description='대댓글작성자유무'),
+        'isCommentReplyClicked': fields.Boolean(description='대댓글 수정버튼 활성화유무',default=False),
     })# 대댓글의 스키마
     comment = api.model('comment', {
         'commentId': fields.String(description='댓글 ID'),
@@ -112,6 +116,8 @@ class CommentDto:
         'commentContent': fields.String(description='댓글 내용'),
         'commentAddedDate': fields.Date(description='댓글 작성일'),
         'commentUserAuth': fields.Boolean(description='댓글작성자유무'),
+        'isCommentClicked': fields.Boolean(description='대댓글 열기닫기버튼 활성화유무',default=False),
+        'isWriteClicked': fields.Boolean(description='대댓글 댓글작성버튼 활성화유무',default=False),
         'commentReply': fields.List(description='댓글정보', default=[], cls_or_instance=fields.Nested(commentReplySchema)),
     })# 댓글의 스키마
 

@@ -253,7 +253,7 @@
               :added-date="comment.commentAddedDate"
             />
             <!-- 댓글내용 -->
-            <div class="mt-2 mb-2 pl-2">
+            <div class="mt-2 mb-2 pl-2 word-break">
               <span>
                 {{ comment.commentContent }}
               </span>
@@ -263,8 +263,8 @@
               class="comment-reply-show"
             >
               <span
-                v-if="commentReplyCount(comment) == 0 && !comment.isClicked && user"
-                @click="comment.isClicked=true"
+                v-if="commentReplyCount(comment) == 0 && !comment.isCommentClicked && user"
+                @click="comment.isCommentClicked=true"
               >
                 <i
                   class="fa fa-plus ml-1 mr-1"
@@ -273,8 +273,8 @@
                 댓글남기기
               </span>
               <span
-                v-else-if="commentReplyCount(comment)&& !comment.isClicked"
-                @click="comment.isClicked=true"
+                v-else-if="commentReplyCount(comment)&& !comment.isCommentClicked"
+                @click="comment.isCommentClicked=true"
               >
                 <i
                   class="fa fa-plus ml-1 mr-1"
@@ -283,8 +283,8 @@
                 {{ commentReplyCount(comment)+'건의 댓글' }}
               </span>
               <span
-                v-else-if="comment.isClicked"
-                @click="comment.isClicked=false"
+                v-else-if="comment.isCommentClicked"
+                @click="comment.isCommentClicked=false"
               >
                 <i
                   class="fa fa-minus ml-1 mr-1"
@@ -299,7 +299,7 @@
               :key="idx"
             >
               <div
-                v-if="comment.isClicked"
+                v-if="comment.isCommentClicked"
                 class="comment-reply-cont"
                 :class="idx==0 ?'mt-2':''"
               >
@@ -310,7 +310,7 @@
                   :added-date="commentReply.commentReplyAddedDate"
                 />
                 <!-- 대댓글내용 -->
-                <div class="mt-2 mb-3 pl-2">
+                <div class="mt-2 mb-3 pl-2 word-break">
                   <span>
                     {{ commentReply.commentReplyContent }}
                   </span>
@@ -319,7 +319,7 @@
             </div>
             <!-- 대댓글 입력-->
             <div
-              v-if="user&& comment.isClicked"
+              v-if="user&& comment.isCommentClicked"
             >
               <div
                 v-if="!comment.isWriteClicked"
