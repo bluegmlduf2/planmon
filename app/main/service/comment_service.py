@@ -67,3 +67,69 @@ def create_comment(uid,param):
         }
         return response_object, 401
 
+def update_comment(uid,param):
+    '''댓글 수정'''
+    try:
+        user=User.query.filter_by(uid=uid).first()
+        # 기존 유저가 존재할 경우 유저선택정보를 갱신
+        if user:
+            comment = Comment.query.filter_by(commentUid=uid, commentId=param['commentId']).first()
+            comment.commentContent = param['commentContent']
+
+            db.session.add(comment)
+            db.session.commit()
+                        
+            response_object = {
+                'status': 'success',
+                'message': '댓글을 수정했습니다'
+            }
+            return response_object, 201        
+    except exc.IntegrityError as e:
+        response_object = {
+            'status': 'fail',
+            'message': '이미 수정된 댓글입니다'
+        }
+        return response_object, 401
+    except Exception as e:
+        response_object = {
+            'status': 'fail',
+            'message': '댓글 수정중 에러가 발생하였습니다'
+        }
+        return response_object, 401
+
+def destroy_comment(uid,commentId):
+    '''댓글 삭제'''
+    try:
+        user=User.query.filter_by(uid=uid).first()
+        # 기존 유저가 존재할 경우 유저선택정보를 갱신
+        if user:
+            comment_reply = CommentReply.query.filter_by(commentReplyRefId=commentId).count()
+            # 대댓글이 존재하지 않는 댓글만 삭제가능
+            if not comment_reply:
+                Comment.query.filter_by(commentUid=uid, commentId=commentId).delete()
+
+                db.session.commit()
+                            
+                response_object = {
+                    'status': 'success',
+                    'message': '댓글을 삭제했습니다'
+                }
+                return response_object, 201
+            else:
+                response_object = {
+                    'status': 'fail',
+                    'message': '대댓글이 존재하므로 삭제할수없습니다'
+                }
+                return response_object, 400    
+    except exc.IntegrityError as e:
+        response_object = {
+            'status': 'fail',
+            'message': '이미 삭제된 댓글입니다'
+        }
+        return response_object, 401
+    except Exception as e:
+        response_object = {
+            'status': 'fail',
+            'message': '댓글 삭제중 에러가 발생하였습니다'
+        }
+        return response_object, 401
