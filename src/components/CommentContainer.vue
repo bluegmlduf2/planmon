@@ -161,18 +161,18 @@ export default {
             this.$toast.dismiss(toastId);
             if (buttontype === 'update') {
               // 수정
-              if (this.id === 'comment') {
+              if (this.type === 'comment') {
                 // 댓글
-
-              } else if (this.id === 'commentReply') {
+                // this.$store.dispatch('addSelection', { isShowMessage: false });
+              } else if (this.type === 'commentReply') {
                 // 대댓글
               }
             } else if (buttontype === 'destroy') {
               // 삭제
-              if (this.id === 'comment') {
+              if (this.type === 'comment') {
                 // 댓글
 
-              } else if (this.id === 'commentReply') {
+              } else if (this.type === 'commentReply') {
                 // 대댓글
               }
             }
