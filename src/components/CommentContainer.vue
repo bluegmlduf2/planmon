@@ -158,22 +158,27 @@ export default {
         listeners: {
           // 확인(삭제)버튼
           confirmEvent: () => {
-            this.$toast.dismiss(toastId);
+            this.$toast.dismiss(toastId); // 확인창닫기
+            const commentParam = { commentId: this.id, commentContent: this.inputedContent }; // 댓글용 파라미터
+            const commentReplyparam = { commentReplyId: this.id, commentReplyContent: this.inputedContent }; // 대댓글용 파라미터
+
             if (buttontype === 'update') {
               // 수정
               if (this.type === 'comment') {
                 // 댓글
-                // this.$store.dispatch('addSelection', { isShowMessage: false });
+                this.$store.dispatch('updateComment', commentParam);
               } else if (this.type === 'commentReply') {
                 // 대댓글
+                this.$store.dispatch('updateCommentReply', commentReplyparam);
               }
             } else if (buttontype === 'destroy') {
               // 삭제
               if (this.type === 'comment') {
                 // 댓글
-
+                this.$store.dispatch('destroyComment', commentParam);
               } else if (this.type === 'commentReply') {
                 // 대댓글
+                this.$store.dispatch('destroyCommentReply', commentReplyparam);
               }
             }
           },

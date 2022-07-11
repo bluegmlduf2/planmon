@@ -17,8 +17,32 @@ class CommentReplyProxy extends Proxy {
    *
    * @returns {Promise} The result in a promise.
    */
-  createCommentReply(param) {
-    return this.create(param);
+  createCommentReply({ commentId, commentReplyContent }) {
+    const parameter = { commentId, commentReplyContent };
+    return this.submit('post', `${this.endpoint}/${commentId}`, parameter);
+  }
+
+  /**
+   * 대댓글 수정하기
+   *
+   * @param {String} postId 게시물 번호
+   *
+   * @returns {Promise} The result in a promise.
+   */
+  updateCommentReply({ commentReplyId, commentReplyContent }) {
+    const parameter = { commentReplyId, commentReplyContent };
+    return this.update(commentReplyId, parameter);
+  }
+
+  /**
+   * 대댓글 삭제하기
+   *
+   * @param {String} postId 게시물 번호
+   *
+   * @returns {Promise} The result in a promise.
+   */
+  destroyCommentReply({ commentReplyId }) {
+    return this.destroy(commentReplyId);
   }
 }
 

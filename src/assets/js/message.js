@@ -21,5 +21,9 @@ export default {
   noticeNotChangedDate: '변경한 일정시작일과 종료일이 적용되지 않았습니다\n다시 한번 확인후 적용해주세요',
   changePostDate: '일정시작일과 일정종료일을 변경했습니다',
   addComment: '댓글을 추가했습니다',
+  updateComment: '댓글을 수정했습니다',
+  removeComment: '댓글을 삭제했습니다',
   addCommentReply: '대댓글을 추가했습니다',
+  updateCommentReply: '대댓글을 수정했습니다',
+  removeCommentReply: '대댓글을 삭제했습니다',
 };

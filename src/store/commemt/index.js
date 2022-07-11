@@ -55,6 +55,48 @@ export default {
           commit('setSpinner', false); // 스피너 정지
         });
     },
+
+    // 댓글 수정
+    updateComment({ commit }, payload) {
+      commit('setSpinner', true); // 스피너 동작
+
+      // 댓글 정보 수정
+      return new CommentProxy()
+        .updateComment(payload)
+        .then(async () => {
+          // 댓글을 초기화
+          await this.dispatch('setInitComment');
+          Vue.prototype.$toast.info(message.updateComment);
+        })
+        .catch(() => {
+          console.log('Request failed...');
+        })
+        .finally(() => {
+          commit('setSpinner', false); // 스피너 정지
+        });
+    },
+
+    // 댓글 삭제
+    destroyComment({ commit }, payload) {
+      commit('setSpinner', true); // 스피너 동작
+      const { postId } = this.getters.post; // 게시물 ID
+      const param = { postId, ...payload }; // 게시물 ID와 입력 댓글내용을 포함
+
+      // 댓글 정보 삭제
+      return new CommentProxy()
+        .destroyComment(param)
+        .then(async () => {
+          // 댓글을 초기화
+          await this.dispatch('setInitComment');
+          Vue.prototype.$toast.info(message.removeComment);
+        })
+        .catch(() => {
+          console.log('Request failed...');
+        })
+        .finally(() => {
+          commit('setSpinner', false); // 스피너 정지
+        });
+    },
   },
   getters: {
     // 댓글정보
