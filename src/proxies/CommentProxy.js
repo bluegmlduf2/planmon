@@ -18,8 +18,7 @@ class CommentProxy extends Proxy {
    * @returns {Promise} The result in a promise.
    */
   getComment(postId) {
-    const parameter = { postId };
-    return this.find(JSON.stringify(parameter));
+    return this.find(postId);
   }
 
   /**

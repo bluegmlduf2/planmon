@@ -20,8 +20,7 @@ class Post(Resource):
     @api.marshal_list_with(_post, envelope='data')
     def get(uid,self,param):
         """게시물 정보를 반환"""
-        postId = json.loads(param)['postId'] # 게시물 번호
-        return get_post(uid,postId)
+        return get_post(uid,param)
 
 
 @api.route('/<param>/<requestItem>')

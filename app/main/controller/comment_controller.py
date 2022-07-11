@@ -17,8 +17,7 @@ class Comment(Resource):
     @api.marshal_list_with(_comment, envelope='data')
     def get(uid,self,param):
         """댓글 정보를 반환"""
-        postId = json.loads(param)['postId'] # 게시물 번호
-        return get_comment(uid,postId)
+        return get_comment(uid,param)
 
     @token_required
     @api.doc('댓글 등록하기')
