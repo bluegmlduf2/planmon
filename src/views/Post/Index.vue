@@ -95,6 +95,7 @@
               <span
                 v-if="user && post.userAuth"
                 class="mr-2"
+                @click="$router.push({name: 'write.index', params: {post}})"
               >
                 수정
               </span>

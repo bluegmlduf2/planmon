@@ -8,6 +8,7 @@
         <div class="row">
           <div class="form-group col-md-12">
             <input
+              v-model="inputData.title"
               type="text"
               class="form-control none-outline"
               :class="{ 'is-invalid': validation.title }"
@@ -28,7 +29,7 @@
           <div class="form-group col-md-6">
             <select
               id="exampleFormControlSelect1"
-              v-model="selectedCountry"
+              v-model="inputData.country"
               class="form-control"
               :class="{ 'is-invalid': validation.country }"
               aria-describedby="validationCountry"
@@ -60,7 +61,7 @@
           <div class="form-group col-md-6">
             <select
               id="exampleFormControlSelect1"
-              v-model="selectedStayStatus"
+              v-model="inputData.stayStatus"
               class="form-control"
               :class="{ 'is-invalid': validation.stayStatus }"
               aria-describedby="validationStayStatus"
@@ -94,7 +95,7 @@
           <div class="form-group col-md-6">
             <Flatpickr
               id="entryStartDate"
-              :input-date="entryDate"
+              :input-date="inputData.startDate"
               placeholder="시작예정일을 선택해주세요"
               :class="{ 'is-invalid': validation.startDate }"
               aria-describedby="validationStartDate"
@@ -110,7 +111,7 @@
           <div class="form-group col-md-6">
             <Flatpickr
               id="entryEndDate"
-              :input-date="entryDate"
+              :input-date="inputData.endDate"
               placeholder="종료예정일을 선택해주세요"
               :class="{ 'is-invalid': validation.endDate }"
               aria-describedby="validationEndDate"
@@ -127,7 +128,7 @@
         <!-- 글쓰는곳 ToastUI Editor -->
         <Editor
           id="toastUiEditor"
-          :initial-value="editorText"
+          :initial-value="inputData.content"
           :options="editorOptions"
           height="400px"
           initial-edit-type="wysiwyg"
@@ -148,7 +149,7 @@
               class="btn btn-purple btn-option"
               @click="writePost"
             >
-              <b>글쓰기</b>
+              <b>{{ post?'수정':'새글등록' }}</b>
             </button>
           </div>
         </div>
@@ -189,13 +190,18 @@ export default {
     Editor,
     Flatpickr,
   },
+  props: {
+    // 게시글화면에서 전달받은 게시글 정보
+    post: {
+      type: Object,
+      default: null,
+    },
+  },
   data() {
     return {
       countries: [], // 국가
       stayStatus: [], // 체류상태
-      selectedCountry: null, // 선택된 국가
       selectedStayStatus: null, // 선택된 체류상태 (기본 체류중)
-      editorText: '',
       editorOptions: {
         minHeight: '200px',
         language: 'ko-KR',
@@ -209,6 +215,15 @@ export default {
         ],
         placeholder: '당신의 일정을 공유해주세요..',
       },
+      // 입력된 게시글 정보 (수정모드일시 수정입력값을 초기화)
+      inputData: {
+        title: this.post?.title ?? '',
+        content: this.post?.content ?? '',
+        country: this.post?.country ?? 'JP',
+        stayStatus: this.post?.stayStatus ?? '0',
+        startDate: this.post?.startDate ?? '',
+        endDate: this.post?.endDate ?? '',
+      },
       validation: {
         title: false,
         startDate: false,
@@ -220,17 +235,10 @@ export default {
     };
   },
   created() {
-    this.initEntyDate(); // 입국날짜 초기화
     this.initCountries(); // 국가 초기화
     this.initStayStatus(); // 체류상태 초기화
   },
   methods: {
-    // 입국날짜 초기화
-    initEntyDate() {
-      // const todayDate = new Date().toISOString().slice(0, 10); // 오늘날짜를 yyyy-mm-dd 형식으로 받는다
-      // this.entryDate = todayDate;
-      this.entryDate = ''; // TODO 삭제예정
-    },
     // 국가 초기화
     initCountries() {
       this.countries = countriesList;
