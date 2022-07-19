@@ -581,9 +581,13 @@ export default {
       const myStartDate = document.querySelector('#appointStartDate')?._flatpickr?.selectedDates[0]; // 입력한 시작일정
       const myEndDate = document.querySelector('#appointEndDate')?._flatpickr?.selectedDates[0]; // 입력한 종료일정
 
-      // 일정을 선택하지 않은 경우 경우
-      if (!myStartDate || !myEndDate) {
-        this.$toast.warning(message.confirmEmptyDate);
+      // 시작일정을 선택하지 않은 경우 경우
+      if (!myStartDate) {
+        this.$toast.warning(message.confirmEmptyStartDate);
+        this.validation.myStartEndDate = true;
+      } else if (!myEndDate) {
+      // 종료일정을 선택하지 않은 경우 경우
+        this.$toast.warning(message.confirmEmptyEndDate);
         this.validation.myStartEndDate = true;
       } else if (inputType === 'start' && selectedDates[0] > myEndDate) {
       // 일정 종료일이 일정시작일보다 큰 경우
