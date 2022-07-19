@@ -96,9 +96,11 @@
             <Flatpickr
               id="entryStartDate"
               :input-date="inputData.startDate"
+              input-type="start"
               placeholder="시작예정일을 선택해주세요"
               :class="{ 'is-invalid': validation.startDate }"
               aria-describedby="validationStartDate"
+              @onChangeCalendar="checkMydate"
             />
             <div
               v-if="validation.startDate"
@@ -112,9 +114,11 @@
             <Flatpickr
               id="entryEndDate"
               :input-date="inputData.endDate"
+              input-type="end"
               placeholder="종료예정일을 선택해주세요"
               :class="{ 'is-invalid': validation.endDate }"
               aria-describedby="validationEndDate"
+              @onChangeCalendar="checkMydate"
             />
             <div
               v-if="validation.endDate"
@@ -128,6 +132,7 @@
         <!-- 글쓰는곳 ToastUI Editor -->
         <Editor
           id="toastUiEditor"
+          ref="toastuiEditor"
           :initial-value="inputData.content"
           :options="editorOptions"
           height="400px"
@@ -167,6 +172,8 @@
  */
 
 // Basic Use - Covers most scenarios
+/* eslint-disable no-param-reassign, no-underscore-dangle */
+import Vue from 'vue';
 import VLayout from '@/layouts/Default.vue';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
@@ -176,6 +183,9 @@ import stayStatusList from '@/assets/js/stayStatus';
 import Flatpickr from '@/components/Flatpickr.vue';
 import Confirm from '@/components/Confirm.vue';
 import message from '@/assets/js/message';
+import globalFunc from '@/plugins/globalFunc';
+
+Vue.use(globalFunc);
 
 export default {
   /**
@@ -234,6 +244,19 @@ export default {
       },
     };
   },
+  watch: {
+    inputData: {
+      handler(e) {
+        // 제목입력여부확인
+        if (!e.title) {
+          this.validation.title = true;
+        } else {
+          this.validation.title = false;
+        }
+      },
+      deep: true,
+    },
+  },
   created() {
     this.initCountries(); // 국가 초기화
     this.initStayStatus(); // 체류상태 초기화
@@ -249,19 +272,75 @@ export default {
     },
     // 글쓰기
     writePost() {
-      this.$toast.info({
+      // 입력내용
+      const contentMarkdown = this.$refs.toastuiEditor.invoke('getMarkdown'); // 데이터 유효성 테스트용 (HTML태그불포함)
+      const contentHTML = this.$refs.toastuiEditor.invoke('getHTML'); // 실제로 DB에 전달할 내용 데이터 (HTML태그포함)
+      const myStartDate = document.querySelector('#entryStartDate')?._flatpickr?.selectedDates[0]; // 입력한 시작일정
+      const myEndDate = document.querySelector('#entryEndDate')?._flatpickr?.selectedDates[0]; // 입력한 종료일정
+      // 입력데이터 객체
+      const inputData = { ...this.inputData, content: contentHTML };
+
+      // 미입력항목확인
+      const isDisabled = !contentMarkdown || !inputData.title || !myStartDate || !myEndDate;
+      if (isDisabled) {
+        this.$toast.warning(message.emptyPostWrite);
+        return;
+      }
+
+      // 확인창
+      const toastId = this.$toast.info({
         component: Confirm,
         props: {
           buttonName: '작성',
           confirmMessage: message.writeConfirm, // 확인메세지 사용자 지정
+          isShowButtons: true, // 확인, 취소버튼 2개 표시
         },
         listeners: {
-          confirmEvent: () => this.testMethod(),
+          // 확인(삭제)버튼
+          confirmEvent: () => {
+            this.$toast.dismiss(toastId); // 확인창닫기
+            // const commentParam = { inputData }; // 댓글용 파라미터
+            debugger;
+          },
+          // 취소버튼
+          cancelEvent: () => {
+            this.$toast.dismiss(toastId);
+          },
         },
-      }, { timeout: 7000 });
+      }, { timeout: 6000, closeOnClick: false, closeButton: false });
     },
-    testMethod() {
-      console.log(this.countries);
+    // 시작 종료일정에 대한 유효성 검사
+    checkMydate(selectedDate) {
+      // 데이터 컴포넌트에서 입력한 값
+      // 파라미터정보 1.데이터형식 입력값 2.YYYY-MM-DD 입력값 3.시작종료컴포넌트타입여부
+      const { selectedDates, inputType } = selectedDate;
+      const myStartDate = document.querySelector('#entryStartDate')?._flatpickr?.selectedDates[0]; // 입력한 시작일정
+      const myEndDate = document.querySelector('#entryEndDate')?._flatpickr?.selectedDates[0]; // 입력한 종료일정
+
+      this.inputData.startDate = Vue.prototype.getDateFormatYYYYMMDD(myStartDate);
+      this.inputData.endDate = Vue.prototype.getDateFormatYYYYMMDD(myEndDate);
+
+      // 시작일정을 선택하지 않은 경우 경우
+      if (!myStartDate) {
+        this.$toast.warning(message.confirmEmptyStartDate);
+        this.validation.startDate = true;
+      } else if (!myEndDate) {
+      // 종료일정을 선택하지 않은 경우 경우
+        this.$toast.warning(message.confirmEmptyEndDate);
+        this.validation.endDate = true;
+      } else if (inputType === 'start' && selectedDates[0] > myEndDate) {
+      // 일정 종료일이 일정시작일보다 큰 경우
+        this.$toast.warning(message.confirmInvalidDate);
+        this.validation.startDate = true;
+      } else if (inputType === 'end' && myStartDate > selectedDates[0]) {
+      // 일정 종료일이 일정시작일보다 큰 경우
+        this.$toast.warning(message.confirmInvalidDate);
+        this.validation.endDate = true;
+      } else {
+      // 유효성에 문제가 없으면 적용버튼을 활성화
+        this.validation.startDate = false;
+        this.validation.endDate = false;
+      }
     },
   },
 };
