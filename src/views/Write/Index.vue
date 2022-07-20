@@ -299,8 +299,8 @@ export default {
           // 확인(삭제)버튼
           confirmEvent: () => {
             this.$toast.dismiss(toastId); // 확인창닫기
-            // const commentParam = { inputData }; // 댓글용 파라미터
-            debugger;
+            const commentParam = { inputData }; // 댓글용 파라미터
+            this.$store.dispatch('createPost', commentParam); // 게시물 등록
           },
           // 취소버튼
           cancelEvent: () => {

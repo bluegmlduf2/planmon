@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import message from '@/assets/js/message';
 import PostProxy from '@/proxies/PostProxy';
+import { router } from '@/plugins/vue-router';
 
 export default {
   state: {
@@ -107,6 +108,27 @@ export default {
 
         Vue.prototype.$toast.info(message.changePostDate);
       }
+    },
+    // 게시물등록
+    createPost({ commit }, payload) {
+      commit('setSpinner', true); // 스피너 동작
+
+      // 게시물 정보 등록
+      return new PostProxy()
+        .createPost(payload)
+        .then((response) => {
+          Vue.prototype.$toast.info(message.addPost);
+          // 등록한 게시물의 ID
+          const insertedPostId = response.data.postId;
+          // 등록한 게시물로 이동
+          router.push({ name: 'post.index', params: { postId: insertedPostId } });
+        })
+        .catch(() => {
+          console.log('Request failed...');
+        })
+        .finally(() => {
+          commit('setSpinner', false); // 스피너 정지
+        });
     },
   },
   getters: {

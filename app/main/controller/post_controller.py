@@ -4,8 +4,7 @@ from flask import request
 from app.main.util.decorator import token_required,get_user_by_token
 from ..util.dto import PostDto
 from ..util.dto import PostUpdateDateDto
-from ..service.post_service import get_post,get_post_detail,update_post_date
-import json
+from ..service.post_service import get_post,get_post_detail,update_post_date,create_post
 
 api = PostDto.api
 _post = PostDto.post
@@ -21,6 +20,16 @@ class Post(Resource):
     def get(uid,self,param):
         """게시물 정보를 반환"""
         return get_post(uid,param)
+
+@api.route('')
+class PostWrite(Resource):
+    @token_required
+    @api.doc('게시물 등록')
+    @api.marshal_list_with(_post, envelope='data')
+    def post(uid,self):
+        """게시물 정보를 등록"""
+        payload = request.json
+        return create_post(uid,payload)
 
 
 @api.route('/<param>/<requestItem>')

@@ -28,4 +28,5 @@ export default {
   updateCommentReply: '대댓글을 수정했습니다',
   removeCommentReply: '대댓글을 삭제했습니다',
   emptyPostWrite: '게시글의 미입력 항목이 있습니다\n다시 한번 확인해주세요',
+  addPost: '게시글을 등록했습니다',
 };

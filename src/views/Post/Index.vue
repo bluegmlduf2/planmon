@@ -54,7 +54,7 @@
             <span class="mr-2 scrab-span"><i
               class="fa fa-comment-o"
               aria-hidden="true"
-            /> 3</span>
+            /> {{ comments.length }}</span>
             <span class="mr-2 scrab-span"><i
               class="fa fa-eye"
               aria-hidden="true"

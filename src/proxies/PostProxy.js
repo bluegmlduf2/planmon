@@ -44,6 +44,17 @@ class PostProxy extends Proxy {
   updatePostCalendar(param) {
     return this.submit('put', `${this.endpoint}/update-post-date`, param);
   }
+
+  /**
+   * 게시물 등록
+   *
+   * @param {String} sort 정렬
+   *
+   * @returns {Promise} The result in a promise.
+   */
+  createPost(param) {
+    return this.create(param);
+  }
 }
 
 export default PostProxy;
