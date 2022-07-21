@@ -87,6 +87,7 @@ class PostDto:
         'writerUserName': fields.String(description='게시물 작성자'),
         'title': fields.String(description='게시물 제목'),
         'content': fields.String(description='게시물 내용'),
+        'country': fields.String(description='선택국가'),
         'stayStatus': fields.String(description='체류상태'),
         'isAdded': fields.Boolean(description='추가된 일정 유무'),
         'isCompleted': fields.Boolean(description='완료된 일정 유무'),

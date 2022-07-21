@@ -130,6 +130,27 @@ export default {
           commit('setSpinner', false); // 스피너 정지
         });
     },
+    // 게시물수정
+    updatePost({ commit }, payload) {
+      commit('setSpinner', true); // 스피너 동작
+
+      // 게시물 정보 등록
+      return new PostProxy()
+        .updatePost(payload)
+        .then((response) => {
+          Vue.prototype.$toast.info(message.updatePost);
+          // 등록한 게시물의 ID
+          const insertedPostId = response.data.postId;
+          // 등록한 게시물로 이동
+          router.push({ name: 'post.index', params: { postId: insertedPostId } });
+        })
+        .catch(() => {
+          console.log('Request failed...');
+        })
+        .finally(() => {
+          commit('setSpinner', false); // 스피너 정지
+        });
+    },
   },
   getters: {
     // 게시글정보

@@ -41,6 +41,7 @@ def get_post(uid,postId):
 
     return post
 
+
 def create_post(uid,payload):
     '''게시글 등록'''
     try:
@@ -88,6 +89,55 @@ def create_post(uid,payload):
             'message': '게시글 등록중 에러가 발생하였습니다'
         }
         return response_object, 401
+
+
+def update_post(uid,payload):
+    '''게시글 수정'''
+    try:
+        user=User.query.filter_by(uid=uid).first()
+        # 기존 유저가 존재할 경우 유저선택정보를 갱신
+        if user:
+            # 화면에서 입력한 데이터
+            inputData = payload['inputData']
+
+            # 시간 데이터
+            startDate = datetime.strptime(inputData['startDate'],'%Y-%m-%d') # 일정시작일
+            endDate = datetime.strptime(inputData['endDate'],'%Y-%m-%d') # 일정종료일
+            entryDate = datetime.strptime(user.entryDate.strftime('%Y-%m-%d'),'%Y-%m-%d') # 나의 입국날짜
+            currentDate = datetime.strptime(get_current_time().strftime('%Y-%m-%d'),'%Y-%m-%d') # 현재시간
+            afterEntryDate = (currentDate-entryDate).days # 내 입국후 경과 일수
+
+            post = List.query.filter_by(writerUid=uid, postId=inputData['postId']).first()
+            post.title = inputData['title']
+            post.content = inputData['content']
+            post.country = inputData['country']
+            post.stayStatus = inputData['stayStatus']
+            post.afterEntryDate = afterEntryDate
+            post.startDate = startDate
+            post.endDate = endDate
+
+            db.session.add(post)
+            db.session.commit()
+                        
+            response_object = {
+                'status': 'success',
+                'message': '게시글을 수정했습니다',
+                'postId': post.postId
+            }
+            return response_object, 201
+    except exc.IntegrityError as e:
+        response_object = {
+            'status': 'fail',
+            'message': '이미 수정된 게시글입니다'
+        }
+        return response_object, 401
+    except Exception as e:
+        response_object = {
+            'status': 'fail',
+            'message': '게시글 수정중 에러가 발생하였습니다'
+        }
+        return response_object, 401
+
 
 def update_view_count(post):
     '''게시물의 조회수 증가'''

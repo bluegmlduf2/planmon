@@ -15,6 +15,7 @@ export default {
   completeList: '일정을 완료했습니다',
   removeList: '일정을 삭제했습니다',
   writeConfirm: '일정 게시글은 수정은 가능하지만 삭제가 불가능합니다\n작성하시겠습니까',
+  writeUpdateConfirm: '게시글을 수정하시겠습니까',
   reSearch: '추천일정 화면의 결과 재검색을 이용해주세요',
   confirmEmptyStartDate: '시작일정을 선택해주세요',
   confirmEmptyEndDate: '종료일정을 선택해주세요',
@@ -29,4 +30,5 @@ export default {
   removeCommentReply: '대댓글을 삭제했습니다',
   emptyPostWrite: '게시글의 미입력 항목이 있습니다\n다시 한번 확인해주세요',
   addPost: '게시글을 등록했습니다',
+  updatePost: '게시글을 수정했습니다',
 };

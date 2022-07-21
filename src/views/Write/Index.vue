@@ -291,8 +291,8 @@ export default {
       const toastId = this.$toast.info({
         component: Confirm,
         props: {
-          buttonName: '작성',
-          confirmMessage: message.writeConfirm, // 확인메세지 사용자 지정
+          buttonName: this.post ? '수정' : '작성',
+          confirmMessage: this.post ? message.writeUpdateConfirm : message.writeConfirm, // 확인메세지 사용자 지정
           isShowButtons: true, // 확인, 취소버튼 2개 표시
         },
         listeners: {
@@ -300,7 +300,15 @@ export default {
           confirmEvent: () => {
             this.$toast.dismiss(toastId); // 확인창닫기
             const commentParam = { inputData }; // 댓글용 파라미터
-            this.$store.dispatch('createPost', commentParam); // 게시물 등록
+            // 글수정
+            if (this.post) {
+              // 수정을 위해 게시글id를 추가
+              commentParam.inputData.postId = this.post.postId;
+              this.$store.dispatch('updatePost', commentParam); // 게시물 수정
+            } else {
+            // 글등록
+              this.$store.dispatch('createPost', commentParam); // 게시물 등록
+            }
           },
           // 취소버튼
           cancelEvent: () => {

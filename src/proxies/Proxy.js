@@ -135,7 +135,9 @@ class BaseProxy {
    * @returns {Promise} The result in a promise.
    */
   update(id, item) {
-    return this.submit('put', `/${this.endpoint}/${id}`, item);
+    // id가 존재하면 해당 id를 url에 넣고 없으면 id를 파라미터에 넣어서 보낸다
+    const url = id ? `/${this.endpoint}/${id}` : `/${this.endpoint}`;
+    return this.submit('put', url, item);
   }
 
   /**
