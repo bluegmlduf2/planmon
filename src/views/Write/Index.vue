@@ -152,6 +152,7 @@
             <button
               id="writeContPostBtn"
               class="btn btn-purple btn-option"
+              :disabled="validation.startDate||validation.endDate"
               @click="writePost"
             >
               <b>{{ post?'수정':'새글등록' }}</b>
