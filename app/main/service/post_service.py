@@ -5,6 +5,7 @@ from app.main.model.mylist import Mylist
 from app.main.model.user import User
 from app.main.util import convert_string_to_date
 from app.main.service.comment_service import get_comment
+from app.main.service.rec_list_service import update_reclist
 from sqlalchemy import exc
 from app.main.util import get_current_time
 from datetime import datetime
@@ -14,14 +15,18 @@ def get_post(uid,postId):
     '''게시물 정보 취득'''
     # 게시물 관련
     post = List.query.filter_by(postId=postId).first() # 게시물 정보 취득
-    update_view_count(post) # 게시물의 조회수 증가
 
     # 유저정보 관련
     user = Auth.get_user_info(post.writerUid) # 파이어베이스에 저장된 유저정보 취득
-    userAuth = True if uid == post.writerUid else False #게시물 작성자 유무
+    userAuth = True # 게시물 작성자인 경우
     isAdded = bool(Mylist.query.filter_by(myListIdRef=postId,uid=uid).count()) # 이미 추가한 일정유무
     isCompleted = bool(Mylist.query.filter_by(myListIdRef=postId,uid=uid,listKind='complete').count()) # 완료 일정유무
     
+    # 게시물 작성자가 아닌 경우
+    if uid != post.writerUid:
+        userAuth = False # 게시물 작성자가 아닌 경우
+        update_view_count(post) # 게시물의 조회수 증가
+
     setattr(post,'writerUserName',user['nickname']) # 게시물 작성자의 닉네임등록
     setattr(post,'userAuth',userAuth) # 게시물 작성자 유무
     setattr(post,'isAdded',isAdded) # 추가한 일정 유무
@@ -70,7 +75,10 @@ def create_post(uid,payload):
 
             db.session.add(post)
             db.session.commit()
-                        
+            
+            # 다가오는 일정에 추가 
+            update_reclist(uid,post.postId)
+
             response_object = {
                 'status': 'success',
                 'message': '게시글을 등록했습니다',
