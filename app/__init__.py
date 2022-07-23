@@ -6,6 +6,7 @@ from .main.controller.complete_list_controller import api as completelist_ns
 from .main.controller.rec_list_controller import api as reclist_ns
 from .main.controller.my_list_controller import api as mylist_ns
 from .main.controller.post_controller import api as post_ns
+from .main.controller.image_controller import api as image_ns
 from .main.controller.comment_controller import api as comment_ns
 from .main.controller.comment_reply_controller import api as commentreply_ns
 from .main.controller.user_controller import api as user_ns
@@ -40,4 +41,5 @@ api.add_namespace(selection_ns, path='/api/selection')
 api.add_namespace(mylist_ns, path='/api/mylist')
 api.add_namespace(post_ns, path='/api/post')
 api.add_namespace(comment_ns, path='/api/comment')
+api.add_namespace(image_ns, path='/api/image')
 api.add_namespace(commentreply_ns, path='/api/commentreply')

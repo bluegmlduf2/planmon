@@ -11,6 +11,9 @@ class Config:
     DEBUG = False
     # Swagger
     RESTX_MASK_SWAGGER = False
+    # 게시물 이미지 임시 저장 경로와 저장된 게시물 저장경로
+    POST_TEMP_FILE_PATH = basedir+'/image/posttempimage/'
+    POST_FILE_PATH = basedir+'/image/postimage/'
 
 
 

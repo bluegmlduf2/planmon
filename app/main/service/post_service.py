@@ -3,11 +3,10 @@ from app.main.service.auth_helper import Auth
 from app.main.model.list import List
 from app.main.model.mylist import Mylist
 from app.main.model.user import User
-from app.main.util import convert_string_to_date
+from app.main.util import convert_string_to_date,get_current_time,moveImageFile
 from app.main.service.comment_service import get_comment
 from app.main.service.rec_list_service import update_reclist
 from sqlalchemy import exc
-from app.main.util import get_current_time
 from datetime import datetime
 
 
@@ -63,6 +62,15 @@ def create_post(uid,payload):
             currentDate = datetime.strptime(get_current_time().strftime('%Y-%m-%d'),'%Y-%m-%d') # 현재시간
             afterEntryDate = (currentDate-entryDate).days # 내 입국후 경과 일수
 
+            # 글내용의 이미지 url변경
+            filteredContent = inputData['content'].replace(
+                'api/image/temp/', 'api/image/post/')
+            inputData['content'] = filteredContent
+
+            # 게시글의 임시 이미지 파일을 저장용 폴더에 이동
+            moveImageFile(inputData['tempImages'])            
+            
+            # 등록할 게시물 정보입력
             post = List()
             post.writerUid = uid
             post.title = inputData['title']
@@ -75,6 +83,7 @@ def create_post(uid,payload):
 
             db.session.add(post)
             db.session.commit()
+
             
             # 다가오는 일정에 추가 
             update_reclist(uid,post.postId)
@@ -115,6 +124,15 @@ def update_post(uid,payload):
             currentDate = datetime.strptime(get_current_time().strftime('%Y-%m-%d'),'%Y-%m-%d') # 현재시간
             afterEntryDate = (currentDate-entryDate).days # 내 입국후 경과 일수
 
+            # 글내용의 이미지 url변경
+            filteredContent = inputData['content'].replace(
+                'api/image/temp/', 'api/image/post/')
+            inputData['content'] = filteredContent
+
+            # 게시글의 임시 이미지 파일을 저장용 폴더에 이동
+            moveImageFile(inputData['tempImages'])       
+
+            # 수정할 게시물 정보입력
             post = List.query.filter_by(writerUid=uid, postId=inputData['postId']).first()
             post.title = inputData['title']
             post.content = inputData['content']

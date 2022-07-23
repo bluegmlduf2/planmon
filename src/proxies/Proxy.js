@@ -141,6 +141,19 @@ class BaseProxy {
   }
 
   /**
+   * 이미지 업로드
+   *
+   * @param {Object} item The given item.
+   *
+   * @returns {Promise} The result in a promise.
+   */
+  uploadTempImage(item) {
+    // Post요청의 Content-Type 을 multipart/form-data(이미지 문자를 인코딩하지 않음)으로 설정하고 보낼수있음
+    Vue.$http.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+    return this.submit('post', `/${this.endpoint}`, item);
+  }
+
+  /**
    * 데이터 삭제
    *
    * @param {int} id The given identifier.

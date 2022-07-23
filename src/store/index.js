@@ -17,6 +17,7 @@ import post from './post';
 import commemt from './commemt';
 import commentreply from './commentreply';
 import user from './user';
+import image from './image';
 import shared from './shared';
 
 const debug = process.env.NODE_ENV !== 'production';
@@ -30,6 +31,7 @@ export default new Vuex.Store({
     selection,
     post,
     user,
+    image,
     shared,
     commemt,
     commentreply,

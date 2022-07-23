@@ -102,6 +102,13 @@ class PostDto:
         'comment' :fields.List(description='댓글정보', default=[], cls_or_instance=fields.Nested(commentSchema)),
     })
 
+class ImageDto:
+    api = Namespace('image', description='이미지 정보')
+    image = api.model('post', {
+        'imagefileName': fields.String(description='등록한 이미지의 파일명'),
+        'imageUrl': fields.String(description='등록한 이미지의 URL'),
+    })
+
 class CommentDto:
     api = Namespace('comment', description='댓글정보')
     commentReplySchema = api.model('commentReplySchema', {
