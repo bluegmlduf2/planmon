@@ -122,3 +122,7 @@ migrations
 
 # 서버의 파이어베이스 보안키파일
 planmon-firebase-adminsdk.json
+
+# 게시글 이미지
+app/main/image/postimage/*.jpg
+app/main/image/posttempimage/*.jpg
