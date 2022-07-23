@@ -273,10 +273,16 @@ export default {
     },
   },
   created() {
+    this.initWrite(); // 글쓰기화면 초기화
     this.initCountries(); // 국가 초기화
     this.initStayStatus(); // 체류상태 초기화
   },
   methods: {
+    // 글쓰기화면 초기화
+    async initWrite() {
+      // 사용자 선택값 데이터 초기화
+      await this.$store.dispatch('setInitSelection');
+    },
     // 국가 초기화
     initCountries() {
       this.countries = countriesList;

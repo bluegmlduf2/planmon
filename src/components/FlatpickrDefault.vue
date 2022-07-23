@@ -11,6 +11,7 @@
       class="btn bg-transparent"
       style="margin-left: -40px; z-index: 100; color:#7b8694"
       data-clear
+      @click="clickDate"
     >
       <i class="fa fa-times" />
     </button>
@@ -46,9 +47,7 @@ export default {
         dateFormat: 'Y-m-d',
         locale: korean.ko,
         disableMobile: 'true', // flatpicker모바일모드끄기
-        onClose: (_, selectedEntryDate) => {
-          this.$store.dispatch('addSelection', { entryDate: selectedEntryDate });
-        }, // 입국날짜 변경시 동작
+        onClose: this.clickDate, // 입국날짜 변경시 이벤트 동작
       },
     };
   },
@@ -64,5 +63,12 @@ export default {
       },
     },
   },
+  methods: {
+    // 입국날짜 변경혹은 지우기 버튼 클릭시
+    clickDate(_, selectedEntryDate = null) {
+      this.$store.dispatch('addSelection', { entryDate: selectedEntryDate });
+    },
+  },
+
 };
 </script>

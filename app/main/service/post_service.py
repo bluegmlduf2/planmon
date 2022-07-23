@@ -50,6 +50,11 @@ def create_post(uid,payload):
     '''게시글 등록'''
     try:
         user=User.query.filter_by(uid=uid).first()
+        
+        # 유저의 선택정보가 전부 입력되어있는지 확인
+        if not user.entryDate or not user.country or not user.stayStatus:
+            raise Exception('TODO에러처리')
+
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
             # 화면에서 입력한 데이터
@@ -112,6 +117,11 @@ def update_post(uid,payload):
     '''게시글 수정'''
     try:
         user=User.query.filter_by(uid=uid).first()
+
+        # 유저의 선택정보가 전부 입력되어있는지 확인
+        if not user.entryDate or not user.country or not user.stayStatus:
+            raise Exception('TODO에러처리')
+
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
             # 화면에서 입력한 데이터
