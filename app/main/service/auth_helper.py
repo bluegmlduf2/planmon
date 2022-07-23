@@ -1,4 +1,3 @@
-from app.main.model.user import User
 from typing import Dict, Tuple
 from firebase_admin import auth # 파이어베이스 인증모듈
 
