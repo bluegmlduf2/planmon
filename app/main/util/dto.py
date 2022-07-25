@@ -66,6 +66,7 @@ class PostDto:
     commentReplySchema = api.model('commentReplySchema', {
         'commentReplyId': fields.String(description='대댓글 ID'),
         'commentReplyUserName': fields.String(description='대댓글 작성자'),
+        'commentReplyUserImage': fields.String(description='대댓글 작성자 이미지 URL'),
         'commentReplyContent': fields.String(description='대댓글 내용'),
         'commentReplyAddedDate': fields.Date(description='대댓글 작성일'),
         'commentReplyUserAuth': fields.Boolean(description='대댓글작성자유무'),
@@ -76,6 +77,7 @@ class PostDto:
         'commentUserName': fields.String(description='댓글 작성자'),
         'commentContent': fields.String(description='댓글 내용'),
         'commentAddedDate': fields.Date(description='댓글 작성일'),
+        'commentUserImage': fields.String(description='댓글작성자이미지URL'),
         'commentUserAuth': fields.Boolean(description='댓글작성자유무'),
         'isOpenClicked': fields.Boolean(description='댓글 열기닫기버튼 활성화유무',default=False),
         'isCommentClicked': fields.Boolean(description='댓글 수정버튼 활성화유무',default=False),
@@ -114,6 +116,7 @@ class CommentDto:
     commentReplySchema = api.model('commentReplySchema', {
         'commentReplyId': fields.String(description='대댓글 ID'),
         'commentReplyUserName': fields.String(description='대댓글 작성자'),
+        'commentReplyUserImage': fields.String(description='대댓글 작성자 이미지 URL'),
         'commentReplyContent': fields.String(description='대댓글 내용'),
         'commentReplyAddedDate': fields.Date(description='대댓글 작성일'),
         'commentReplyUserAuth': fields.Boolean(description='대댓글작성자유무'),
@@ -124,6 +127,7 @@ class CommentDto:
         'commentUserName': fields.String(description='댓글 작성자'),
         'commentContent': fields.String(description='댓글 내용'),
         'commentAddedDate': fields.Date(description='댓글 작성일'),
+        'commentUserImage': fields.String(description='댓글작성자이미지URL'),
         'commentUserAuth': fields.Boolean(description='댓글작성자유무'),
         'isOpenClicked': fields.Boolean(description='댓글 열기닫기버튼 활성화유무',default=False),
         'isCommentClicked': fields.Boolean(description='댓글 수정버튼 활성화유무',default=False),

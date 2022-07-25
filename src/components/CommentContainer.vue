@@ -5,7 +5,7 @@
       <div class="d-flex align-items-center">
         <img
           class="profile-img"
-          src="https://placeimg.com/640/480/any"
+          :src="commentUserImage"
         >
         <div class="d-flex flex-column align-items-start ml-2">
           <p><b>{{ userName }}</b></p>
@@ -103,6 +103,12 @@ export default {
       type: String,
       required: true,
     },
+    // 유저이미지
+    userImage: {
+      default: '',
+      type: String,
+      required: true,
+    },
     // 작성자의 댓글 등록일
     addedDate: {
       default: '',
@@ -129,6 +135,13 @@ export default {
       // 수정 입력 댓글 내용
       inputedContent: this.content,
     };
+  },
+  computed: {
+    // 댓글의 유저이미지 반환
+    commentUserImage() {
+      // eslint-disable-next-line global-require
+      return this.userImage ? this.userImage : require('@/assets/img/user.png');
+    },
   },
   methods: {
     // 댓글창을 열기

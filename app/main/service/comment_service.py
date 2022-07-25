@@ -23,6 +23,7 @@ def get_comment(uid,postId):
         comment_user = Auth.get_user_info(commentData.commentUid) # 파이어베이스에 저장된 유저정보 취득
         comment_user_auth = True if uid == commentData.commentUid else False #댓글 작성자 유무
         setattr(commentData,'commentUserName',comment_user['nickname']) # 댓글 작성자의 닉네임등록
+        setattr(commentData,'commentUserImage',comment_user['user_image']) # 댓글 작성자의 이미지 url
         setattr(commentData,'commentUserAuth',comment_user_auth) # 댓글 작성자 유무
 
         # 대댓글데이터
@@ -31,6 +32,7 @@ def get_comment(uid,postId):
                 comment_reply_user = Auth.get_user_info(commentReply.commentReplyUid) # 파이어베이스에 저장된 유저정보 취득
                 comment_user_reply_auth = True if uid == commentReply.commentReplyUid else False #대댓글 작성자 유무
                 setattr(commentReply,'commentReplyUserName',comment_reply_user['nickname']) # 대댓글 작성자의 닉네임등록
+                setattr(commentReply,'commentReplyUserImage',comment_reply_user['user_image']) # 대댓글 작성자의 이미지 url
                 setattr(commentReply,'commentReplyUserAuth',comment_user_reply_auth) # 대댓글 작성자 유무
 
     return comment
