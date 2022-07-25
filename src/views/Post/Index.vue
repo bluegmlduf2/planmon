@@ -135,7 +135,7 @@
         >
           <div class="mb-2 post-startDate-cont">
             <h5 class="ellipsis">
-              {{ user.name ? user.name : '사용자' }}의 일정
+              {{ userName }}의 일정
             </h5>
             <!-- 슬라이드 메뉴 -->
             <!-- 일정변경버튼은 일정추가된 상태 & 완료된 일정이 아닐시 표시 -->
@@ -444,6 +444,10 @@ export default {
     // 유저정보
     user() {
       return this.$store.getters.user;
+    },
+    // 유저이름
+    userName() {
+      return this.user?.name ? this.user.name : '사용자';
     },
     // 로컬스토리지 저장 알림창 (store에서 값이 변경될때마다 갱신)
     showMessage() {
