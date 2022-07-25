@@ -61,6 +61,31 @@ def upload_image(param):
     else:
         return url,resize_image_fileNm
 
+
+def upload_user_image(param):
+    '''유저 이미지 추가'''
+    try:
+        # 파일명변경
+        time = get_current_time().strftime('%Y%m%d%H%M%S')  # 현재시간을 YYYYmmddHHMMSS 형태의 시간 출력
+        ranNum = str(random.randint(1, 999999)).rjust(4, "0")  # 난수4자리,공백은0으로채움
+        resize_image_fileNm = time+ranNum+".jpg"  # 변경후 저장한 파일명
+
+        # 이미지 저장
+        image = Image.open(param)
+        resize_image_file = image.resize((160, 160)) # 160,160 이미지 사이즈변경
+        source = current_app.config['USER_FILE_PATH']+resize_image_fileNm  # 유저이미지파일저장경로
+
+        # RGB형식으로 변경후 , 이미지 파일 저장
+        resize_image_file.convert('RGB').save(source)  # resize사용시 image -> resize_image
+
+        # 저장된 이미지의 URL
+        url = request.url+'/'+resize_image_fileNm
+    except Exception as e:
+        raise e
+    else:
+        return url
+
+
 # 임시이미지 파일을 저장용 폴더에 이동
 def moveImageFile(imageFileNames):
     # 파일 이동에 필요한 설정부분

@@ -21,16 +21,20 @@
           class="profile-img mb-3"
           :src="userImage"
         >
-        <button
-          type="button"
-          class="btn btn-primary mb-2 w-100"
-          @click="updatePhotoUrl('register')"
+        <div
+          class="btn btn-primary mb-2 uploadUserImage-cont"
         >
           프로필이미지 등록
-        </button>
+          <input
+            id="uploadUserImage"
+            type="file"
+            accept="image/jpeg"
+            @clikc="updatePhotoUrl('register',$event)"
+          >
+        </div>
         <button
           type="button"
-          class="btn btn-light mb-2 w-100"
+          class="btn btn-light mb-2"
           @click="updatePhotoUrl('delete')"
         >
           프로필이미지 삭제
@@ -40,13 +44,14 @@
         <div class="form-group row mb-4">
           <label
             for="inputEmail3"
-            class="col-4 col-form-label"
+            class="col-3 col-form-label"
           >닉네임ㅤ
           </label>
-          <div class="col-6">
+          <div class="col-7">
             <input
               id="inputEmail3"
               v-model="displayName"
+              placeholder="닉네임을 입력해주세요"
               type="text"
               class="form-control"
             >
@@ -131,17 +136,24 @@ export default {
       this.$store.dispatch('updateProfile', payload);
     },
     // 프로필사진 변경
-    updatePhotoUrl(args) {
+    async updatePhotoUrl(args, e) {
       const payload = {};
       if (args === 'register') {
       // 유저 이미지 추가
-        // payload.photoURL = this.photoUrl;
-        payload.photoURL = 'https://i.pravatar.cc/200';
+      // 업로드한 이미지를 blol(이진수 형태의 큰 객체)형식으로 받은 뒤 formData에 넣은뒤 서버에 전송
+        const formData = new FormData();
+        formData.append('image', e.target.files[0]);
+        const { imageUrl } = await this.$store.dispatch('uploadUserImage', formData); // 이미지 업로드
+        payload.photoURL = imageUrl;
+        // 성공적으로 유저이미지를 등록한 경우 갱신
+        if (imageUrl) {
+          this.$store.dispatch('updateProfile', payload);
+        }
       } else if (args === 'delete') {
       // 유저 이미지 삭제
         payload.photoURL = '';
+        this.$store.dispatch('updateProfile', payload);
       }
-      this.$store.dispatch('updateProfile', payload);
     },
     // 유저삭제
     deleteUser() {

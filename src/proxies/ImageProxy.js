@@ -12,12 +12,21 @@ class ImageProxy extends Proxy {
   }
 
   /**
-   * 이미지 업로드
+   * 게시물 이미지 업로드
    *
    * @returns {Promise} The result in a promise.
    */
   uploadImage(param) {
     return this.uploadTempImage(param);
+  }
+
+  /**
+   * 유저 이미지 업로드
+   *
+   * @returns {Promise} The result in a promise.
+   */
+  uploadUserImage(param) {
+    return this.uploadTempImage(param, true);
   }
 }
 
