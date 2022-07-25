@@ -35,7 +35,7 @@ class ImageProxy extends Proxy {
    * @returns {Promise} The result in a promise.
    */
   deleteUserImage() {
-    return this.submit('delete', `${this.endpoint}`);
+    return this.submit('delete', `${this.endpoint}/userimage`);
   }
 }
 
