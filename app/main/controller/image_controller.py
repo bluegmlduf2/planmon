@@ -1,6 +1,6 @@
 from flask_restx import Resource
 from flask import request,current_app,send_from_directory
-from app.main.util import upload_image,upload_user_image
+from app.main.util import upload_image,upload_user_image,delete_user_image
 from app.main.util.decorator import token_required
 from app.main.service.auth_helper import Auth
 from ..util.dto import ImageDto
@@ -53,10 +53,34 @@ class ImageUpload(Resource):
         if len(file.read()) > 5242880:
             print('todo에러처리')
 
+        # 파일형식이 이미지인가 체크
+        if True:
+            print('todo에러처리')
+
         # 이미지 업로드
         url,filename = upload_image(file)
 
         return {'imagefileName':filename,'imageUrl': url}, 201
+
+    @token_required
+    @api.doc('유저 이미지 삭제')
+    @api.marshal_list_with(_image, envelope='data')
+    def delete(uid,self):
+        """유저 이미지를 삭제"""
+        user_image = Auth.get_user_info(uid).get('user_image',None)# 파이어베이스에 저장된 유저정보 취득
+
+        # 유저이미지가 존재하지않으면 에러처리
+        if not user_image:
+            print('todo에러처리')
+
+        # 파일형식이 이미지인가 체크
+        if True:
+            print('todo에러처리')
+
+        # 이미지 삭제
+        delete_user_image(user_image)
+
+        return '', 201
 
 
 @api.route('/userimage')
@@ -81,7 +105,17 @@ class UserImageUpload(Resource):
         if len(file.read()) > 5242880:
             print('todo에러처리')
 
+        # 파일형식이 이미지인가 체크
+        if True:
+            print('todo에러처리')
+
+        # 파이어베이스에 저장된 유저정보 취득
+        user_image = Auth.get_user_info(uid).get('user_image',None)
+
         # 이미지 업로드
         url = upload_user_image(file)
+
+        # 이전 유저 이미지 삭제
+        delete_user_image(user_image)
 
         return {'imageUrl': url}, 201

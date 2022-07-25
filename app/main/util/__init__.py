@@ -72,7 +72,7 @@ def upload_user_image(param):
 
         # 이미지 저장
         image = Image.open(param)
-        resize_image_file = image.resize((160, 160)) # 160,160 이미지 사이즈변경
+        resize_image_file = image.resize((180, 180)) # 160,160 이미지 사이즈변경
         source = current_app.config['USER_FILE_PATH']+resize_image_fileNm  # 유저이미지파일저장경로
 
         # RGB형식으로 변경후 , 이미지 파일 저장
@@ -84,6 +84,21 @@ def upload_user_image(param):
         raise e
     else:
         return url
+
+
+def delete_user_image(user_image):
+    '''유저 이미지 삭제'''
+    try:
+        if user_image:
+            userImageName=user_image[user_image.rindex('/')+1:] # 유저아마자파일명취득
+
+            # 파일 이동에 필요한 설정부분
+            userImageFilePath = current_app.config['USER_FILE_PATH']+userImageName # 유저 이미지 저장 위치
+            # 파일이 존재할 경우 삭제
+            if os.path.isfile(userImageFilePath):
+                os.remove(userImageFilePath) # 파일삭제
+    except Exception as e:
+        raise e
 
 
 # 임시이미지 파일을 저장용 폴더에 이동

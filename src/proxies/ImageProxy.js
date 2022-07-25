@@ -28,6 +28,15 @@ class ImageProxy extends Proxy {
   uploadUserImage(param) {
     return this.uploadTempImage(param, true);
   }
+
+  /**
+   * 유저 이미지 삭제
+   *
+   * @returns {Promise} The result in a promise.
+   */
+  deleteUserImage() {
+    return this.submit('delete', `${this.endpoint}`);
+  }
 }
 
 export default ImageProxy;

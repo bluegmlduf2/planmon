@@ -29,7 +29,7 @@
             id="uploadUserImage"
             type="file"
             accept="image/jpeg"
-            @clikc="updatePhotoUrl('register',$event)"
+            @change="updatePhotoUrl('register',$event)"
           >
         </div>
         <button
@@ -151,8 +151,12 @@ export default {
         }
       } else if (args === 'delete') {
       // 유저 이미지 삭제
-        payload.photoURL = '';
-        this.$store.dispatch('updateProfile', payload);
+        const deleteSuccess = await this.$store.dispatch('deleteUserImage');
+        // 성공적으로 유저이미지를 삭제한 경우 갱신
+        if (deleteSuccess) {
+          payload.photoURL = '';
+          this.$store.dispatch('updateProfile', payload);
+        }
       }
     },
     // 유저삭제
