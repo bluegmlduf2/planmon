@@ -135,7 +135,7 @@
         >
           <div class="mb-2 post-startDate-cont">
             <h5 class="ellipsis">
-              {{ user ? user.name : '사용자' }}의 일정
+              {{ user.name ? user.name : '사용자' }}의 일정
             </h5>
             <!-- 슬라이드 메뉴 -->
             <!-- 일정변경버튼은 일정추가된 상태 & 완료된 일정이 아닐시 표시 -->
