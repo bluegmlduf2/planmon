@@ -1,6 +1,6 @@
 from flask_restx import Resource
 
-from app.main.util.decorator import get_user_by_token,token_required
+from app.main.util.decorator import get_user_by_token,token_required,exception_handler
 from ..util.dto import CompleteListDto
 from ..service.complete_list_service import get_my_completelist,destroy_completelist
 import json
@@ -11,6 +11,7 @@ _completelist = CompleteListDto.completelist
 @api.param('param', '완료 일정 리스트')
 class CompleteList(Resource):
     @get_user_by_token
+    @exception_handler
     @api.doc('완료 일정 가져오기')
     @api.marshal_list_with(_completelist, envelope='data')
     def get(uid,self,param):
@@ -18,6 +19,7 @@ class CompleteList(Resource):
         return get_my_completelist(uid,json.loads(param))
 
     @token_required
+    @exception_handler
     @api.doc('로그인한 유저의 완료일정을 삭제')
     def delete(uid,self,param):
         """유저의 완료일정을 삭제함"""

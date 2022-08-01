@@ -8,7 +8,36 @@ import shutil # 파일 이동용
 from PIL import Image  # 이미지 사이즈 변경
 import random # 디폴트 이미지명 난수생성
 
+class UserError(Exception):
+    '''사용자 에러 클래스'''
+    # 인스턴스 생성시 리턴되는 인스턴스변수
+    def __init__(self, errCode, param=None):
+        self.errorInfo = getMessage(errCode, param)
 
+    # 객체가 print함수에 호출될때 표시되는 함수
+    def __str__(self):
+        return self.errorInfo['message']
+
+def getMessage(code, param=None):
+    '''사용자 정의 에러메세지'''
+    MESSAGE = {
+        # 실패 (사용자)
+        701: f"{param}을 입력해주세요",
+        702: "파일이 존재하지 않습니다 <br>파일 업로드에 실패했습니다",
+        703: "빈 파일입니다<br>파일 업로드에 실패했습니다",
+        704: "이미 등록된 유저입니다",
+        705: "",
+        706: "유저 탈퇴처리에 실패했습니다",
+        708: "파일 사이즈를 확인해주세요<br>파일 사이즈가 5MB이상인 경우에는 등록할수없습니다",
+        # 실패 (서버)
+        801: "예기치 못한 에러가 발생했습니다<br>잠시후에 다시 시도해주세요",
+        802: "유저의 권한을 확인해주세요",
+        803: "존재하지않는 게시물입니다"
+    }
+    return {
+        "code": code,
+        "message": MESSAGE[code]
+    }
 
 def get_uuid():
     '''UUID를 문자열로 취득'''

@@ -1,7 +1,7 @@
 from flask_restx import Resource
 from flask import request
 
-from app.main.util.decorator import token_required
+from app.main.util.decorator import token_required,exception_handler
 from ..util.dto import CommentReplyDto
 from ..service.comment_reply_service import create_comment_reply,update_comment_reply,destroy_comment_reply
 
@@ -11,6 +11,7 @@ api = CommentReplyDto.api
 @api.param('param', '댓글번호/대댓글번호')
 class CommentReply(Resource):
     @token_required
+    @exception_handler
     @api.doc('대댓글 등록하기')
     def post(uid,self,param):
         """대댓글 정보를 등록"""
@@ -18,6 +19,7 @@ class CommentReply(Resource):
         return create_comment_reply(uid,payload)
 
     @token_required
+    @exception_handler
     @api.doc('대댓글 수정하기')
     def put(uid,self,param):
         """대댓글 정보를 수정"""
@@ -25,6 +27,7 @@ class CommentReply(Resource):
         return update_comment_reply(uid,payload)
 
     @token_required
+    @exception_handler
     @api.doc('대댓글 삭제하기')
     def delete(uid,self,param):
         """대댓글 정보를 삭제"""

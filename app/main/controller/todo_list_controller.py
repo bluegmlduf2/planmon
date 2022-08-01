@@ -1,6 +1,6 @@
 from flask_restx import Resource
 
-from app.main.util.decorator import token_required,get_user_by_token
+from app.main.util.decorator import token_required,get_user_by_token,exception_handler
 from ..util.dto import TodoListDto
 from ..service.todo_list_service import get_my_todolist,update_todolist,destroy_todolist
 import json
@@ -11,6 +11,7 @@ _todolist = TodoListDto.todolist
 @api.param('param', '할일 일정 리스트')
 class TodoList(Resource):
     @get_user_by_token
+    @exception_handler
     @api.doc('할일 일정 가져오기')
     @api.marshal_list_with(_todolist, envelope='data')
     def get(uid,self,param):
@@ -18,6 +19,7 @@ class TodoList(Resource):
         return get_my_todolist(uid,json.loads(param))
 
     @token_required
+    @exception_handler
     @api.doc('로그인한 유저의 할일일정을 추가')
     def put(uid,self,param):
         """유저의 할일일정을 추가함"""
@@ -25,6 +27,7 @@ class TodoList(Resource):
         return update_todolist(uid,postId)
 
     @token_required
+    @exception_handler
     @api.doc('로그인한 유저의 할일일정을 삭제')
     def delete(uid,self,param):
         """유저의 할일일정을 삭제함"""

@@ -1,7 +1,7 @@
 from flask_restx import Resource
 from flask import request
 
-from app.main.util.decorator import get_user_by_token,token_required
+from app.main.util.decorator import get_user_by_token,token_required,exception_handler
 from ..util.dto import CommentDto
 from ..service.comment_service import get_comment,create_comment,update_comment,destroy_comment
 import json
@@ -13,6 +13,7 @@ _comment = CommentDto.comment
 @api.param('param', '게시물 번호/댓글번호')
 class Comment(Resource):
     @get_user_by_token
+    @exception_handler
     @api.doc('댓글 가져오기')
     @api.marshal_list_with(_comment, envelope='data')
     def get(uid,self,param):
@@ -20,6 +21,7 @@ class Comment(Resource):
         return get_comment(uid,param)
 
     @token_required
+    @exception_handler
     @api.doc('댓글 등록하기')
     def post(uid,self,param):
         """댓글 정보를 등록"""
@@ -27,6 +29,7 @@ class Comment(Resource):
         return create_comment(uid,payload)
 
     @token_required
+    @exception_handler
     @api.doc('댓글 수정하기')
     def put(uid,self,param):
         """댓글 정보를 수정"""
@@ -34,6 +37,7 @@ class Comment(Resource):
         return update_comment(uid,payload)
 
     @token_required
+    @exception_handler
     @api.doc('댓글 삭제하기')
     def delete(uid,self,param):
         """댓글 정보를 삭제"""

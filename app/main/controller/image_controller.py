@@ -1,7 +1,7 @@
 from flask_restx import Resource
 from flask import request,current_app,send_from_directory
 from app.main.util import upload_image,upload_user_image,delete_user_image
-from app.main.util.decorator import token_required
+from app.main.util.decorator import token_required,exception_handler
 from app.main.service.auth_helper import Auth
 from ..util.dto import ImageDto
 
@@ -13,6 +13,7 @@ _image = ImageDto.image
 @api.param('status', 'temp:임시이미지 post:일반이미지 userimage:유저이미지')
 @api.param('param', '이미지 파일명')
 class Image(Resource):
+    @exception_handler
     @api.doc('이미지 조회')
     def get(self,status,param):
         """이미지를 조회"""
@@ -34,6 +35,7 @@ class Image(Resource):
 @api.route('')
 class ImageUpload(Resource):
     @token_required
+    @exception_handler
     @api.doc('게시글 이미지 등록')
     @api.marshal_list_with(_image, envelope='data')
     def post(uid,self):
@@ -66,6 +68,7 @@ class ImageUpload(Resource):
 @api.route('/userimage')
 class UserImageUpload(Resource):
     @token_required
+    @exception_handler
     @api.doc('유저 이미지 등록')
     @api.marshal_list_with(_image, envelope='data')
     def post(uid,self):
@@ -101,6 +104,7 @@ class UserImageUpload(Resource):
         return {'imageUrl': url}, 201
     
     @token_required
+    @exception_handler
     @api.doc('유저 이미지 삭제')
     @api.marshal_list_with(_image, envelope='data')
     def delete(uid,self):
