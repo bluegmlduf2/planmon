@@ -127,3 +127,6 @@ planmon-firebase-adminsdk.json
 app/main/image/postimage/*.jpg
 app/main/image/posttempimage/*.jpg
 app/main/image/userimage/*.jpg
+
+# 로그폴더
+log/logfile*

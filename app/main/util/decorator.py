@@ -58,7 +58,7 @@ def exception_handler(f) -> Callable:
             logger.setLevel(logging.INFO)
             
             # 로그파일 출력설정
-            logHandler = handlers.TimedRotatingFileHandler('./log/logfile.log', when='M', interval=1)
+            logHandler = handlers.TimedRotatingFileHandler('./log/logfile.log', when='midnight', interval=1)
             logHandler.setFormatter(logging.Formatter('#----- [%(asctime)s] [%(levelname)s] | %(message)s -----#'))
             logHandler.suffix = "%Y%m%d"
             logger.addHandler(logHandler)
