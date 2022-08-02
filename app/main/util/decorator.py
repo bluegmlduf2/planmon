@@ -5,6 +5,7 @@ from app.main.service.user_service import get_user,save_user
 from app.main.util import UserError, getMessage, get_uuid
 from typing import Callable
 import logging
+import logging.handlers as handlers
 
 def token_required(f) -> Callable:
     '''토큰에 유저정보가 존재 필수, uid반환'''
@@ -53,9 +54,14 @@ def exception_handler(f) -> Callable:
     def decorated(*args, **kwargs):
         try:
             # 로그설정 (INFO까지표시)
-            logging.basicConfig(
-                format=f'#----- [%(asctime)s] [%(levelname)s] | %(message)s -----#',
-                level=logging.INFO)
+            logger = logging.getLogger('myplanmonlog')
+            logger.setLevel(logging.INFO)
+            
+            # 로그파일 출력설정
+            logHandler = handlers.TimedRotatingFileHandler('./log/logfile.log', when='M', interval=1)
+            logHandler.setFormatter(logging.Formatter('#----- [%(asctime)s] [%(levelname)s] | %(message)s -----#'))
+            logHandler.suffix = "%Y%m%d"
+            logger.addHandler(logHandler)
             
             # 로그고유번호용 UUID 
             uuid=get_uuid()
@@ -63,11 +69,11 @@ def exception_handler(f) -> Callable:
             # 사용자 IP
             user_ip=request.environ.get("HTTP_X_FORWARDED_FOR", request.remote_addr)
 
-            # 로그 기록
-            logging.info(f"[ {uuid} ] 컨트롤러 메소드 시작 => ("+f.__qualname__+")")
-            logging.info(f"[ {uuid} ] 접속자 IP주소        => ("+user_ip+")")
+            # # 로그 기록
+            logger.info(f"[ {uuid} ] 컨트롤러 메소드 시작 => ("+f.__qualname__+")")
+            logger.info(f"[ {uuid} ] 접속자 IP주소      => ("+user_ip+")")
             result = f(*args, **kwargs)  # 인자로 전달받은 f 호출 / result는 f()의 반환값            
-            logging.info(f"[ {uuid} ] 컨트롤러 메소드 종료 => ("+f.__qualname__+")")
+            logger.info(f"[ {uuid} ] 컨트롤러 메소드 종료 => ("+f.__qualname__+")")
         except UserError as e:
             # 사용자에러 처리
             return e.errorInfo,400
