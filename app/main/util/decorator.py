@@ -55,7 +55,7 @@ def ceate_logger():
     logger = logging.getLogger('myplanmonlog')
     logger.setLevel(logging.INFO)
     
-    # 싱글턴 패턴 (이미 로그인스턴스가 존재할 경우)
+    # 이미 logger인스턴스에 handlers가 등록된 경우 중복등록을 하지않음(로그중복호출방지)
     if len(logger.handlers) > 0:
         return logger
 
