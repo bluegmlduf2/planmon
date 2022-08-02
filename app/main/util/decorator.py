@@ -29,6 +29,7 @@ def token_required(f) -> Callable:
 
     return decorated
 
+
 def get_user_by_token(f) -> Callable:
     '''토큰에 유저정보가 존재 필수가아님, uid반환'''
     @wraps(f)
@@ -48,28 +49,40 @@ def get_user_by_token(f) -> Callable:
     return decorated
 
 
+def ceate_logger():
+    '''로그 인스턴스 생성'''
+    # 로그설정 (INFO까지표시)
+    logger = logging.getLogger('myplanmonlog')
+    logger.setLevel(logging.INFO)
+    
+    # 싱글턴 패턴 (이미 로그인스턴스가 존재할 경우)
+    if len(logger.handlers) > 0:
+        return logger
+
+    # 로그파일 출력설정
+    logHandler = handlers.TimedRotatingFileHandler('./log/logfile.log', when='midnight', interval=1)
+    logHandler.setFormatter(logging.Formatter('#----- [%(asctime)s] [%(levelname)s] | %(message)s -----#'))
+    logHandler.suffix = "%Y%m%d"
+    logger.addHandler(logHandler)
+
+    return logger
+
+
 def exception_handler(f) -> Callable:
     '''에러핸들링'''
     @wraps(f)  # f.doc 과 같은 값을 잃어버리지 않도록 설정
     def decorated(*args, **kwargs):
         try:
-            # 로그설정 (INFO까지표시)
-            logger = logging.getLogger('myplanmonlog')
-            logger.setLevel(logging.INFO)
-            
-            # 로그파일 출력설정
-            logHandler = handlers.TimedRotatingFileHandler('./log/logfile.log', when='midnight', interval=1)
-            logHandler.setFormatter(logging.Formatter('#----- [%(asctime)s] [%(levelname)s] | %(message)s -----#'))
-            logHandler.suffix = "%Y%m%d"
-            logger.addHandler(logHandler)
-            
+            # 로그 인스턴스 생성
+            logger = ceate_logger()
+
             # 로그고유번호용 UUID 
             uuid=get_uuid()
 
             # 사용자 IP
             user_ip=request.environ.get("HTTP_X_FORWARDED_FOR", request.remote_addr)
 
-            # # 로그 기록
+            # 로그 기록
             logger.info(f"[ {uuid} ] 컨트롤러 메소드 시작 => ("+f.__qualname__+")")
             logger.info(f"[ {uuid} ] 접속자 IP주소      => ("+user_ip+")")
             result = f(*args, **kwargs)  # 인자로 전달받은 f 호출 / result는 f()의 반환값            
