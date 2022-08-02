@@ -51,15 +51,15 @@ def get_user_by_token(f) -> Callable:
 
 def ceate_logger():
     '''로그 인스턴스 생성'''
-    # 로그설정 (INFO까지표시)
+    # logger의 인스턴스 생성
     logger = logging.getLogger('myplanmonlog')
-    logger.setLevel(logging.INFO)
     
     # 이미 logger인스턴스에 handlers가 등록된 경우 중복등록을 하지않음(로그중복호출방지)
     if len(logger.handlers) > 0:
         return logger
 
-    # 로그파일 출력설정
+    # 로그파일 출력설정 및 핸들러등록
+    logger.setLevel(logging.INFO) # 로그설정 (INFO까지표시)
     logHandler = handlers.TimedRotatingFileHandler('./log/logfile.log', when='midnight', interval=1)
     logHandler.setFormatter(logging.Formatter('#----- [%(asctime)s] [%(levelname)s] | %(message)s -----#'))
     logHandler.suffix = "%Y%m%d"
