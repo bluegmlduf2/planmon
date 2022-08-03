@@ -8,6 +8,7 @@ from ..service.post_service import get_post,get_post_detail,update_post_date,cre
 
 api = PostDto.api
 _post = PostDto.post
+apiPostUpdateDate = PostUpdateDateDto.api
 _postupdatedate = PostUpdateDateDto.postupdatedate
 
 
@@ -55,7 +56,7 @@ class PostDetail(Resource):
         return get_post_detail(param,requestItem)
 
 
-@api.route('/update-post-date')
+@apiPostUpdateDate.route('/update-post-date')
 class PostUpdateDate(Resource):
     @token_required
     @exception_handler
