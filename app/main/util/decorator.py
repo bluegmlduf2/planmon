@@ -59,7 +59,7 @@ def ceate_logger():
     # 로그파일 출력설정 및 핸들러등록
     logger.setLevel(logging.INFO) # 로그설정 (INFO까지표시)
     logHandler = handlers.TimedRotatingFileHandler('./log/logfile.log', when='midnight', interval=1)
-    logHandler.setFormatter(logging.Formatter('#----- [%(asctime)s] [%(levelname)s] | %(message)s -----#'))
+    logHandler.setFormatter(logging.Formatter('[%(asctime)s] [%(levelname)s] | %(message)s '))
     logHandler.suffix = "%Y%m%d"
     logger.addHandler(logHandler)
 
@@ -74,22 +74,21 @@ def exception_handler(f) -> Callable:
             # 로그 인스턴스 생성
             logger = ceate_logger()
 
-            # 로그고유번호용 UUID 
-            uuid=get_uuid()
+            # 로그고유번호용 UUID 8글자
+            uuid=get_uuid()[:8]
 
             # 사용자 IP
             user_ip=request.environ.get("HTTP_X_FORWARDED_FOR", request.remote_addr)
 
             # 로그 기록
-            logger.info(f"[{user_ip} | {uuid} ] 컨트롤러 메소드 시작 => ({f.__qualname__})")
-            result = f(*args, **kwargs)  # 인자로 전달받은 f 호출 / result는 f()의 반환값            
-            logger.info(f"[{user_ip} | {uuid} ] 컨트롤러 메소드 종료 => ({f.__qualname__})")
+            logger.info(f"[{user_ip}] [{uuid}] 요청 => ({f.__qualname__})")
+            result = f(*args, **kwargs)  # 인자로 전달받은 f 호출 / result는 f()의 반환값
         except UserError as e:
             # 사용자에러 처리
             return e.errorInfo,400
         except Exception as e:
             # 기타 예외 처리
-            logger.exception(f"[{user_ip} | {uuid} ] 에러 상세 => ({e})")
+            logger.exception(f"[{user_ip}] [{uuid}] 에러 상세 => ({e})")
             return getMessage(800),500
         else:
             # 성공적으로 반환된 값 전달
