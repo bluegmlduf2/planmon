@@ -4,6 +4,7 @@ from app.main.model.comment import Comment
 from app.main.service.auth_helper import Auth
 from app.main.model.commentreply import CommentReply
 from app.main.model.user import User
+from app.main.util.decorator import UserError
 from sqlalchemy import exc
 
 def get_comment(uid,postId):
@@ -57,17 +58,9 @@ def create_comment(uid,param):
             }
             return response_object, 201
     except exc.IntegrityError as e:
-        response_object = {
-            'status': 'fail',
-            'message': '이미 등록된 댓글입니다'
-        }
-        return response_object, 401
-    except Exception as e:
-        response_object = {
-            'status': 'fail',
-            'message': '댓글 등록중 에러가 발생하였습니다'
-        }
-        return response_object, 401
+        # 이미 등록된 데이터가 존재할 경우
+        raise UserError(703,'등록된 댓글')
+
 
 def update_comment(uid,param):
     '''댓글 수정'''
@@ -87,17 +80,9 @@ def update_comment(uid,param):
             }
             return response_object, 201        
     except exc.IntegrityError as e:
-        response_object = {
-            'status': 'fail',
-            'message': '이미 수정된 댓글입니다'
-        }
-        return response_object, 401
-    except Exception as e:
-        response_object = {
-            'status': 'fail',
-            'message': '댓글 수정중 에러가 발생하였습니다'
-        }
-        return response_object, 401
+        # 이미 등록된 데이터가 존재할 경우
+        raise UserError(703,'수정된 댓글')
+
 
 def destroy_comment(uid,commentId):
     '''댓글 삭제'''
@@ -118,20 +103,7 @@ def destroy_comment(uid,commentId):
                 }
                 return response_object, 201
             else:
-                response_object = {
-                    'status': 'fail',
-                    'message': '대댓글이 존재하므로 삭제할수없습니다'
-                }
-                return response_object, 400    
+                raise UserError(700,'대댓글이 존재하므로 삭제할수없습니다')
     except exc.IntegrityError as e:
-        response_object = {
-            'status': 'fail',
-            'message': '이미 삭제된 댓글입니다'
-        }
-        return response_object, 401
-    except Exception as e:
-        response_object = {
-            'status': 'fail',
-            'message': '댓글 삭제중 에러가 발생하였습니다'
-        }
-        return response_object, 401
+        # 이미 등록된 데이터가 존재할 경우
+        raise UserError(703,'삭제된 댓글')

@@ -4,6 +4,7 @@ from app.main.model.list import List
 from app.main.model.mylist import Mylist
 from app.main.model.user import User
 from app.main.util import convert_string_to_date,get_current_time,moveImageFile
+from app.main.util.decorator import UserError
 from app.main.service.comment_service import get_comment
 from app.main.service.rec_list_service import update_reclist
 from sqlalchemy import exc
@@ -14,6 +15,10 @@ def get_post(uid,postId):
     '''게시물 정보 취득'''
     # 게시물 관련
     post = List.query.filter_by(postId=postId).first() # 게시물 정보 취득
+
+    # 게시물존재여부체크
+    if not post:
+        raise UserError(702,'게시물')
 
     # 유저정보 관련
     user = Auth.get_user_info(post.writerUid) # 파이어베이스에 저장된 유저정보 취득
@@ -53,7 +58,7 @@ def create_post(uid,payload):
         
         # 유저의 선택정보가 전부 입력되어있는지 확인
         if not user.entryDate or not user.country or not user.stayStatus:
-            raise Exception('TODO에러처리')
+            raise UserError(701,'필수항목')
 
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
@@ -100,17 +105,8 @@ def create_post(uid,payload):
             }
             return response_object, 201
     except exc.IntegrityError as e:
-        response_object = {
-            'status': 'fail',
-            'message': '이미 등록된 게시글입니다'
-        }
-        return response_object, 401
-    except Exception as e:
-        response_object = {
-            'status': 'fail',
-            'message': '게시글 등록중 에러가 발생하였습니다'
-        }
-        return response_object, 401
+        # 이미 등록된 데이터가 존재할 경우
+        raise UserError(703,'등록된 게시물')
 
 
 def update_post(uid,payload):
@@ -162,17 +158,8 @@ def update_post(uid,payload):
             }
             return response_object, 201
     except exc.IntegrityError as e:
-        response_object = {
-            'status': 'fail',
-            'message': '이미 수정된 게시글입니다'
-        }
-        return response_object, 401
-    except Exception as e:
-        response_object = {
-            'status': 'fail',
-            'message': '게시글 수정중 에러가 발생하였습니다'
-        }
-        return response_object, 401
+        # 이미 등록된 데이터가 존재할 경우
+        raise UserError(703,'수정된 게시물')
 
 
 def update_view_count(post):
@@ -190,25 +177,18 @@ def get_post_detail(postId,requestItem):
 
 def update_post_date(uid,param):
     '''게시물의 일정시작일과 일정종료일을 갱신'''
-    try:
-        # 기존 데이터 취득
-        myTodoList = Mylist.query.filter_by(uid=uid, myListIdRef=param['postId']).first()
+    # 기존 데이터 취득
+    myTodoList = Mylist.query.filter_by(uid=uid, myListIdRef=param['postId']).first()
 
-        # 일정시작일과 일정종료일을 갱신
-        myTodoList.myStartDate = convert_string_to_date(param['myStartDate'])
-        myTodoList.myEndDate = convert_string_to_date(param['myEndDate'])
+    # 일정시작일과 일정종료일을 갱신
+    myTodoList.myStartDate = convert_string_to_date(param['myStartDate'])
+    myTodoList.myEndDate = convert_string_to_date(param['myEndDate'])
 
-        # 커밋
-        db.session.commit()
-                    
-        response_object = {
-            'myStartDate': myTodoList.myStartDate,
-            'myEndDate': myTodoList.myEndDate
-        }
-        return response_object
-    except Exception as e:
-        response_object = {
-            'status': 'fail',
-            'message': '일정시작일과 일정종료일을 등록중 에러가 발생하였습니다'
-        }
-        return response_object, 401
+    # 커밋
+    db.session.commit()
+                
+    response_object = {
+        'myStartDate': myTodoList.myStartDate,
+        'myEndDate': myTodoList.myEndDate
+    }
+    return response_object

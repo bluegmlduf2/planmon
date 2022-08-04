@@ -92,7 +92,7 @@ def exception_handler(f) -> Callable:
         except Exception as e:
             # 기타 예외 처리
             logger.exception(f"[{user_ip} | {uuid} ] 에러 상세 => ({e})")
-            return getMessage(801),500
+            return getMessage(800),500
         else:
             # 성공적으로 반환된 값 전달
             return result

@@ -4,7 +4,9 @@ from app.main.model.mylist import Mylist
 from app.main.model.user import User
 from sqlalchemy import exc
 from app.main.util import sort_by_id
+from app.main.util.decorator import UserError
 from app.main.service import get_next_page,get_per_page,get_filter_condition_by_searchword
+
 
 def get_my_completelist(uid, postInfo = None):
     '''유저의 완료 리스트 취득'''
@@ -58,14 +60,5 @@ def destroy_completelist(uid,postId):
             }
             return response_object, 201
     except exc.IntegrityError as e:
-        response_object = {
-            'status': 'fail',
-            'message': '이미 삭제된 일정입니다'
-        }
-        return response_object, 401
-    except Exception as e:
-        response_object = {
-            'status': 'fail',
-            'message': '완료일정 삭제중 에러가 발생하였습니다'
-        }
-        return response_object, 401
+        # 이미 등록된 데이터가 존재할 경우
+        raise UserError(703,'삭제된 일정')
