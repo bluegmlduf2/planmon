@@ -1,8 +1,7 @@
 from flask_restx import Resource
-
-from app.main.util.decorator import token_required, get_user_by_token,exception_handler, UserError
-from ..util.dto import RecListDto
-from ..service.rec_list_service import get_reclist, update_reclist
+from app.main.util.dto import RecListDto
+from app.main.service.rec_list_service import get_reclist, update_reclist
+from app.main.util.decorator import token_required, get_user_by_token,exception_handler
 import json
 
 api = RecListDto.api

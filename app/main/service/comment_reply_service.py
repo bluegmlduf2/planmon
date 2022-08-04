@@ -1,5 +1,4 @@
 from app.main import db
-
 from app.main.model.commentreply import CommentReply
 from app.main.model.user import User
 from app.main.util.decorator import UserError

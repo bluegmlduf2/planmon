@@ -2,13 +2,13 @@ from app.main import db
 from app.main.model.user import User
 from app.main.model.list import List
 from app.main.model.mylist import Mylist
-from sqlalchemy import exc,case
-from datetime import datetime
+from app.main.service import remove_unnecessary_elements,get_next_page,get_per_page,get_filter_condition_by_searchword,get_recommended_enddate
+from app.main.service.complete_list_service import get_my_completelist
+from app.main.service.todo_list_service import get_my_todolist
 from app.main.util import get_current_time
 from app.main.util.decorator import UserError
-from app.main.service import remove_unnecessary_elements,get_next_page,get_per_page,get_filter_condition_by_searchword,get_recommended_enddate
-from ..service.complete_list_service import get_my_completelist
-from ..service.todo_list_service import get_my_todolist
+from sqlalchemy import exc,case
+from datetime import datetime
 
 def get_reclist(uid,selection):
     '''유저의 할일 리스트 취득'''

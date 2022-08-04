@@ -1,8 +1,8 @@
 from flask_restx import Resource
 from flask import request
+from app.main.util.dto import SelectionDto
+from app.main.service.selection_service import get_a_selection, update_a_selection
 from app.main.util.decorator import token_required, exception_handler
-from ..util.dto import SelectionDto
-from ..service.selection_service import get_a_selection, update_a_selection
 
 api = SelectionDto.api
 _selection = SelectionDto.selection

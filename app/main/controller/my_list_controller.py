@@ -1,8 +1,7 @@
 from flask_restx import Resource
-
+from app.main.util.dto import MyListDto
+from app.main.service.my_list_service import get_mylist
 from app.main.util.decorator import token_required,exception_handler
-from ..util.dto import MyListDto
-from ..service.my_list_service import get_mylist
 import json
 
 api = MyListDto.api

@@ -1,9 +1,8 @@
 from flask_restx import Resource
 from flask import request
-
+from app.main.util.dto import CommentReplyDto
+from app.main.service.comment_reply_service import create_comment_reply,update_comment_reply,destroy_comment_reply
 from app.main.util.decorator import token_required,exception_handler
-from ..util.dto import CommentReplyDto
-from ..service.comment_reply_service import create_comment_reply,update_comment_reply,destroy_comment_reply
 
 api = CommentReplyDto.api
 

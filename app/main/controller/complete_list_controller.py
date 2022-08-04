@@ -1,8 +1,7 @@
 from flask_restx import Resource
-
+from app.main.util.dto import CompleteListDto
+from app.main.service.complete_list_service import get_my_completelist,destroy_completelist
 from app.main.util.decorator import get_user_by_token,token_required,exception_handler
-from ..util.dto import CompleteListDto
-from ..service.complete_list_service import get_my_completelist,destroy_completelist
 import json
 
 api = CompleteListDto.api

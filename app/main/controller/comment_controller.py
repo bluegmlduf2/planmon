@@ -1,9 +1,8 @@
 from flask_restx import Resource
 from flask import request
-
+from app.main.util.dto import CommentDto
+from app.main.service.comment_service import get_comment,create_comment,update_comment,destroy_comment
 from app.main.util.decorator import get_user_by_token,token_required,exception_handler
-from ..util.dto import CommentDto
-from ..service.comment_service import get_comment,create_comment,update_comment,destroy_comment
 
 api = CommentDto.api
 _comment = CommentDto.comment

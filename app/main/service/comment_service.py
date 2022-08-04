@@ -1,5 +1,4 @@
 from app.main import db
-
 from app.main.model.comment import Comment
 from app.main.service.auth_helper import Auth
 from app.main.model.commentreply import CommentReply
