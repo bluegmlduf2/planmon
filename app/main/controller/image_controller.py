@@ -1,13 +1,8 @@
-from flask_restx import Resource
-from flask import request,current_app,send_from_directory
-from app.main.service.auth_helper import Auth
+from . import *
 from app.main.util.dto import ImageDto
-from app.main.util import upload_image,upload_user_image,delete_user_image
-from app.main.util.decorator import token_required,exception_handler
 
 api = ImageDto.api
 _image = ImageDto.image
-
 
 @api.route('/<status>/<param>')
 @api.param('status', 'temp:임시이미지 post:일반이미지 userimage:유저이미지')

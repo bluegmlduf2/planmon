@@ -1,12 +1,9 @@
-from flask_restx import Resource
+from . import *
 from app.main.util.dto import MyListDto
 from app.main.service.my_list_service import get_mylist
-from app.main.util.decorator import token_required,exception_handler
-import json
 
 api = MyListDto.api
 _mylist = MyListDto.mylist
-
 
 @api.route('/<param>')
 @api.param('param', '유저가 작성한 일정')

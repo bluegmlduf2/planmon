@@ -1,8 +1,6 @@
-from flask_restx import Resource
+from . import *
 from app.main.util.dto import TodoListDto
 from app.main.service.todo_list_service import get_my_todolist,update_todolist,destroy_todolist
-from app.main.util.decorator import token_required,get_user_by_token,exception_handler
-import json
 
 api = TodoListDto.api
 _todolist = TodoListDto.todolist

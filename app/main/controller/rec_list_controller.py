@@ -1,12 +1,9 @@
-from flask_restx import Resource
+from . import *
 from app.main.util.dto import RecListDto
 from app.main.service.rec_list_service import get_reclist, update_reclist
-from app.main.util.decorator import token_required, get_user_by_token,exception_handler
-import json
 
 api = RecListDto.api
 _reclist = RecListDto.reclist
-
 
 @api.route('/<param>')
 @api.param('param', '유저의 선택정보 혹은 추가한 추천일정')
