@@ -1,5 +1,5 @@
-from .. import db
-from app.main.util import get_current_time,get_uuid
+from . import *
+
 class Mylist(db.Model):
     """ 유저가 선택중인 일정 정보 취득 """
     __tablename__ = "mylist"

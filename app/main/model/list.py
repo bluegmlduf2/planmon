@@ -1,5 +1,4 @@
-from .. import db
-from app.main.util import get_current_time,get_uuid
+from . import *
 
 class List(db.Model):
     """ 리스트정보 취득 """

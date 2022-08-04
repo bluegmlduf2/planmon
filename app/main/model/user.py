@@ -1,4 +1,4 @@
-from .. import db
+from . import *
 
 class User(db.Model):
     """ 유저정보 취득 """

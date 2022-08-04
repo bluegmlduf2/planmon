@@ -1,6 +1,4 @@
-from .. import db
-from sqlalchemy.orm import relationship
-from app.main.util import get_current_time,get_uuid
+from . import *
 
 class Comment(db.Model):
     """ 게시물의 댓글정보 """

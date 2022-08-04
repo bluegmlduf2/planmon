@@ -1,6 +1,4 @@
-from .. import db
-from sqlalchemy import ForeignKey
-from app.main.util import get_current_time,get_uuid
+from . import *
 
 class CommentReply(db.Model):
     """ 게시물의 대댓글정보 """
