@@ -1,9 +1,6 @@
-from app.main import db
-from app.main.model.user import User
+from . import *
 from app.main.service.todo_list_service import get_my_todolist
 from app.main.service.complete_list_service import get_my_completelist
-from datetime import datetime
-
 
 def get_a_selection(uid):
     '''유저선택정보를 취득'''

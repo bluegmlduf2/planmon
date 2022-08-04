@@ -1,6 +1,4 @@
-from app.main import db
-from app.main.model.user import User
-
+from . import *
 
 def get_user(uid):
     '''유저가 존재하는지 확인'''

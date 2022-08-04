@@ -1,9 +1,4 @@
-from app.main import db
-from app.main.model.commentreply import CommentReply
-from app.main.model.user import User
-from app.main.util.decorator import UserError
-from sqlalchemy import exc
-
+from . import *
 
 def create_comment_reply(uid,param):
     '''대댓글 등록'''

@@ -1,10 +1,4 @@
-from app.main import db
-from app.main.model.comment import Comment
-from app.main.service.auth_helper import Auth
-from app.main.model.commentreply import CommentReply
-from app.main.model.user import User
-from app.main.util.decorator import UserError
-from sqlalchemy import exc
+from . import *
 
 def get_comment(uid,postId):
     '''댓글 정보 취득'''
