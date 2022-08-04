@@ -83,16 +83,15 @@ def exception_handler(f) -> Callable:
             user_ip=request.environ.get("HTTP_X_FORWARDED_FOR", request.remote_addr)
 
             # 로그 기록
-            logger.info(f"[ {uuid} ] 컨트롤러 메소드 시작 => ("+f.__qualname__+")")
-            logger.info(f"[ {uuid} ] 접속자 IP주소      => ("+user_ip+")")
+            logger.info(f"[{user_ip} | {uuid} ] 컨트롤러 메소드 시작 => ({f.__qualname__})")
             result = f(*args, **kwargs)  # 인자로 전달받은 f 호출 / result는 f()의 반환값            
-            logger.info(f"[ {uuid} ] 컨트롤러 메소드 종료 => ("+f.__qualname__+")")
+            logger.info(f"[{user_ip} | {uuid} ] 컨트롤러 메소드 종료 => ({f.__qualname__})")
         except UserError as e:
             # 사용자에러 처리
             return e.errorInfo,400
         except Exception as e:
             # 기타 예외 처리
-            logging.exception(e)
+            logger.exception(f"[{user_ip} | {uuid} ] 에러 상세 => ({e})")
             return getMessage(801),500
         else:
             # 성공적으로 반환된 값 전달
