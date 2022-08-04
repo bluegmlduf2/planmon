@@ -83,12 +83,14 @@ def exception_handler(f) -> Callable:
             # 로그 기록
             logger.info(f"[{user_ip}] [{uuid}] 요청 => ({f.__qualname__})")
             result = f(*args, **kwargs)  # 인자로 전달받은 f 호출 / result는 f()의 반환값
+            logger.info(f"[{user_ip}] [{uuid}] 응답 => ({f.__qualname__})")
         except UserError as e:
+            logger.warning(f"[{user_ip}] [{uuid}] 예외 => ({e})")
             # 사용자에러 처리
             return e.errorInfo,400
         except Exception as e:
             # 기타 예외 처리
-            logger.exception(f"[{user_ip}] [{uuid}] 에러 상세 => ({e})")
+            logger.exception(f"[{user_ip}] [{uuid}] 에러 => ({e})")
             return getMessage(800),500
         else:
             # 성공적으로 반환된 값 전달
