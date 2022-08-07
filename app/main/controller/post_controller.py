@@ -52,7 +52,7 @@ class PostDetail(Resource):
         return get_post_detail(param,payload)
 
 
-@apiPostUpdateDate.route('/update-post-date')
+@api.route('/update/post-date')
 class PostUpdateDate(Resource):
     @token_required
     @exception_handler

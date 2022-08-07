@@ -42,7 +42,7 @@ class PostProxy extends Proxy {
    * @returns {Promise} The result in a promise.
    */
   updatePostCalendar(param) {
-    return this.submit('put', `${this.endpoint}/update-post-date`, param);
+    return this.submit('put', `${this.endpoint}/update/post-date`, param);
   }
 
   /**

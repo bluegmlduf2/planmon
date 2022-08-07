@@ -78,6 +78,10 @@ def create_post(uid,payload):
             if inputData['stayStatus'] not in ['0','1','2']:
                 raise UserError(704)
 
+            # 일정 시작일이 종료일보다 큰 경우
+            if inputData['startDate'] > inputData['endDate']:
+                raise UserError(705)
+
             # 시간 데이터
             startDate = datetime.strptime(inputData['startDate'],'%Y-%m-%d') # 일정시작일
             endDate = datetime.strptime(inputData['endDate'],'%Y-%m-%d') # 일정종료일
@@ -153,7 +157,11 @@ def update_post(uid,payload):
             # 체류상태에 지정한 값이외에 다른 값을 입력한 경우
             if inputData['stayStatus'] not in ['0','1','2']:
                 raise UserError(704)
-                
+
+            # 일정 시작일이 종료일보다 큰 경우
+            if inputData['startDate'] > inputData['endDate']:
+                raise UserError(705)
+       
             # 시간 데이터
             startDate = datetime.strptime(inputData['startDate'],'%Y-%m-%d') # 일정시작일
             endDate = datetime.strptime(inputData['endDate'],'%Y-%m-%d') # 일정종료일
@@ -227,6 +235,10 @@ def update_post_date(uid,param):
     # 기존 등록일정 존재여부체크
     if not myTodoList:
         raise UserError(702,'기존 등록 일정')
+
+    # 일정 시작일이 종료일보다 큰 경우
+    if param['myStartDate'] > param['myEndDate']:
+        raise UserError(705)
 
     # 일정시작일과 일정종료일을 갱신
     myTodoList.myStartDate = convert_string_to_date(param['myStartDate'])
