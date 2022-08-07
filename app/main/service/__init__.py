@@ -54,7 +54,9 @@ def get_filter_condition_by_searchword(selection):
     # 검색어가 존재하지않을 경우 (모든일정표시)
         return True
 
-def get_recommended_enddate(afterEntryDate):
-    '''게시물의 입국 경과일을 참조해서 추천 종료일을 반환'''
+def get_recommended_enddate(post):
+    '''게시물의 일정시작일과 종료일을 참조해서 추천 종료일을 반환'''
+    # 게시물의 시작일과 종료일을 뺀 일자
+    recommended_enddate=(post.endDate-post.startDate).days
     return datetime.strptime(get_current_time().strftime("%Y/%m/%d"), "%Y/%m/%d")\
-            +timedelta(days=afterEntryDate) # 게시물의 입국일 경과일을 더한 추천 종료 일수
+            +timedelta(days=recommended_enddate) # 게시물의 입국일 경과일을 더한 추천 종료 일수

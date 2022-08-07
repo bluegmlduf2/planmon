@@ -32,12 +32,13 @@ export default {
     Vue.prototype.addDays = (date, addedDay) => new Date(date.getTime() + addedDay * 24 * 60 * 60 * 1000);
 
     // 두 날짜 사이의 일수 구하기
-    Vue.prototype.getDateDiff = (d1, d2) => {
+    // type이 true인경우 문자열형식 false인경우 숫자만 반환
+    Vue.prototype.getDateDiff = (d1, d2, type = true) => {
       const diffDate = new Date(d2).getTime() - new Date(d1).getTime(); // 종료일 - 시작일
       const sign = Math.sign(diffDate) >= 0 ? '+' : '-'; // 음수양수에 따라 +-를 추가
       const diffDay = Math.ceil(Math.abs(diffDate / (1000 * 60 * 60 * 24))); // 밀리세컨 * 초 * 분 * 시 = 일
 
-      return `${sign}${diffDay}일`;
+      return type ? `${sign}${diffDay}일` : diffDay;
     };
 
     // 리스트의 체류상태에 따라 표시 태그 반환

@@ -40,16 +40,16 @@ class Post(Resource):
         return update_post(uid,payload)
 
 
-@api.route('/<param>/<requestItem>')
+@api.route('/<param>/postdetail')
 @api.param('param', '게시물 번호')
-@api.param('requestItem', '게시물에서 취득할 정보')
 class PostDetail(Resource):
     @exception_handler
     @api.doc('게시물의 선택정보 가져오기')
     @api.marshal_with(_post, envelope='data')
-    def get(self,param,requestItem):
+    def post(self,param):
         """게시물에서 특정 정보만 취득"""
-        return get_post_detail(param,requestItem)
+        payload = request.json
+        return get_post_detail(param,payload)
 
 
 @apiPostUpdateDate.route('/update-post-date')

@@ -31,7 +31,7 @@ class PostProxy extends Proxy {
    * @returns {Promise} The result in a promise.
    */
   getPostDetail({ postId, requestItem }) {
-    return this.submit('get', `${this.endpoint}/${postId}/${requestItem}`);
+    return this.submit('post', `${this.endpoint}/${postId}/postdetail`, requestItem);
   }
 
   /**

@@ -111,9 +111,9 @@ def update_reclist(uid,postId):
             mylist.listKind = 'todo'
 
             # 새로운 일정에 일정 시작일과 일정 종료일 추가
-            afterEntryDate = List.query.filter_by(postId=postId).first().afterEntryDate # 게시물의 입국 경과일
+            post = List.query.filter_by(postId=postId).first() # 게시물의 입국 경과일
             mylist.myStartDate =  get_current_time() # 추천 일정 시작일
-            mylist.myEndDate = get_recommended_enddate(afterEntryDate) # 추천 일정 종료일
+            mylist.myEndDate = get_recommended_enddate(post) # 추천 일정 종료일
 
             db.session.add(mylist)
             db.session.commit()

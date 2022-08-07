@@ -205,10 +205,11 @@ def get_post_detail(postId,requestItem):
     if not postId or not requestItem:
         raise UserError(701,'필수항목')
 
-    post_detail_column =getattr(List,requestItem) # 취득할 데이터
+    post_detail_column = [getattr(List,attr) for attr in requestItem] # 취득할 데이터
     post_detail = List.query.filter_by(postId=postId).\
-        with_entities(post_detail_column).first()
+        with_entities(*post_detail_column).first()
     return post_detail
+
 
 def update_post_date(uid,param):
     '''게시물의 일정시작일과 일정종료일을 갱신'''

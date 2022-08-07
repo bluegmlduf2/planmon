@@ -349,12 +349,12 @@ export default {
         // 미로그인시
         if (listKind === 'rec') {
           // 게시물로부터 취득할 데이터 컬럼
-          const param = { postId: payload.postId, requestItem: 'afterEntryDate' };
-          // 해당 게시물의 입국 경과일 취득
+          const param = { postId: payload.postId, requestItem: ['startDate', 'endDate'] };
+          // 해당 게시물의 시작일과 종료일을 취득
           const response = await new PostProxy().getPostDetail(param);
           // 게시물의 일정시작일과 일정 종료일을 추가
-          const afterEntryDate = response?.data?.afterEntryDate || 0;
-          const addedDated = Vue.prototype.addDays(new Date(), afterEntryDate); // 오늘 날짜 + 게시물의 입국경과일
+          const recommendedDate = Vue.prototype.getDateDiff(response.data.startDate, response.data.endDate, false); // 게시물의 시작일과 종료일을 뺀 추천종료일
+          const addedDated = Vue.prototype.addDays(new Date(), recommendedDate); // 오늘 날짜 + 게시물의 종료일
           checkedItem.myStartDate = Vue.prototype.getDateFormatYYYYMMDD(new Date()); // 추천 시작일자에 오늘 일자 입력
           checkedItem.myEndDate = Vue.prototype.getDateFormatYYYYMMDD(addedDated); // 추천 종료일자를 추천종료일을 설정
           // 추천일정화면에서 추가
