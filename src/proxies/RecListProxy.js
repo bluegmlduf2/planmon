@@ -25,7 +25,7 @@ class RecListProxy extends Proxy {
     const parameter = {
       country, stayStatus, entryDate, myCompletelist, myTodolist, get20perpage, currentPage, searchWord,
     };
-    return this.find(JSON.stringify(parameter));
+    return this.submit('post', `${this.endpoint}`, parameter);
   }
 
   /**

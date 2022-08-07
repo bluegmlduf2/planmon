@@ -4,6 +4,8 @@ from app.main.service.todo_list_service import get_my_todolist,update_todolist,d
 
 api = TodoListDto.api
 _todolist = TodoListDto.todolist
+
+@api.route('')
 @api.route('/<param>')
 @api.param('param', '할일 일정 리스트')
 class TodoList(Resource):
@@ -11,9 +13,10 @@ class TodoList(Resource):
     @exception_handler
     @api.doc('할일 일정 가져오기')
     @api.marshal_list_with(_todolist, envelope='data')
-    def get(uid,self,param):
+    def post(uid,self):
         """할일 일정을 반환"""
-        return get_my_todolist(uid,json.loads(param))
+        payload = request.json #유저의 선택정보
+        return get_my_todolist(uid,payload)
 
     @token_required
     @exception_handler

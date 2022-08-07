@@ -8,6 +8,8 @@ apiPostUpdateDate = PostUpdateDateDto.api
 _postupdatedate = PostUpdateDateDto.postupdatedate
 
 
+
+@api.route('')
 @api.route('/<param>')
 @api.param('param', '게시물 번호')
 class Post(Resource):
@@ -19,8 +21,6 @@ class Post(Resource):
         """게시물 정보를 반환"""
         return get_post(uid,param)
 
-@api.route('')
-class PostWrite(Resource):
     @token_required
     @exception_handler
     @api.doc('게시물 등록')

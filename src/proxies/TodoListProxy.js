@@ -26,7 +26,7 @@ class TodoListProxy extends Proxy {
       get20perpage, currentPage, getAllPages, searchWord,
     };
     parameter.myTodolist = myTodolist?.map((e) => e.postId);
-    return this.find(JSON.stringify(parameter));
+    return this.submit('post', `${this.endpoint}`, parameter);
   }
 
   /**
