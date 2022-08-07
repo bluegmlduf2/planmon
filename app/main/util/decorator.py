@@ -16,7 +16,7 @@ def token_required(f) -> Callable:
 
         # 인증정보가 존재하지 않을 시 
         if not token:
-            return abort(401,'해당 요청에 대한 권한이 없습니다')
+            return getMessage(770),401
         
         # 인증되었지만 DB에 유저정보가 없을시 DB에 유저ID 등록
         if not get_user(uid):
