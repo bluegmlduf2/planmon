@@ -24,16 +24,12 @@ def get_reclist(uid,selection):
     # 나의 할일일정과 완료일정제외된 추천일정 취득
     my_reclist_query = List.query.filter_by(**filters).filter(~List.postId.in_(myList))
 
-    # 필수 입력정보가 전부 입력되어있는지 확인
-    if not selection['country'] or not selection['stayStatus']:
-        raise UserError(701,'필수항목')
-
     # 국가선택에 지정한 값이외에 다른 값을 입력한 경우
-    if selection['country'] not in ['US','JP','CN']:
+    if selection['country'] and selection['country'] not in ['US','JP','CN']:
         raise UserError(704)
 
     # 체류상태에 지정한 값이외에 다른 값을 입력한 경우
-    if selection['stayStatus'] not in ['0','1','2']:
+    if selection['stayStatus'] and selection['stayStatus'] not in ['0','1','2']:
         raise UserError(704)
 
     # 추천 일정 취득
