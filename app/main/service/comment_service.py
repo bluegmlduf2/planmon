@@ -2,6 +2,10 @@ from . import *
 
 def get_comment(uid,postId):
     '''댓글 정보 취득'''
+    # 필수 입력정보가 전부 입력되어있는지 확인
+    if not postId:
+        raise UserError(701,'필수항목')
+
     # 댓글과 대댓글 정보취득
     comment = db.session.query(Comment).\
         outerjoin(CommentReply,Comment.commentId == CommentReply.commentReplyRefId).\
@@ -31,9 +35,14 @@ def get_comment(uid,postId):
 
     return comment
 
+
 def create_comment(uid,param):
     '''댓글 등록'''
     try:
+        # 필수 입력정보가 전부 입력되어있는지 확인
+        if not param['commentContent']:
+            raise UserError(701,'필수항목')
+
         user=User.query.filter_by(uid=uid).first()
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
@@ -58,6 +67,10 @@ def create_comment(uid,param):
 def update_comment(uid,param):
     '''댓글 수정'''
     try:
+        # 필수 입력정보가 전부 입력되어있는지 확인
+        if not param['commentContent'] or not param['commentId']:
+            raise UserError(701,'필수항목')
+
         user=User.query.filter_by(uid=uid).first()
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
@@ -80,6 +93,10 @@ def update_comment(uid,param):
 def destroy_comment(uid,commentId):
     '''댓글 삭제'''
     try:
+        # 필수 입력정보가 전부 입력되어있는지 확인
+        if not commentId:
+            raise UserError(701,'필수항목')
+
         user=User.query.filter_by(uid=uid).first()
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:

@@ -16,6 +16,10 @@ def get_a_selection(uid):
 
 def update_a_selection(uid,selection):
     '''유저선택정보를 갱신'''
+    # 필수 입력정보가 전부 입력되어있는지 확인
+    if not selection['country'] or not selection['entryDate'] or not selection['stayStatus']:
+        raise UserError(701,'필수항목')
+
     user=User.query.filter_by(uid=uid).first()
     # 기존 유저가 존재할 경우 유저선택정보를 갱신
     if user:

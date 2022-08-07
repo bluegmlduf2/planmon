@@ -4,6 +4,11 @@ from app.main.service.rec_list_service import update_reclist
 
 def get_post(uid,postId):
     '''게시물 정보 취득'''
+
+    # 필수 입력정보가 전부 입력되어있는지 확인
+    if not postId:
+        raise UserError(701,'필수항목')
+
     # 게시물 관련
     post = List.query.filter_by(postId=postId).first() # 게시물 정보 취득
 
@@ -56,6 +61,15 @@ def create_post(uid,payload):
             # 화면에서 입력한 데이터
             inputData = payload['inputData']
 
+            # 필수 입력정보가 전부 입력되어있는지 확인
+            if (not inputData['startDate'] 
+            or not inputData['endDate'] 
+            or not inputData['title'] 
+            or not inputData['content'] 
+            or not inputData['country'] 
+            or not inputData['stayStatus']):
+                raise UserError(701,'필수항목')
+
             # 시간 데이터
             startDate = datetime.strptime(inputData['startDate'],'%Y-%m-%d') # 일정시작일
             endDate = datetime.strptime(inputData['endDate'],'%Y-%m-%d') # 일정종료일
@@ -107,7 +121,17 @@ def update_post(uid,payload):
 
         # 유저의 선택정보가 전부 입력되어있는지 확인
         if not user.entryDate or not user.country or not user.stayStatus:
-            raise Exception('TODO에러처리')
+            raise UserError(701,'유저의 국가/체류상태/입국날짜')
+
+        # 필수 입력정보가 전부 입력되어있는지 확인
+        if (not inputData['postId'] 
+        or not inputData['startDate'] 
+        or not inputData['endDate'] 
+        or not inputData['title'] 
+        or not inputData['content'] 
+        or not inputData['country'] 
+        or not inputData['stayStatus']):
+            raise UserError(701,'필수항목')
 
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
@@ -161,6 +185,10 @@ def update_view_count(post):
 
 def get_post_detail(postId,requestItem):
     """게시물에서 특정 정보만 취득"""
+    # 필수 입력정보가 전부 입력되어있는지 확인
+    if not postId or not requestItem:
+        raise UserError(701,'필수항목')
+
     post_detail_column =getattr(List,requestItem) # 취득할 데이터
     post_detail = List.query.filter_by(postId=postId).\
         with_entities(post_detail_column).first()
@@ -168,6 +196,10 @@ def get_post_detail(postId,requestItem):
 
 def update_post_date(uid,param):
     '''게시물의 일정시작일과 일정종료일을 갱신'''
+    # 필수 입력정보가 전부 입력되어있는지 확인
+    if not param['postId'] or not param['myStartDate'] or not param['myEndDate']:
+        raise UserError(701,'필수항목')
+
     # 기존 데이터 취득
     myTodoList = Mylist.query.filter_by(uid=uid, myListIdRef=param['postId']).first()
 

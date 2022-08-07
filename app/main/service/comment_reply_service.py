@@ -3,6 +3,10 @@ from . import *
 def create_comment_reply(uid,param):
     '''대댓글 등록'''
     try:
+        # 필수 입력정보가 전부 입력되어있는지 확인
+        if not param['commentReplyContent'] or not param['commentId']:
+            raise UserError(701,'필수항목')
+        
         user=User.query.filter_by(uid=uid).first()
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
@@ -27,6 +31,10 @@ def create_comment_reply(uid,param):
 def update_comment_reply(uid,param):
     '''대댓글 수정'''
     try:
+        # 필수 입력정보가 전부 입력되어있는지 확인
+        if not param['commentReplyContent'] or not param['commentReplyId']:
+            raise UserError(701,'필수항목')
+
         user=User.query.filter_by(uid=uid).first()
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
@@ -49,6 +57,10 @@ def update_comment_reply(uid,param):
 def destroy_comment_reply(uid,commentReplyId):
     '''대댓글 삭제'''
     try:
+        # 필수 입력정보가 전부 입력되어있는지 확인
+        if not commentReplyId:
+            raise UserError(701,'필수항목')
+
         user=User.query.filter_by(uid=uid).first()
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:

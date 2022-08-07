@@ -35,9 +35,14 @@ def get_my_completelist(uid, postInfo = None):
 
     return my_completelist
 
+
 def destroy_completelist(uid,postId):
     '''유저의 완료일정을 삭제함'''
     try:
+        # 필수 입력정보가 전부 입력되어있는지 확인
+        if not postId:
+            raise UserError(701,'필수항목')
+
         user=User.query.filter_by(uid=uid).first()
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
