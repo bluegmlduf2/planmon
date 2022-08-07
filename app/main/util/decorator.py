@@ -16,7 +16,8 @@ def token_required(f) -> Callable:
 
             # 인증정보가 존재하지 않을 시 
             if not token:
-                return getMessage(771),401
+                err_code=data.get('err_code') # 에러메세지코드
+                return getMessage(err_code),401
             
             # 인증되었지만 DB에 유저정보가 없을시 DB에 유저ID 등록
             if not get_user(uid):

@@ -20,17 +20,10 @@ class Auth:
                 return response_object
             except:
                 #유효하지않은 토큰
-                response_object = {
-                    'status': 'fail',
-                    'message': '유효하지않은 토큰입니다'
-                }
-                return response_object
+                return {'err_code': 771}
         else:
-            response_object = {
-                'status': 'fail',
-                'message': '인증정보가 존재하지않습니다'
-            }
-            return response_object
+            # 인증정보가 존재하지않을때
+            return {'err_code': 772}
 
 
 
