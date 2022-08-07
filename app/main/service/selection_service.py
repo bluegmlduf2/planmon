@@ -16,16 +16,13 @@ def get_a_selection(uid):
 
 def update_a_selection(uid,selection):
     '''유저선택정보를 갱신'''
-    # 필수 입력정보가 전부 입력되어있는지 확인
-    if not selection['country'] or not selection['entryDate'] or not selection['stayStatus']:
-        raise UserError(701,'필수항목')
 
     # 국가선택에 지정한 값이외에 다른 값을 입력한 경우
-    if selection['country'] not in ['US','JP','CN']:
+    if selection['country'] and selection['country'] not in ['US','JP','CN']:
         raise UserError(704)
 
     # 체류상태에 지정한 값이외에 다른 값을 입력한 경우
-    if selection['stayStatus'] not in ['0','1','2']:
+    if selection['stayStatus'] and selection['stayStatus'] not in ['0','1','2']:
         raise UserError(704)
 
     user=User.query.filter_by(uid=uid).first()
