@@ -49,6 +49,10 @@ def update_todolist(uid,postId):
             myTodoList = Mylist.query.filter_by(uid=uid, myListIdRef=postId)
             myExTodoList = myTodoList.first()
             
+            # 기존등록일정존재여부체크
+            if not myExTodoList:
+                raise UserError(702,'기존 등록 일정')
+
             # 새로운 일정 추가
             mylist = Mylist()
             mylist.myListIdRef = postId

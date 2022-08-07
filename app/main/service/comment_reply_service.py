@@ -39,6 +39,10 @@ def update_comment_reply(uid,param):
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
             comment_reply = CommentReply.query.filter_by(commentReplyUid=uid, commentReplyId=param['commentReplyId']).first()
+            # 대댓글존재여부체크
+            if not comment_reply:
+                raise UserError(702,'대댓글')
+
             comment_reply.commentReplyContent = param['commentReplyContent']
 
             db.session.add(comment_reply)

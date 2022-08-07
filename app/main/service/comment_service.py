@@ -75,6 +75,10 @@ def update_comment(uid,param):
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
             comment = Comment.query.filter_by(commentUid=uid, commentId=param['commentId']).first()
+            # 댓글존재여부체크
+            if not comment:
+                raise UserError(702,'댓글')
+
             comment.commentContent = param['commentContent']
 
             db.session.add(comment)

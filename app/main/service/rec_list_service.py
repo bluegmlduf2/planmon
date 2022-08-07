@@ -110,8 +110,14 @@ def update_reclist(uid,postId):
             mylist.uid = uid
             mylist.listKind = 'todo'
 
+            # 게시물의 정보취득
+            post = List.query.filter_by(postId=postId).first()
+            
+            # 게시글존재여부체크
+            if not post:
+                raise UserError(702,'게시글')
+            
             # 새로운 일정에 일정 시작일과 일정 종료일 추가
-            post = List.query.filter_by(postId=postId).first() # 게시물의 입국 경과일
             mylist.myStartDate =  get_current_time() # 추천 일정 시작일
             mylist.myEndDate = get_recommended_enddate(post) # 추천 일정 종료일
 

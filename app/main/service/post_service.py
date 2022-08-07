@@ -171,6 +171,10 @@ def update_post(uid,payload):
 
             # 수정할 게시물 정보입력
             post = List.query.filter_by(writerUid=uid, postId=inputData['postId']).first()
+            # 게시물존재여부체크
+            if not post:
+                raise UserError(702,'게시물')
+
             post.title = inputData['title']
             post.content = inputData['content']
             post.country = inputData['country']
@@ -219,6 +223,10 @@ def update_post_date(uid,param):
 
     # 기존 데이터 취득
     myTodoList = Mylist.query.filter_by(uid=uid, myListIdRef=param['postId']).first()
+
+    # 기존 등록일정 존재여부체크
+    if not myTodoList:
+        raise UserError(702,'기존 등록 일정')
 
     # 일정시작일과 일정종료일을 갱신
     myTodoList.myStartDate = convert_string_to_date(param['myStartDate'])
