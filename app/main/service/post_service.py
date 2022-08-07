@@ -70,6 +70,14 @@ def create_post(uid,payload):
             or not inputData['stayStatus']):
                 raise UserError(701,'필수항목')
 
+            # 국가선택에 지정한 값이외에 다른 값을 입력한 경우
+            if inputData['country'] not in ['US','JP','CN']:
+                raise UserError(704)
+
+            # 체류상태에 지정한 값이외에 다른 값을 입력한 경우
+            if inputData['stayStatus'] not in ['0','1','2']:
+                raise UserError(704)
+
             # 시간 데이터
             startDate = datetime.strptime(inputData['startDate'],'%Y-%m-%d') # 일정시작일
             endDate = datetime.strptime(inputData['endDate'],'%Y-%m-%d') # 일정종료일
@@ -123,21 +131,29 @@ def update_post(uid,payload):
         if not user.entryDate or not user.country or not user.stayStatus:
             raise UserError(701,'유저의 국가/체류상태/입국날짜')
 
-        # 필수 입력정보가 전부 입력되어있는지 확인
-        if (not inputData['postId'] 
-        or not inputData['startDate'] 
-        or not inputData['endDate'] 
-        or not inputData['title'] 
-        or not inputData['content'] 
-        or not inputData['country'] 
-        or not inputData['stayStatus']):
-            raise UserError(701,'필수항목')
-
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
             # 화면에서 입력한 데이터
             inputData = payload['inputData']
 
+            # 필수 입력정보가 전부 입력되어있는지 확인
+            if (not inputData['postId'] 
+            or not inputData['startDate'] 
+            or not inputData['endDate'] 
+            or not inputData['title'] 
+            or not inputData['content'] 
+            or not inputData['country'] 
+            or not inputData['stayStatus']):
+                raise UserError(701,'필수항목')
+
+            # 국가선택에 지정한 값이외에 다른 값을 입력한 경우
+            if inputData['country'] not in ['US','JP','CN']:
+                raise UserError(704)
+
+            # 체류상태에 지정한 값이외에 다른 값을 입력한 경우
+            if inputData['stayStatus'] not in ['0','1','2']:
+                raise UserError(704)
+                
             # 시간 데이터
             startDate = datetime.strptime(inputData['startDate'],'%Y-%m-%d') # 일정시작일
             endDate = datetime.strptime(inputData['endDate'],'%Y-%m-%d') # 일정종료일
