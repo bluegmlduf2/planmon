@@ -103,6 +103,10 @@ class PostDto:
         'myEndDate': fields.Date(description='나의 일정 종료일'),
         'comment' :fields.List(description='댓글정보', default=[], cls_or_instance=fields.Nested(commentSchema)),
     })
+    postupdatedate = api.model('postupdatedate', {
+        'myStartDate': fields.Date(description='나의 일정 시작일'),
+        'myEndDate': fields.Date(description='나의 일정 종료일'),
+    })   
 
 class ImageDto:
     api = Namespace('image', description='이미지 정보')
@@ -137,13 +141,6 @@ class CommentDto:
 
 class CommentReplyDto:
     api = Namespace('commentreply', description='대댓글정보')
-
-class PostUpdateDateDto:
-    api = Namespace('postupdatedate', description='게시물의 일정시작일 일정종료일 변경정보')
-    postupdatedate = api.model('postupdatedate', {
-        'myStartDate': fields.Date(description='나의 일정 시작일'),
-        'myEndDate': fields.Date(description='나의 일정 종료일'),
-    })
 
 class MyListDto:
     api = Namespace('mylist', description='내가 작성한 일정관리')

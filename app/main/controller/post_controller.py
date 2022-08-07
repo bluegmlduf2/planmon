@@ -1,12 +1,10 @@
 from . import *
-from app.main.util.dto import PostDto,PostUpdateDateDto
+from app.main.util.dto import PostDto
 from app.main.service.post_service import get_post,get_post_detail,update_post_date,create_post,update_post
 
 api = PostDto.api
 _post = PostDto.post
-apiPostUpdateDate = PostUpdateDateDto.api
-_postupdatedate = PostUpdateDateDto.postupdatedate
-
+_postupdatedate = PostDto.postupdatedate
 
 
 @api.route('')
