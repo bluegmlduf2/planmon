@@ -40,19 +40,15 @@ class ImageUpload(Resource):
         
         # 파일이름 존재체크
         if file.filename == '':
-            print('todo에러처리')
+            raise UserError(750)
 
         # 빈파일체크
         if len(file.read()) == 0:
-            print('todo에러처리')
+            raise UserError(751)
 
         # 5MB 이상 업로드 방지
         if len(file.read()) > 5242880:
-            print('todo에러처리')
-
-        # 파일형식이 이미지인가 체크
-        if True:
-            print('todo에러처리')
+            raise UserError(752)
 
         # 이미지 업로드
         url,filename = upload_image(file)
@@ -73,19 +69,15 @@ class UserImageUpload(Resource):
         
         # 파일이름 존재체크
         if file.filename == '':
-            print('todo에러처리')
+            raise UserError(750)
 
         # 빈파일체크
         if len(file.read()) == 0:
-            print('todo에러처리')
+            raise UserError(751)
 
         # 5MB 이상 업로드 방지
         if len(file.read()) > 5242880:
-            print('todo에러처리')
-
-        # 파일형식이 이미지인가 체크
-        if True:
-            print('todo에러처리')
+            raise UserError(752)
 
         # 파이어베이스에 저장된 유저정보 취득
         user_image = Auth.get_user_info(uid).get('user_image',None)
@@ -108,11 +100,7 @@ class UserImageUpload(Resource):
 
         # 유저이미지가 존재하지않으면 에러처리
         if not user_image:
-            print('todo에러처리')
-
-        # 파일형식이 이미지인가 체크
-        if True:
-            print('todo에러처리')
+            raise UserError(702,'이미지')
 
         # 이미지 삭제
         delete_user_image(user_image)

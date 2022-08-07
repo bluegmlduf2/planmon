@@ -31,9 +31,11 @@ def getMessage(code, param=None):
         704: "유효하지 않은 선택정보입니다",
 
         # 파일관련에러
-        750: "파일이 존재하지 않습니다 <br>파일 업로드에 실패했습니다",
+        750: "파일명이 존재하지 않습니다 <br>파일 업로드에 실패했습니다",
         751: "빈 파일입니다<br>파일 업로드에 실패했습니다",
         752: "파일 사이즈를 확인해주세요<br>파일 사이즈가 5MB이상인 경우에는 등록할수없습니다",
+        753: "이미지 파일을 등록해주세요",
+
         # 권한관련에러
         770: "인증정보 처리중 에러가 발생했습니다",
         771: "유효하지않은 인증정보입니다",
@@ -93,6 +95,9 @@ def upload_image(param):
 
         # 임시 저장된 이미지의 URL
         url = request.url+'/temp/'+resize_image_fileNm
+    except IOError:
+        # 파일형식이 이미지인가 체크
+        raise UserError(753)
     except Exception as e:
         raise e
     else:
@@ -117,6 +122,9 @@ def upload_user_image(param):
 
         # 저장된 이미지의 URL
         url = request.url+'/'+resize_image_fileNm
+    except IOError:
+        # 파일형식이 이미지인가 체크
+        raise UserError(753)
     except Exception as e:
         raise e
     else:
