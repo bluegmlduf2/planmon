@@ -11,5 +11,5 @@
  */
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.min';
-import 'jquery/src/jquery';
+import 'bootstrap/dist/js/bootstrap.bundle.min'; // proper.js포함
+import 'jquery/dist/jquery.slim.min'; // 가장 가벼움 (nav동작시필요)
