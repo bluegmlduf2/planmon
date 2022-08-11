@@ -73,7 +73,6 @@
 
 <script>
 import Vue from 'vue';
-import SlotMixin from '@/mixins/slot';
 import Confirm from '@/components/Confirm.vue';
 import message from '@/assets/js/message';
 import globalFunc from '@/plugins/globalFunc';
@@ -86,12 +85,6 @@ export default {
    * The name of the component.
    */
   name: 'List',
-  /**
-   * The mixins that the component can use.
-   */
-  mixins: [
-    SlotMixin,
-  ],
   /**
    * The properties that the component accepts.
    */
