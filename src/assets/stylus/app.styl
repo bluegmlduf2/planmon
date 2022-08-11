@@ -39,8 +39,9 @@ body
 	// 햄버거버튼위치
 	.button_container 
 		margin-left: 1rem!important
+	// 모바일화면에서는 왼쪽화면 표시안함
 	.default-left
-		display: flex!important
+		display: none!important
 	// 게시글 보기 화면에서는 더 좋은 유저경험을 위해 모바일 화면시 왼쪽메뉴를 표시하지않음
 	.leftmenuactive
 		display: none!important
@@ -58,6 +59,15 @@ ul
 	text-overflow:ellipsis; 
 	white-space:nowrap;	
 }
+// navbar의 드롭다운
+.navbar .dropdown-menu {
+  border: none;
+}
+.dropdown-item.active, .dropdown-item:active
+	outline: none!important
+	border-color: transparent!important
+	box-shadow: 0 0 5px gray!important
+	background-color:transparent!important
 
 // 항목명
 span.sm-title 
@@ -591,11 +601,6 @@ p
 					height 3px
 					background --color-white 
 					transition 0.35s
-// 모바일화면에서 NAV 메뉴가 모두 표시되도록 설정
-@media (max-width: 768px)
-	.overlay-menu
-		position absolute
-		top -50%
 /*****************
 * 오른쪽화면
 /****************/
@@ -665,13 +670,6 @@ p
 			background: #f8f9fa
 			border-radius: 10px
 			left: -10px
-.list-footer
-	font-size 1.5rem
-	width: 95%
-.list-footer:hover
-	transition 0.25s
-.list-footer>.btn
-	font-weight 500
 .add-padding-bottom
 	padding-bottom: 5rem!important 
 .btn-option

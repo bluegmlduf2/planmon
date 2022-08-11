@@ -5,11 +5,67 @@
       :is-login="isLoginActive"
       @closeLogin="isMenuActive=false,isLoginActive=false"
     />
+    <!-- 모바일 NAV바 시작-->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark d-md-none d-lg-none d-xl-none">
+      <router-link
+        class="navbar-brand"
+        :to="{ name: 'home.index'}"
+      >
+        Planmon
+      </router-link>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon" />
+      </button>
+
+      <div
+        id="navbarSupportedContent"
+        class="collapse navbar-collapse"
+      >
+        <!-- 모바일용 NAV메뉴 컴포넌트-->
+        <NavMenu
+          :is-for-mobile-nav="true"
+          :user-is-authenticated="userIsAuthenticated"
+          :is-menu-active="isMenuActive"
+          @closeMenuActive="isMenuActive=false"
+          @openLoginActive="isLoginActive=true"
+        />
+        <!-- 추천검색입력 -->
+        <form class="form-inline my-2 my-lg-0">
+          <input
+            v-model="searchRecWord"
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="추천 일정 검색"
+            aria-label="Search"
+            @keyup.enter="searchRecList"
+          >
+          <button
+            class="btn btn-outline-light my-2 my-sm-0"
+            @click="searchRecList"
+          >
+            <i
+              class="fa fa-search"
+              aria-hidden="true"
+            />
+          </button>
+        </form>
+      </div>
+    </nav>
+    <!-- 모바일 NAV바 종료-->
     <div class="row justify-content-md-center default-background mt-md-1 mt-lg-1">
       <div
         :class="{leftmenuactive:isLeftMenuActive,'mb-5':isMenuActive}"
         class="col-md-4 default-left p-5"
       >
+        <!-- 데스크탑용 NAV 시작-->
         <!-- 햄버거버튼 -->
         <div
           class="button_container"
@@ -25,53 +81,18 @@
           class="overlay"
           :class="[isMenuActive?'open':'']"
         >
-          <div
-            :class="{'overlay-menu':!isConditionActive&&userIsAuthenticated}"
-          >
-            <ul>
-              <li
-                @click="isMenuActive = false"
-              >
-                <router-link
-                  :to="{ name: 'home.index'}"
-                >
-                  Home
-                </router-link>
-              </li>
-              <li>
-                <a
-                  v-if="userIsAuthenticated"
-                  href="#"
-                  @click="onLogout"
-                >
-                  로그아웃
-                </a>
-                <a
-                  v-else
-                  href="#"
-                  @click="isLoginActive = true"
-                >
-                  로그인
-                </a>
-              </li>
-              <li v-if="userIsAuthenticated">
-                <router-link :to="{ name: 'setting.index' }">
-                  설정
-                </router-link>
-              </li>
-              <li v-if="userIsAuthenticated">
-                <router-link :to="{ name: 'write.index' }">
-                  글쓰기
-                </router-link>
-              </li>
-              <li v-if="userIsAuthenticated">
-                <router-link :to="{ name: 'mylist.index' }">
-                  내가 작성한 일정
-                </router-link>
-              </li>
-            </ul>
+          <div>
+            <!-- 데스크탑용 NAV메뉴 컴포넌트-->
+            <NavMenu
+              :is-for-mobile-nav="false"
+              :user-is-authenticated="userIsAuthenticated"
+              :is-menu-active="isMenuActive"
+              @closeMenuActive="isMenuActive=false"
+              @openLoginActive="isLoginActive=true"
+            />
           </div>
         </div>
+        <!-- 데스크탑용 NAV 종료-->
         <!-- 왼쪽 타이틀 -->
         <div
           v-if="!isMenuActive"
@@ -110,7 +131,6 @@
         <!-- 검색 조건 -->
         <div
           class="search-condition d-none d-sm-none d-md-block d-lg-block d-xl-block"
-          :class="[isConditionActive?'d-block d-sm-block':'d-none d-sm-none']"
         >
           <!-- 검색 조건 국가선택 -->
           <div class="form-group">
@@ -173,7 +193,6 @@
         <div
           v-if="!isMenuActive"
           class="search-todoList d-none d-sm-none d-md-block d-lg-block d-xl-block"
-          :class="[isConditionActive?'d-block d-sm-block':'d-none d-sm-none']"
         >
           <div class="search-todoList-title">
             <span class="sm-title">할일 항목</span>
@@ -231,18 +250,6 @@
             </div>
           </div>
         </div>
-        <!-- 모바일화면에서 내 정보 열기 -->
-        <div
-          class="list-footer d-block d-sm-block d-md-none d-lg-none d-xl-none"
-        >
-          <button
-            type="button"
-            class="btn btn-light w-100 mt-4"
-            @click="isConditionActive=!isConditionActive"
-          >
-            {{ isConditionActive?'내 정보 닫기':'내 정보 열기' }}
-          </button>
-        </div>
       </div>
       <slot name="default-right-body" />
     </div>
@@ -265,6 +272,7 @@ import stayStatusList from '@/assets/js/stayStatus';
 import message from '@/assets/js/message';
 import Login from '@/views/Login/Index.vue';
 import Flatpickr from '@/components/FlatpickrDefault.vue';
+import NavMenu from '@/components/NavMenu.vue';
 import Spinner from '@/components/Spinner.vue';
 
 export default {
@@ -279,6 +287,7 @@ export default {
     Login,
     Flatpickr,
     Spinner,
+    NavMenu,
   },
   props: {
     // 왼쪽메뉴 표시여부
@@ -294,10 +303,8 @@ export default {
    */
   data() {
     return {
-      menuCollapsed: false,
       isLoginActive: false, // 로그인화면 활성화유무
       isMenuActive: false, // NAV메뉴 활성화유무
-      isConditionActive: false, // 나의 일정 정보 표시 유무
       countriesList: [], // 국가 리스트
       stayStatusList: [], // 체류상태 리스트
       searchRecWord: '', // 추천일정검색 단어
@@ -372,18 +379,6 @@ export default {
     // 체류상태 초기화
     initStayStatus() {
       this.stayStatusList = stayStatusList;
-    },
-
-    // 로그아웃
-    onLogout() {
-      this.isMenuActive = false; // nav메뉴 닫기
-      this.$store.dispatch('logout'); // 유저 정보삭제
-      this.$toast.info(message.logout);
-    },
-
-    // 메뉴토글기능
-    toggleMenu() {
-      this.menuCollapsed = !this.menuCollapsed;
     },
 
     // 추천일정검색기능
