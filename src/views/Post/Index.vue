@@ -2,48 +2,13 @@
   <v-layout :is-left-menu-active="true">
     <div
       slot="default-right-body"
-      class="col-md-8 default-right p-4"
+      class="col-md-8 default-right pt-3 pl-4 pr-4 pb-4"
     >
-      <Login
-        :is-login="isLoginActive"
-        @closeLogin="isLoginActive=false"
-      />
       <!-- v-if는 post의 최초 로딩시 nullException을 막기 위해 사용 -->
       <div
         v-if="post"
         class="condition-container"
       >
-        <!-- 모바일화면용 뒤로가기버튼 -->
-        <div class="d-block d-sm-block d-md-none d-lg-none d-xl-none">
-          <div class="row mb-3 d-flex justify-content-between align-items-center">
-            <div class="post-back ml-3">
-              <span @click="$router.push({name: 'home.index'})">
-                <i
-                  class="fa fa-chevron-left"
-                  aria-hidden="true"
-                />
-              </span>
-            </div>
-            <div
-              class="mr-3"
-            >
-              <button
-                v-if="user"
-                class="btn btn-sm btn-outline-secondary"
-                @click="onLogout"
-              >
-                로그아웃
-              </button>
-              <button
-                v-else
-                class="btn btn-sm btn-outline-secondary"
-                @click="isLoginActive = true"
-              >
-                로그인
-              </button>
-            </div>
-          </div>
-        </div>
         <!-- 게시글 제목 -->
         <div class="d-flex justify-content-between align-items-center">
           <span
@@ -395,7 +360,7 @@ import CommentContainer from '@/components/CommentContainer.vue';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/vue-editor';
 import Flatpickr from '@/components/Flatpickr.vue';
-import Login from '@/views/Login/Index.vue';
+// import Login from '@/views/Login/Index.vue';
 import Confirm from '@/components/Confirm.vue';
 import message from '@/assets/js/message';
 import globalFunc from '@/plugins/globalFunc';
@@ -416,14 +381,12 @@ export default {
     Viewer,
     CommentContainer,
     Flatpickr,
-    Login,
   },
   data() {
     return {
       countries: [], // 국가
       selectedCountry: null, // 선택된 국가
       toggleMenuActive: false, // 슬라이드 토글 메뉴 활성화
-      isLoginActive: false, // 로그인화면 활성화유무
       deleteButtonActive: false, // 삭제상태 활성화
       commentContent: '', // 입력중인 댓글내용
       validation: {
@@ -479,29 +442,6 @@ export default {
 
       const { postId } = this.$route.params; // URL로 부터 취득한 게시물 번호
       await this.$store.dispatch('setInitPost', postId);
-    },
-    // 로그아웃
-    onLogout() {
-      // 로그아웃 확인창 표시
-      const toastId = this.$toast.info({
-        component: Confirm,
-        props: {
-          buttonName: '로그아웃', // 확인의 버튼명
-          isShowButtons: true, // 확인, 취소버튼 2개 표시
-        },
-        listeners: {
-          // 확인(삭제)버튼
-          confirmEvent: () => {
-            this.$toast.dismiss(toastId);
-            this.$toast.info(message.logout);
-            this.$store.dispatch('logout'); // 유저 정보삭제(로그아웃)
-          },
-          // 취소버튼 (삭제 취소시 체크표시를 취소)
-          cancelEvent: () => {
-            this.$toast.dismiss(toastId);
-          },
-        },
-      }, { timeout: 5000, closeOnClick: false, closeButton: false });
     },
     // 추가,삭제 체크박스 선택시
     updatePostCheckInput(e) {
