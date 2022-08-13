@@ -5,7 +5,7 @@
       :is-login="isLoginActive"
       @closeLogin="isMenuActive=false,isLoginActive=false"
     />
-    <!-- 모바일 NAV바 시작-->
+    <!-- 모바일 NAV바 -->
     <nav class="navbar navbar-expand-md navbar-dark bg-dark d-md-none d-lg-none d-xl-none">
       <router-link
         class="navbar-brand"
@@ -47,7 +47,6 @@
         :class="{leftmenuactive:isLeftMenuActive,'mb-5':isMenuActive}"
         class="col-md-4 default-left p-5"
       >
-        <!-- 데스크탑용 NAV -->
         <!-- 햄버거버튼 -->
         <div
           class="button_container"
@@ -89,26 +88,7 @@
           <p><span v-if="!!user">{{ !!user.name?user.name:user.email }}님<br></span> 플랜몬에 오신것을 환영합니다!</p>
         </div>
         <!-- 검색입력 -->
-        <div class="search-bar">
-          <div class="input-groupt">
-            <button
-              class="btn"
-              @click="searchRecList"
-            >
-              <i
-                class="fa fa-search"
-                aria-hidden="true"
-              />
-            </button>
-            <input
-              v-model="searchRecWord"
-              type="search"
-              class="form-control"
-              placeholder="추천 일정 검색"
-              @keyup.enter="searchRecList"
-            >
-          </div>
-        </div>
+        <SearchRecList />
         <!-- 유저선택정보 -->
         <Selection />
       </div>
@@ -132,6 +112,7 @@ import Login from '@/views/Login/Index.vue';
 import NavMenu from '@/components/NavMenu.vue';
 import Spinner from '@/components/Spinner.vue';
 import Selection from '@/components/Selection.vue';
+import SearchRecList from '@/components/SearchRecList.vue';
 
 export default {
   /**
@@ -146,6 +127,7 @@ export default {
     Spinner,
     NavMenu,
     Selection,
+    SearchRecList,
   },
   props: {
     // 왼쪽메뉴 표시여부
