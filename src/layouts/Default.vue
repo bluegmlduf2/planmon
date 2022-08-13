@@ -29,7 +29,7 @@
         id="navbarSupportedContent"
         class="collapse navbar-collapse"
       >
-        <!-- 모바일용 NAV메뉴 컴포넌트-->
+        <!-- 모바일용 NAV메뉴 -->
         <NavMenu
           :is-for-mobile-nav="true"
           :user-is-authenticated="userIsAuthenticated"
@@ -38,34 +38,16 @@
           @openLoginActive="isLoginActive=true"
         />
         <!-- 추천검색입력 -->
-        <form class="form-inline my-2 my-lg-0">
-          <input
-            v-model="searchRecWord"
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="추천 일정 검색"
-            aria-label="Search"
-            @keyup.enter="searchRecList"
-          >
-          <button
-            class="btn btn-outline-light my-2 my-sm-0"
-            @click="searchRecList"
-          >
-            <i
-              class="fa fa-search"
-              aria-hidden="true"
-            />
-          </button>
-        </form>
+        <SearchRecList class="w-100 mt-2 mb-2" />
       </div>
     </nav>
-    <!-- 모바일 NAV바 종료-->
+    <!-- 데스크탑 왼쪽화면 -->
     <div class="row justify-content-md-center default-background mt-md-1 mt-lg-1">
       <div
         :class="{leftmenuactive:isLeftMenuActive,'mb-5':isMenuActive}"
         class="col-md-4 default-left p-5"
       >
-        <!-- 데스크탑용 NAV 시작-->
+        <!-- 데스크탑용 NAV -->
         <!-- 햄버거버튼 -->
         <div
           class="button_container"
@@ -82,7 +64,7 @@
           :class="[isMenuActive?'open':'']"
         >
           <div>
-            <!-- 데스크탑용 NAV메뉴 컴포넌트-->
+            <!-- 데스크탑용 NAV메뉴 -->
             <NavMenu
               :is-for-mobile-nav="false"
               :user-is-authenticated="userIsAuthenticated"
@@ -92,7 +74,6 @@
             />
           </div>
         </div>
-        <!-- 데스크탑용 NAV 종료-->
         <!-- 왼쪽 타이틀 -->
         <div
           v-if="!isMenuActive"
@@ -147,7 +128,6 @@
  * This way the app stays clean.
  */
 // eslint-disable-next-line import/extensions
-import message from '@/assets/js/message';
 import Login from '@/views/Login/Index.vue';
 import NavMenu from '@/components/NavMenu.vue';
 import Spinner from '@/components/Spinner.vue';
@@ -183,9 +163,6 @@ export default {
     return {
       isLoginActive: false, // 로그인화면 활성화유무
       isMenuActive: false, // NAV메뉴 활성화유무
-      countriesList: [], // 국가 리스트
-      stayStatusList: [], // 체류상태 리스트
-      searchRecWord: '', // 추천일정검색 단어
     };
   },
 
@@ -197,64 +174,6 @@ export default {
     // 유저정보 (store에서 값이 변경될때마다 갱신)
     user() {
       return this.$store.getters.user;
-    },
-    // 선택한 항목 리스트 (갱신도 필요하기에 setter(mutation)도 등록)
-    country: {
-      get() {
-        return this.$store.getters.selection.country;
-      },
-      set(value) {
-        if (!this.user) {
-          this.$toast.info(message.localStorageAlert);
-        }
-        this.$store.dispatch('addSelection', { country: value });
-      },
-    },
-    stayStatus: {
-      get() {
-        return this.$store.getters.selection.stayStatus;
-      },
-      set(value) {
-        if (!this.user) {
-          this.$toast.info(message.localStorageAlert);
-        }
-        this.$store.dispatch('addSelection', { stayStatus: value });
-      },
-    },
-    // 선택된 할일 리스트의 수
-    todolistCount() {
-      return this.$store.getters.todolistCount;
-    },
-    // 선택된 완료 리스트의 수
-    completelistCount() {
-      return this.$store.getters.completelistCount;
-    },
-    // 선택된 모든리스트의 수
-    alllistCount() {
-      return this.todolistCount + this.completelistCount;
-    },
-    // 선택된 모든리스트의 길이
-    progressPercent() {
-      // eslint-disable-next-line no-mixed-operators
-      const percent = this.completelistCount / this.alllistCount * 100;
-      return percent || 0;
-    },
-  },
-  /**
-   * The methods that the layout can use.
-   */
-  methods: {
-    // 추천일정검색기능
-    searchRecList() {
-      // 검색어가 존재하지않고 추천일정화면이 아닌 경우
-      if (this.searchRecWord !== '' && this.$route.path !== '/reclist') {
-        // 추천일정 검색과 함께 추천페이지 이동
-        this.$router.push({ name: 'reclist.index', params: { searchRecWord: this.searchRecWord } });
-      } else if (this.$route.path === '/reclist') {
-        // 만약 추천일정화면에서 재검색하는 경우 메세지 표시
-        this.$toast.info(message.reSearch);
-        this.searchRecWord = '';
-      }
     },
   },
 };
