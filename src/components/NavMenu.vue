@@ -115,6 +115,14 @@
         </router-link>
       </div>
     </li>
+    <li :class="{'nav-item':isForMobileNav}">
+      <a
+        href="https://open.kakao.com/o/sVc2byve"
+        :class="{'nav-link':isForMobileNav}"
+      >
+        문의
+      </a>
+    </li>
   </ul>
 </template>
 
