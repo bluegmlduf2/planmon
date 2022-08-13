@@ -6,15 +6,15 @@
       @closeLogin="isMenuActive=false,isLoginActive=false"
     />
     <!-- 모바일 NAV바 -->
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark d-md-none d-lg-none d-xl-none">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark d-md-none d-lg-none d-xl-none row">
       <router-link
-        class="navbar-brand"
+        class="navbar-brand pl-2"
         :to="{ name: 'home.index'}"
       >
         Planmon
       </router-link>
       <button
-        class="navbar-toggler"
+        class="navbar-toggler mr-2"
         type="button"
         data-toggle="collapse"
         data-target="#navbarSupportedContent"
@@ -38,7 +38,7 @@
           @openLoginActive="isLoginActive=true"
         />
         <!-- 추천검색입력 -->
-        <SearchRecList class="w-100 mt-2 mb-2" />
+        <SearchRecList class="w-100 mt-2 mb-2 pl-2 pr-2" />
       </div>
     </nav>
     <!-- 데스크탑 왼쪽화면 -->

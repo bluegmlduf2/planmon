@@ -1,6 +1,6 @@
 <template>
   <ul
-    :class="{'navbar-nav mr-auto':isForMobileNav}"
+    :class="{'navbar-nav mr-auto pl-4':isForMobileNav}"
   >
     <li
       :class="{'nav-item':isForMobileNav}"
