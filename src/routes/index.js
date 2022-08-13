@@ -81,6 +81,14 @@ export default [
     },
   },
 
+  // 유저선택정보 (컴포넌트지만 예외적으로 화면으로 사용)
+  {
+    path: '/selection',
+    name: 'selection',
+    props: { isRoutedRequest: true }, // 라우트로 화면 이동시 초기화 필요유무를 위해 매개변수전달
+    component: () => import('@/components/Selection.vue'),
+  },
+
   // 에러페이지
   {
     path: '/*',

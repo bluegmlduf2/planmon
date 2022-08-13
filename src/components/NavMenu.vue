@@ -42,7 +42,7 @@
         :class="{'nav-link':isForMobileNav}"
         :to="{ name: 'setting.index' }"
       >
-        설정
+        유저 설정
       </router-link>
     </li>
     <li
@@ -54,6 +54,17 @@
         :class="{'nav-link':isForMobileNav}"
       >
         글쓰기
+      </router-link>
+    </li>
+    <li
+      v-if="isForMobileNav"
+      class="nav-item"
+    >
+      <router-link
+        :to="{ name: 'selection' }"
+        class="nav-link"
+      >
+        나의 일정 설정
       </router-link>
     </li>
     <li v-if="userIsAuthenticated&&!isForMobileNav">

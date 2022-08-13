@@ -128,128 +128,8 @@
             >
           </div>
         </div>
-        <!-- 검색 조건 -->
-        <div
-          class="search-condition d-none d-sm-none d-md-block d-lg-block d-xl-block"
-        >
-          <!-- 검색 조건 국가선택 -->
-          <div class="form-group">
-            <span class="sm-title">국가선택</span>
-            <select
-              v-model="country"
-              class="form-control"
-            >
-              <option
-                value="null"
-                selected
-                disabled
-              >
-                국가를 선택해주세요
-              </option>
-              <option
-                v-for="e in countriesList"
-                :key="e.value"
-                :value="e.value"
-              >
-                {{ e.text }}
-              </option>
-            </select>
-          </div>
-          <!-- 검색 조건 체류상태 선택 -->
-          <div class="form-group">
-            <span class="sm-title">체류상태</span>
-            <select
-              v-model="stayStatus"
-              class="form-control"
-            >
-              <option
-                value="null"
-                selected
-                disabled
-              >
-                체류상태를 선택해주세요
-              </option>
-              <option
-                v-for="e in stayStatusList"
-                :key="e.value"
-                :value="e.value"
-              >
-                {{ e.text }}
-              </option>
-            </select>
-          </div>
-          <!-- 검색 조건 입국날짜 선택 -->
-          <span class="sm-title">입국날짜</span>
-          <div class="input-group entry-date-form">
-            <Flatpickr
-              placeholder="입국날짜를 선택해주세요"
-            />
-          </div>
-          <small
-            class="form-text entry-date-form-small"
-          >체류중인 경우에만 선택</small>
-        </div>
-        <!-- 할일목록 -->
-        <div
-          v-if="!isMenuActive"
-          class="search-todoList d-none d-sm-none d-md-block d-lg-block d-xl-block"
-        >
-          <div class="search-todoList-title">
-            <span class="sm-title">할일 항목</span>
-            <span>{{ `${completelistCount}/${alllistCount}` }}</span>
-          </div>
-          <div class="progress">
-            <div
-              class="progress-bar"
-              role="progressbar"
-              aria-valuenow="25"
-              aria-valuemin="0"
-              aria-valuemax="100"
-              :style="{'width':progressPercent+'%'}"
-            />
-          </div>
-          <div class="search-todoList-status">
-            <div>
-              <router-link :to="{ name: 'completelist.index' }">
-                <h3 class="status-total">
-                  {{ completelistCount }}
-                </h3>
-                <p class="status-title">
-                  완료된
-                </p>
-                <p class="status-title-mini">
-                  일정
-                </p>
-              </router-link>
-            </div>
-            <div>
-              <router-link :to="{ name: 'todolist.index' }">
-                <h3 class="status-total">
-                  {{ todolistCount }}
-                </h3>
-                <p class="status-title">
-                  다가오는
-                </p>
-                <p class="status-title-mini">
-                  일정
-                </p>
-              </router-link>
-            </div>
-            <div>
-              <router-link :to="{ name: 'alllist.index' }">
-                <h3 class="status-total">
-                  {{ alllistCount }}
-                </h3>
-                <p class="status-title">
-                  모든
-                </p>
-                <p class="status-title-mini">
-                  일정
-                </p>
-              </router-link>
-            </div>
-          </div>
-        </div>
+        <!-- 유저선택정보 -->
+        <Selection />
       </div>
       <slot name="default-right-body" />
     </div>
@@ -267,13 +147,11 @@
  * This way the app stays clean.
  */
 // eslint-disable-next-line import/extensions
-import countriesList from '@/assets/js/countries';
-import stayStatusList from '@/assets/js/stayStatus';
 import message from '@/assets/js/message';
 import Login from '@/views/Login/Index.vue';
-import Flatpickr from '@/components/FlatpickrDefault.vue';
 import NavMenu from '@/components/NavMenu.vue';
 import Spinner from '@/components/Spinner.vue';
+import Selection from '@/components/Selection.vue';
 
 export default {
   /**
@@ -285,9 +163,9 @@ export default {
    */
   components: {
     Login,
-    Flatpickr,
     Spinner,
     NavMenu,
+    Selection,
   },
   props: {
     // 왼쪽메뉴 표시여부
@@ -362,25 +240,10 @@ export default {
       return percent || 0;
     },
   },
-
-  created() {
-    this.initCountries(); // 국가 리스트 초기화
-    this.initStayStatus(); // 체류상태 리스트 초기화
-  },
   /**
    * The methods that the layout can use.
    */
   methods: {
-    // 국가 초기화
-    initCountries() {
-      this.countriesList = countriesList;
-    },
-
-    // 체류상태 초기화
-    initStayStatus() {
-      this.stayStatusList = stayStatusList;
-    },
-
     // 추천일정검색기능
     searchRecList() {
       // 검색어가 존재하지않고 추천일정화면이 아닌 경우

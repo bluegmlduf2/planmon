@@ -434,6 +434,7 @@ p
 		// 검색어 입력창
 		.search-bar
 			width: 95%
+			margin-bottom: 2rem
 			div.input-groupt
 				display: flex 
 				.btn
@@ -457,16 +458,19 @@ p
 					--placeholder-color: --color-white
 				.form-control:focus
 					box-shadow: none;
+		// 유저선택창(selection)
+		.selection-container
+			width: 100%;
 		// 검색 조건
 		.search-condition
 			width: 90%
-			margin-top 2rem
+			margin: 0 auto;
 			.form-control
 				border-radius: 10px!important
 		// 할일목록
 		.search-todoList
 			width: 90%
-			margin-top 2rem
+			margin: 2rem auto 0;
 			.search-todoList-title
 				display flex
 				justify-content space-between
@@ -495,6 +499,10 @@ p
 				a:hover
 					transition color 0.25s ease-out 100ms
 					color #5579ee!important
+			@media (max-width: 768px)
+				.status_mobile_color
+					color: #767988
+					background-color: #DDDDDD
 		.entry-date-form-small
 			color: #767988
 			font-size 0.8rem
