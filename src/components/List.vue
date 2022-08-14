@@ -31,7 +31,10 @@
       class="list-blind"
       :class="{'list-body':paramIsHome}"
     >
-      <ul class="list-body-ul">
+      <ul
+        v-if="paramList.length"
+        class="list-body-ul"
+      >
         <li
           v-for="(item, index) in paramList"
           :key="index"
@@ -67,6 +70,12 @@
           </div>
         </li>
       </ul>
+      <div
+        v-else
+        class="d-flex justify-content-center font-light-color"
+      >
+        등록된 일정이 없습니다
+      </div>
     </div>
   </div>
 </template>
