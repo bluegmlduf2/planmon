@@ -11,10 +11,16 @@
       >
         <!-- 게시글 제목 -->
         <div class="d-flex justify-content-between align-items-center">
-          <span
-            class="tag"
-            :class="setStayStatusTag(post.stayStatus)"
-          >{{ setStayStatusTagName(post.stayStatus) }}</span>
+          <div>
+            <span
+              class="tag"
+              :class="setStayStatusTag(post.stayStatus)"
+            >{{ setStayStatusTagName(post.stayStatus) }}</span>
+            <img
+              class="ml-2 mb-1"
+              :src="postNation"
+            >
+          </div>
           <div class="d-flex align-items-center">
             <span class="mr-2 scrab-span"><i
               class="fa fa-comment-o"
@@ -364,6 +370,7 @@ import Flatpickr from '@/components/Flatpickr.vue';
 import Confirm from '@/components/Confirm.vue';
 import message from '@/assets/js/message';
 import globalFunc from '@/plugins/globalFunc';
+import countries from '@/assets/js/countries';
 
 // 공통함수사용
 Vue.use(globalFunc);
@@ -423,6 +430,21 @@ export default {
     // 일정종료일
     myEndDate() {
       return this.$store.getters.post.myEndDate || '';
+    },
+    // 게시글의 국가 이미지 반환
+    postNation() {
+      const { country } = this.post;
+      if (country === countries[0].value) {
+        // eslint-disable-next-line global-require
+        return require('@/assets/img/japan.png');
+      } if (country === countries[1].value) {
+        // eslint-disable-next-line global-require
+        return require('@/assets/img/america.png');
+      } if (country === countries[2].value) {
+        // eslint-disable-next-line global-require
+        return require('@/assets/img/china.png');
+      }
+      return '';
     },
   },
   created() {
