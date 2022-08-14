@@ -117,7 +117,7 @@
     </li>
     <li :class="{'nav-item':isForMobileNav}">
       <a
-        href="https://open.kakao.com/o/sVc2byve"
+        :href="inquiryUrl"
         :class="{'nav-link':isForMobileNav}"
       >
         문의
@@ -158,6 +158,11 @@ export default {
       type: Boolean,
       required: true,
     },
+  },
+  data() {
+    return {
+      inquiryUrl: process.env.VUE_APP_INQUIRY_URL, // 문의를 위한 URL
+    };
   },
 
   methods: {
