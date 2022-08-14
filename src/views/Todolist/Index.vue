@@ -18,7 +18,7 @@
         <span
           slot="header"
         >
-          다가오는 일정
+          할일 일정
         </span>
       </v-list>
       <div

@@ -119,7 +119,7 @@
               {{ todolistCount }}
             </h3>
             <p class="status-title">
-              다가오는
+              할일
             </p>
             <p class="status-title-mini">
               일정

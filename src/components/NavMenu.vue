@@ -89,7 +89,7 @@
           class="dropdown-item"
           href="#"
         >
-          다가오는 일정
+          할일 일정
         </router-link>
         <router-link
           :to="{ name: 'completelist.index' }"

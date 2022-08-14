@@ -112,7 +112,7 @@ def create_post(uid,payload):
             db.session.commit()
 
             
-            # 다가오는 일정에 추가 
+            # 할일 일정에 추가 
             update_reclist(uid,post.postId)
 
             response_object = {

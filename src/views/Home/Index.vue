@@ -17,7 +17,7 @@
           class="cursor-pointer"
           @click="$router.push({name: 'todolist.index', params: {get20perpage:true}})"
         >
-          다가오는 일정
+          할일 일정
         </span>
       </v-list>
       <div
@@ -132,7 +132,7 @@ export default {
       // 홈화면의 추천일정 초기화 (표시용)
       await this.$store.dispatch('setInitRecList');
     },
-    // 다가오는 일정 체크박스 선택
+    // 할일 일정 체크박스 선택
     selectTodoCheckInput(param) {
       const checkedItem = param;
       checkedItem.listKind = 'todo';
