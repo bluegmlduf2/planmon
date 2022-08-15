@@ -70,6 +70,10 @@ def create_post(uid,payload):
             or not inputData['stayStatus']):
                 raise UserError(701,'필수항목')
 
+            # 제목의 입력글자수 체크
+            if len(inputData['title'])>50:
+                raise UserError(706,'50')
+
             # 국가선택에 지정한 값이외에 다른 값을 입력한 경우
             if inputData['country'] not in ['US','JP','CN']:
                 raise UserError(704)
@@ -149,6 +153,10 @@ def update_post(uid,payload):
             or not inputData['country'] 
             or not inputData['stayStatus']):
                 raise UserError(701,'필수항목')
+
+            # 제목의 입력글자수 체크
+            if len(inputData['title'])>50:
+                raise UserError(706,'50')
 
             # 국가선택에 지정한 값이외에 다른 값을 입력한 경우
             if inputData['country'] not in ['US','JP','CN']:

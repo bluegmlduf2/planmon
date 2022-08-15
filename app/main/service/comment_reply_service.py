@@ -6,6 +6,9 @@ def create_comment_reply(uid,param):
         # 필수 입력정보가 전부 입력되어있는지 확인
         if not param['commentReplyContent'] or not param['commentId']:
             raise UserError(701,'필수항목')
+        # 대댓글의 입력글자수 체크
+        if len(param['commentReplyContent'])>1000:
+            raise UserError(706,'1000')
         
         user=User.query.filter_by(uid=uid).first()
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
@@ -34,6 +37,9 @@ def update_comment_reply(uid,param):
         # 필수 입력정보가 전부 입력되어있는지 확인
         if not param['commentReplyContent'] or not param['commentReplyId']:
             raise UserError(701,'필수항목')
+        # 대댓글의 입력글자수 체크
+        if len(param['commentReplyContent'])>1000:
+            raise UserError(706,'1000')
 
         user=User.query.filter_by(uid=uid).first()
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
