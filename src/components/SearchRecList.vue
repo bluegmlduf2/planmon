@@ -39,7 +39,7 @@ export default {
     searchRecList() {
       // 검색어가 존재하지않고 추천일정화면이 아닌 경우
       if (!this.searchRecWord) {
-        this.$toast.info(message.invalidEmptyInput('검색어'));
+        this.$toast.warning(message.invalidEmptyInput('검색어'));
       } else if (this.searchRecWord !== '' && this.$route.path !== '/reclist') {
         // 추천일정 검색과 함께 추천페이지 이동
         this.$router.push({ name: 'reclist.index', params: { searchRecWord: this.searchRecWord } });

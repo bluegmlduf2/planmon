@@ -148,7 +148,7 @@ export default {
     inputedContent(newVal, oldVal) {
       // 입력한 글자수가 초과하는 경우
       if (newVal.length > 1000) {
-        this.$toast.info(message.invalidInputLength('1000'));
+        this.$toast.warning(message.invalidInputLength('1000'));
         this.inputedContent = oldVal;
       }
     },
@@ -187,7 +187,7 @@ export default {
 
             // 댓글/대댓글 입력확인
             if (!this.inputedContent) {
-              this.$toast.info(message.invalidEmptyInput('수정할 내용'));
+              this.$toast.warning(message.invalidEmptyInput('수정할 내용'));
               return;
             }
 

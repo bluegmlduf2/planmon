@@ -51,7 +51,7 @@ export default {
     searchList() {
       // 재검색어 입력확인
       if (!this.searchWord) {
-        this.$toast.info(message.invalidEmptyInput('재검색어'));
+        this.$toast.warning(message.invalidEmptyInput('재검색어'));
         return;
       }
 

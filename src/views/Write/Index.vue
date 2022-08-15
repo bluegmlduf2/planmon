@@ -310,7 +310,7 @@ export default {
 
       // 제목 글자수 제한
       if (inputData.title.length > 50) {
-        this.$toast.info(message.invalidInputLength('50'));
+        this.$toast.warning(message.invalidInputLength('50'));
         return;
       }
 

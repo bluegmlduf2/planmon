@@ -451,7 +451,7 @@ export default {
     commentContent(newVal, oldVal) {
       // 입력한 글자수가 초과하는 경우
       if (newVal.length > 1000) {
-        this.$toast.info(message.invalidInputLength('1000'));
+        this.$toast.warning(message.invalidInputLength('1000'));
         this.commentContent = oldVal;
       }
     },
@@ -605,7 +605,7 @@ export default {
 
       // 댓글 입력확인
       if (!this.commentContent) {
-        this.$toast.info(message.invalidEmptyInput('댓글'));
+        this.$toast.warning(message.invalidEmptyInput('댓글'));
         return;
       }
 
@@ -619,12 +619,12 @@ export default {
 
       // 대댓글 입력확인
       if (!commentReplyContent) {
-        this.$toast.info(message.invalidEmptyInput('댓글'));
+        this.$toast.warning(message.invalidEmptyInput('댓글'));
         return;
       }
       // 대댓글 글자수 체크
       if (commentReplyContent.length > 1000) {
-        this.$toast.info(message.invalidInputLength('1000'));
+        this.$toast.warning(message.invalidInputLength('1000'));
         return;
       }
 

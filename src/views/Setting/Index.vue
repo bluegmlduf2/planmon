@@ -128,7 +128,7 @@ export default {
     displayName(newVal, oldVal) {
       // 입력한 글자수가 초과하는 경우
       if (newVal.length > 20) {
-        this.$toast.info(message.invalidInputLength('20'));
+        this.$toast.warning(message.invalidInputLength('20'));
         this.displayName = oldVal;
       }
     },
@@ -144,7 +144,7 @@ export default {
     updateDisplayName() {
       // 닉네임 입력확인
       if (!this.displayName) {
-        this.$toast.info(message.invalidEmptyInput('닉네임'));
+        this.$toast.warning(message.invalidEmptyInput('닉네임'));
         return;
       }
       const payload = { displayName: this.displayName };
