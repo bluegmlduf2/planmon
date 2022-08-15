@@ -22,6 +22,7 @@ class UserError(Exception):
 
 def getMessage(code, param=None):
     '''사용자 정의 에러메세지'''
+    # 에러메세지
     MESSAGE = {
         # 400번대 에러메세지 
         700: param,
@@ -46,9 +47,14 @@ def getMessage(code, param=None):
         # 500번대 에러메세지
         800: "예기치 못한 에러가 발생했습니다\n잠시후에 다시 시도해주세요",
     }
+
+    # 해당 에러발생시 홈으로 이동할지 여부
+    MOVE_TO_HOME=[ 702 ]
+
     return {
         "code": code,
-        "message": MESSAGE[code]
+        "message": MESSAGE[code],
+        "moveToHome": code in MOVE_TO_HOME
     }
 
 def get_uuid():

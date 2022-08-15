@@ -5,6 +5,7 @@
 export default {
   welcome: '플랜몬에 오신것을 환영합니다',
   logout: '다음에 또 봐요',
+  invalidUser: '유효하지 않은 유저정보를 포함하므로 로그아웃합니다',
   changeUserInfo: '유저 정보를 변경했습니다',
   changeSelection: '유저 선택정보를 변경했습니다',
   sendEmail: '인증 이메일을 보냈습니다\n해당 메일의 인증 링크로 로그인해주세요',
@@ -32,6 +33,8 @@ export default {
   addPost: '게시글을 등록했습니다',
   updatePost: '게시글을 수정했습니다',
   addImage: '이미지를 등록했습니다',
+  error400: '요청에 문제가 있습니다\n잠시후에 다시 시도해주세요',
+  error500: '예기치 못한 에러가 발생했습니다\n잠시후에 다시 시도해주세요',
   // 사용자 유효성 검사
   invalidEmptyInput: (e) => `${e} 입력을 해주세요`,
   invalidInputLength: (e) => `입력가능한 글자수 ${e}자를 초과했습니다`,
