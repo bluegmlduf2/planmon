@@ -37,17 +37,18 @@ class ImageUpload(Resource):
         """게시물 이미지를 등록"""
         # 화면에서 저장한 이미지 
         file = request.files['image']
+        file_size = len(file.read())
         
         # 파일이름 존재체크
         if file.filename == '':
             raise UserError(750)
 
         # 빈파일체크
-        if len(file.read()) == 0:
+        if file_size == 0:
             raise UserError(751)
 
         # 5MB 이상 업로드 방지
-        if len(file.read()) > 5242880:
+        if file_size > 5242880:
             raise UserError(752)
 
         # 이미지 업로드
@@ -66,17 +67,18 @@ class UserImageUpload(Resource):
         """유저 이미지를 등록"""
         # 화면에서 저장한 이미지 
         file = request.files['image']
-        
+        file_size = len(file.read())
+
         # 파일이름 존재체크
         if file.filename == '':
             raise UserError(750)
 
         # 빈파일체크
-        if len(file.read()) == 0:
+        if file_size == 0:
             raise UserError(751)
 
         # 5MB 이상 업로드 방지
-        if len(file.read()) > 5242880:
+        if file_size > 5242880:
             raise UserError(752)
 
         # 파이어베이스에 저장된 유저정보 취득
