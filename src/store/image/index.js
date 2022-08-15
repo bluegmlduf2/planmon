@@ -16,8 +16,8 @@ export default {
           // 등록한 이미지 정보 반환
           return response.data;
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         })
         .finally(() => {
           commit('setSpinner', false); // 스피너 정지
@@ -31,8 +31,8 @@ export default {
       return new ImageProxy()
         .uploadUserImage(payload)
         .then((response) => response.data)
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         })
         .finally(() => {
           commit('setSpinner', false); // 스피너 정지
@@ -47,8 +47,8 @@ export default {
       return new ImageProxy()
         .deleteUserImage()
         .then(() => true)
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         })
         .finally(() => {
           commit('setSpinner', false); // 스피너 정지

@@ -93,8 +93,8 @@ export default {
           // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
           commit('setRecListPage', { response, ...payload });
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         });
     },
 
@@ -112,8 +112,8 @@ export default {
           // 페이지네이션 정보초기화
           commit('setRecListPage', { response });
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         });
     },
 
@@ -133,8 +133,8 @@ export default {
           // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
           commit('setTodoListPage', { response, ...payload });
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         });
     },
 
@@ -152,8 +152,8 @@ export default {
           // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
           commit('setTodoListPage', { response });
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         });
     },
 
@@ -176,8 +176,8 @@ export default {
           // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
           commit('setCompleteListPage', { response, get20perpage });
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         });
     },
 
@@ -197,8 +197,8 @@ export default {
           // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
           commit('setCompleteListPage', { response });
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         });
     },
 
@@ -228,8 +228,8 @@ export default {
         commit('setCompleteList', completeList);
         // 서버에서 가져온 완료일정의 총 일정 수 초기화
         commit('setCompleteListCount', response[1].data.total_count);
-      }).catch(() => {
-        console.log('Request failed...');
+      }).catch((e) => {
+        console.warn(e?.message);
       });
     },
 
@@ -250,8 +250,8 @@ export default {
           // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
           commit('setMyListPage', { response, get20perpage });
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         });
     },
 
@@ -271,8 +271,8 @@ export default {
           // 페이지네이션 정보초기화 (다음 페이지 유무, 20페이지표시 유무를 매개변수로 전달)
           commit('setMyListPage', { response, ...payload });
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         });
     },
 
@@ -310,8 +310,8 @@ export default {
               this.dispatch('setInitTodoList');
               Vue.prototype.$toast.info(message.addList);
             })
-            .catch(() => {
-              console.log('Request failed...');
+            .catch((e) => {
+              console.warn(e?.message);
             });
         } else if (listKind === 'todo') {
           // 할일일정화면에서 추가
@@ -326,8 +326,8 @@ export default {
               this.dispatch('setInitCompleteList');
               Vue.prototype.$toast.info(message.completeList);
             })
-            .catch(() => {
-              console.log('Request failed...');
+            .catch((e) => {
+              console.warn(e?.message);
             });
         } else if (listKind === 'all_todo') {
           // 할일일정화면에서 추가
@@ -341,8 +341,8 @@ export default {
               this.dispatch('setInitAllList');
               Vue.prototype.$toast.info(message.completeList);
             })
-            .catch(() => {
-              console.log('Request failed...');
+            .catch((e) => {
+              console.warn(e?.message);
             });
         }
       } else {
@@ -417,8 +417,8 @@ export default {
               this.dispatch('setInitTodoList');
               Vue.prototype.$toast.info(message.removeList);
             })
-            .catch(() => {
-              console.log('Request failed...');
+            .catch((e) => {
+              console.warn(e?.message);
             });
         } else if (listKind === 'complete') {
           // 완료일정화면에서 완료일정 삭제
@@ -433,8 +433,8 @@ export default {
               this.dispatch('setInitCompleteList');
               Vue.prototype.$toast.info(message.removeList);
             })
-            .catch(() => {
-              console.log('Request failed...');
+            .catch((e) => {
+              console.warn(e?.message);
             });
         } else if (listKind === 'all_todo') {
           // 모든일정화면에서 할일일정 삭제 (페이지네이션 상관없이 모든 일정취득)
@@ -447,8 +447,8 @@ export default {
               this.dispatch('setInitAllList');
               Vue.prototype.$toast.info(message.removeList);
             })
-            .catch(() => {
-              console.log('Request failed...');
+            .catch((e) => {
+              console.warn(e?.message);
             });
         } else if (listKind === 'all_complete') {
           // 모든일정화면에서 완료일정 삭제 (페이지네이션 상관없이 모든 일정취득)
@@ -461,8 +461,8 @@ export default {
               this.dispatch('setInitAllList');
               Vue.prototype.$toast.info(message.removeList);
             })
-            .catch(() => {
-              console.log('Request failed...');
+            .catch((e) => {
+              console.warn(e?.message);
             });
         }
       } else {

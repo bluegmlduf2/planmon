@@ -16,8 +16,8 @@ export default {
           await this.dispatch('setInitComment');
           Vue.prototype.$toast.info(message.addCommentReply);
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         })
         .finally(() => {
           commit('setSpinner', false); // 스피너 정지
@@ -36,8 +36,8 @@ export default {
           await this.dispatch('setInitComment');
           Vue.prototype.$toast.info(message.updateCommentReply);
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         })
         .finally(() => {
           commit('setSpinner', false); // 스피너 정지
@@ -56,8 +56,8 @@ export default {
           await this.dispatch('setInitComment');
           Vue.prototype.$toast.info(message.removeCommentReply);
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         })
         .finally(() => {
           commit('setSpinner', false); // 스피너 정지

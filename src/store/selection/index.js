@@ -43,8 +43,8 @@ export default {
             // 사용자 선택사항 초기화
             commit('setSelection', selection);
           })
-          .catch(() => {
-            console.log('Request failed...');
+          .catch((e) => {
+            console.warn(e?.message);
           });
       // eslint-disable-next-line no-else-return
       } else {
@@ -80,8 +80,8 @@ export default {
             // 변경 성공 메세지
             Vue.prototype.$toast.info(message.changeSelection);
           })
-          .catch(() => {
-            console.log('Request failed...');
+          .catch((e) => {
+            console.warn(e?.message);
           });
       } else {
         // 미로그인시

@@ -62,8 +62,9 @@ export default {
           // 서버에서 가져온 댓글을 초기화
           commit('setComment', responseCommentData);
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          debugger;
+          console.warn(e?.message);
         })
         .finally(() => {
           commit('setSpinner', false); // 스피너 정지
@@ -87,8 +88,8 @@ export default {
 
             Vue.prototype.$toast.info(message.changePostDate);
           })
-          .catch(() => {
-            console.log('Request failed...');
+          .catch((e) => {
+            console.warn(e?.message);
           });
       } else {
       // 미로그인 상태일시
@@ -123,8 +124,8 @@ export default {
           // 등록한 게시물로 이동
           router.push({ name: 'post.index', params: { postId: insertedPostId } });
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         })
         .finally(() => {
           commit('setSpinner', false); // 스피너 정지
@@ -144,8 +145,8 @@ export default {
           // 등록한 게시물로 이동
           router.push({ name: 'post.index', params: { postId: insertedPostId } });
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         })
         .finally(() => {
           commit('setSpinner', false); // 스피너 정지

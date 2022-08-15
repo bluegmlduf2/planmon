@@ -30,8 +30,8 @@ export default {
           // 서버에서 가져온 댓글을 초기화
           commit('setComment', response.data);
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         });
     },
     // 댓글 등록
@@ -48,8 +48,8 @@ export default {
           await this.dispatch('setInitComment');
           Vue.prototype.$toast.info(message.addComment);
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         })
         .finally(() => {
           commit('setSpinner', false); // 스피너 정지
@@ -68,8 +68,8 @@ export default {
           await this.dispatch('setInitComment');
           Vue.prototype.$toast.info(message.updateComment);
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         })
         .finally(() => {
           commit('setSpinner', false); // 스피너 정지
@@ -90,8 +90,8 @@ export default {
           await this.dispatch('setInitComment');
           Vue.prototype.$toast.info(message.removeComment);
         })
-        .catch(() => {
-          console.log('Request failed...');
+        .catch((e) => {
+          console.warn(e?.message);
         })
         .finally(() => {
           commit('setSpinner', false); // 스피너 정지
