@@ -63,7 +63,6 @@ export default {
           commit('setComment', responseCommentData);
         })
         .catch((e) => {
-          debugger;
           console.warn(e?.message);
         })
         .finally(() => {
