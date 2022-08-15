@@ -308,6 +308,12 @@ export default {
         return;
       }
 
+      // 제목 글자수 제한
+      if (inputData.title.length > 50) {
+        this.$toast.info(message.invalidInputLength('50'));
+        return;
+      }
+
       // 확인창
       const toastId = this.$toast.info({
         component: Confirm,

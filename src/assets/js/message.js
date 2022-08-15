@@ -32,4 +32,7 @@ export default {
   addPost: '게시글을 등록했습니다',
   updatePost: '게시글을 수정했습니다',
   addImage: '이미지를 등록했습니다',
+  // 사용자 유효성 검사
+  invalidEmptyInput: (e) => `${e} 입력을 해주세요`,
+  invalidInputLength: (e) => `입력가능한 글자수 ${e}자를 초과했습니다`,
 };

@@ -71,6 +71,7 @@
 
 <script>
 import Confirm from '@/components/Confirm.vue';
+import message from '@/assets/js/message';
 
 export default {
   /**
@@ -143,6 +144,15 @@ export default {
       return this.userImage ? this.userImage : require('@/assets/img/user.png');
     },
   },
+  watch: {
+    inputedContent(newVal, oldVal) {
+      // 입력한 글자수가 초과하는 경우
+      if (newVal.length > 1000) {
+        this.$toast.info(message.invalidInputLength('1000'));
+        this.inputedContent = oldVal;
+      }
+    },
+  },
   methods: {
     // 댓글창을 열기
     openContent() {
@@ -174,6 +184,12 @@ export default {
             this.$toast.dismiss(toastId); // 확인창닫기
             const commentParam = { commentId: this.id, commentContent: this.inputedContent }; // 댓글용 파라미터
             const commentReplyparam = { commentReplyId: this.id, commentReplyContent: this.inputedContent }; // 대댓글용 파라미터
+
+            // 댓글/대댓글 입력확인
+            if (!this.inputedContent) {
+              this.$toast.info(message.invalidEmptyInput('수정할 내용'));
+              return;
+            }
 
             if (buttontype === 'update') {
               // 수정

@@ -88,6 +88,7 @@
 
 import VLayout from '@/layouts/Default.vue';
 import Confirm from '@/components/Confirm.vue';
+import message from '@/assets/js/message';
 
 export default {
   /**
@@ -123,6 +124,15 @@ export default {
       return this.$store.getters.user.photoUrl ? this.$store.getters.user.photoUrl : require('@/assets/img/user.png');
     },
   },
+  watch: {
+    displayName(newVal, oldVal) {
+      // 입력한 글자수가 초과하는 경우
+      if (newVal.length > 20) {
+        this.$toast.info(message.invalidInputLength('20'));
+        this.displayName = oldVal;
+      }
+    },
+  },
   created() {
     this.initSetting();
   },
@@ -132,6 +142,11 @@ export default {
     },
     // 프로필정보 변경
     updateDisplayName() {
+      // 닉네임 입력확인
+      if (!this.displayName) {
+        this.$toast.info(message.invalidEmptyInput('닉네임'));
+        return;
+      }
       const payload = { displayName: this.displayName };
       this.$store.dispatch('updateProfile', payload);
     },

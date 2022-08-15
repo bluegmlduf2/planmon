@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import message from '@/assets/js/message';
+
 export default {
   /**
    * The name of the component.
@@ -47,6 +49,12 @@ export default {
   methods: {
     // 결과내 재검색 기능
     searchList() {
+      // 재검색어 입력확인
+      if (!this.searchWord) {
+        this.$toast.info(message.invalidEmptyInput('재검색어'));
+        return;
+      }
+
       // 부모의 메서드 호출
       this.$emit('searchList', this.searchWord);
     },
