@@ -155,12 +155,3 @@ class MyListDto:
         'current_page': fields.Integer(description='현재 페이지'),
         'total_count': fields.Integer(description='총 추천일정 수'),
     })
-
-class UserDto:
-    api = Namespace('user', description='유저정보')
-    user = api.model('user', {
-        'email': fields.String(required=True, description='user email address'),
-        'username': fields.String(required=True, description='user username'),
-        'password': fields.String(required=True, description='user password'),
-        'public_id': fields.String(description='user Identifier')
-    })

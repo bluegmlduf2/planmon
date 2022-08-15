@@ -9,7 +9,6 @@ from .main.controller.post_controller import api as post_ns
 from .main.controller.image_controller import api as image_ns
 from .main.controller.comment_controller import api as comment_ns
 from .main.controller.comment_reply_controller import api as commentreply_ns
-from .main.controller.user_controller import api as user_ns
 from .main.controller.selection_controller import api as selection_ns
 
 import firebase_admin # 서버 파 파이어베이스 모듈
@@ -33,7 +32,6 @@ api = Api(
     security='apikey'
 )
 
-api.add_namespace(user_ns, path='/api/user')
 api.add_namespace(todolist_ns, path='/api/todolist')
 api.add_namespace(completelist_ns, path='/api/completelist')
 api.add_namespace(reclist_ns, path='/api/reclist')
