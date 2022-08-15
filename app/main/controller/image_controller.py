@@ -54,6 +54,9 @@ class ImageUpload(Resource):
         # 이미지 업로드
         url,filename = upload_image(file)
 
+        # file.read()로 발생한 자원해제
+        file.close()
+
         return {'imagefileName':filename,'imageUrl': url}, 201
 
 
@@ -89,6 +92,9 @@ class UserImageUpload(Resource):
 
         # 이전 유저 이미지 삭제
         delete_user_image(user_image)
+
+        # file.read()로 발생한 자원해제
+        file.close()
 
         return {'imageUrl': url}, 201
     
