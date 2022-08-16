@@ -8,6 +8,7 @@
       </h4>
       <div class="list-menu-body">
         <i
+          v-if="paramShowButtons"
           class="fa fa-ellipsis-h"
           aria-hidden="true"
           @click="toggleMenuActive=!toggleMenuActive"
@@ -16,10 +17,7 @@
           class="list-menu list-option-home"
           :class="openSlideMenu"
         >
-          <li>등록일자순 정렬</li>
-          <li>완료순으로 정렬</li>
           <li
-            v-if="paramShowButtons"
             @click="changeCheckInput"
           >
             {{ isAdded?'일정 삭제':'일정 추가' }}
@@ -102,6 +100,7 @@ export default {
       default: null,
       type: Array,
     },
+    // 슬라이드메뉴 아이콘 표시유무
     paramShowButtons: {
       default: false,
       type: Boolean,
@@ -139,11 +138,8 @@ export default {
     },
     // 슬라이드 메뉴 선택시 상태에 맞는 높이의 클래스적용
     openSlideMenu() {
-      if (this.toggleMenuActive) {
-        if (this.paramShowButtons) {
-          return 'open menu3';
-        }
-        return 'open menu2';
+      if (this.toggleMenuActive && this.paramShowButtons) {
+        return 'open menu1';
       }
       return '';
     },
