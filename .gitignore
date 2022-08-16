@@ -130,3 +130,6 @@ app/main/image/userimage/*.jpg
 
 # 로그폴더
 log/logfile*
+
+# sqllite->mysql 덤프파일은 커밋 제외
+app/main/*.sql
