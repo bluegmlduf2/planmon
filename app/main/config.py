@@ -19,8 +19,7 @@ class Config:
 
 
 class DevelopmentConfig(Config):
-    # uncomment the line below to use postgres
-    # SQLALCHEMY_DATABASE_URI = postgres_local_base
+    # 개발환경에서 사용할 sqllite
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'planmon_main.db') # 데이터베이스 접속주소, SQLite를 사용해서 db를 파일로 관리한다 
     SQLALCHEMY_TRACK_MODIFICATIONS = False # SQLAlchemy의 이벤트를 처리하는 옵션 (수정사항에 대한 TRACK)
@@ -36,8 +35,16 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
-    # uncomment the line below to use postgres
-    # SQLALCHEMY_DATABASE_URI = postgres_local_base
+    # 실제 배포를 위한 DB설정 (.env파일에 값이 존재하지않을 경우 2번째 인자값을 기본값으로 사용)
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@{host}/{db}?charset={charset}'.format(**{
+        'user': os.getenv('DB_USER', 'root'),
+        'password': os.getenv('DB_PASSWORD', ''),
+        'host': os.getenv('DB_HOST', 'localhost'),
+        'db': os.getenv('DB_NAME', 'planmon'),
+        'charset': os.getenv('DB_CHARSET', 'utf8mb4'),
+    })
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ECHO = False
 
 
 config_by_name = dict(
