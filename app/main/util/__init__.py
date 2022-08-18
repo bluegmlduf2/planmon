@@ -1,5 +1,6 @@
 # 유틸에서 공통으로 사용하는 모듈
 from flask import current_app,request,abort
+from app.main import db
 from sqlalchemy import case
 from datetime import datetime
 from PIL import Image  # 이미지 사이즈 변경
