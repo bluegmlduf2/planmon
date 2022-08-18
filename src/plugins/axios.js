@@ -54,6 +54,9 @@ Axios.interceptors.response.use(
         Vue.prototype.$toast.warning(message.invalidUser);
         // 인증정보가 이상한 경우 로그아웃한다
         store.dispatch('logout');
+      } else if (ERR_STATUS === 413) {
+        // 401번 에러, 대용량업로드(6MB이상:nginx설정) 에러
+        Vue.prototype.$toast.warning(message.imageUploadSize);
       } else {
         // 400번대 에러지만 서버에서 처리하지 못한 내용
         Vue.prototype.$toast.warning(message.error400);
