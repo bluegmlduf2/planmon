@@ -103,7 +103,7 @@ def upload_image(param):
         image.convert('RGB').save(source)  # resize사용시 image -> resize_image
 
         # 임시 저장된 이미지의 URL
-        url = request.url+'/temp/'+resize_image_fileNm
+        url = current_app.config['SERVER_IMAGE_URL']+'temp/'+resize_image_fileNm
     except IOError:
         # 파일형식이 이미지인가 체크
         raise UserError(753)
@@ -130,7 +130,7 @@ def upload_user_image(param):
         resize_image_file.convert('RGB').save(source)  # resize사용시 image -> resize_image
 
         # 저장된 이미지의 URL
-        url = request.url+'/'+resize_image_fileNm
+        url = current_app.config['SERVER_IMAGE_URL']+resize_image_fileNm
     except IOError:
         # 파일형식이 이미지인가 체크
         raise UserError(753)

@@ -11,6 +11,8 @@ class Config:
     DEBUG = False
     # Swagger
     RESTX_MASK_SWAGGER = False
+    # 서버 이미지 저장용 URL (서버에서 이미지를 저장할때 사용하는 URL)
+    SERVER_IMAGE_URL = os.getenv('SERVER_IMAGE_URL')
     # 게시물 이미지 임시 저장 경로와 저장된 게시물 저장경로
     POST_TEMP_FILE_PATH = basedir+'/image/posttempimage/'
     POST_FILE_PATH = basedir+'/image/postimage/'
