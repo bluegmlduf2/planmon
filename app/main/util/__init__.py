@@ -124,13 +124,13 @@ def upload_user_image(param):
         # 이미지 저장
         image = Image.open(param)
         resize_image_file = image.resize((180, 180)) # 160,160 이미지 사이즈변경
-        source = current_app.config['USER_FILE_PATH']+'userimage/'+resize_image_fileNm  # 유저이미지파일저장경로
+        source = current_app.config['USER_FILE_PATH']+resize_image_fileNm  # 유저이미지파일저장경로
 
         # RGB형식으로 변경후 , 이미지 파일 저장
         resize_image_file.convert('RGB').save(source)  # resize사용시 image -> resize_image
 
         # 저장된 이미지의 URL
-        url = current_app.config['SERVER_IMAGE_URL']+resize_image_fileNm
+        url = current_app.config['SERVER_IMAGE_URL']+'userimage/'+resize_image_fileNm
     except IOError:
         # 파일형식이 이미지인가 체크
         raise UserError(753)
