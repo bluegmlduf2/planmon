@@ -100,13 +100,13 @@ def exception_handler(f) -> Callable:
             # 사용자에러 처리
             logger.warning(f"[{user_ip}] [{uuid}] 예외 => ({e})")
             # 에러발생시 롤백
-            db.ession.rollback()
+            db.session.rollback()
             return e.errorInfo,400
         except Exception as e:
             # 기타 예외 처리
             logger.exception(f"[{user_ip}] [{uuid}] 에러 => ({e})")
             # 에러발생시 롤백
-            db.ession.rollback()
+            db.session.rollback()
             return getMessage(800),500
         else:
             # 성공적으로 반환된 값 전달
