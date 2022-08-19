@@ -1,6 +1,6 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "planmon",
+    "short_name": "planmon",
     "icons": [
         {
             "src": "/img/icons/android-chrome-192x192.png",
