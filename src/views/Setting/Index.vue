@@ -122,7 +122,7 @@ export default {
     // 유저이미지 반환
     userImage() {
       // eslint-disable-next-line global-require
-      return this.$store.getters.user.photoUrl ? this.$store.getters.user.photoUrl : require('@/assets/img/user.png');
+      return this.$store.getters.user?.photoUrl ? this.$store.getters.user.photoUrl : require('@/assets/img/user.png');
     },
   },
   watch: {
