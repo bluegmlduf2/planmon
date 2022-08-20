@@ -138,7 +138,7 @@ export default {
   },
   methods: {
     initSetting() {
-      this.displayName = this.user.name;
+      this.displayName = this.user?.name ?? '';
     },
     // 프로필정보 변경
     updateDisplayName() {
