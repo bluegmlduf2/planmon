@@ -25,7 +25,7 @@ selenium==3.8.1
 six==1.11.0
 SQLAlchemy>=1.3.0
 Werkzeug==0.15.5
-Pillow==9.2.0
+Pillow==8.4.0
 
 markupsafe==2.0.1 # 추가함
 python-dotenv # .env에 설정파일추가를 위해 설치
