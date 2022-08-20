@@ -15,7 +15,7 @@
               placeholder="제목을 입력해주세요"
               aria-describedby="validationTitle"
               required
-              maxlength="50"
+              maxlength="35"
             >
             <div
               v-if="validation.title"
@@ -310,8 +310,8 @@ export default {
       }
 
       // 제목 글자수 제한
-      if (inputData.title.length > 50) {
-        this.$toast.warning(message.invalidInputLength('50'));
+      if (inputData.title.length > 35) {
+        this.$toast.warning(message.invalidInputLength('35'));
         return;
       }
 
