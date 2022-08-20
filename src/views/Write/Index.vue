@@ -232,10 +232,14 @@ export default {
             // 업로드한 이미지를 blol(이진수 형태의 큰 객체)형식으로 받은 뒤 formData에 넣은뒤 서버에 전송
             const formData = new FormData();
             formData.append('image', blob);
-            const { imageUrl, imagefileName } = await this.$store.dispatch('uploadImage', formData); // 이미지 업로드
-            this.inputData.tempImages.push(imagefileName); // 파일명을 해당화면에 추가
-            // 업로드된 이미지의 url을 참조하여 게시글 표시용 엘리먼트를 생성
-            callback(imageUrl);
+            const uploadImage = await this.$store.dispatch('uploadImage', formData); // 이미지 업로드
+
+            // 이미지 업로드에 문제가 없을 경우 실행
+            if (uploadImage) {
+              this.inputData.tempImages.push(uploadImage?.imagefileName); // 파일명을 해당화면에 추가
+              // 업로드된 이미지의 url을 참조하여 게시글 표시용 엘리먼트를 생성
+              callback(uploadImage?.imageUrl);
+            }
           },
 
         },

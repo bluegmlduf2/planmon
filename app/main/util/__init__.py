@@ -3,7 +3,7 @@ from flask import current_app,request,abort
 from app.main import db
 from sqlalchemy import case
 from datetime import datetime
-from PIL import Image  # 이미지 사이즈 변경
+from PIL import Image, ExifTags  # 이미지 사이즈 변경
 from functools import wraps
 from pytz import timezone
 import os # 파일 이동용
@@ -95,8 +95,22 @@ def upload_image(param):
         ranNum = str(random.randint(1, 999999)).rjust(4, "0")  # 난수4자리,공백은0으로채움
         resize_image_fileNm = time+ranNum+".jpg"  # 변경후 저장한 파일명
 
-        # 이미지 저장
+        # 이미지 열기
         image = Image.open(param)
+        
+        # 이미지 너비가 넓을경우 90도 회전이 되는데 그걸 방지
+        for orientation in ExifTags.TAGS.keys() : 
+            if ExifTags.TAGS[orientation]=='Orientation' : break 
+        exif=dict(image._getexif().items())
+
+        if exif[orientation] == 3 : 
+            image=image.rotate(180, expand=True)
+        elif exif[orientation] == 6 : 
+            image=image.rotate(270, expand=True)
+        elif exif[orientation] == 8 : 
+            image=image.rotate(90, expand=True)
+        
+        # 이미지 저장
         source = current_app.config['POST_TEMP_FILE_PATH']+resize_image_fileNm  # 임시파일저장경로
 
         # RGB형식으로 변경후 , 이미지 파일 저장
@@ -121,8 +135,22 @@ def upload_user_image(param):
         ranNum = str(random.randint(1, 999999)).rjust(4, "0")  # 난수4자리,공백은0으로채움
         resize_image_fileNm = time+ranNum+".jpg"  # 변경후 저장한 파일명
 
-        # 이미지 저장
+        # 이미지 파일 열기
         image = Image.open(param)
+        
+        # 이미지 너비가 넓을경우 90도 회전이 되는데 그걸 방지
+        for orientation in ExifTags.TAGS.keys() : 
+            if ExifTags.TAGS[orientation]=='Orientation' : break 
+        exif=dict(image._getexif().items())
+
+        if exif[orientation] == 3 : 
+            image=image.rotate(180, expand=True)
+        elif exif[orientation] == 6 : 
+            image=image.rotate(270, expand=True)
+        elif exif[orientation] == 8 : 
+            image=image.rotate(90, expand=True)
+
+        # 이미지 저장  
         resize_image_file = image.resize((180, 180)) # 160,160 이미지 사이즈변경
         source = current_app.config['USER_FILE_PATH']+resize_image_fileNm  # 유저이미지파일저장경로
 
