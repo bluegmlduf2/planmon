@@ -48,7 +48,7 @@
         <hr>
         <div class="row">
           <div class="col-md-12 mt-1 mb-3 post-title">
-            <h2 class="over-text">
+            <h2 class="word-break">
               {{ post.title }}
             </h2>
           </div>
@@ -215,6 +215,7 @@
                 class="form-control input_textarea"
                 placeholder="댓글을 입력해주세요"
                 rows="3"
+                maxlength="1000"
               />
             </div>
             <div

@@ -15,6 +15,7 @@
               placeholder="제목을 입력해주세요"
               aria-describedby="validationTitle"
               required
+              maxlength="50"
             >
             <div
               v-if="validation.title"

@@ -54,6 +54,7 @@
               placeholder="닉네임을 입력해주세요"
               type="text"
               class="form-control"
+              maxlength="20"
             >
           </div>
           <button

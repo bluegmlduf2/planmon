@@ -42,6 +42,7 @@
           class="form-control input_textarea"
           placeholder="수정할 댓글을 입력해주세요"
           rows="3"
+          maxlength="1000"
         />
         <span v-else>
           {{ content }}
