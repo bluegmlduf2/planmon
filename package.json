@@ -1,5 +1,5 @@
 {
-  "name": "vue-2-planmon",
+  "name": "planmon",
   "version": "0.0.0",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -55,8 +55,8 @@
     "last 2 versions",
     "not ie <= 8"
   ],
-  "author": "Peter van Meijgaard <petervanmeijgaard@hotmail.com>",
-  "description": "A boilerplate for medium to large Vue 2 single page applications",
+  "author": "Wally yoon",
+  "description": "planning app",
   "bugs": {
     "url": "https://github.com/bluegmlduf2/planmon"
   },
@@ -76,17 +76,9 @@
     "url": "git+https://github.com/bluegmlduf2/planmon.git"
   },
   "keywords": [
-    "Vue",
-    "Next",
-    "planmon",
-    "Webpack",
-    "Lint",
-    "Medium",
-    "Large",
-    "SPA",
-    "Single",
-    "Page",
-    "Application"
+    "플랜몬",
+    "유학",
+    "해외취업"
   ],
   "gitHooks": {
     "pre-commit": "lint-staged"
