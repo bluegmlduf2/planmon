@@ -96,8 +96,10 @@ export default {
       const { currentUser } = firebase.auth;
       firebase.updateProfile(currentUser, payload).then(() => {
         Vue.prototype.$toast.info(message.changeUserInfo);
+
         commit('setUser', {
           name: payload.displayName ? payload.displayName : currentUser.displayName,
+          email: currentUser.email,
           photoUrl: payload.photoURL ? payload.photoURL : currentUser.photoURL,
         });
       }).catch((error) => {
