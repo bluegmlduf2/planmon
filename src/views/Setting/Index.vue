@@ -158,10 +158,11 @@ export default {
       // 업로드한 이미지를 blol(이진수 형태의 큰 객체)형식으로 받은 뒤 formData에 넣은뒤 서버에 전송
         const formData = new FormData();
         formData.append('image', e.target.files[0]);
-        const { imageUrl } = await this.$store.dispatch('uploadUserImage', formData); // 이미지 업로드
-        payload.photoURL = imageUrl;
+        const uploadUserImage = await this.$store.dispatch('uploadUserImage', formData); // 이미지 업로드
+        const imageUrl = uploadUserImage?.imageUrl;
         // 성공적으로 유저이미지를 등록한 경우 갱신
         if (imageUrl) {
+          payload.photoURL = imageUrl;
           this.$store.dispatch('updateProfile', payload);
         }
       } else if (args === 'delete') {
