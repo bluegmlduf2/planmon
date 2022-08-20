@@ -31,7 +31,7 @@ export default {
         )
         .catch(
           (error) => {
-            Vue.prototype.$toast.error(firebaseError(error));
+            Vue.prototype.$toast.warning(firebaseError(error));
           },
         ).finally(() => {
           commit('setLoading', false);
@@ -57,7 +57,7 @@ export default {
         )
         .catch(
           (error) => {
-            Vue.prototype.$toast.error(firebaseError(error));
+            Vue.prototype.$toast.warning(firebaseError(error));
           },
         ).finally(() => {
           commit('setLoading', false);
@@ -82,7 +82,7 @@ export default {
               // 처음에 렌더링이 2회 실행되면서 아래의 에러가 발생한다.
               // 해당 에러는 묵시적으로 제외하고 그외의 에러가 발생시 경고메세지로 표시
               if (error.code !== 'auth/invalid-action-code') {
-                Vue.prototype.$toast.error(firebaseError(error));
+                Vue.prototype.$toast.warning(firebaseError(error));
               }
             });
         }
@@ -103,7 +103,7 @@ export default {
           photoUrl: payload.photoURL ? payload.photoURL : currentUser.photoURL,
         });
       }).catch((error) => {
-        Vue.prototype.$toast.error(firebaseError(error));
+        Vue.prototype.$toast.warning(firebaseError(error));
       }).finally(() => {
         commit('setLoading', false);
       });
@@ -119,7 +119,7 @@ export default {
         commit('setUser', null);
         router.push({ name: 'home.index' });
       }).catch((error) => {
-        Vue.prototype.$toast.error(firebaseError(error));
+        Vue.prototype.$toast.warning(firebaseError(error));
       }).finally(() => {
         commit('setLoading', false);
       });
