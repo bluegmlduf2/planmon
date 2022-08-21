@@ -5,8 +5,9 @@
       class="col-md-8 default-right p-4"
       :class="{'add-padding-bottom':user}"
     >
-      <!-- 할일 일정 -->
+      <!-- 할일 일정 (할일 일정이 존재할경우에만 표시)-->
       <v-list
+        v-if="!!todolistCount"
         :param-list="todolist"
         :param-show-buttons="true"
         :param-is-home="true"
@@ -21,6 +22,7 @@
         </span>
       </v-list>
       <div
+        v-if="!!todolistCount"
         class="list-footer"
       >
         <button
@@ -32,7 +34,7 @@
           +
         </button>
       </div>
-      <hr>
+      <hr v-if="!!todolistCount">
       <!-- 추천 일정 -->
       <v-list
         :param-list="reclist"
