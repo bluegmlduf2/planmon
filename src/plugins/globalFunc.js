@@ -3,6 +3,15 @@ import stayStatus from '@/assets/js/stayStatus';
 
 export default {
   install(Vue) {
+    // 현재화면의 모바일여부 체크 (768px기준)
+    // 모바일:true,데스크톱:false
+    Vue.prototype.isMobile = () => {
+      const mobileSize = process.env.VUE_APP_API_MOBILE_SIZE; // 768px
+      const screen = document.documentElement.clientWidth; // 현재화면넓이
+      // 플랜몬 모바일기준은 768px
+      return screen <= mobileSize;
+    };
+
     // 년월일 형식반환
     Vue.prototype.getDateFormat = (date) => {
       const dt = new Date(date);
