@@ -68,10 +68,15 @@ export default {
    * The properties that the component accepts.
    */
   props: {
-    // 메인화면에서 검색한 재검색어
+    // 메인화면에서 검색한 추천 일정 검색어
     searchRecWord: {
       default: '',
       type: String,
+    },
+    // 메인화면에서 검색한 추천 일정 검색시 검색조건으로 체류국가만 사용하고 체류상태는 사용하지않음
+    searchOnlyCountry: {
+      default: false,
+      type: Boolean,
     },
     // 초기화시 일정을 20개를 표시한다
     get20perpage: {
@@ -102,7 +107,11 @@ export default {
     // 추천 일정 초기화 (기본적으로 10개를 가져오며 홈화면에서 더보기 버튼 클릭시만 20개를 가져온다)
     async initRecommendedList() {
       // 추천일정 초기화를 위한 파라미터
-      const param = { get20perpage: this.get20perpage, searchWord: this.searchWord };
+      const param = {
+        get20perpage: this.get20perpage,
+        searchWord: this.searchWord,
+        searchOnlyCountry: this.searchOnlyCountry,
+      };
       // 사용자 선택값 데이터 초기화
       await this.$store.dispatch('setInitSelection');
       // 추천일정 초기화
@@ -119,14 +128,17 @@ export default {
       // 결과내 재검색어
       this.searchWord = searchWord;
       // 추천일정 초기화를 위한 파라미터
-      const param = { searchWord };
+      const param = { searchWord, searchOnlyCountry: this.searchOnlyCountry };
       // 추천일정 초기화
       this.$store.dispatch('setInitRecList', param);
     },
     // 검색 결과 더보기
     getRecList() {
       // 재검색어
-      const param = { searchWord: this.searchWord };
+      const param = {
+        searchWord: this.searchWord,
+        searchOnlyCountry: this.searchOnlyCountry,
+      };
       this.$store.dispatch('getRecList', param);
     },
   },

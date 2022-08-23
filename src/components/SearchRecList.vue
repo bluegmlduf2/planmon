@@ -14,7 +14,7 @@
         v-model="searchRecWord"
         type="search"
         class="form-control"
-        placeholder="추천 일정 검색"
+        placeholder="모든 추천 일정 검색"
         @keyup.enter="searchRecList"
       >
     </div>
@@ -42,7 +42,7 @@ export default {
         this.$toast.warning(message.invalidEmptyInput('검색어'));
       } else if (this.searchRecWord !== '' && this.$route.path !== '/reclist') {
         // 추천일정 검색과 함께 추천페이지 이동
-        this.$router.push({ name: 'reclist.index', params: { searchRecWord: this.searchRecWord } });
+        this.$router.push({ name: 'reclist.index', params: { searchRecWord: this.searchRecWord, searchOnlyCountry: true } });
       } else if (this.$route.path === '/reclist') {
         // 만약 추천일정화면에서 재검색하는 경우 메세지 표시
         this.$toast.info(message.reSearch);

@@ -20,10 +20,10 @@ class RecListProxy extends Proxy {
    * @returns {Promise} The result in a promise.
    */
   getRecList({
-    country, stayStatus, entryDate, myCompletelist, myTodolist, get20perpage, currentPage, searchWord,
+    country, stayStatus, entryDate, myCompletelist, myTodolist, get20perpage, currentPage, searchWord, searchOnlyCountry,
   }) {
     const parameter = {
-      country, stayStatus, entryDate, myCompletelist, myTodolist, get20perpage, currentPage, searchWord,
+      country, stayStatus, entryDate, myCompletelist, myTodolist, get20perpage, currentPage, searchWord, searchOnlyCountry,
     };
     return this.submit('post', `${this.endpoint}`, parameter);
   }

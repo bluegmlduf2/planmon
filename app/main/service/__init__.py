@@ -12,7 +12,8 @@ from datetime import datetime,timedelta
 
 def remove_unnecessary_elements(selection):
     '''SQL의 조건 매개변수에 불필요한 칼럼을 제거한다'''
-    necessary_elements = ['country','stayStatus'] # 필요한 칼럼
+    # 검색조건으로 필요한 칼럼, 메인화면에서 검색시 체류일정은 검색조건으로 사용하지 않는다
+    necessary_elements = ['country'] if selection.get('searchOnlyCountry',False) else ['country','stayStatus']
     # 값이 존재하고, 필요한 칼럼만 남겨서 검색을 위한 딕셔너리로 반환
     filters={k: v for k, v in selection.items() if v is not None and k in necessary_elements}
     return filters
