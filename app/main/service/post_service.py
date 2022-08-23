@@ -53,8 +53,8 @@ def create_post(uid,payload):
         user=User.query.filter_by(uid=uid).first()
         
         # 유저의 선택정보가 전부 입력되어있는지 확인
-        if not user.entryDate or not user.country or not user.stayStatus:
-            raise UserError(701,'유저의 국가/체류상태/입국날짜')
+        if not user.country or not user.stayStatus:
+            raise UserError(701,'유저의 국가/체류상태')
 
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
@@ -89,8 +89,9 @@ def create_post(uid,payload):
             # 시간 데이터
             startDate = datetime.strptime(inputData['startDate'],'%Y-%m-%d') # 일정시작일
             endDate = datetime.strptime(inputData['endDate'],'%Y-%m-%d') # 일정종료일
-            entryDate = datetime.strptime(user.entryDate.strftime('%Y-%m-%d'),'%Y-%m-%d') # 나의 입국날짜
             currentDate = datetime.strptime(get_current_time().strftime('%Y-%m-%d'),'%Y-%m-%d') # 현재시간
+            # 나의 입국날짜 (만약존재하지 않을시 현재 날짜를 넣는다)
+            entryDate = currentDate if user.entryDate is None else datetime.strptime(user.entryDate.strftime('%Y-%m-%d'),'%Y-%m-%d')
             afterEntryDate = (currentDate-entryDate).days # 내 입국후 경과 일수
 
             # 글내용의 이미지 url변경
@@ -136,8 +137,8 @@ def update_post(uid,payload):
         user=User.query.filter_by(uid=uid).first()
 
         # 유저의 선택정보가 전부 입력되어있는지 확인
-        if not user.entryDate or not user.country or not user.stayStatus:
-            raise UserError(701,'유저의 국가/체류상태/입국날짜')
+        if not user.country or not user.stayStatus:
+            raise UserError(701,'유저의 국가/체류상태')
 
         # 기존 유저가 존재할 경우 유저선택정보를 갱신
         if user:
@@ -173,8 +174,9 @@ def update_post(uid,payload):
             # 시간 데이터
             startDate = datetime.strptime(inputData['startDate'],'%Y-%m-%d') # 일정시작일
             endDate = datetime.strptime(inputData['endDate'],'%Y-%m-%d') # 일정종료일
-            entryDate = datetime.strptime(user.entryDate.strftime('%Y-%m-%d'),'%Y-%m-%d') # 나의 입국날짜
             currentDate = datetime.strptime(get_current_time().strftime('%Y-%m-%d'),'%Y-%m-%d') # 현재시간
+            # 나의 입국날짜 (만약존재하지 않을시 현재 날짜를 넣는다)
+            entryDate = currentDate if user.entryDate is None else datetime.strptime(user.entryDate.strftime('%Y-%m-%d'),'%Y-%m-%d')
             afterEntryDate = (currentDate-entryDate).days # 내 입국후 경과 일수
 
             # 글내용의 이미지 url변경
