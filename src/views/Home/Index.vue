@@ -7,7 +7,7 @@
     >
       <!-- 할일 일정 (할일 일정이 존재할경우에만 표시)-->
       <v-list
-        v-if="!!todolistCount"
+        v-if="!isNotShowTodoList"
         :param-list="todolist"
         :param-show-buttons="true"
         :param-is-home="true"
@@ -22,7 +22,7 @@
         </span>
       </v-list>
       <div
-        v-if="!!todolistCount"
+        v-if="!isNotShowTodoList"
         class="list-footer"
       >
         <button
@@ -34,7 +34,7 @@
           +
         </button>
       </div>
-      <hr v-if="!!todolistCount">
+      <hr v-if="!isNotShowTodoList">
       <!-- 추천 일정 -->
       <v-list
         :param-list="reclist"
@@ -82,9 +82,13 @@
  *
  * The home index page.
  */
-
+import Vue from 'vue';
 import VLayout from '@/layouts/Default.vue';
 import VList from '@/components/List.vue';
+import globalFunc from '@/plugins/globalFunc';
+
+// 공통함수사용
+Vue.use(globalFunc);
 
 export default {
   /**
@@ -118,6 +122,10 @@ export default {
     // 현재화면에 표시하고있는 추천일정 리스트 길이
     reclistCount() {
       return this.$store.getters.reclistCount;
+    },
+    // 모바일환경이며 할일일정이 존재하지 않는 경우에는 할일일정을 표시하지 않는다
+    isNotShowTodoList() {
+      return !this.todolistCount && Vue.prototype.isMobile();
     },
   },
   created() {
