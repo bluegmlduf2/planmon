@@ -65,7 +65,7 @@
       <button
         v-if="user"
         class="btn btn-purple btn-option home-write-position"
-        @click="$router.push({name: 'write.index'})"
+        @click="$router.push({name: 'write.index', params: {selection:$store.getters.selection}})"
       >
         <b>
           글쓰기

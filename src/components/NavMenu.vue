@@ -50,7 +50,7 @@
       :class="{'nav-item':isForMobileNav}"
     >
       <router-link
-        :to="{ name: 'write.index' }"
+        :to="{ name: 'write.index' ,params: {selection:$store.getters.selection}}"
         :class="{'nav-link':isForMobileNav}"
       >
         글쓰기
