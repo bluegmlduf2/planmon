@@ -138,6 +138,7 @@ export default {
     closeLogin() {
       this.email = '';
       this.isSignup = false;
+      this.$store.dispatch('setLoading', false); // 로딩변수초기화
       this.$emit('closeLogin');
     },
     // 로그인
