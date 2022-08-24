@@ -57,8 +57,6 @@ function setWriteRouter(to, from, next) {
       // 모바일화면인 경우 나의 일정 설정화면으로 이동
       // Redirected 에러때문에 push사용
       router.push({ path: 'selection' });
-    } else {
-      next({ name: 'home.index' });
     }
   } else {
     // 글쓰기 화면이동에 문제가 없으면 글쓰기 화면으로이동
