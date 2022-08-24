@@ -316,7 +316,7 @@
                 <span
                   class="btn btn-outline-secondary w-100"
                   @click="comment.isWriteClicked = true"
-                >댓글작성</span>
+                >대댓글작성</span>
               </div>
               <div
                 v-else
@@ -325,7 +325,7 @@
                 <hr>
                 <textarea
                   class="form-control input_textarea"
-                  placeholder="댓글을 입력해주세요"
+                  placeholder="대댓글을 입력해주세요"
                   rows="3"
                 />
                 <!-- 대댓글작성버튼 -->
@@ -620,7 +620,7 @@ export default {
 
       // 대댓글 입력확인
       if (!commentReplyContent) {
-        this.$toast.warning(message.invalidEmptyInput('댓글'));
+        this.$toast.warning(message.invalidEmptyInput('대댓글'));
         return;
       }
       // 대댓글 글자수 체크

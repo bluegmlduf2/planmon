@@ -15,6 +15,7 @@ export default {
   addList: '일정을 추가했습니다',
   completeList: '일정을 완료했습니다',
   removeList: '일정을 삭제했습니다',
+  removeTodoList: '등록된 할일일정을 취소하시겠습니까',
   writeConfirm: '일정 게시글은 수정은 가능하지만 삭제가 불가능합니다\n작성하시겠습니까',
   writeUpdateConfirm: '게시글을 수정하시겠습니까',
   reSearch: '추천일정 화면의 결과 재검색을 이용해주세요',
