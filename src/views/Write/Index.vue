@@ -208,6 +208,12 @@ export default {
       type: Object,
       default: null,
     },
+    // 신규일정 등록시 사용될 유저의 선택정보
+    selection: {
+      type: Object,
+      default: null,
+      required: true,
+    },
   },
   data() {
     return {
@@ -245,11 +251,12 @@ export default {
         },
       },
       // 입력된 게시글 정보 (수정모드일시 수정입력값을 초기화)
+      // 신규 게시글일시 유저의 선택정보를 참고해서 국가와 체류상태를 설정
       inputData: {
         title: this.post?.title ?? '',
         content: this.post?.content ?? '',
-        country: this.post?.country ?? 'JP',
-        stayStatus: this.post?.stayStatus ?? '0',
+        country: this.post?.country ?? this.selection.country,
+        stayStatus: this.post?.stayStatus ?? this.selection.stayStatus,
         startDate: this.post?.startDate ?? '',
         endDate: this.post?.endDate ?? '',
         tempImages: [],
