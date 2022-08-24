@@ -489,11 +489,13 @@ export default {
         param.listKind = param.isAdded ? 'rec' : 'todo';
         // 일정에 추가후 일정화면 초기화
         this.$store.dispatch('updateList', param);
-        this.$store.dispatch('setInitPost', postId);
+        this.initPost();
       };
 
       // 확인창 표시
-      const confirmToast = (buttonName, confirmMessage) => {
+      // setTimeout함수의 confirmToast()로 호출
+      // isAddRecList가 true이면 할일일정에추가 false면 할일일정에서 삭제
+      const confirmToast = (buttonName, confirmMessage, isAddRecList) => {
         const toastId = this.$toast.info({
           component: Confirm,
           props: {
@@ -505,7 +507,7 @@ export default {
             // 확인(삭제)버튼
             confirmEvent: () => {
               this.$toast.dismiss(toastId);
-              if (confirmMessage) {
+              if (isAddRecList) {
                 // 추가모드에서 확인한 경우
                 // 로컬스토리지 경고 메세지 표시하지 않음을 설정
                 this.$store.dispatch('addSelection', { isShowMessage: false });
@@ -533,13 +535,13 @@ export default {
         if (!isAdded) {
           // 다시보기 메세지 표시 (메세지보기가 상태이고 미로그인시)
           if (this.showMessage && !this.user) {
-            confirmToast('확인', message.localStorageListAlert);
+            confirmToast('확인', message.localStorageListAlert, true);
           }
           // 추가 진행
           processUpdate();
         } else {
           // 일정 삭제
-          confirmToast('삭제');
+          confirmToast('확인', message.removeTodoList, false);
         }
       }, 400);
     },
