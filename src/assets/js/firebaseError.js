@@ -56,6 +56,9 @@ export default (error) => {
     case 'auth/id-token-revoked':
       message = '인증시간이 만료되었습니다';
       break;
+    case 'auth/requires-recent-login':
+      message = '인증정보가 만료되었습니다\n 다시 로그인해서 진행해주세요';
+      break;
     // 구글로그인 관련
     case 'auth/popup-closed-by-user':
       message = '인증 팝업화면이 닫혔습니다\n 다시 진행해주세요';
