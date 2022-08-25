@@ -28,6 +28,9 @@ export default {
     setError({ commit }, payload) {
       commit('setError', payload);
     },
+    setLoading(state, payload) {
+      state.loading = payload;
+    },
   },
   getters: {
     spinner(state) {
