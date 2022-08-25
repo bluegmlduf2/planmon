@@ -57,7 +57,7 @@ export default (error) => {
       message = '인증시간이 만료되었습니다';
       break;
     case 'auth/requires-recent-login':
-      message = '인증정보가 만료되었습니다\n 다시 로그인해서 진행해주세요';
+      message = '인증정보가 유효하지 않습니다\n 다시 로그인해서 진행해주세요';
       break;
     // 구글로그인 관련
     case 'auth/popup-closed-by-user':
