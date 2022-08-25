@@ -103,15 +103,11 @@ def upload_image(param):
             if ExifTags.TAGS[orientation]=='Orientation' : break 
         exif=dict(image._getexif().items())
 
-        # 사진을 촬영한 기기에 입력된 회전정보
-        rotateInfo=exif.get('orientation',None)
-
-        # 카메라나 스마트폰 카메라로 사진을 찍으면 JPEG 화상과 함게 기기 내의 중력센서를 이용한 회전 정보(3,6,8)가 EXIF 태그 중 하나로서 담긴다.
-        if rotateInfo == 3 : 
+        if exif[orientation] == 3 : 
             image=image.rotate(180, expand=True)
-        elif rotateInfo == 6 : 
+        elif exif[orientation] == 6 : 
             image=image.rotate(270, expand=True)
-        elif rotateInfo == 8 : 
+        elif exif[orientation] == 8 : 
             image=image.rotate(90, expand=True)
         
         # 이미지 저장
