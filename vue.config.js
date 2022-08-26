@@ -1,7 +1,7 @@
 module.exports = {
   outputDir: process.env.VUE_APP_API_BUILD_PATH, // 배포경로
   lintOnSave: false, // Eslint 끄기
-  // 프록시로 /api라는 요청이 오면 이를 플라스크서버(5000번)로 보낸다
+  // 로컬 테스트시 프록시로 /api라는 요청이 오면 이를 플라스크서버(5000번)로 보낸다
   devServer: {
     proxy: {
       '/api*': {
