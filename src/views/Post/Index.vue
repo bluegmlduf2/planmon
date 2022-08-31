@@ -448,6 +448,34 @@ export default {
       return '';
     },
   },
+  metaInfo() {
+    return {
+      title: '플랜몬',
+      titleTemplate: `%s - ${this.post?.title || ''}`,
+      meta: [
+        {
+          vmid: 'description',
+          name: 'description',
+          content: this.post?.content,
+        },
+        {
+          vmid: 'keywords',
+          name: 'keywords',
+          content: this.post?.content,
+        },
+        {
+          vmid: 'author',
+          name: 'author',
+          content: this.userName,
+        },
+        {
+          vmid: 'og:title',
+          property: 'og:title',
+          content: this.post?.title || '',
+        },
+      ],
+    };
+  },
   watch: {
     commentContent(newVal, oldVal) {
       // 입력한 글자수가 초과하는 경우

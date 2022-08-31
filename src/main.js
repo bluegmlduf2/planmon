@@ -17,6 +17,7 @@ import Vue from 'vue';
 
 import './plugins/vuex';
 import './plugins/axios';
+import './plugins/vue-meta';
 import firebase from './plugins/firebase';
 import { i18n } from './plugins/vue-i18n';
 import { router } from './plugins/vue-router';
