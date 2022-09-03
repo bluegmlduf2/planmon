@@ -367,7 +367,6 @@ import CommentContainer from '@/components/CommentContainer.vue';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/vue-editor';
 import Flatpickr from '@/components/Flatpickr.vue';
-// import Login from '@/views/Login/Index.vue';
 import Confirm from '@/components/Confirm.vue';
 import message from '@/assets/js/message';
 import globalFunc from '@/plugins/globalFunc';

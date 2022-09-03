@@ -27,7 +27,6 @@
       <a
         v-else
         :class="{'nav-link':isForMobileNav}"
-
         href="#"
         @click="$emit('openLoginActive')"
       >
@@ -77,6 +76,7 @@
       class="nav-item dropdown"
     >
       <a
+        href="#"
         class="nav-link dropdown-toggle"
         data-toggle="dropdown"
         aria-expanded="false"
