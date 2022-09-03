@@ -128,6 +128,11 @@ export default {
       return !this.todolistCount && Vue.prototype.isMobile();
     },
   },
+  metaInfo() {
+    return {
+      title: '플랜몬',
+    };
+  },
   created() {
     // 홈버튼 및 배너클릭으로 홈화면으로 돌아갈때 할일일정과 추천일정을 초기화한다
     this.initHomeList();

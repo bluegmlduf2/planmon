@@ -451,7 +451,7 @@ export default {
   metaInfo() {
     return {
       title: '플랜몬',
-      titleTemplate: `%s - ${this.post?.title || ''}`,
+      titleTemplate: `%s | ${this.post?.title || ''}`,
       meta: [
         {
           vmid: 'description',
@@ -462,11 +462,6 @@ export default {
           vmid: 'keywords',
           name: 'keywords',
           content: this.post?.content,
-        },
-        {
-          vmid: 'author',
-          name: 'author',
-          content: this.userName,
         },
         {
           vmid: 'og:title',
