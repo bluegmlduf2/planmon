@@ -1,3 +1,4 @@
 # 모든 크롤러가 모든 폴더의 접근을 허용함
 User-agent: *
 Allow: /
+Sitemap: https://planmon.net/sitemap.xml
