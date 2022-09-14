@@ -1,10 +1,8 @@
-const path = require('path');
 const PrerenderSpaPlugin = require('prerender-spa-plugin');
 
 const productionPlugins = [
   new PrerenderSpaPlugin({
-    staticDir: path.join(__dirname, 'dist'),
-    // staticDir: process.env.VUE_APP_API_BUILD_PATH,
+    staticDir: process.env.VUE_APP_API_BUILD_PATH,
     routes: ['/', '/selection', '/alllist', '/todolist', '/completelist'], // 해당 URL을 프리렌더링함
     renderer: new PrerenderSpaPlugin.PuppeteerRenderer({
       renderAfterElementExists: '#app',
