@@ -1,3 +1,16 @@
+const path = require('path');
+const PrerenderSpaPlugin = require('prerender-spa-plugin');
+
+const productionPlugins = [
+  new PrerenderSpaPlugin({
+    staticDir: path.join(__dirname, 'dist'),
+    routes: ['/', '/selection', '/alllist', '/todolist', '/completelist'], // 해당 URL을 프리렌더링함
+    renderer: new PrerenderSpaPlugin.PuppeteerRenderer({
+      renderAfterElementExists: '#app',
+    }),
+  }),
+];
+
 module.exports = {
   outputDir: process.env.VUE_APP_API_BUILD_PATH, // 배포경로
   lintOnSave: false, // Eslint 끄기
@@ -10,5 +23,11 @@ module.exports = {
         changeOrigin: true,
       },
     },
+  },
+  // 프리렌더링설정을 웹팩에 적용
+  configureWebpack: (config) => {
+    if (process.env.NODE_ENV === 'production') {
+      config.plugins.push(...productionPlugins);
+    }
   },
 };
