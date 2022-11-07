@@ -136,6 +136,7 @@
           ref="toastuiEditor"
           :initial-value="inputData.content"
           :options="editorOptions"
+          spellcheck="false"
           height="400px"
           initial-edit-type="wysiwyg"
         />
